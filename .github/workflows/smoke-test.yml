@@ -35,7 +35,9 @@ jobs:
 
       - name: Run smoke tests
         run: |
-          docker compose --profile smoke up --build --wait --wait-timeout 120 api worker mock-env
+          docker compose --profile smoke build
+          docker compose --profile smoke up --wait --wait-timeout 120 api mock-env
+          docker compose --profile smoke up --detach worker
           docker compose --profile smoke run --rm smoke-test
 
       - name: Collect logs
