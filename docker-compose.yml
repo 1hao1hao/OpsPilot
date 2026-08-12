@@ -1,0 +1,211 @@
+# DeepRCA-Agent Docker Compose
+# PRD-06 §4 — 容器化编排，4 服务 + 5 Profile
+#
+# 服务矩阵:
+#   redis       — 缓存与状态存储 (redis:7-alpine)
+#   deeprca-agent — 核心 Agent 服务 (自建, :8000)
+#   mock-env    — 模拟环境独立服务 (自建, :8001)
+#   smoke-test  — 冒烟测试执行器 (run-to-completion)
+
+networks:
+  deeprca-net:
+    driver: bridge
+
+volumes:
+  deeprca-redis-data:
+  deeprca-logs:
+  opspilot-postgres-data:
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: opspilot
+      POSTGRES_USER: opspilot
+      POSTGRES_PASSWORD: opspilot
+    ports:
+      - "5432:5432"
+    volumes:
+      - opspilot-postgres-data:/var/lib/postgresql/data
+    networks:
+      - deeprca-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U opspilot -d opspilot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    profiles: [runtime, full, smoke]
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["alembic", "upgrade", "head"]
+    environment: &opspilot-runtime-env
+      OPSPILOT_DATABASE_URL: postgresql+asyncpg://opspilot:opspilot@postgres:5432/opspilot
+      OPSPILOT_REDIS_URL: redis://redis:6379/0
+      OPSPILOT_MOCK_BASE_URL: http://mock-env:8001
+    networks: [deeprca-net]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles: [runtime, full, smoke]
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["uvicorn", "opspilot.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment: *opspilot-runtime-env
+    ports:
+      - "8000:8000"
+    networks: [deeprca-net]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    profiles: [runtime, full, smoke]
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "-m", "opspilot.runtime.worker"]
+    environment: *opspilot-runtime-env
+    networks: [deeprca-net]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      mock-env:
+        condition: service_healthy
+    profiles: [runtime, full, smoke]
+  # ─── Redis ──────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: deeprca-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - deeprca-redis-data:/data
+    networks:
+      - deeprca-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    profiles:
+      - redis-only
+      - agent
+      - full
+      - smoke
+
+  # ─── Agent 服务 ─────────────────────────────────────────
+  deeprca-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deeprca-agent
+    restart: unless-stopped
+    command: ["uvicorn", "deeprca.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - APP_EXTERNAL_HOST=${APP_EXTERNAL_HOST:-localhost}
+      - LLM_API_BASE=${LLM_API_BASE:-http://localhost:11434/v1}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o}
+      - LLM_MAX_TOKENS=${LLM_MAX_TOKENS:-4096}
+      - LLM_TIMEOUT=${LLM_TIMEOUT:-30}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      # Kafka 默认值指向 localhost:9092；仅当已部署外部 Kafka 时才覆盖为 kafka:9092 等地址。
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
+      - KAFKA_FEEDBACK_TOPIC=${KAFKA_FEEDBACK_TOPIC:-deeprca-feedback}
+      - MOCK_ENV_ENABLED=true
+      - MOCK_K8S_API=http://mock-env:8001
+      - MOCK_MONITOR_API=http://mock-env:8001
+      - MOCK_LOG_API=http://mock-env:8001
+      - MOCK_CHANGE_API=http://mock-env:8001
+      - ANALYSIS_TIMEOUT=${ANALYSIS_TIMEOUT:-60}
+      - TOOL_CALL_TIMEOUT=${TOOL_CALL_TIMEOUT:-10}
+      - MAX_CONCURRENT_TASKS=${MAX_CONCURRENT_TASKS:-10}
+    volumes:
+      - deeprca-logs:/app/logs
+      - ./.env:/app/.env:ro
+    networks:
+      - deeprca-net
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    profiles:
+      - agent
+
+  # ─── 模拟环境 ───────────────────────────────────────────
+  mock-env:
+    build:
+      context: .
+      dockerfile: mock_env.Dockerfile
+    container_name: deeprca-mock-env
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - AGENT_URL=http://api:8000
+    volumes:
+      - deeprca-logs:/app/logs
+    networks:
+      - deeprca-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/api/v1/mock/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - mock
+      - full
+      - smoke
+
+  # ─── 冒烟测试执行器 ─────────────────────────────────────
+  smoke-test:
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
+    container_name: deeprca-smoke-test
+    environment:
+      - AGENT_URL=http://api:8000
+      - MOCK_URL=http://mock-env:8001
+      - PYTHONPATH=/app/src
+    command: ["pytest", "-q", "tests/smoke/test_runtime_api.py", "tests/smoke/test_health.py"]
+    networks:
+      - deeprca-net
+    depends_on:
+      api:
+        condition: service_healthy
+      mock-env:
+        condition: service_healthy
+      worker:
+        condition: service_started
+    profiles:
+      - smoke

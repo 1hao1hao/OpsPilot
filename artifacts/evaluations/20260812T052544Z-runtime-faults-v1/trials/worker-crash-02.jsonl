@@ -1,0 +1,51 @@
+{"created_at": "2026-08-12T05:25:46.389288Z", "detail": {}, "event_type": "run.created", "sequence": 1, "status": "QUEUED", "step_name": null}
+{"created_at": "2026-08-12T05:25:46.788796Z", "detail": {}, "event_type": "run.transition", "sequence": 2, "status": "RUNNING", "step_name": null}
+{"created_at": "2026-08-12T05:25:46.798288Z", "detail": {}, "event_type": "step.started", "sequence": 3, "status": "RUNNING", "step_name": "plan"}
+{"created_at": "2026-08-12T05:25:46.803065Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 4, "status": "SUCCEEDED", "step_name": "plan"}
+{"created_at": "2026-08-12T05:25:46.806025Z", "detail": {}, "event_type": "step.started", "sequence": 5, "status": "RUNNING", "step_name": "tool:changes.query"}
+{"created_at": "2026-08-12T05:25:46.810916Z", "detail": {"attempt": 1, "tool_call_id": "tool-cc08afd67ddf6ff20c67", "tool_name": "changes.query"}, "event_type": "tool.started", "sequence": 6, "status": "RUNNING", "step_name": "tool:changes.query"}
+{"created_at": "2026-08-12T05:25:46.813563Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-cc08afd67ddf6ff20c67"}, "event_type": "tool.finished", "sequence": 7, "status": "SUCCEEDED", "step_name": "tool:changes.query"}
+{"created_at": "2026-08-12T05:25:46.816290Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 8, "status": "SUCCEEDED", "step_name": "tool:changes.query"}
+{"created_at": "2026-08-12T05:25:46.818960Z", "detail": {}, "event_type": "step.started", "sequence": 9, "status": "RUNNING", "step_name": "tool:metrics.query"}
+{"created_at": "2026-08-12T05:25:46.821471Z", "detail": {"attempt": 1, "tool_call_id": "tool-b0a3233e12648b1f9458", "tool_name": "metrics.query"}, "event_type": "tool.started", "sequence": 10, "status": "RUNNING", "step_name": "tool:metrics.query"}
+{"created_at": "2026-08-12T05:25:46.823436Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-b0a3233e12648b1f9458"}, "event_type": "tool.finished", "sequence": 11, "status": "SUCCEEDED", "step_name": "tool:metrics.query"}
+{"created_at": "2026-08-12T05:25:46.826050Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 12, "status": "SUCCEEDED", "step_name": "tool:metrics.query"}
+{"created_at": "2026-08-12T05:25:46.828641Z", "detail": {}, "event_type": "step.started", "sequence": 13, "status": "RUNNING", "step_name": "tool:logs.query"}
+{"created_at": "2026-08-12T05:25:46.831096Z", "detail": {"attempt": 1, "tool_call_id": "tool-798d0e949f2375f59d23", "tool_name": "logs.query"}, "event_type": "tool.started", "sequence": 14, "status": "RUNNING", "step_name": "tool:logs.query"}
+{"created_at": "2026-08-12T05:25:46.833000Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-798d0e949f2375f59d23"}, "event_type": "tool.finished", "sequence": 15, "status": "SUCCEEDED", "step_name": "tool:logs.query"}
+{"created_at": "2026-08-12T05:25:46.835439Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 16, "status": "SUCCEEDED", "step_name": "tool:logs.query"}
+{"created_at": "2026-08-12T05:25:46.837969Z", "detail": {}, "event_type": "step.started", "sequence": 17, "status": "RUNNING", "step_name": "tool:traces.query"}
+{"created_at": "2026-08-12T05:25:46.840392Z", "detail": {"attempt": 1, "tool_call_id": "tool-bee3c9c39ba3a8963cff", "tool_name": "traces.query"}, "event_type": "tool.started", "sequence": 18, "status": "RUNNING", "step_name": "tool:traces.query"}
+{"created_at": "2026-08-12T05:25:46.842270Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-bee3c9c39ba3a8963cff"}, "event_type": "tool.finished", "sequence": 19, "status": "SUCCEEDED", "step_name": "tool:traces.query"}
+{"created_at": "2026-08-12T05:25:46.844815Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 20, "status": "SUCCEEDED", "step_name": "tool:traces.query"}
+{"created_at": "2026-08-12T05:25:46.847385Z", "detail": {}, "event_type": "step.started", "sequence": 21, "status": "RUNNING", "step_name": "tool:db.inspect"}
+{"created_at": "2026-08-12T05:25:46.849874Z", "detail": {"attempt": 1, "tool_call_id": "tool-7a2d5a67f2f9bf3c98f2", "tool_name": "db.inspect"}, "event_type": "tool.started", "sequence": 22, "status": "RUNNING", "step_name": "tool:db.inspect"}
+{"created_at": "2026-08-12T05:25:46.851741Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-7a2d5a67f2f9bf3c98f2"}, "event_type": "tool.finished", "sequence": 23, "status": "SUCCEEDED", "step_name": "tool:db.inspect"}
+{"created_at": "2026-08-12T05:25:46.854222Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 24, "status": "SUCCEEDED", "step_name": "tool:db.inspect"}
+{"created_at": "2026-08-12T05:25:46.856650Z", "detail": {}, "event_type": "step.started", "sequence": 25, "status": "RUNNING", "step_name": "tool:redis.inspect"}
+{"created_at": "2026-08-12T05:25:47.292674Z", "detail": {"recovered_count": 1}, "event_type": "run.recovered", "sequence": 26, "status": "RETRYING", "step_name": null}
+{"created_at": "2026-08-12T05:25:47.297060Z", "detail": {}, "event_type": "run.transition", "sequence": 27, "status": "QUEUED", "step_name": null}
+{"created_at": "2026-08-12T05:25:47.840733Z", "detail": {}, "event_type": "run.transition", "sequence": 28, "status": "RUNNING", "step_name": null}
+{"created_at": "2026-08-12T05:25:47.850198Z", "detail": {}, "event_type": "step.started", "sequence": 29, "status": "RUNNING", "step_name": "tool:redis.inspect"}
+{"created_at": "2026-08-12T05:25:47.855514Z", "detail": {"attempt": 1, "tool_call_id": "tool-a7ae51d821353642ccb0", "tool_name": "redis.inspect"}, "event_type": "tool.started", "sequence": 30, "status": "RUNNING", "step_name": "tool:redis.inspect"}
+{"created_at": "2026-08-12T05:25:47.858402Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-a7ae51d821353642ccb0"}, "event_type": "tool.finished", "sequence": 31, "status": "SUCCEEDED", "step_name": "tool:redis.inspect"}
+{"created_at": "2026-08-12T05:25:47.862844Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 32, "status": "SUCCEEDED", "step_name": "tool:redis.inspect"}
+{"created_at": "2026-08-12T05:25:47.866272Z", "detail": {}, "event_type": "step.started", "sequence": 33, "status": "RUNNING", "step_name": "tool:kafka.inspect"}
+{"created_at": "2026-08-12T05:25:47.868941Z", "detail": {"attempt": 1, "tool_call_id": "tool-1c035c809a3c95eb9aa7", "tool_name": "kafka.inspect"}, "event_type": "tool.started", "sequence": 34, "status": "RUNNING", "step_name": "tool:kafka.inspect"}
+{"created_at": "2026-08-12T05:25:47.870979Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-1c035c809a3c95eb9aa7"}, "event_type": "tool.finished", "sequence": 35, "status": "SUCCEEDED", "step_name": "tool:kafka.inspect"}
+{"created_at": "2026-08-12T05:25:47.873606Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 36, "status": "SUCCEEDED", "step_name": "tool:kafka.inspect"}
+{"created_at": "2026-08-12T05:25:47.876268Z", "detail": {}, "event_type": "step.started", "sequence": 37, "status": "RUNNING", "step_name": "tool:rpc.inspect"}
+{"created_at": "2026-08-12T05:25:47.878739Z", "detail": {"attempt": 1, "tool_call_id": "tool-28680224df147e9d3b68", "tool_name": "rpc.inspect"}, "event_type": "tool.started", "sequence": 38, "status": "RUNNING", "step_name": "tool:rpc.inspect"}
+{"created_at": "2026-08-12T05:25:47.880668Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-28680224df147e9d3b68"}, "event_type": "tool.finished", "sequence": 39, "status": "SUCCEEDED", "step_name": "tool:rpc.inspect"}
+{"created_at": "2026-08-12T05:25:47.883277Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 40, "status": "SUCCEEDED", "step_name": "tool:rpc.inspect"}
+{"created_at": "2026-08-12T05:25:47.885900Z", "detail": {}, "event_type": "step.started", "sequence": 41, "status": "RUNNING", "step_name": "tool:topology.query"}
+{"created_at": "2026-08-12T05:25:47.888364Z", "detail": {"attempt": 1, "tool_call_id": "tool-0071fda3b11bf50a8a0b", "tool_name": "topology.query"}, "event_type": "tool.started", "sequence": 42, "status": "RUNNING", "step_name": "tool:topology.query"}
+{"created_at": "2026-08-12T05:25:47.890304Z", "detail": {"attempt": 1, "error_code": null, "tool_call_id": "tool-0071fda3b11bf50a8a0b"}, "event_type": "tool.finished", "sequence": 43, "status": "SUCCEEDED", "step_name": "tool:topology.query"}
+{"created_at": "2026-08-12T05:25:47.892814Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 44, "status": "SUCCEEDED", "step_name": "tool:topology.query"}
+{"created_at": "2026-08-12T05:25:47.895601Z", "detail": {}, "event_type": "step.started", "sequence": 45, "status": "RUNNING", "step_name": "evidence"}
+{"created_at": "2026-08-12T05:25:47.898317Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 46, "status": "SUCCEEDED", "step_name": "evidence"}
+{"created_at": "2026-08-12T05:25:47.900990Z", "detail": {}, "event_type": "step.started", "sequence": 47, "status": "RUNNING", "step_name": "diagnosis"}
+{"created_at": "2026-08-12T05:25:47.903584Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 48, "status": "SUCCEEDED", "step_name": "diagnosis"}
+{"created_at": "2026-08-12T05:25:47.906398Z", "detail": {}, "event_type": "step.started", "sequence": 49, "status": "RUNNING", "step_name": "report"}
+{"created_at": "2026-08-12T05:25:47.909130Z", "detail": {}, "event_type": "checkpoint.saved", "sequence": 50, "status": "SUCCEEDED", "step_name": "report"}
+{"created_at": "2026-08-12T05:25:47.912540Z", "detail": {}, "event_type": "run.succeeded", "sequence": 51, "status": "SUCCEEDED", "step_name": null}

@@ -1,0 +1,147 @@
+{
+  "dataset": {
+    "name": "opspilot-rca",
+    "version": "1.0.0",
+    "split": "test",
+    "case_count": 12
+  },
+  "baseline": {
+    "evaluation_id": "20260812T052913Z-deeprca_baseline-test",
+    "metrics": {
+      "case_count": 12,
+      "root_cause_hit_at_1": {
+        "value": 0.1,
+        "numerator": 1,
+        "denominator": 10
+      },
+      "root_cause_hit_at_3": {
+        "value": 0.1,
+        "numerator": 1,
+        "denominator": 10
+      },
+      "evidence_recall_macro": {
+        "value": 0.0,
+        "scored_cases": 10
+      },
+      "tool_success_rate": {
+        "value": null,
+        "numerator": 0,
+        "denominator": 0
+      },
+      "e2e_success_rate": {
+        "value": 1.0,
+        "numerator": 12,
+        "denominator": 12
+      },
+      "false_positive_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 2
+      },
+      "p95_latency_ms": 0.014,
+      "latency_scope": "in-process end-to-end; Stage 1 has no queue time"
+    }
+  },
+  "hybrid": {
+    "evaluation_id": "20260812T052914Z-opspilot_hybrid-test",
+    "metrics": {
+      "case_count": 12,
+      "root_cause_hit_at_1": {
+        "value": 1.0,
+        "numerator": 10,
+        "denominator": 10
+      },
+      "root_cause_hit_at_3": {
+        "value": 1.0,
+        "numerator": 10,
+        "denominator": 10
+      },
+      "evidence_recall_macro": {
+        "value": 1.0,
+        "scored_cases": 10
+      },
+      "tool_success_rate": {
+        "value": 1.0,
+        "numerator": 108,
+        "denominator": 108
+      },
+      "e2e_success_rate": {
+        "value": 1.0,
+        "numerator": 12,
+        "denominator": 12
+      },
+      "false_positive_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 2
+      },
+      "p95_latency_ms": 0.87,
+      "latency_scope": "in-process end-to-end; Stage 1 has no queue time"
+    }
+  },
+  "runtime": {
+    "evaluation_id": "20260812T061631Z-runtime-faults-v1",
+    "metrics": {
+      "trial_count": 15,
+      "recovery_success_rate": {
+        "value": 1.0,
+        "numerator": 15,
+        "denominator": 15
+      },
+      "e2e_success_rate": {
+        "value": 1.0,
+        "numerator": 15,
+        "denominator": 15
+      },
+      "duplicate_successful_tool_executions": {
+        "value": 0,
+        "denominator": 132
+      },
+      "p95_recovery_latency_ms": 602.711,
+      "recovery_latency_trial_count": 3,
+      "p95_e2e_latency_ms": 1571.484,
+      "by_fault_type": {
+        "WorkerCrash": {
+          "success_rate": {
+            "value": 1.0,
+            "numerator": 3,
+            "denominator": 3
+          }
+        },
+        "ToolTimeout": {
+          "success_rate": {
+            "value": 1.0,
+            "numerator": 3,
+            "denominator": 3
+          }
+        },
+        "ToolHTTP500": {
+          "success_rate": {
+            "value": 1.0,
+            "numerator": 3,
+            "denominator": 3
+          }
+        },
+        "DuplicateRequest": {
+          "success_rate": {
+            "value": 1.0,
+            "numerator": 3,
+            "denominator": 3
+          }
+        },
+        "DuplicateDelivery": {
+          "success_rate": {
+            "value": 1.0,
+            "numerator": 3,
+            "denominator": 3
+          }
+        }
+      }
+    }
+  },
+  "evidence_paths": {
+    "baseline": "artifacts/evaluations/20260812T052913Z-deeprca_baseline-test",
+    "hybrid": "artifacts/evaluations/20260812T052914Z-opspilot_hybrid-test",
+    "reliability": "artifacts/evaluations/20260812T061631Z-runtime-faults-v1"
+  }
+}

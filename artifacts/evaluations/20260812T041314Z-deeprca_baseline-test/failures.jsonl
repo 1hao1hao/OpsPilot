@@ -1,0 +1,9 @@
+{"actual_root_cause_type": "no_fault", "case_id": "db-test-01", "error": null, "expected_root_cause_type": "db_slow_query", "failure_type": "root_cause"}
+{"actual_root_cause_type": "resource_saturation", "case_id": "db-test-02", "error": null, "expected_root_cause_type": "db_connection_exhausted", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "redis-test-02", "error": null, "expected_root_cause_type": "redis_low_hit_rate", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "kafka-test-01", "error": null, "expected_root_cause_type": "kafka_consumer_lag", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "kafka-test-02", "error": null, "expected_root_cause_type": "kafka_consumer_lag", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "rpc-test-01", "error": null, "expected_root_cause_type": "rpc_timeout", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "rpc-test-02", "error": null, "expected_root_cause_type": "rpc_error_rate", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "platform-test-01", "error": null, "expected_root_cause_type": "bad_deployment", "failure_type": "root_cause"}
+{"actual_root_cause_type": "no_fault", "case_id": "platform-test-02", "error": null, "expected_root_cause_type": "oom_restart", "failure_type": "root_cause"}

@@ -1,0 +1,25 @@
+{
+  "evaluation_id": "20260812T040942Z-deeprca_baseline-dev",
+  "created_at": "2026-08-12T04:09:42.458641+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "dev",
+  "case_count": 24,
+  "system": "deeprca_baseline",
+  "config_path": "benchmarks/configs/deeprca_baseline.yaml",
+  "config": {
+    "system": "deeprca_baseline",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "dev",
+    "artifact_root": "artifacts/evaluations",
+    "model": {
+      "type": "deterministic_keyword_baseline",
+      "external_api": false
+    }
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py run --config benchmarks/configs/deeprca_baseline.yaml --split dev",
+  "python": "3.11.7",
+  "git_sha": null,
+  "git_note": "workspace is not a git repository"
+}

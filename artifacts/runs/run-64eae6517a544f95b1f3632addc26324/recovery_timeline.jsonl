@@ -1,0 +1,13 @@
+{"sequence":1,"event_type":"run.created","status":"QUEUED","at":"2026-08-12T12:53:27.145991+08:00"}
+{"sequence":2,"event_type":"run.transition","status":"RUNNING","at":"2026-08-12T12:53:27.561785+08:00"}
+{"sequence":21,"event_type":"step.started","status":"RUNNING","step_name":"tool:db.inspect","at":"2026-08-12T12:53:27.623560+08:00"}
+{"sequence":22,"event_type":"tool.started","status":"RUNNING","step_name":"tool:db.inspect","tool_call_id":"tool-1d091026332e0171d16c","attempt":1,"at":"2026-08-12T12:53:27.626083+08:00"}
+{"sequence":23,"event_type":"tool.finished","status":"SUCCEEDED","step_name":"tool:db.inspect","tool_call_id":"tool-1d091026332e0171d16c","attempt":1,"at":"2026-08-12T12:53:27.628038+08:00"}
+{"sequence":24,"event_type":"checkpoint.saved","status":"SUCCEEDED","step_name":"tool:db.inspect","at":"2026-08-12T12:53:27.630617+08:00"}
+{"sequence":25,"event_type":"step.started","status":"RUNNING","step_name":"tool:redis.inspect","at":"2026-08-12T12:53:27.633193+08:00"}
+{"event_type":"worker.process_exited","exit_code":97,"fault":"OPSPILOT_CRASH_BEFORE_STEP=tool:redis.inspect","source":"pytest subprocess assertion"}
+{"sequence":26,"event_type":"run.recovered","status":"RETRYING","recovered_count":1,"at":"2026-08-12T12:53:28.039289+08:00"}
+{"sequence":27,"event_type":"run.transition","status":"QUEUED","at":"2026-08-12T12:53:28.044536+08:00"}
+{"sequence":28,"event_type":"run.transition","status":"RUNNING","at":"2026-08-12T12:53:28.560422+08:00"}
+{"sequence":29,"event_type":"step.started","status":"RUNNING","step_name":"tool:redis.inspect","at":"2026-08-12T12:53:28.569521+08:00"}
+{"sequence":51,"event_type":"run.succeeded","status":"SUCCEEDED","at":"2026-08-12T12:53:28.632526+08:00"}

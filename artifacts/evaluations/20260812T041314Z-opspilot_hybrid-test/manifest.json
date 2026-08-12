@@ -1,0 +1,25 @@
+{
+  "evaluation_id": "20260812T041314Z-opspilot_hybrid-test",
+  "created_at": "2026-08-12T04:13:14.983604+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "test",
+  "case_count": 12,
+  "system": "opspilot_hybrid",
+  "config_path": "benchmarks/configs/opspilot_hybrid.yaml",
+  "config": {
+    "system": "opspilot_hybrid",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "dev",
+    "artifact_root": "artifacts/evaluations",
+    "model": {
+      "type": "deterministic_evidence_with_fake_summary",
+      "external_api": false
+    }
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py run --config benchmarks/configs/opspilot_hybrid.yaml --split test",
+  "python": "3.11.7",
+  "git_sha": null,
+  "git_note": "workspace is not a git repository"
+}

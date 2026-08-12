@@ -1,0 +1,43 @@
+schema_version: "1.0"
+name: runtime-faults-v1
+database_url_env: OPSPILOT_TEST_DATABASE_URL
+redis_url_env: OPSPILOT_TEST_REDIS_URL
+artifact_root: artifacts/evaluations
+graph_version: opspilot-runtime-v1
+config_version: runtime-faults-v1
+cases:
+  - case_id: worker-crash
+    fault_type: WorkerCrash
+    trials: 3
+    injection_point: tool:redis.inspect
+    failure_count: 1
+    expected_status: SUCCEEDED
+    expected_degraded: false
+  - case_id: tool-timeout
+    fault_type: ToolTimeout
+    trials: 3
+    injection_point: db
+    failure_count: 2
+    expected_status: SUCCEEDED
+    expected_degraded: true
+  - case_id: tool-http-500
+    fault_type: ToolHTTP500
+    trials: 3
+    injection_point: db
+    failure_count: 1
+    expected_status: SUCCEEDED
+    expected_degraded: false
+  - case_id: duplicate-request
+    fault_type: DuplicateRequest
+    trials: 3
+    injection_point: task_manager.create_run
+    failure_count: 8
+    expected_status: SUCCEEDED
+    expected_degraded: false
+  - case_id: duplicate-delivery
+    fault_type: DuplicateDelivery
+    trials: 3
+    injection_point: redis_queue
+    failure_count: 2
+    expected_status: SUCCEEDED
+    expected_degraded: false

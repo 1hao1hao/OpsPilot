@@ -1,0 +1,118 @@
+# DeepRCA-Agent .gitignore
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+sdist/
+wheels/
+share/python-wheels/
+*.whl
+pip-wheel-metadata/
+MANIFEST
+
+# ---- Virtual Environments ----
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ---- Environment Variables ----
+.env
+.env.local
+.env.*.local
+*.env
+
+# ---- Testing ----
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ---- Type Checkers ----
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ---- OS ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ---- Docker ----
+docker-compose.override.yml
+
+# ---- Logs ----
+*.log
+logs/
+log/
+
+# ---- Database ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- Knot Agent ----
+.agent
+
+# ---- Misc ----
+*.bak
+*.tmp
+*.temp
+.cache/
+
+# x-flow skill无需入库
+.codebuddy
+
+# x-flow 运行目录
+docs/x-flow/
+
+# Docker volumes
+redis-data/
+
+# 外部注入的配置 与项目无关
+.agent
+
+# 临时暂存目录
+.tmp_m2_m6/
+
+# 用户上传文件
+chat_uploads/
+
+# Node.js 依赖与临时工作目录
+node_modules/
+md-to-pdf-work/

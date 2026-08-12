@@ -1,0 +1,8 @@
+system: deeprca_baseline
+dataset_path: benchmarks/datasets/rca/v1
+split: dev
+artifact_root: artifacts/evaluations
+model:
+  type: deterministic_keyword_baseline
+  external_api: false
+

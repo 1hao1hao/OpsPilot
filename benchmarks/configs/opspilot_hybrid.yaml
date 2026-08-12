@@ -1,0 +1,8 @@
+system: opspilot_hybrid
+dataset_path: benchmarks/datasets/rca/v1
+split: dev
+artifact_root: artifacts/evaluations
+model:
+  type: deterministic_evidence_with_fake_summary
+  external_api: false
+

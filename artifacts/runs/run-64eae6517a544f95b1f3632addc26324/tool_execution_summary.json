@@ -1,0 +1,17 @@
+{
+  "run_id": "run-64eae6517a544f95b1f3632addc26324",
+  "request_id": "real-crash-d524affa7e6443c9b2785a302d503400",
+  "final_status": "SUCCEEDED",
+  "run_attempts": 2,
+  "recovered_count": 1,
+  "worker_crash_exit_code": 97,
+  "crash_boundary": "tool:redis.inspect step started after db.inspect checkpoint",
+  "db_tool": {
+    "tool_call_id": "tool-1d091026332e0171d16c",
+    "status": "SUCCEEDED",
+    "attempt_before_recovery": 1,
+    "attempt_after_recovery": 1,
+    "reexecuted": false
+  },
+  "evidence_source": "PostgreSQL runtime_events/tool_executions queried after real subprocess recovery test"
+}
