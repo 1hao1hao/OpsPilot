@@ -77,6 +77,10 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ["python", "-m", "opspilot.runtime.worker"]
+    # The shared image healthcheck probes the API HTTP endpoint; the worker
+    # intentionally exposes no HTTP server and is verified by the E2E smoke run.
+    healthcheck:
+      disable: true
     environment: *opspilot-runtime-env
     networks: [deeprca-net]
     depends_on:
