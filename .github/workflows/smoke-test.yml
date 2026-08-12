@@ -35,7 +35,8 @@ jobs:
 
       - name: Run smoke tests
         run: |
-          docker compose --profile smoke up --build --abort-on-container-exit
+          docker compose --profile smoke up --build --wait --wait-timeout 120 api worker mock-env
+          docker compose --profile smoke run --rm smoke-test
 
       - name: Collect logs
         if: always()
@@ -48,3 +49,7 @@ jobs:
         with:
           name: smoke-test-logs
           path: smoke-test-logs.txt
+
+      - name: Stop services
+        if: always()
+        run: docker compose --profile smoke down --volumes --remove-orphans
