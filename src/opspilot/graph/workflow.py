@@ -14,10 +14,19 @@ from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
 
 class OpsPilotWorkflow:
-    def __init__(self, registry: ToolRegistry, root_cause_agent: RootCauseAgent | None = None) -> None:
+    def __init__(
+        self,
+        registry: ToolRegistry,
+        root_cause_agent: RootCauseAgent | None = None,
+        *,
+        execution_mode: str = "parallel",
+    ) -> None:
+        if execution_mode not in {"parallel", "sequential"}:
+            raise ValueError(f"unsupported execution mode: {execution_mode}")
         self.registry = registry
         self.coordinator = CoordinatorAgent(registry)
         self.root_cause_agent = root_cause_agent or RootCauseAgent()
+        self.execution_mode = execution_mode
 
     async def analyze(self, alert: AlertEvent, *, trace_id: str | None = None) -> DiagnosisReport:
         trace_id = trace_id or f"trace-{uuid.uuid4().hex[:12]}"
@@ -43,7 +52,10 @@ class OpsPilotWorkflow:
                     arguments=arguments,
                 )
             )
-        results = await asyncio.gather(*(executor.execute(call) for call in calls))
+        if self.execution_mode == "parallel":
+            results = await asyncio.gather(*(executor.execute(call) for call in calls))
+        else:
+            results = [await executor.execute(call) for call in calls]
         evidence = collect_evidence(alert, results)
         candidates, rationale = self.root_cause_agent.diagnose(alert, evidence)
         failed_sources = sorted(result.tool_name for result in results if result.status == ToolStatus.ERROR)

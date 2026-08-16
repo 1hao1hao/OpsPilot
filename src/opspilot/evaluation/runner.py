@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import platform
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -21,7 +22,7 @@ async def run_evaluation(config_path: str | Path, split_override: str | None = N
     dataset = load_dataset(config["dataset_path"])
     split = split_override or config.get("split", "dev")
     cases = dataset.cases(split)
-    system = build_system(config["system"])
+    system = build_system(config["system"], config=config)
     predictions: list[dict] = []
     failures: list[dict] = []
 
@@ -73,8 +74,8 @@ async def run_evaluation(config_path: str | Path, split_override: str | None = N
         "config": config,
         "command": " ".join(sys.argv),
         "python": platform.python_version(),
-        "git_sha": None,
-        "git_note": "workspace is not a git repository",
+        "git_sha": _git_sha(),
+        "git_dirty": _git_dirty(),
     }
     _write_json(output_root / "manifest.json", manifest)
     _write_json(output_root / "metrics.json", metrics)
@@ -86,6 +87,31 @@ async def run_evaluation(config_path: str | Path, split_override: str | None = N
 
 def _write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _git_sha() -> str | None:
+    """Read HEAD without invoking git or failing in exported source trees."""
+    git_dir = Path(".git")
+    head = git_dir / "HEAD"
+    if not head.is_file():
+        return None
+    value = head.read_text(encoding="utf-8").strip()
+    if value.startswith("ref: "):
+        ref = git_dir / value[5:]
+        return ref.read_text(encoding="utf-8").strip() if ref.is_file() else None
+    return value or None
+
+
+def _git_dirty() -> bool | None:
+    if not Path(".git").exists():
+        return None
+    result = subprocess.run(
+        ["git", "status", "--porcelain"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return bool(result.stdout.strip()) if result.returncode == 0 else None
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:
@@ -115,6 +141,8 @@ def _render_report(manifest: dict, metrics: dict, failures: list[dict]) -> str:
 - E2E Success Rate: {value('e2e_success_rate')}
 - False Positive Rate: {value('false_positive_rate')}
 - P95 latency: {metrics['p95_latency_ms']} ms
+- Model API calls: {metrics['model_usage']['api_call_count']}
+- Prompt / completion / total tokens: {metrics['model_usage']['prompt_tokens']} / {metrics['model_usage']['completion_tokens']} / {metrics['model_usage']['total_tokens']}
 
 ## Failures
 
