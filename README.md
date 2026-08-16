@@ -14,7 +14,7 @@ LLM Agent 驱动的故障根因分析（Root Cause Analysis）智能体系统。
 
 - 每次 push 和 pull request 由 `.github/workflows/smoke-test.yml` 自动执行 Python 单元测试；
 - Docker job 在全新 GitHub runner 构建镜像、执行 Alembic migration，并启动 PostgreSQL、Redis、API、Worker 与 Mock 环境；
-- 持久化 API smoke 会真实提交 Run，验证独立 Worker 完成任务并从 PostgreSQL 返回 RCA 报告；
+- 持久化 API smoke 会真实提交 Run；异步 Demo 还会停止 Worker、断言 Run 保持 `QUEUED`，再启动 Worker 并验证同一 Run 从 PostgreSQL 返回 RCA 报告；
 - Stage 3 Demo job 在隔离 PostgreSQL/Redis 上运行 15-trial Worker Crash Recovery，并对同一 dev split 执行 baseline/hybrid Evaluation；
 - 自动验证不访问付费 LLM；Compose 日志无论成功或失败都会作为 Actions artifact 上传；
 - 校园服务器只需要项目级 `.venv` 做开发和非容器测试，本地 Docker 属于可选能力。

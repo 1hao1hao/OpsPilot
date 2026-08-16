@@ -121,6 +121,28 @@ jobs:
           docker compose --profile smoke up --detach worker
           docker compose --profile smoke run --rm smoke-test
 
+      - name: Run asynchronous Worker demo
+        run: |
+          docker compose --profile smoke stop worker
+          request_id="ci-queued-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          accepted="$(curl --fail --silent --show-error http://localhost:8000/api/v1/runs \
+            --header 'Content-Type: application/json' \
+            --data '{"request_id":"'"$request_id"'","alert":{"alert_id":"ci-queued","service_name":"checkout-service","alert_type":"timeout","severity":"P1","timestamp":"2026-08-12T00:00:00Z","signals":{"db":{"replication_lag_seconds":20}}}}')"
+          run_id="$(jq --exit-status --raw-output '.run_id' <<<"$accepted")"
+          test "$(curl --fail --silent "http://localhost:8000/api/v1/runs/$run_id" | jq --raw-output '.status')" = "QUEUED"
+          docker compose --profile smoke start worker
+          for _ in $(seq 1 60); do
+            status="$(curl --fail --silent "http://localhost:8000/api/v1/runs/$run_id" | jq --raw-output '.status')"
+            if [ "$status" = "SUCCEEDED" ]; then
+              curl --fail --silent "http://localhost:8000/api/v1/runs/$run_id/result" | jq --exit-status '.report'
+              exit 0
+            fi
+            test "$status" != "FAILED"
+            sleep 0.5
+          done
+          echo "Run $run_id did not recover from QUEUED in 30 seconds" >&2
+          exit 1
+
       - name: Collect logs
         if: always()
         run: |
