@@ -1,12 +1,24 @@
 # DeepRCA-Agent
 
+[![OpsPilot Validation](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml)
+
 LLM Agent 驱动的故障根因分析（Root Cause Analysis）智能体系统。采用 LangGraph 状态机驱动的多 Agent 协同架构，实现从告警接入到根因定位的全自动化故障诊断闭环。
 
-> **OpsPilot 重构状态（Stage 3 实现与实验完成）**：DeepRCA 原有告警接入、确定性 RCA 算法和 Mock 场景被保留为兼容能力；OpsPilot 新增统一契约与 Benchmark、PostgreSQL 事实源、Redis `run_id` 队列、独立 Worker、Step Checkpoint、工具幂等和可重复故障评测。所有项目数字都来自 `artifacts/evaluations/`，最终索引见 [`artifacts/stage3/final_evidence.json`](artifacts/stage3/final_evidence.json)。当前验收主机没有 Docker daemon，Compose 已通过配置检查，但全新容器启动仍需在具备 daemon 的主机执行。
+> **OpsPilot 重构状态（Stage 3 实现与实验完成）**：DeepRCA 原有告警接入、确定性 RCA 算法和 Mock 场景被保留为兼容能力；OpsPilot 新增统一契约与 Benchmark、PostgreSQL 事实源、Redis `run_id` 队列、独立 Worker、Step Checkpoint、工具幂等和可重复故障评测。所有项目数字都来自 `artifacts/evaluations/`，最终索引见 [`artifacts/stage3/final_evidence.json`](artifacts/stage3/final_evidence.json)。Docker Compose 的权威验证在 GitHub Actions 全新 runner 上执行，校园开发服务器不需要安装 Docker daemon。
 
 ## 已验证结果
 
 固定 `rca-benchmark@1.0.0` frozen test 共 12 个 case；DeepRCA baseline 与 OpsPilot hybrid 使用同一数据、split 和指标公式。恢复评测使用真实 PostgreSQL、Redis 和独立 Worker 子进程，覆盖 WorkerCrash、ToolTimeout、ToolHTTP500、DuplicateRequest、DuplicateDelivery 五类故障，每类 3 轮。具体数值和 evaluation ID 只引用最终证据索引，不在此手工复制不可追溯结果。
+
+## 验证策略
+
+- 每次 push 和 pull request 由 `.github/workflows/smoke-test.yml` 自动执行 Python 单元测试；
+- Docker job 在全新 GitHub runner 构建镜像、执行 Alembic migration，并启动 PostgreSQL、Redis、API、Worker 与 Mock 环境；
+- 持久化 API smoke 会真实提交 Run，验证独立 Worker 完成任务并从 PostgreSQL 返回 RCA 报告；
+- 自动验证不访问付费 LLM；Compose 日志无论成功或失败都会作为 Actions artifact 上传；
+- 校园服务器只需要项目级 `.venv` 做开发和非容器测试，本地 Docker 属于可选能力。
+
+最新结果以仓库的 [GitHub Actions](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml) 为准。
 
 ## 四个可复现 Demo
 
@@ -150,9 +162,9 @@ python -c 'import sys; print(sys.executable)'
 # .../DeepRCA-Agent-master/.venv/bin/python
 ```
 
-### Rocky/RHEL 共享主机上的 Docker
+### 可选：Rocky/RHEL 共享主机上的 Docker
 
-本项目推荐 Rootless Docker，避免共享开发机上的 root daemon 和其他项目容器互相影响。安装前，管理员必须为当前账号在 `/etc/subuid` 和 `/etc/subgid` 各分配至少 65,536 个未占用 ID，并建议加载 `ip_tables`。这是 Docker 官方 Rootless 前置条件，普通用户在线下载二进制无法绕过。管理员先确认区间未被占用，再执行（示例区间仅适用于空闲时）：
+日常验证默认使用 GitHub Actions，不要求校园服务器安装 Docker。只有确实需要在 Rocky/RHEL 共享主机本地运行容器时，才考虑 Rootless Docker。安装前，管理员必须为当前账号在 `/etc/subuid` 和 `/etc/subgid` 各分配至少 65,536 个未占用 ID，并建议加载 `ip_tables`。管理员先确认区间未被占用，再执行（示例区间仅适用于空闲时）：
 
 ```bash
 target_user='<项目账号>'

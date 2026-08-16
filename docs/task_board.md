@@ -11,7 +11,7 @@
 - `plan_new.md` 为范围主依据，`plan.md` 只补充细节；
 - 当前目录不是 Git 仓库，实施前后仍需用文件 diff 工具谨慎核对修改；
 - 现有 `pytest -q tests/unit` 在收集阶段因项目未安装且缺少依赖失败，尚无可信绿色基线；
-- Stage 1、Stage 2 以及 Stage 3 的实现/实验已于 2026-08-12 完成；Stage 3 只剩当前主机缺少 Docker daemon 导致的全新 Compose 容器复现验证，测试、逐 case prediction、恢复时间线和最终证据索引均已保存。
+- Stage 1、Stage 2 以及 Stage 3 的实现/实验已于 2026-08-12 完成；全新 Docker Compose runtime smoke 已于 2026-08-12 在 GitHub Actions runner 通过，校园服务器不再承担容器验证。Stage 3 只剩把 README 四个 Demo 的完整命令序列全部纳入 CI；测试、逐 case prediction、恢复时间线和最终证据索引均已保存。
 
 ## 2. 三阶段总览
 
@@ -368,7 +368,7 @@ python -m opspilot.evaluation.cli run --config benchmarks/configs/opspilot_hybri
 
 标准工件：最终两个 `artifacts/evaluations/<evaluation_id>/` 目录、恢复报告、README Demo 输出与证据索引。
 
-实测（2026-08-12）：锁定数据和配置后只运行一次 frozen test。`rca-benchmark@1.0.0` test 为 12 case（10 fault、2 normal/noise）；baseline Hit@1/3=1/10、Evidence Recall=0.0、E2E=12/12、FPR=0/2，9 个错因 case 均保留；hybrid Hit@1/3=10/10、Evidence Recall=1.0、Tool Success=108/108、E2E=12/12、FPR=0/2。工件分别为 `20260812T052913Z-deeprca_baseline-test` 与 `20260812T052914Z-opspilot_hybrid-test`，聚合索引为 `artifacts/stage3/final_evidence.json`。已新增项目级 `.venv`（Python 3.11.7）并用 `scripts/bootstrap_dev_env.sh` 提供可复现安装；该隔离环境中 Ruff 通过，全量测试在真实 PostgreSQL/Redis 以及本地 API/Worker/Mock 三进程下为 248 passed（包含 3 个真实服务 integration 和 49 个 HTTP smoke）。Compose v5.4.0 的 profile/config 检查通过；官方 Rootless Docker 在线安装已实际尝试，但当前账号没有 sudo，且主机 `/etc/subuid`、`/etc/subgid` 为空、`ip_tables` 未加载，安装器无法创建 daemon。管理员完成 README 所列主机前置配置后可运行 `scripts/install_rootless_docker.sh`，因此“全新容器环境四 Demo”仍保持未完成，不虚报通过。
+实测（2026-08-12）：锁定数据和配置后只运行一次 frozen test。`rca-benchmark@1.0.0` test 为 12 case（10 fault、2 normal/noise）；baseline Hit@1/3=1/10、Evidence Recall=0.0、E2E=12/12、FPR=0/2，9 个错因 case 均保留；hybrid Hit@1/3=10/10、Evidence Recall=1.0、Tool Success=108/108、E2E=12/12、FPR=0/2。工件分别为 `20260812T052913Z-deeprca_baseline-test` 与 `20260812T052914Z-opspilot_hybrid-test`，聚合索引为 `artifacts/stage3/final_evidence.json`。项目级 `.venv`（Python 3.11.7）由 `scripts/bootstrap_dev_env.sh` 提供可复现安装；该隔离环境中 Ruff 通过，全量测试在真实 PostgreSQL/Redis 以及本地 API/Worker/Mock 三进程下为 248 passed（包含 3 个真实服务 integration 和 49 个 HTTP smoke）。GitHub Actions run `31573077135` 已在全新 runner 完成镜像构建、Alembic migration、PostgreSQL/Redis/API/Worker/Mock 启动和持久化 Run smoke，两个 job 均成功。校园服务器不再要求安装 Docker；当前未完成项收敛为把 Worker Crash Recovery 与 Evaluation 等 README Demo 完整命令序列继续自动化到 CI，故四 Demo 总验收仍不虚报完成。
 
 Stage 3 出口：所有验收项有真实命令和工件；没有证据的能力不写入最终项目介绍。
 
