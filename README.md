@@ -2,14 +2,14 @@
 
 [![OpsPilot Validation](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml)
 
-OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系统接收服务告警，规划并调用 Metrics、Logs、Changes、Trace、Topology 及领域工具，将异构观测转换为结构化 Evidence，再输出 Top-3 根因、置信度、证据链和处置建议。
+OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系统接收服务告警，按版本化分析计划调用 Metrics、Logs、Changes、Trace、Topology 及领域工具，将异构观测转换为结构化 Evidence，再输出 Top-3 根因、置信度、证据链和处置建议。
 
 项目重点解决两个问题：一是避免让 LLM 脱离监控事实直接猜测根因；二是让跨多个工具的长任务在 Worker 崩溃、工具超时和重复请求下仍能恢复并保持幂等。
 
 ## 核心能力
 
-- Agent RCA：Coordinator / Planner 生成分析计划，统一 Tool Registry 与 Executor 执行只读诊断工具。
-- Evidence-driven Reasoning：确定性阈值、支持/反证关系和稳定 Evidence ID 约束根因候选，再由 LLM 生成解释。
+- Agent RCA：Coordinator / Planner 根据注册表生成版本化分析计划；当前版本固定覆盖 9 个只读工具，统一 Executor 负责校验、超时、重试与执行记录。
+- Evidence-driven Reasoning：确定性阈值、支持/反证关系和稳定 Evidence ID 约束根因候选；在线 Runtime 默认生成确定性说明，DeepSeek 仅在显式离线评测中调用。
 - Recoverable Runtime：FastAPI、Redis `run_id` 队列、独立 Worker 和 PostgreSQL 事实源解耦任务提交与执行。
 - Checkpoint & Idempotency：持久化 Run、Step、ToolExecution、Checkpoint、Report 和 RuntimeEvent，以 `request_id`、`tool_call_id` 防重。
 - Evaluation & Regression：固定数据集、同集消融、逐 case prediction、失败工件、Runtime 故障注入和 CI 回归门禁。
@@ -78,6 +78,8 @@ flowchart TB
 
 PostgreSQL 是运行状态和结果的唯一事实源，Redis 只传递 `run_id`。Worker 每完成一个 Step，就在事务中保存输出和 Checkpoint；恢复扫描发现 stale `RUNNING` Run 后，将其重新入队，新 Worker 从最近成功 Checkpoint 后继续。
 
+在线 Root Cause Agent 默认使用无外部依赖的确定性摘要器；DeepSeek 三路方案属于离线 Evaluation，不会被普通 API 请求或自动测试隐式调用。
+
 ## 请求主链
 
 ```text
@@ -86,11 +88,11 @@ Alert
 -> PostgreSQL 创建 Run(QUEUED)
 -> Redis enqueue(run_id)
 -> Worker 领取 Run
--> Planner 生成 AnalysisPlan
+-> Planner 生成固定 9-Tool AnalysisPlan
 -> Metrics / Logs / Changes / Trace / Domain Tools
 -> Evidence 标准化与去重
 -> 确定性候选筛选
--> Root Cause Agent
+-> Root Cause Agent（确定性候选与默认摘要）
 -> DiagnosisReport + RuntimeEvent
 -> Run(SUCCEEDED)
 ```
@@ -113,7 +115,7 @@ Worker Crash
 - PostgreSQL、SQLAlchemy、Alembic
 - Redis Queue、独立异步 Worker
 - asyncio、httpx
-- DeepSeek Chat Completion API
+- DeepSeek Chat Completion API（仅离线 Evaluation）
 - Docker Compose、GitHub Actions
 - pytest、Ruff
 
