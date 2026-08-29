@@ -1,0 +1,57 @@
+{
+  "trial_count": 15,
+  "recovery_success_rate": {
+    "value": 1.0,
+    "numerator": 15,
+    "denominator": 15
+  },
+  "e2e_success_rate": {
+    "value": 1.0,
+    "numerator": 15,
+    "denominator": 15
+  },
+  "duplicate_successful_tool_executions": {
+    "value": 0,
+    "denominator": 147
+  },
+  "p95_recovery_latency_ms": 803.001,
+  "recovery_latency_trial_count": 3,
+  "p95_e2e_latency_ms": 2181.098,
+  "by_fault_type": {
+    "WorkerCrash": {
+      "success_rate": {
+        "value": 1.0,
+        "numerator": 3,
+        "denominator": 3
+      }
+    },
+    "ToolTimeout": {
+      "success_rate": {
+        "value": 1.0,
+        "numerator": 3,
+        "denominator": 3
+      }
+    },
+    "ToolHTTP500": {
+      "success_rate": {
+        "value": 1.0,
+        "numerator": 3,
+        "denominator": 3
+      }
+    },
+    "DuplicateRequest": {
+      "success_rate": {
+        "value": 1.0,
+        "numerator": 3,
+        "denominator": 3
+      }
+    },
+    "DuplicateDelivery": {
+      "success_rate": {
+        "value": 1.0,
+        "numerator": 3,
+        "denominator": 3
+      }
+    }
+  }
+}
