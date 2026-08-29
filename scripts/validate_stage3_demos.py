@@ -1,0 +1,22 @@
+"""CLI wrapper for the Stage 3 demo evidence gate."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from opspilot.evaluation.ci_validation import validate_stage3_demos
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--reliability", type=Path, required=True)
+    parser.add_argument("--baseline", type=Path, required=True)
+    parser.add_argument("--hybrid", type=Path, required=True)
+    args = parser.parse_args()
+    print(json.dumps(validate_stage3_demos(args.reliability, args.baseline, args.hybrid), sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

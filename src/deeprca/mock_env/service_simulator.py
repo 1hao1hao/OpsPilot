@@ -317,7 +317,7 @@ class MicroserviceSimulator:
         for ts in timestamps:
             tid = trace_id or f"trace-{uuid.uuid4().hex[:12]}"
             spans: list[dict] = [{
-                "span_id": f"span-{random.randint(1000, 9999)}",
+                "span_id": f"span-{uuid.uuid4().hex[:12]}",
                 "service": service_name,
                 "operation": f"{service_name}.handle_request",
                 "duration_ms": round(random.uniform(5, 30), 2),
@@ -325,32 +325,51 @@ class MicroserviceSimulator:
                 "timestamp": ts,
             }]
 
-            for ds in downstream[:3]:
+            scenario_alias = {
+                "redis_memory_pressure": "redis_timeout",
+                "change_induced_failure": "db_slow_query",
+                "rpc_circuit_breaker": "rpc_circuit_breaker",
+            }.get(scenario, scenario)
+
+            def append_span(ds: str, parent_span_id: str) -> str:
                 duration = round(random.uniform(10, 50), 2)
                 status = "OK"
                 if scenario and random.random() > 0.6:
-                    if scenario == "db_slow_query" and "mysql" in ds:
+                    if scenario_alias == "db_slow_query" and "mysql" in ds:
                         duration = round(random.uniform(500, 2000), 2)
                         status = "SLOW"
-                    elif scenario == "redis_timeout" and "redis" in ds:
-                        duration = round(random.uniform(300, 1000), 2)
+                    elif scenario_alias == "redis_timeout" and "redis" in ds:
+                        duration = round(random.uniform(1000, 2000), 2)
+                        status = "TIMEOUT"
+                    elif scenario_alias == "rpc_circuit_breaker" and ds == "payment-service":
+                        duration = round(random.uniform(1000, 1800), 2)
                         status = "ERROR"
-                    elif scenario == "pod_crash":
+                    elif scenario_alias in ("pod_crash", "oom_restart"):
                         status = "ERROR"
                         duration = round(random.uniform(1, 5), 2)
-                    elif scenario == "kafka_lag" and "kafka" in ds:
+                    elif scenario_alias == "kafka_lag" and "kafka" in ds:
                         duration = round(random.uniform(100, 500), 2)
                         status = "SLOW"
 
+                span_id = f"span-{uuid.uuid4().hex[:12]}"
                 spans.append({
-                    "span_id": f"span-{random.randint(1000, 9999)}",
+                    "span_id": span_id,
                     "service": ds,
                     "operation": f"{ds}.process",
                     "duration_ms": duration,
                     "status": status,
                     "timestamp": ts,
-                    "parent_span_id": spans[0]["span_id"],
+                    "parent_span_id": parent_span_id,
                 })
+                return span_id
+
+            # First-level calls retain their real parent. Application-service children
+            # also emit second-level dependency spans, e.g. order/payment/redis.
+            for ds in downstream[:6]:
+                child_id = append_span(ds, spans[0]["span_id"])
+                if ds in self._topology:
+                    for nested in self._topology[ds].get("downstream", [])[:2]:
+                        append_span(nested, child_id)
 
             traces.append({
                 "trace_id": tid,

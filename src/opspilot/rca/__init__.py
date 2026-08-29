@@ -1,9 +1,4 @@
-"""Compatibility exports for DeepRCA's proven deterministic RCA algorithms.
-
-Stage 1 keeps one implementation while moving callers to the OpsPilot
-namespace. The implementations can be moved physically after the legacy API
-compatibility layer is removed.
-"""
+"""Deterministic RCA algorithms used by the OpsPilot online L3 pipeline."""
 
 from deeprca.detection.comparator import MultiDimensionComparator
 from deeprca.detection.filters import ExpertRuleEngine, MetricFilter, NoiseFilter
@@ -19,4 +14,3 @@ __all__ = [
     "QuantileAnomalyDetector",
     "VolatilityDetector",
 ]
-

@@ -295,6 +295,10 @@ class TestMicroserviceSimulator:
         result = self.sim.get_traces("order-service", start, end, limit=10)
         assert len(result["traces"]) > 0
         assert len(result["traces"][0]["spans"]) > 1
+        spans = result["traces"][0]["spans"]
+        by_id = {span["span_id"]: span for span in spans}
+        assert all(span.get("parent_span_id") in by_id for span in spans[1:])
+        assert any(by_id[span["parent_span_id"]].get("parent_span_id") for span in spans[1:])
 
     def test_inject_timeout(self):
         """注入超时应设置 metrics_override。"""

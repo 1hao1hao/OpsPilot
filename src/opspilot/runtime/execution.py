@@ -7,16 +7,18 @@ from datetime import UTC, datetime
 
 from pydantic import ValidationError
 
-from opspilot.agents import CoordinatorAgent, RootCauseAgent
+from opspilot.agents import CoordinatorAgent, analyze_dimensions, analyze_experts, build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
-from opspilot.evidence import collect_evidence
+from opspilot.evidence import collect_evidence, collect_semantic_evidence
 from opspilot.graph.workflow import recommended_actions
 from opspilot.models import (
     AlertEvent,
+    AlgorithmSignal,
     AnalysisPlan,
     DiagnosisReport,
     Evidence,
     RootCauseCandidate,
+    SemanticAnalysisResult,
     ToolCall,
     ToolExecution,
     ToolExecutionStatus,
@@ -24,6 +26,7 @@ from opspilot.models import (
     ToolStatus,
 )
 from opspilot.persistence.repositories import RuntimeRepository
+from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.runtime.errors import CheckpointVersionMismatch
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
@@ -44,7 +47,7 @@ class RecoverableExecution:
         self.registry = registry
         self.settings = settings
         self.coordinator = CoordinatorAgent(registry)
-        self.root_cause_agent = RootCauseAgent()
+        self.root_cause_agent = build_runtime_root_cause_agent(settings)
         self.before_step = before_step
         self.after_checkpoint = after_checkpoint
 
@@ -65,7 +68,6 @@ class RecoverableExecution:
                     f"graph={self.settings.graph_version}"
                 )
             state = dict(checkpoint.state_json)
-            completed_step = checkpoint.completed_step
         else:
             state = {
                 "schema_version": self.settings.checkpoint_schema_version,
@@ -74,13 +76,11 @@ class RecoverableExecution:
                 "started_at": datetime.now(UTC).isoformat(),
                 "tool_results": [],
             }
-            completed_step = None
 
         if "plan" not in state:
             plan = self.coordinator.plan(alert)
             state["plan"] = plan.model_dump(mode="json")
             await self._commit(run_id, "plan", plan.model_dump(mode="json"), state)
-            completed_step = "plan"
         else:
             plan = AnalysisPlan.model_validate(state["plan"])
 
@@ -95,28 +95,54 @@ class RecoverableExecution:
             result = await self._execute_tool(run_id, alert, plan_step.step_id, step_name, plan_step.tool_name)
             state.setdefault("tool_results", []).append(result.model_dump(mode="json"))
             await self._checkpoint(run_id, step_name, result.model_dump(mode="json"), state)
-            completed_step = step_name
 
-        if completed_step not in {"evidence", "diagnosis", "report"}:
-            results = [ToolResult.model_validate(item) for item in state["tool_results"]]
-            evidence = collect_evidence(alert, results)
-            state["evidence"] = [item.model_dump(mode="json") for item in evidence]
-            await self._commit(run_id, "evidence", {"count": len(evidence)}, state)
-            completed_step = "evidence"
+        results = [ToolResult.model_validate(item) for item in state["tool_results"]]
+        if "dimension_results" not in state:
+            dimension_results = analyze_dimensions(alert, plan, results)
+            expert_results = analyze_experts(alert, results)
+            state["dimension_results"] = [item.model_dump(mode="json") for item in dimension_results]
+            state["expert_results"] = [item.model_dump(mode="json") for item in expert_results]
+            await self._commit(run_id, "semantic_analysis", {"dimensions": len(dimension_results), "experts": len(expert_results)}, state)
         else:
+            dimension_results = [SemanticAnalysisResult.model_validate(item) for item in state["dimension_results"]]
+            expert_results = [SemanticAnalysisResult.model_validate(item) for item in state.get("expert_results", [])]
+
+        if "base_evidence" not in state:
+            evidence = collect_evidence(alert, results)
+            evidence.extend(collect_semantic_evidence(alert, dimension_results))
+            evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
+            state["base_evidence"] = [item.model_dump(mode="json") for item in evidence]
+            await self._commit(run_id, "evidence", {"count": len(evidence)}, state)
+        else:
+            evidence = [Evidence.model_validate(item) for item in state["base_evidence"]]
+
+        if "algorithm_signals" not in state:
+            algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
+                alert, results, dimension_results, expert_results, evidence
+            )
+            evidence.extend(deterministic_evidence)
+            evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
+            state["algorithm_signals"] = [item.model_dump(mode="json") for item in algorithm_signals]
+            state["matched_rules"] = matched_rules
+            state["evidence"] = [item.model_dump(mode="json") for item in evidence]
+            await self._commit(run_id, "deterministic_analysis", {"signals": len(algorithm_signals), "rules": matched_rules}, state)
+        else:
+            algorithm_signals = [AlgorithmSignal.model_validate(item) for item in state["algorithm_signals"]]
+            matched_rules = list(state.get("matched_rules", []))
             evidence = [Evidence.model_validate(item) for item in state["evidence"]]
 
-        if completed_step not in {"diagnosis", "report"}:
-            candidates, rationale = self.root_cause_agent.diagnose(alert, evidence)
+        if "candidates" not in state:
+            candidates, rationale, llm_used = await self.root_cause_agent.diagnose_with_optional_llm(alert, evidence)
             state["candidates"] = [item.model_dump(mode="json") for item in candidates]
             state["rationale"] = rationale
+            state["llm_used"] = llm_used
             await self._commit(run_id, "diagnosis", {"candidate_count": len(candidates)}, state)
-            completed_step = "diagnosis"
         else:
             candidates = [RootCauseCandidate.model_validate(item) for item in state["candidates"]]
             rationale = state["rationale"]
+            llm_used = bool(state.get("llm_used", False))
 
-        if completed_step == "report" and "report" in state:
+        if "report" in state:
             return DiagnosisReport.model_validate(state["report"])
 
         results = [ToolResult.model_validate(item) for item in state["tool_results"]]
@@ -141,6 +167,11 @@ class RecoverableExecution:
                 )
                 for item in results
             ],
+            dimension_results=dimension_results,
+            expert_results=expert_results,
+            algorithm_signals=algorithm_signals,
+            matched_rules=matched_rules,
+            llm_used=llm_used,
             degraded=bool(failed_sources),
             missing_sources=failed_sources,
             decision_rationale=rationale,

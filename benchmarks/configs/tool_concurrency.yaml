@@ -1,0 +1,7 @@
+schema_version: "1.0"
+name: tool-concurrency-v1
+dataset_path: benchmarks/datasets/rca/v1
+split: dev
+artifact_root: artifacts/evaluations
+repeats: 3
+tool_delay_seconds: 0.02

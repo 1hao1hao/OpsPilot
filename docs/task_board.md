@@ -11,7 +11,7 @@
 - `plan_new.md` 为范围主依据，`plan.md` 只补充细节；
 - 当前目录不是 Git 仓库，实施前后仍需用文件 diff 工具谨慎核对修改；
 - 现有 `pytest -q tests/unit` 在收集阶段因项目未安装且缺少依赖失败，尚无可信绿色基线；
-- Stage 1、Stage 2 以及 Stage 3 的实现/实验已于 2026-08-12 完成；Stage 3 只剩当前主机缺少 Docker daemon 导致的全新 Compose 容器复现验证，测试、逐 case prediction、恢复时间线和最终证据索引均已保存。
+- Stage 1、Stage 2 以及 Stage 3 已全部完成；全新 Docker Compose runtime smoke、Worker Crash Recovery 与 dev Evaluation 均在 GitHub Actions runner 自动验证，校园服务器不承担容器验证。测试、逐 case prediction、恢复时间线、CI artifact 和最终证据索引均已保存。
 
 ## 2. 三阶段总览
 
@@ -317,7 +317,7 @@ python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtim
 
 实测（2026-08-12）：在项目独立 `.venv`、真实 PostgreSQL 10.19、Redis 7.2.7 与独立 Worker 子进程上运行 5 类故障 × 3 轮，共 15 trial；Recovery Success 15/15、E2E 15/15，132 条成功 ToolExecution 中重复执行 0，WorkerCrash 三轮 P95 恢复延迟 602.711 ms，P95 E2E 1571.484 ms。三组 WorkerCrash 的退出码均为 `[97, 0, 0]`，代表崩溃进程、恢复扫描进程和续跑进程。工件：`artifacts/evaluations/20260812T061631Z-runtime-faults-v1/`。实验暴露并修复了重复 HTTP 请求放大 Redis 消息的问题，回归为 `tests/regression/test_duplicate_request_queue.py`。
 
-### S3-T2 `[PARTIAL]` 冻结评测、回归门禁与最终可复现交付
+### S3-T2 `[DONE]` 冻结评测、回归门禁与最终可复现交付
 
 项目背景：用固定数据和完整工件证明 OpsPilot 的诊断质量与恢复能力，形成最终项目形态。
 
@@ -350,7 +350,7 @@ business benchmark + runtime benchmark + regression + Compose
 - [x] frozen-test manifest 含 dataset/config/model/case 数/命令/时间；
 - [x] baseline 与 hybrid 的 predictions 和 metrics 均可追溯；
 - [x] 报告同时列出 Hit@1/3、Evidence Recall、Tool/E2E/Recovery Success、P95 和 Normal/Noise FPR；
-- [ ] 四个 Demo 在全新 Compose 环境按 README 命令可复现；
+- [x] 四个 Demo 由 GitHub Actions 的全新 Compose runtime smoke 与隔离 Stage 3 Demo job 自动复现；
 - [x] README 明确 DeepRCA 复用能力与 OpsPilot 新增 Runtime/Evaluation；
 - [x] 没有占位百分比、待填结果或未运行却声称成功的内容。
 
@@ -361,14 +361,20 @@ business benchmark + runtime benchmark + regression + Compose
 ```bash
 ruff check src tests
 pytest -q
-docker compose up --build --abort-on-container-exit
-python -m opspilot.evaluation.cli run --config benchmarks/configs/deeprca_baseline.yaml --split test
-python -m opspilot.evaluation.cli run --config benchmarks/configs/opspilot_hybrid.yaml --split test
+docker compose --profile smoke build
+docker compose --profile smoke up --wait --wait-timeout 120 api mock-env
+docker compose --profile smoke up --detach worker
+docker compose --profile smoke run --rm smoke-test
+python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtime_faults.yaml
+python -m opspilot.evaluation.cli run --config benchmarks/configs/deeprca_baseline.yaml --split dev
+python -m opspilot.evaluation.cli run --config benchmarks/configs/opspilot_hybrid.yaml --split dev
 ```
 
 标准工件：最终两个 `artifacts/evaluations/<evaluation_id>/` 目录、恢复报告、README Demo 输出与证据索引。
 
-实测（2026-08-12）：锁定数据和配置后只运行一次 frozen test。`rca-benchmark@1.0.0` test 为 12 case（10 fault、2 normal/noise）；baseline Hit@1/3=1/10、Evidence Recall=0.0、E2E=12/12、FPR=0/2，9 个错因 case 均保留；hybrid Hit@1/3=10/10、Evidence Recall=1.0、Tool Success=108/108、E2E=12/12、FPR=0/2。工件分别为 `20260812T052913Z-deeprca_baseline-test` 与 `20260812T052914Z-opspilot_hybrid-test`，聚合索引为 `artifacts/stage3/final_evidence.json`。已新增项目级 `.venv`（Python 3.11.7）并用 `scripts/bootstrap_dev_env.sh` 提供可复现安装；该隔离环境中 Ruff 通过，全量测试在真实 PostgreSQL/Redis 以及本地 API/Worker/Mock 三进程下为 248 passed（包含 3 个真实服务 integration 和 49 个 HTTP smoke）。Compose v5.4.0 的 profile/config 检查通过；官方 Rootless Docker 在线安装已实际尝试，但当前账号没有 sudo，且主机 `/etc/subuid`、`/etc/subgid` 为空、`ip_tables` 未加载，安装器无法创建 daemon。管理员完成 README 所列主机前置配置后可运行 `scripts/install_rootless_docker.sh`，因此“全新容器环境四 Demo”仍保持未完成，不虚报通过。
+实测（2026-08-12）：锁定数据和配置后只运行一次 frozen test。`rca-benchmark@1.0.0` test 为 12 case（10 fault、2 normal/noise）；baseline Hit@1/3=1/10、Evidence Recall=0.0、E2E=12/12、FPR=0/2，9 个错因 case 均保留；hybrid Hit@1/3=10/10、Evidence Recall=1.0、Tool Success=108/108、E2E=12/12、FPR=0/2。工件分别为 `20260812T052913Z-deeprca_baseline-test` 与 `20260812T052914Z-opspilot_hybrid-test`，聚合索引为 `artifacts/stage3/final_evidence.json`。项目级 `.venv`（Python 3.11.7）由 `scripts/bootstrap_dev_env.sh` 提供可复现安装；该隔离环境中 Ruff 通过，全量测试在真实 PostgreSQL/Redis 以及本地 API/Worker/Mock 三进程下为 248 passed（包含 3 个真实服务 integration 和 49 个 HTTP smoke）。GitHub Actions run `31573077135` 已在全新 runner 完成镜像构建、Alembic migration、PostgreSQL/Redis/API/Worker/Mock 启动和持久化 Run smoke，两个 job 均成功。
+
+最终 CI 验收（2026-08-16）：GitHub Actions run `31933671641` 的 `unit-tests`、`docker-smoke-test`、`stage3-demos` 三个 job 全部成功。Docker job 除正常 RCA 外，真实执行 `stop worker -> POST Run -> assert QUEUED -> start worker -> assert SUCCEEDED/report`。Stage 3 Demo job 在隔离 PostgreSQL 16/Redis 7 上重新执行 migration 和完整命令：runtime fault 5 类 × 3 轮共 15 trial，Recovery/E2E 15/15、重复成功 ToolExecution 0/132、P95 Recovery 845.286 ms；baseline/hybrid 均保留 24 条 dev prediction，hybrid Hit@1/3=20/20、Evidence Recall=1.0、Tool Success=216/216、E2E=24/24、FPR=0/4。新工件 `20260816T072216Z-runtime-faults-v1`、`20260816T072237Z-deeprca_baseline-dev`、`20260816T072238Z-opspilot_hybrid-dev` 已上传为 Actions artifact `stage3-demo-evidence-31933671641`。CI 只重复 dev 契约，不重新消费 frozen test。
 
 Stage 3 出口：所有验收项有真实命令和工件；没有证据的能力不写入最终项目介绍。
 

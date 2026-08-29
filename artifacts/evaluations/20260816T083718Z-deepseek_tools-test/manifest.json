@@ -1,0 +1,32 @@
+{
+  "evaluation_id": "20260816T083718Z-deepseek_tools-test",
+  "created_at": "2026-08-16T08:37:18.895366+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "test",
+  "case_count": 12,
+  "system": "deepseek_tools",
+  "config_path": "benchmarks/configs/deepseek_tools.yaml",
+  "config": {
+    "system": "deepseek_tools",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "test",
+    "artifact_root": "artifacts/evaluations",
+    "model": {
+      "provider": "deepseek",
+      "name": "deepseek-v4-flash",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "thinking": "disabled",
+      "temperature": 0,
+      "max_tokens": 500,
+      "max_attempts": 3,
+      "external_api": true
+    }
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py run --config benchmarks/configs/deepseek_tools.yaml --split test",
+  "python": "3.11.7",
+  "git_sha": "667f6834c1d0cacdc783e001e8bffb07792bb25f",
+  "git_dirty": true
+}

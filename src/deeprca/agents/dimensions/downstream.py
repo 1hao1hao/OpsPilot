@@ -15,6 +15,7 @@ from datetime import datetime, timedelta, timezone
 
 from deeprca.models import SubAgentResult
 from deeprca.tools import query_trace, query_topology
+from opspilot.tracing import detect_span_anomalies
 
 
 def _compute_time_window(timestamp_str: str) -> tuple[str, str]:
@@ -70,40 +71,35 @@ async def analyze_downstream(alert: dict) -> SubAgentResult:
         if trace_result.get("error"):
             evidence.append(f"调用链查询失败: {trace_result['error']}")
         elif traces:
-            for trace in traces:
-                # 检测慢调用和错误调用
-                duration = trace.get("duration_ms", trace.get("duration", 0))
-                # trace 顶层没有 status，从 spans 中聚合
-                spans = trace.get("spans", [])
-                span_status = "error" if any(
-                    s.get("status", "").upper() in ("ERROR", "FAILED", "TIMEOUT")
-                    for s in spans
-                ) else "success"
-                span_name = trace.get("trace_id", "")
-                if spans:
-                    # 取第一个非本服务的 span 作为下游调用标识
-                    for s in spans:
-                        if s.get("service", "") != service_name:
-                            span_name = s.get("service", span_name)
-                            break
-
-                if isinstance(duration, (int, float)) and duration > 1000:  # 超过 1 秒
+            # 统一格式由 Trace Adapter 负责；分析器只处理 Span Tree，逐个子 Span
+            # 检测异常，并保留根服务到异常服务的完整路径。
+            for anomaly in detect_span_anomalies(trace_result):
+                path = "/".join(anomaly.path)
+                common = {
+                    "service": anomaly.service,
+                    "path": path,
+                    "trace_id": anomaly.trace_id,
+                    "span_id": anomaly.span_id,
+                    "operation": anomaly.operation,
+                    "duration_ms": anomaly.duration_ms,
+                    "status": anomaly.status,
+                    "severity": "high",
+                }
+                if anomaly.is_slow:
                     findings.append({
+                        **common,
                         "type": "slow_downstream_call",
-                        "service": span_name,
-                        "desc": f"下游调用超时: {span_name} 耗时 {duration}ms",
-                        "severity": "high",
+                        "desc": f"下游调用慢: {path} 耗时 {anomaly.duration_ms}ms",
                     })
-                    evidence.append(f"下游调用 {span_name} 耗时 {duration}ms")
+                    evidence.append(f"下游路径 {path} 耗时 {anomaly.duration_ms}ms")
 
-                if span_status.upper() in ("ERROR", "FAILED", "TIMEOUT"):
+                if anomaly.is_error:
                     findings.append({
+                        **common,
                         "type": "downstream_call_error",
-                        "service": span_name,
-                        "desc": f"下游调用错误: {span_name} 状态 {span_status}",
-                        "severity": "high",
+                        "desc": f"下游调用错误: {path} 状态 {anomaly.status}",
                     })
-                    evidence.append(f"下游调用 {span_name} 状态异常: {span_status}")
+                    evidence.append(f"下游路径 {path} 状态异常: {anomaly.status}")
 
             if traces:
                 evidence.append(f"查询到 {len(traces)} 条调用链记录")

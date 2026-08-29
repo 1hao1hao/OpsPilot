@@ -36,6 +36,10 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
     tool_success = 0
     tool_attempted = 0
     latencies: list[float] = []
+    api_call_count = 0
+    prompt_tokens = 0
+    completion_tokens = 0
+    total_tokens = 0
 
     for case in cases:
         prediction = by_id.get(case.case_id, {"status": "missing", "candidate_types": []})
@@ -58,6 +62,12 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
             tool_success += execution.get("status") == "success"
         if isinstance(prediction.get("latency_ms"), (int, float)):
             latencies.append(float(prediction["latency_ms"]))
+        usage = prediction.get("token_usage")
+        if isinstance(usage, dict):
+            api_call_count += 1
+            prompt_tokens += int(usage.get("prompt_tokens", 0))
+            completion_tokens += int(usage.get("completion_tokens", 0))
+            total_tokens += int(usage.get("total_tokens", 0))
 
     return {
         "case_count": len(cases),
@@ -72,5 +82,13 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
         "false_positive_rate": _ratio(false_positives, normal_count),
         "p95_latency_ms": _p95(latencies),
         "latency_scope": "in-process end-to-end; Stage 1 has no queue time",
+        "model_usage": {
+            "api_call_count": api_call_count,
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+            "total_tokens": total_tokens,
+            "average_total_tokens_per_call": (
+                round(total_tokens / api_call_count, 3) if api_call_count else None
+            ),
+        },
     }
-

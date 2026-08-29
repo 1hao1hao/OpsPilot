@@ -139,9 +139,77 @@
       }
     }
   },
+  "deepseek_ablation": {
+    "model": "deepseek-v4-flash",
+    "dataset": "opspilot-rca@1.0.0",
+    "split": "test",
+    "case_count": 12,
+    "llm_only": {
+      "evaluation_id": "20260816T083652Z-deepseek_llm_only-test",
+      "hit_at_1": "4/10",
+      "hit_at_3": "4/10",
+      "evidence_recall": 0.0,
+      "false_positive_rate": "0/2",
+      "tool_calls": 0,
+      "total_tokens": 4985,
+      "p95_latency_ms": 2200.236
+    },
+    "llm_tools": {
+      "evaluation_id": "20260816T083936Z-deepseek_tools-test",
+      "hit_at_1": "10/10",
+      "hit_at_3": "10/10",
+      "evidence_recall": 0.0,
+      "false_positive_rate": "1/2",
+      "tool_calls": 108,
+      "tool_success": "108/108",
+      "total_tokens": 6132,
+      "p95_latency_ms": 2400.149
+    },
+    "hybrid": {
+      "evaluation_id": "20260816T083959Z-deepseek_hybrid-test",
+      "hit_at_1": "10/10",
+      "hit_at_3": "10/10",
+      "evidence_recall": 1.0,
+      "false_positive_rate": "0/2",
+      "tool_calls": 108,
+      "tool_success": "108/108",
+      "total_tokens": 5660,
+      "p95_latency_ms": 2489.135
+    },
+    "pre_fix_evidence": {
+      "llm_tools": "artifacts/evaluations/20260816T083718Z-deepseek_tools-test",
+      "hybrid": "artifacts/evaluations/20260816T083744Z-deepseek_hybrid-test",
+      "regression": "tests/regression/test_deepseek_json_boundary.py"
+    }
+  },
+  "concurrency": {
+    "evaluation_id": "20260816T084034Z-tool-concurrency-v1",
+    "dataset": "opspilot-rca@1.0.0",
+    "split": "dev",
+    "case_count": 24,
+    "repeats": 3,
+    "fixed_tool_delay_ms": 20.0,
+    "sequential": {
+      "run_count": 72,
+      "p50_latency_ms": 220.672,
+      "p95_latency_ms": 498.469,
+      "tool_success": "648/648"
+    },
+    "parallel": {
+      "run_count": 72,
+      "p50_latency_ms": 20.869,
+      "p95_latency_ms": 99.827,
+      "tool_success": "648/648"
+    },
+    "p95_speedup": 4.993
+  },
   "evidence_paths": {
     "baseline": "artifacts/evaluations/20260812T052913Z-deeprca_baseline-test",
     "hybrid": "artifacts/evaluations/20260812T052914Z-opspilot_hybrid-test",
-    "reliability": "artifacts/evaluations/20260812T061631Z-runtime-faults-v1"
+    "reliability": "artifacts/evaluations/20260812T061631Z-runtime-faults-v1",
+    "deepseek_llm_only": "artifacts/evaluations/20260816T083652Z-deepseek_llm_only-test",
+    "deepseek_tools": "artifacts/evaluations/20260816T083936Z-deepseek_tools-test",
+    "deepseek_hybrid": "artifacts/evaluations/20260816T083959Z-deepseek_hybrid-test",
+    "concurrency": "artifacts/evaluations/20260816T084034Z-tool-concurrency-v1"
   }
 }

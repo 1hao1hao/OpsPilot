@@ -12,6 +12,7 @@ def test_metrics_cover_top3_partial_evidence_failed_run_and_zero_tool_denominato
             "evidence_types": cases[0].expected_evidence_types,
             "tool_executions": [],
             "latency_ms": 10,
+            "token_usage": {"prompt_tokens": 80, "completion_tokens": 20, "total_tokens": 100},
         },
         {
             "case_id": cases[1].case_id,
@@ -29,6 +30,13 @@ def test_metrics_cover_top3_partial_evidence_failed_run_and_zero_tool_denominato
     assert metrics["e2e_success_rate"]["value"] == 0.5
     assert metrics["tool_success_rate"]["value"] is None
     assert metrics["p95_latency_ms"] == 20
+    assert metrics["model_usage"] == {
+        "api_call_count": 1,
+        "prompt_tokens": 80,
+        "completion_tokens": 20,
+        "total_tokens": 100,
+        "average_total_tokens_per_call": 100.0,
+    }
 
 
 def test_empty_input_has_explicit_null_rates():
@@ -36,4 +44,3 @@ def test_empty_input_has_explicit_null_rates():
     assert metrics["root_cause_hit_at_1"]["value"] is None
     assert metrics["e2e_success_rate"]["value"] is None
     assert metrics["p95_latency_ms"] is None
-
