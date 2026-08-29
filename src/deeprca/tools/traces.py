@@ -15,6 +15,29 @@ import httpx
 from langchain_core.tools import tool
 
 from deeprca.config import get_settings
+from opspilot.tracing import normalize_trace_payload
+
+
+def _normalize_payload(data: dict) -> list[dict]:
+    """Adapt external payloads without requiring Jaeger/OTel to change format."""
+    return [
+        {
+            "trace_id": trace.trace_id,
+            "spans": [
+                {
+                    "trace_id": span.trace_id,
+                    "span_id": span.span_id,
+                    "parent_span_id": span.parent_span_id,
+                    "service": span.service,
+                    "operation": span.operation,
+                    "duration_ms": span.duration_ms,
+                    "status": span.status,
+                }
+                for span in trace.spans
+            ],
+        }
+        for trace in normalize_trace_payload(data)
+    ]
 
 
 def _extract_slow_spans(traces: list[dict]) -> list[dict]:
@@ -71,7 +94,7 @@ async def query_trace(
                 )
                 resp.raise_for_status()
                 data = resp.json()
-                traces = data.get("traces", [])
+                traces = _normalize_payload(data)
                 return {
                     "service": service_name,
                     "total": len(traces),
@@ -101,7 +124,7 @@ async def query_trace(
             )
             resp.raise_for_status()
             data = resp.json()
-            traces = data.get("traces", [])
+            traces = _normalize_payload(data)
             return {
                 "service": service_name,
                 "total": len(traces),

@@ -1,0 +1,26 @@
+{
+  "evaluation_id": "20260829T052345Z-tool-concurrency-v1",
+  "created_at": "2026-08-29T05:23:45.054807+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "split": "dev",
+  "case_count": 24,
+  "repeats": 3,
+  "tool_delay_seconds": 0.02,
+  "latency_scope": "in-process workflow with fixed per-tool async provider delay",
+  "config_path": "benchmarks/configs/tool_concurrency.yaml",
+  "config": {
+    "schema_version": "1.0",
+    "name": "tool-concurrency-v1",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "dev",
+    "artifact_root": "artifacts/evaluations",
+    "repeats": 3,
+    "tool_delay_seconds": 0.02
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py concurrency --config benchmarks/configs/tool_concurrency.yaml",
+  "python": "3.11.7",
+  "git_sha": "e5e31def5c261f1a40bbe407c5f3f6ab1d161788",
+  "git_dirty": true,
+  "external_paid_api": false
+}

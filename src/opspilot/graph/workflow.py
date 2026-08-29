@@ -7,9 +7,16 @@ import uuid
 from datetime import UTC, datetime
 from time import perf_counter
 
-from opspilot.agents import CoordinatorAgent, RootCauseAgent
-from opspilot.evidence import collect_evidence
+from opspilot.agents import (
+    CoordinatorAgent,
+    RootCauseAgent,
+    analyze_dimensions,
+    analyze_experts,
+    build_runtime_root_cause_agent,
+)
+from opspilot.evidence import collect_evidence, collect_semantic_evidence
 from opspilot.models import AlertEvent, DiagnosisReport, RootCauseType, ToolCall, ToolStatus
+from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
 
@@ -25,7 +32,7 @@ class OpsPilotWorkflow:
             raise ValueError(f"unsupported execution mode: {execution_mode}")
         self.registry = registry
         self.coordinator = CoordinatorAgent(registry)
-        self.root_cause_agent = root_cause_agent or RootCauseAgent()
+        self.root_cause_agent = root_cause_agent or build_runtime_root_cause_agent()
         self.execution_mode = execution_mode
 
     async def analyze(self, alert: AlertEvent, *, trace_id: str | None = None) -> DiagnosisReport:
@@ -56,8 +63,16 @@ class OpsPilotWorkflow:
             results = await asyncio.gather(*(executor.execute(call) for call in calls))
         else:
             results = [await executor.execute(call) for call in calls]
+        dimension_results = analyze_dimensions(alert, plan, results)
+        expert_results = analyze_experts(alert, results)
         evidence = collect_evidence(alert, results)
-        candidates, rationale = self.root_cause_agent.diagnose(alert, evidence)
+        evidence.extend(collect_semantic_evidence(alert, dimension_results))
+        algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
+            alert, results, dimension_results, expert_results, evidence
+        )
+        evidence.extend(deterministic_evidence)
+        evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
+        candidates, rationale, llm_used = await self.root_cause_agent.diagnose_with_optional_llm(alert, evidence)
         failed_sources = sorted(result.tool_name for result in results if result.status == ToolStatus.ERROR)
         primary = candidates[0]
         actions = recommended_actions(primary.root_cause_type)
@@ -70,6 +85,11 @@ class OpsPilotWorkflow:
             primary_root_cause=primary,
             evidence=evidence,
             tool_executions=executor.executions,
+            dimension_results=dimension_results,
+            expert_results=expert_results,
+            algorithm_signals=algorithm_signals,
+            matched_rules=matched_rules,
+            llm_used=llm_used,
             degraded=bool(failed_sources),
             missing_sources=failed_sources,
             decision_rationale=rationale,

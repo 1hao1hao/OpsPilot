@@ -6,11 +6,12 @@ import asyncio
 from time import perf_counter
 from typing import Any
 
-from opspilot.agents import CoordinatorAgent, RootCauseAgent
+from opspilot.agents import CoordinatorAgent, RootCauseAgent, analyze_dimensions, analyze_experts
 from opspilot.evaluation.deepseek import DeepSeekRCAClient
-from opspilot.evidence import collect_evidence
+from opspilot.evidence import collect_evidence, collect_semantic_evidence
 from opspilot.graph import OpsPilotWorkflow
 from opspilot.models import AlertEvent, RootCauseType, ToolCall, ToolStatus
+from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.tools import ToolExecutor, build_default_registry, build_tool_call_id
 
 
@@ -131,7 +132,7 @@ class _DeepSeekToolSystem(_DeepSeekSystem):
             item.tool_name: item.data.get("observations", {}) if item.data else {"error": item.error_code}
             for item in results
         }
-        return results, executor.executions, observations
+        return self.coordinator.plan(alert), results, executor.executions, observations
 
 
 class DeepSeekToolsSystem(_DeepSeekToolSystem):
@@ -139,7 +140,7 @@ class DeepSeekToolsSystem(_DeepSeekToolSystem):
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
         started = perf_counter()
-        _results, executions, observations = await self._observe(alert, case_id)
+        _plan, _results, executions, observations = await self._observe(alert, case_id)
         result = await self.client.diagnose(
             alert=self._public_alert(alert),
             tool_observations=observations,
@@ -163,8 +164,16 @@ class DeepSeekHybridSystem(_DeepSeekToolSystem):
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
         started = perf_counter()
-        results, executions, observations = await self._observe(alert, case_id)
+        plan, results, executions, observations = await self._observe(alert, case_id)
+        dimension_results = analyze_dimensions(alert, plan, results)
+        expert_results = analyze_experts(alert, results)
         evidence = collect_evidence(alert, results)
+        evidence.extend(collect_semantic_evidence(alert, dimension_results))
+        _signals, deterministic_evidence, _rules = run_deterministic_pipeline(
+            alert, results, dimension_results, expert_results, evidence
+        )
+        evidence.extend(deterministic_evidence)
+        evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
         deterministic_candidates, _ = RootCauseAgent().diagnose(alert, evidence)
         allowed = [candidate.root_cause_type.value for candidate in deterministic_candidates]
         result = await self.client.diagnose(

@@ -11,6 +11,7 @@ from opspilot.models import (
     EvidenceSeverity,
     EvidenceSourceType,
     RootCauseType,
+    SemanticAnalysisResult,
     ToolResult,
     ToolStatus,
 )
@@ -26,6 +27,8 @@ def _evidence(
     severity: EvidenceSeverity,
     confidence: float,
     supports: list[RootCauseType],
+    service: str | None = None,
+    raw_ref: str | None = None,
 ) -> Evidence:
     raw = f"{alert.alert_id}|{source_name}|{evidence_type}|{fact}"
     evidence_id = f"ev-{hashlib.sha256(raw.encode()).hexdigest()[:16]}"
@@ -34,12 +37,13 @@ def _evidence(
         evidence_type=evidence_type,
         source_type=source_type,
         source_name=source_name,
-        service=alert.service_name,
+        service=service or alert.service_name,
         observed_at=alert.timestamp,
         fact=fact,
         severity=severity,
         confidence=confidence,
         supports=supports,
+        raw_ref=raw_ref,
     )
 
 
@@ -66,12 +70,56 @@ def collect_evidence(alert: AlertEvent, results: list[ToolResult]) -> list[Evide
     return sorted(unique.values(), key=lambda item: (-item.confidence, item.evidence_id))
 
 
+def collect_semantic_evidence(
+    alert: AlertEvent,
+    dimension_results: list[SemanticAnalysisResult],
+) -> list[Evidence]:
+    """Convert L1 semantic findings that cannot be represented by raw aggregates."""
+    cause_map = {
+        "recent_change": [RootCauseType.BAD_DEPLOYMENT],
+        "upstream_error_rate": [RootCauseType.RPC_ERROR_RATE],
+        "downstream_span_error": [RootCauseType.RPC_ERROR_RATE],
+        "downstream_span_slow": [RootCauseType.RPC_TIMEOUT],
+        "cpu_usage_high": [RootCauseType.RESOURCE_SATURATION],
+        "memory_usage_high": [RootCauseType.RESOURCE_SATURATION],
+        "oom_signature": [RootCauseType.OOM_RESTART],
+    }
+    evidence: list[Evidence] = []
+    for result in dimension_results:
+        for finding in result.findings:
+            supports = cause_map.get(finding.finding_type, [])
+            if not supports:
+                continue
+            raw_ref = None
+            if finding.data.get("trace_id") and finding.data.get("span_id"):
+                raw_ref = f"trace:{finding.data['trace_id']}/span:{finding.data['span_id']}"
+            evidence.append(
+                _evidence(
+                    alert=alert,
+                    source_name=finding.dimension,
+                    evidence_type=f"{finding.dimension}.{finding.finding_type}",
+                    source_type=EvidenceSourceType.TRACE if finding.dimension == "downstream" else EvidenceSourceType.RULE,
+                    fact=finding.summary,
+                    severity=finding.severity,
+                    confidence=finding.confidence,
+                    supports=supports,
+                    service=finding.service,
+                    raw_ref=raw_ref,
+                )
+            )
+    return evidence
+
+
 def _db(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
     items: list[Evidence] = []
     lag = _number(data, "replication_lag_seconds", _number(data, "slave_delay_seconds"))
     slow = _number(data, "slow_query_count")
+    active_entry = data.get("active_connections", {})
     active = _number(data, "active_connections")
-    maximum = max(_number(data, "max_connections", 1), 1)
+    maximum = _number(data, "max_connections")
+    if not maximum and isinstance(active_entry, dict):
+        maximum = _number(active_entry, "max")
+    maximum = max(maximum, 1)
     if lag >= 5:
         items.append(_evidence(alert=alert, source_name=source, evidence_type="db.replication_lag", source_type=EvidenceSourceType.METRIC, fact=f"DB replication lag is {lag:.1f}s", severity=EvidenceSeverity.CRITICAL if lag >= 15 else EvidenceSeverity.WARNING, confidence=min(0.65 + lag / 100, 0.95), supports=[RootCauseType.DB_REPLICATION_LAG]))
     if slow >= 10:
@@ -156,4 +204,3 @@ _CONVERTERS = {
     "kafka.inspect": _kafka,
     "rpc.inspect": _rpc,
 }
-

@@ -1,0 +1,41 @@
+{
+  "case_count": 24,
+  "root_cause_hit_at_1": {
+    "value": 1.0,
+    "numerator": 20,
+    "denominator": 20
+  },
+  "root_cause_hit_at_3": {
+    "value": 1.0,
+    "numerator": 20,
+    "denominator": 20
+  },
+  "evidence_recall_macro": {
+    "value": 1.0,
+    "scored_cases": 20
+  },
+  "tool_success_rate": {
+    "value": 1.0,
+    "numerator": 240,
+    "denominator": 240
+  },
+  "e2e_success_rate": {
+    "value": 1.0,
+    "numerator": 24,
+    "denominator": 24
+  },
+  "false_positive_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 4
+  },
+  "p95_latency_ms": 1.328,
+  "latency_scope": "in-process end-to-end; Stage 1 has no queue time",
+  "model_usage": {
+    "api_call_count": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "average_total_tokens_per_call": null
+  }
+}

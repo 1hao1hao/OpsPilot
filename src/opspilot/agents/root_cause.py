@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 
+from opspilot.config import RuntimeSettings
+from opspilot.llm import DeepSeekRCAClient, DeepSeekSecrets
 from opspilot.models import AlertEvent, Evidence, RootCauseCandidate, RootCauseType
 
 SUMMARIES = {
@@ -31,8 +33,13 @@ class FakeSummarizer:
 
 
 class RootCauseAgent:
-    def __init__(self, summarizer: Callable[[RootCauseCandidate, list[Evidence]], str] | None = None) -> None:
+    def __init__(
+        self,
+        summarizer: Callable[[RootCauseCandidate, list[Evidence]], str] | None = None,
+        async_summarizer: Callable[[AlertEvent, RootCauseCandidate, list[Evidence]], Awaitable[str]] | None = None,
+    ) -> None:
         self.summarizer = summarizer or FakeSummarizer()
+        self.async_summarizer = async_summarizer
 
     def diagnose(self, alert: AlertEvent, evidence: list[Evidence]) -> tuple[list[RootCauseCandidate], str]:
         scores: dict[RootCauseType, float] = defaultdict(float)
@@ -73,3 +80,51 @@ class RootCauseAgent:
                 f"from {len(candidates[0].evidence_ids)} evidence item(s)."
             )
         return candidates, rationale
+
+    async def diagnose_with_optional_llm(
+        self,
+        alert: AlertEvent,
+        evidence: list[Evidence],
+    ) -> tuple[list[RootCauseCandidate], str, bool]:
+        candidates, rationale = self.diagnose(alert, evidence)
+        if self.async_summarizer is None:
+            return candidates, rationale, False
+        try:
+            rationale = await self.async_summarizer(alert, candidates[0], evidence)
+            return candidates, rationale, True
+        except Exception:  # noqa: BLE001 - the deterministic decision must survive LLM failure
+            return candidates, f"Deterministic fallback: {rationale}", False
+
+
+class DeepSeekEvidenceSummarizer:
+    """Explain one deterministic candidate; it cannot alter candidate ranking."""
+
+    def __init__(self, client: DeepSeekRCAClient) -> None:
+        self.client = client
+
+    async def __call__(
+        self,
+        alert: AlertEvent,
+        candidate: RootCauseCandidate,
+        evidence: list[Evidence],
+    ) -> str:
+        result = await self.client.diagnose(
+            alert=alert.model_dump(mode="json", exclude={"signals"}),
+            evidence=[item.model_dump(mode="json") for item in evidence],
+            allowed_candidates=[candidate.root_cause_type.value],
+        )
+        return result.decision.rationale
+
+
+def build_runtime_root_cause_agent(settings: RuntimeSettings | None = None) -> RootCauseAgent:
+    settings = settings or RuntimeSettings()
+    if not settings.llm_enabled:
+        return RootCauseAgent()
+    secrets = DeepSeekSecrets()
+    client = DeepSeekRCAClient(
+        api_key=secrets.deepseek_api_key,
+        model=settings.llm_model,
+        base_url=settings.llm_base_url,
+        timeout_seconds=settings.llm_timeout_seconds,
+    )
+    return RootCauseAgent(async_summarizer=DeepSeekEvidenceSummarizer(client))

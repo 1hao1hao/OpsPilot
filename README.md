@@ -8,15 +8,28 @@ OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系
 
 ## 核心能力
 
-- Agent RCA：Coordinator / Planner 根据注册表生成版本化分析计划；当前版本固定覆盖 9 个只读工具，统一 Executor 负责校验、超时、重试与执行记录。
-- Evidence-driven Reasoning：确定性阈值、支持/反证关系和稳定 Evidence ID 约束根因候选；在线 Runtime 默认生成确定性说明，DeepSeek 仅在显式离线评测中调用。
+- Semantic Agent RCA：Coordinator / Planner 先生成变更、上游、下游、集群、错误日志、已知问题六维语义计划，再合并为统一的只读 Tool 执行计划。
+- L2 Domain Experts：DB、Redis、Kafka、RPC Expert 消费已持久化 ToolResult 做领域下钻，不绕过 Runtime 重复访问外部系统。
+- Deterministic + Rule + LLM：执行指标筛选、噪声过滤、WoW/DoD、IQR、波动检测和 R001–R008 专家规则；DeepSeek 可选且只能解释被证据约束的确定性候选。
 - Recoverable Runtime：FastAPI、Redis `run_id` 队列、独立 Worker 和 PostgreSQL 事实源解耦任务提交与执行。
 - Checkpoint & Idempotency：持久化 Run、Step、ToolExecution、Checkpoint、Report 和 RuntimeEvent，以 `request_id`、`tool_call_id` 防重。
 - Evaluation & Regression：固定数据集、同集消融、逐 case prediction、失败工件、Runtime 故障注入和 CI 回归门禁。
 
 ## 已验证结果
 
-### DeepSeek 三路 RCA 消融
+### Runtime v2 六维主链回归
+
+在不调用外部模型的 24-case dev 集上，恢复六维语义层、L2 Expert 和 L3 算法链后的结果为：
+
+- Root Cause Hit@1 / Hit@3：20/20 / 20/20
+- Evidence Recall：1.0
+- False Positive Rate：0/4
+- Tool Success：240/240
+- Model API Calls：0
+
+逐 case 结果和空失败集保存在 [`artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/`](artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/)。该结果是 dev 回归，不替代 frozen test。
+
+### DeepSeek 三路 RCA 消融（Runtime v1 冻结基线）
 
 固定 `opspilot-rca@1.0.0` frozen test 包含 12 个 case，其中 10 个 fault、2 个 normal/noise。三组均使用 `deepseek-v4-flash`、temperature 0、thinking disabled。
 
@@ -28,7 +41,7 @@ OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系
 
 LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观测；LLM + Tools 接收原始工具结果；Hybrid 进一步加入确定性 Evidence 和候选约束。Hybrid 相比 LLM + Tools 保持 10/10 Hit@1，同时消除 normal case 误报，并减少 7.7% Token。
 
-### Runtime Reliability
+### Runtime Reliability（Runtime v1 冻结基线）
 
 在真实 PostgreSQL、Redis 和独立 Worker 子进程上运行 5 类故障 × 3 轮：
 
@@ -45,12 +58,12 @@ LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观�
 
 | 模式 | Runs | P50 | P95 | Tool Success |
 |---|---:|---:|---:|---:|
-| Sequential | 72 | 220.672 ms | 498.469 ms | 648/648 |
-| Parallel | 72 | 20.869 ms | 99.827 ms | 648/648 |
+| Sequential | 72 | 201.909 ms | 202.531 ms | 720/720 |
+| Parallel | 72 | 20.819 ms | 21.135 ms | 720/720 |
 
-受控实验中 Parallel 的 P95 加速为 4.993×。该结果用于验证异步调度行为，不代表生产网络 SLA。
+Runtime v2 受控实验中 Parallel 的 P95 加速为 9.583×。该结果用于验证 10 个统一工具的异步调度行为，不代表生产网络 SLA；完整运行记录位于 [`artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/`](artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/)。
 
-所有数字均可追溯到 [`artifacts/stage3/final_evidence.json`](artifacts/stage3/final_evidence.json)，逐 case 和逐 trial 结果保存在 [`artifacts/evaluations/`](artifacts/evaluations/)。
+Runtime v1 数字可追溯到 [`artifacts/stage3/final_evidence.json`](artifacts/stage3/final_evidence.json)。v2 的 dev 与并发结果分别链接到对应新工件；v2 恢复六维、L2 Expert 与完整算法链后，仍需重新运行 frozen test 和故障矩阵才能声明新的正式数字。
 
 ## 架构
 
@@ -58,12 +71,16 @@ LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观�
 flowchart TB
     A[Alert] --> B[FastAPI Run API]
     B --> C[Agent Runtime]
-    C --> D[Coordinator / Planner]
+    C --> D[Six-Dimension Planner]
     D --> E[Tool Registry / Executor]
-    E --> F[Evidence Collector]
-    F --> G[Deterministic RCA]
-    G --> H[Root Cause Agent]
-    H --> I[Diagnosis Report]
+    E --> L1[L1 Dimension Analyzers]
+    E --> L2[L2 DB / Redis / Kafka / RPC Experts]
+    L1 --> F[Evidence Collector]
+    L2 --> F
+    F --> G[Filter / Noise / WoW-DoD / IQR / Volatility]
+    G --> H[Expert Rules + Root Cause Ranking]
+    H --> LLM[Optional Constrained DeepSeek Explanation]
+    LLM --> I[Diagnosis Report]
 
     B <--> PG[(PostgreSQL<br/>Run / Step / Checkpoint / Report)]
     C <--> R[(Redis run_id Queue)]
@@ -78,7 +95,9 @@ flowchart TB
 
 PostgreSQL 是运行状态和结果的唯一事实源，Redis 只传递 `run_id`。Worker 每完成一个 Step，就在事务中保存输出和 Checkpoint；恢复扫描发现 stale `RUNNING` Run 后，将其重新入队，新 Worker 从最近成功 Checkpoint 后继续。
 
-在线 Root Cause Agent 默认使用无外部依赖的确定性摘要器；DeepSeek 三路方案属于离线 Evaluation，不会被普通 API 请求或自动测试隐式调用。
+Jaeger、OpenTelemetry 或 Mock Trace 保持各自外部格式，由 Trace Adapter 转成内部统一 Span；系统再利用 `span_id / parent_span_id` 重建调用树，逐 Span 检测异常并保留根服务到异常服务的完整路径。
+
+在线 Root Cause Agent 默认使用无外部依赖的确定性摘要器。仅显式设置 `OPSPILOT_LLM_ENABLED=true` 时才调用 DeepSeek，并将候选范围限制为确定性算法已经选出的 Top-1；自动测试不会访问付费 API。
 
 ## 请求主链
 
@@ -88,11 +107,12 @@ Alert
 -> PostgreSQL 创建 Run(QUEUED)
 -> Redis enqueue(run_id)
 -> Worker 领取 Run
--> Planner 生成固定 9-Tool AnalysisPlan
+-> Planner 生成六维语义计划并合并只读 AnalysisPlan
 -> Metrics / Logs / Changes / Trace / Domain Tools
+-> L1 六维分析 + L2 DB / Redis / Kafka / RPC Expert
 -> Evidence 标准化与去重
--> 确定性候选筛选
--> Root Cause Agent（确定性候选与默认摘要）
+-> 指标筛选 / NoiseFilter / WoW-DoD / IQR / 波动检测 / 专家规则
+-> Root Cause Agent（确定性排序 + 可选受约束 LLM 解释）
 -> DiagnosisReport + RuntimeEvent
 -> Run(SUCCEEDED)
 ```
@@ -115,7 +135,7 @@ Worker Crash
 - PostgreSQL、SQLAlchemy、Alembic
 - Redis Queue、独立异步 Worker
 - asyncio、httpx
-- DeepSeek Chat Completion API（仅离线 Evaluation）
+- DeepSeek Chat Completion API（离线 Evaluation；在线需显式启用）
 - Docker Compose、GitHub Actions
 - pytest、Ruff
 
@@ -199,12 +219,15 @@ python -m opspilot.evaluation.cli concurrency --config benchmarks/configs/tool_c
 ```text
 src/opspilot/
 ├── api/             # Run API、状态、结果、事件与 WebSocket
-├── agents/          # Coordinator 与 Root Cause Agent
+├── agents/          # 六维 Planner、L1 分析、L2 Expert 与 Root Cause Agent
 ├── evidence/        # Evidence 标准化、去重和排序
 ├── evaluation/      # RCA、可靠性、并发评测与报告
 ├── graph/           # 在线工作流和执行模式
 ├── persistence/     # PostgreSQL models 与 repositories
 ├── runtime/         # Worker、Queue、Checkpoint、Recovery、Idempotency
+├── rca/             # 确定性算法链与专家规则
+├── tracing/         # Trace Adapter、统一 Span 模型与调用树异常路径
+├── llm/             # 可选 DeepSeek 证据约束解释
 └── tools/           # Registry、Executor 与只读领域工具
 
 benchmarks/
@@ -224,6 +247,6 @@ tests/
 
 - 所有领域工具默认为只读；系统只生成诊断和处置建议，不自动修改生产资源。
 - 当前数据集是固定合成故障场景，实验结果不能直接外推为生产准确率。
-- DeepSeek 消融属于离线 Evaluation；自动测试使用 fake transport，不访问付费 API。
+- DeepSeek 默认关闭；离线消融或在线显式启用时才访问 API，自动测试使用 fake transport。
 - 并发实验使用固定工具 I/O 延迟，用于验证调度实现，不替代生产压测。
 - 当前未实现 Kubernetes 生产部署、自动回滚、带副作用工具审批和 LLM Timeout Runtime 故障注入。

@@ -58,9 +58,19 @@ class PlanStep(StrictModel):
     reason: str
 
 
+class DimensionTask(StrictModel):
+    dimension: str
+    name: str
+    priority: int = Field(ge=1)
+    tools: list[str]
+    expert_domains: list[str] = Field(default_factory=list)
+    reason: str
+
+
 class AnalysisPlan(StrictModel):
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
     steps: list[PlanStep]
+    dimensions: list[DimensionTask] = Field(default_factory=list)
 
 
 class ToolStatus(str, Enum):
@@ -158,6 +168,34 @@ class RootCauseCandidate(StrictModel):
     evidence_ids: list[str] = Field(default_factory=list)
 
 
+class DiagnosticFinding(StrictModel):
+    finding_type: str
+    dimension: str
+    service: str
+    summary: str
+    severity: EvidenceSeverity
+    confidence: float = Field(ge=0, le=1)
+    data: dict[str, Any] = Field(default_factory=dict)
+
+
+class SemanticAnalysisResult(StrictModel):
+    name: str
+    layer: str
+    dimension: str
+    findings: list[DiagnosticFinding] = Field(default_factory=list)
+    confidence: float = Field(ge=0, le=1)
+    error: str | None = None
+
+
+class AlgorithmSignal(StrictModel):
+    algorithm: str
+    metric: str
+    signal_type: str
+    is_anomaly: bool
+    confidence: float = Field(ge=0, le=1)
+    details: dict[str, Any] = Field(default_factory=dict)
+
+
 class DiagnosisReport(StrictModel):
     schema_version: str = "1.0"
     trace_id: str
@@ -168,6 +206,11 @@ class DiagnosisReport(StrictModel):
     primary_root_cause: RootCauseCandidate
     evidence: list[Evidence]
     tool_executions: list[ToolExecution]
+    dimension_results: list[SemanticAnalysisResult] = Field(default_factory=list)
+    expert_results: list[SemanticAnalysisResult] = Field(default_factory=list)
+    algorithm_signals: list[AlgorithmSignal] = Field(default_factory=list)
+    matched_rules: list[str] = Field(default_factory=list)
+    llm_used: bool = False
     degraded: bool = False
     missing_sources: list[str] = Field(default_factory=list)
     decision_rationale: str
@@ -190,4 +233,3 @@ class EvaluationCase(StrictModel):
     expected_tools: list[str]
     is_fault: bool
     tags: list[str] = Field(default_factory=list)
-

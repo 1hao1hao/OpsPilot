@@ -56,8 +56,8 @@ def report_to_legacy_state(report: DiagnosisReport, state: dict) -> dict:
         "top_candidates": candidates,
         "key_evidence": [item.fact for item in report.evidence[:5]],
         "analysis_duration": report.latency_ms / 1000,
-        "dimensions_analyzed": sorted({item.source_type.value for item in report.evidence}),
-        "sub_agents_invoked": ["coordinator", "root_cause"],
+        "dimensions_analyzed": [item.dimension for item in report.dimension_results],
+        "sub_agents_invoked": [item.name for item in report.dimension_results + report.expert_results],
         "suggestions": report.recommended_actions,
         "timestamp": report.finished_at.isoformat(),
         "degraded": report.degraded,
@@ -67,7 +67,7 @@ def report_to_legacy_state(report: DiagnosisReport, state: dict) -> dict:
         "status": "completed",
         "report": json.dumps(legacy_report, ensure_ascii=False),
         "root_cause": root_cause,
-        "sub_agent_results": [],
+        "sub_agent_results": [item.model_dump(mode="json") for item in report.dimension_results + report.expert_results],
         "collected_evidence": {
             "total": len(report.evidence),
             "top_evidences": [
@@ -86,4 +86,3 @@ def report_to_legacy_state(report: DiagnosisReport, state: dict) -> dict:
 
 def get_legacy_graph_adapter() -> LegacyGraphAdapter:
     return LegacyGraphAdapter()
-

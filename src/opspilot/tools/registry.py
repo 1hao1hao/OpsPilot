@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Awaitable, Callable
 from typing import Any
 
@@ -69,6 +70,7 @@ TOOL_SIGNAL_KEYS = {
     "redis.inspect": "redis",
     "kafka.inspect": "kafka",
     "rpc.inspect": "rpc",
+    "alerts.query": "problem",
 }
 
 
@@ -87,8 +89,37 @@ class ObservationProvider:
 
     async def _read_mock_http(self, signal_key: str, alert: AlertEvent) -> dict[str, Any]:
         service = alert.service_name
+        if signal_key in {"metric", "rpc"}:
+            metric_names = ("qps", "error_rate", "tp99", "cpu_usage", "memory_usage")
+            try:
+                async with httpx.AsyncClient(timeout=1.5) as client:
+                    responses = await asyncio.gather(*(
+                        client.get(f"{self.mock_base_url}/api/v1/mock/service/{service}/metrics/{name}")
+                        for name in metric_names
+                    ))
+                    for response in responses:
+                        response.raise_for_status()
+            except httpx.HTTPError as exc:
+                raise RuntimeError(f"mock source unavailable for {signal_key}: {exc}") from exc
+            payloads = {name: response.json() for name, response in zip(metric_names, responses, strict=True)}
+            if signal_key == "metric":
+                return payloads
+
+            def latest(name: str) -> float:
+                points = payloads[name].get("data_points", [])
+                return float(points[-1].get("value", 0)) if points else 0.0
+
+            error_rate_percent = latest("error_rate")
+            latency = latest("tp99")
+            baseline = float(payloads["tp99"].get("aggregation", {}).get("baseline", 0))
+            return {
+                "error_rate": error_rate_percent / 100.0,
+                "timeout_rate": 0.0,
+                "latency_ms": latency,
+                "baseline_latency_ms": baseline,
+                "call_volume": latest("qps"),
+            }
         routes = {
-            "metric": f"/api/v1/mock/service/{service}/metrics/tp99",
             "log": f"/api/v1/mock/service/{service}/logs",
             "change": f"/api/v1/mock/service/{service}/changes",
             "trace": f"/api/v1/mock/service/{service}/traces",
@@ -96,7 +127,7 @@ class ObservationProvider:
             "db": "/api/v1/mock/db/mysql-prod-01/metrics",
             "redis": "/api/v1/mock/redis/redis-cluster-01/metrics",
             "kafka": "/api/v1/mock/kafka/kafka-prod-01/metrics",
-            "rpc": f"/api/v1/mock/service/{service}/metrics/error_rate",
+            "problem": f"/api/v1/mock/service/{service}/alerts",
         }
         route = routes[signal_key]
         try:
