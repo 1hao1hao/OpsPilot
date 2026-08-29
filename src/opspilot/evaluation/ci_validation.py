@@ -70,7 +70,9 @@ def validate_stage3_demos(
         raise ValueError("baseline and hybrid must use the same dataset/version/split/case count")
     _expect_rate(hybrid_metrics["root_cause_hit_at_1"], 20, 20, "hybrid Hit@1")
     _expect_rate(hybrid_metrics["root_cause_hit_at_3"], 20, 20, "hybrid Hit@3")
-    _expect_rate(hybrid_metrics["tool_success_rate"], 216, 216, "hybrid Tool Success Rate")
+    # Runtime v2 executes the complete six-dimension plan: 10 registered
+    # read-only tools for every one of the 24 dev cases.
+    _expect_rate(hybrid_metrics["tool_success_rate"], 240, 240, "hybrid Tool Success Rate")
     if hybrid_metrics["evidence_recall_macro"].get("value") != 1.0:
         raise ValueError("hybrid Evidence Recall must remain 1.0 on the dev contract")
     return {
