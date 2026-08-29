@@ -29,28 +29,30 @@ OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系
 
 逐 case 结果和空失败集保存在 [`artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/`](artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/)。该结果是 dev 回归，不替代 frozen test。
 
-### DeepSeek 三路 RCA 消融（Runtime v1 冻结基线）
+### DeepSeek 三路 RCA 消融（Runtime v2 frozen test）
 
 固定 `opspilot-rca@1.0.0` frozen test 包含 12 个 case，其中 10 个 fault、2 个 normal/noise。三组均使用 `deepseek-v4-flash`、temperature 0、thinking disabled。
 
 | 方案 | Hit@1 | Hit@3 | Evidence Recall | FPR | Tool Success | API Token | P95 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| LLM Only | 4/10 | 4/10 | 0.0 | 0/2 | n/a | 4985 | 2200.236 ms |
-| LLM + Tools | 10/10 | 10/10 | 0.0 | 1/2 | 108/108 | 6132 | 2400.149 ms |
-| Tools + Deterministic Evidence + LLM | 10/10 | 10/10 | 1.0 | 0/2 | 108/108 | 5660 | 2489.135 ms |
+| LLM Only | 4/10 | 4/10 | 0.0 | 0/2 | n/a | 5027 | 1949.359 ms |
+| LLM + Tools | 9/10 | 10/10 | 0.0 | 1/2 | 120/120 | 6165 | 2344.854 ms |
+| Tools + Deterministic Evidence + LLM | 10/10 | 10/10 | 1.0 | 0/2 | 120/120 | 6673 | 2213.429 ms |
 
-LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观测；LLM + Tools 接收原始工具结果；Hybrid 进一步加入确定性 Evidence 和候选约束。Hybrid 相比 LLM + Tools 保持 10/10 Hit@1，同时消除 normal case 误报，并减少 7.7% Token。
+LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观测；LLM + Tools 接收 10 个原始工具结果；Hybrid 进一步执行六维分析、L2 Expert、L3 确定性算法与候选约束。本轮 Hybrid 相比 LLM + Tools 修复 1 个 Top-1 错因并消除 1 个 normal case 误报，Evidence Recall 从 0 提升到 1.0；代价是总 Token 增加 508（8.2%），不再沿用 v1 的 Token 降低结论。完整工件：[`LLM Only`](artifacts/evaluations/20260829T060434Z-deepseek_llm_only-test/)、[`LLM + Tools`](artifacts/evaluations/20260829T060459Z-deepseek_tools-test/)、[`Hybrid`](artifacts/evaluations/20260829T060526Z-deepseek_hybrid-test/)。
 
-### Runtime Reliability（Runtime v1 冻结基线）
+### Runtime Reliability（Runtime v2 故障矩阵）
 
 在真实 PostgreSQL、Redis 和独立 Worker 子进程上运行 5 类故障 × 3 轮：
 
 - Recovery Success：15/15
 - E2E Success：15/15
-- 重复成功 ToolExecution：0/132
-- Worker Crash P95 恢复延迟：602.711 ms
-- 全部 trial P95 E2E：1571.484 ms
+- 重复成功 ToolExecution：0/147
+- Worker Crash P95 恢复延迟：803.001 ms
+- 全部 trial P95 E2E：2181.098 ms
 - 故障类型：WorkerCrash、ToolTimeout、ToolHTTP500、DuplicateRequest、DuplicateDelivery
+
+全部 15 个 trial 和事件时间线保存在 [`artifacts/evaluations/20260829T060733Z-runtime-faults-v1/`](artifacts/evaluations/20260829T060733Z-runtime-faults-v1/)；WorkerCrash 三轮子进程退出码均为 `[97, 0, 0]`。
 
 ### Sequential vs Parallel
 
@@ -63,7 +65,7 @@ LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观�
 
 Runtime v2 受控实验中 Parallel 的 P95 加速为 9.583×。该结果用于验证 10 个统一工具的异步调度行为，不代表生产网络 SLA；完整运行记录位于 [`artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/`](artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/)。
 
-Runtime v1 数字可追溯到 [`artifacts/stage3/final_evidence.json`](artifacts/stage3/final_evidence.json)。v2 的 dev 与并发结果分别链接到对应新工件；v2 恢复六维、L2 Expert 与完整算法链后，仍需重新运行 frozen test 和故障矩阵才能声明新的正式数字。
+Runtime v2 的 dev、frozen test、故障矩阵和并发结果均已链接到对应工件。所有数字只表示当前固定合成数据集、DeepSeek 配置与受控故障注入环境，不外推为生产 SLA。
 
 ## 架构
 
