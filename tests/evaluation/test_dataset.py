@@ -5,15 +5,15 @@ import pytest
 from opspilot.evaluation.dataset import load_dataset
 
 
-def test_v1_dataset_has_36_unique_cases_and_frozen_split():
+def test_v1_dataset_has_37_unique_cases_and_frozen_split():
     dataset = load_dataset("benchmarks/datasets/rca/v1")
     dev = dataset.cases("dev")
     test = dataset.cases("test")
-    assert len(dev) == 24
+    assert len(dev) == 25
     assert len(test) == 12
     assert {case.case_id for case in dev}.isdisjoint({case.case_id for case in test})
     assert Counter(case.category for case in dev) == {
-        "db": 4,
+        "db": 5,
         "redis": 4,
         "kafka": 4,
         "rpc": 4,
@@ -27,4 +27,3 @@ def test_v1_dataset_has_36_unique_cases_and_frozen_split():
 def test_unknown_split_fails_explicitly():
     with pytest.raises(ValueError, match="unknown split"):
         load_dataset("benchmarks/datasets/rca/v1").cases("train")
-

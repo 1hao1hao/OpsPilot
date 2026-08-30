@@ -50,9 +50,10 @@ def validate_evaluation(path: str | Path, expected_system: str) -> tuple[dict[st
     _jsonl(path / "failures.jsonl")
     if manifest.get("system") != expected_system:
         raise ValueError(f"expected system {expected_system}, got {manifest.get('system')}")
-    if manifest.get("split") != "dev" or manifest.get("case_count") != 24 or len(predictions) != 24:
-        raise ValueError(f"{expected_system} must retain all 24 dev predictions")
-    _expect_rate(metrics["e2e_success_rate"], 24, 24, f"{expected_system} E2E Success Rate")
+    case_count = manifest.get("case_count")
+    if manifest.get("split") != "dev" or not isinstance(case_count, int) or len(predictions) != case_count:
+        raise ValueError(f"{expected_system} must retain every dev prediction")
+    _expect_rate(metrics["e2e_success_rate"], case_count, case_count, f"{expected_system} E2E Success Rate")
     _expect_rate(metrics["false_positive_rate"], 0, 4, f"{expected_system} False Positive Rate")
     return manifest, metrics
 
@@ -79,4 +80,62 @@ def validate_stage3_demos(
         "reliability_trials": reliability_metrics["trial_count"],
         "baseline_cases": baseline_metrics["case_count"],
         "hybrid_cases": hybrid_metrics["case_count"],
+    }
+
+
+def validate_adaptive_demos(
+    reliability: str | Path,
+    fixed: str | Path,
+    adaptive: str | Path,
+    without_l2: str | Path,
+    full: str | Path,
+    frozen: str | Path | None = None,
+) -> dict[str, Any]:
+    """Gate the Runtime v3 reliability matrix and four adaptive RCA ablations."""
+    reliability_metrics = validate_reliability(reliability)
+    paths = {
+        "fixed": (fixed, "opspilot_fixed_planner"),
+        "adaptive": (adaptive, "opspilot_adaptive_planner"),
+        "without_l2": (without_l2, "opspilot_adaptive_without_dynamic_l2"),
+        "full": (full, "opspilot_full_adaptive"),
+    }
+    validated = {name: validate_evaluation(path, system) for name, (path, system) in paths.items()}
+    manifests = [item[0] for item in validated.values()]
+    dataset_fields = ("dataset_name", "dataset_version", "split", "case_count")
+    if any(tuple(manifest[field] for field in dataset_fields) != tuple(manifests[0][field] for field in dataset_fields) for manifest in manifests[1:]):
+        raise ValueError("all adaptive ablations must use the same dataset/version/split/case count")
+    fixed_metrics = validated["fixed"][1]
+    full_metrics = validated["full"][1]
+    fault_count = full_metrics["root_cause_hit_at_1"]["denominator"]
+    _expect_rate(full_metrics["root_cause_hit_at_1"], fault_count, fault_count, "Full Adaptive Hit@1")
+    _expect_rate(full_metrics["root_cause_hit_at_3"], fault_count, fault_count, "Full Adaptive Hit@3")
+    if full_metrics["evidence_recall_macro"].get("value") != 1.0:
+        raise ValueError("Full Adaptive Evidence Recall must remain 1.0")
+    if full_metrics["average_tool_calls_per_case"] >= fixed_metrics["average_tool_calls_per_case"]:
+        raise ValueError("Full Adaptive must use fewer average Tool calls than Fixed Planner")
+    if full_metrics["average_expert_calls_per_case"] >= fixed_metrics["average_expert_calls_per_case"]:
+        raise ValueError("Full Adaptive must use fewer average Expert calls than Fixed Planner")
+    if full_metrics["planner_action_valid_rate"].get("value") != 1.0:
+        raise ValueError("Planner Action Valid Rate must be 1.0")
+    if full_metrics["duplicate_action_rate"].get("value") != 0.0:
+        raise ValueError("Duplicate Action Rate must be 0.0")
+    if frozen is not None:
+        frozen_path = Path(frozen)
+        frozen_manifest = _json(frozen_path / "manifest.json")
+        frozen_metrics = _json(frozen_path / "metrics.json")
+        frozen_predictions = _jsonl(frozen_path / "predictions.jsonl")
+        frozen_failures = _jsonl(frozen_path / "failures.jsonl")
+        if frozen_manifest.get("system") != "opspilot_full_adaptive" or frozen_manifest.get("split") != "test":
+            raise ValueError("frozen run must be the Full Adaptive test split")
+        if frozen_manifest.get("case_count") != 12 or len(frozen_predictions) != 12 or frozen_failures:
+            raise ValueError("frozen run must retain 12 successful predictions and no failures")
+        _expect_rate(frozen_metrics["root_cause_hit_at_1"], 10, 10, "Frozen Full Adaptive Hit@1")
+        _expect_rate(frozen_metrics["false_positive_rate"], 0, 2, "Frozen Full Adaptive FPR")
+    return {
+        "reliability_trials": reliability_metrics["trial_count"],
+        "case_count": full_metrics["case_count"],
+        "full_hit_at_1": full_metrics["root_cause_hit_at_1"]["value"],
+        "fixed_average_tools": fixed_metrics["average_tool_calls_per_case"],
+        "full_average_tools": full_metrics["average_tool_calls_per_case"],
+        "frozen_cases": 12 if frozen is not None else None,
     }

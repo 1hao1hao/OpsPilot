@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import asyncio
 from time import perf_counter
-from typing import Any
+from typing import Any, ClassVar
 
 from opspilot.agents import CoordinatorAgent, RootCauseAgent, analyze_dimensions, analyze_experts
+from opspilot.config import RuntimeSettings
 from opspilot.evaluation.deepseek import DeepSeekRCAClient
-from opspilot.evidence import collect_evidence, collect_semantic_evidence
+from opspilot.evidence import collect_evidence, collect_expert_evidence, collect_semantic_evidence
 from opspilot.graph import OpsPilotWorkflow
-from opspilot.models import AlertEvent, RootCauseType, ToolCall, ToolStatus
+from opspilot.investigation import AdaptiveInvestigator
+from opspilot.models import AlertEvent, AnalysisPlan, DimensionTask, PlanStep, RootCauseType, ToolCall, ToolStatus
 from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.tools import ToolExecutor, build_default_registry, build_tool_call_id
 
@@ -65,6 +67,130 @@ class OpsPilotHybridSystem:
             "tool_executions": [item.model_dump(mode="json") for item in report.tool_executions],
             "latency_ms": report.latency_ms,
             "degraded": report.degraded,
+            "investigation": report.investigation.model_dump(mode="json") if report.investigation else None,
+        }
+
+
+class AdaptivePlannerSystem(OpsPilotHybridSystem):
+    """Adaptive controller with raw Tool evidence, before L2 Finding promotion."""
+
+    name = "opspilot_adaptive_planner"
+
+    def __init__(self) -> None:
+        self.workflow = OpsPilotWorkflow(
+            build_default_registry(timeout_seconds=0.2),
+            promote_expert_evidence=False,
+        )
+
+
+class AdaptiveWithoutDynamicL2System(OpsPilotHybridSystem):
+    name = "opspilot_adaptive_without_dynamic_l2"
+
+    def __init__(self) -> None:
+        settings = RuntimeSettings(investigation_max_expert_calls=0)
+        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2), settings=settings)
+
+
+class FullAdaptiveRCASystem(OpsPilotHybridSystem):
+    name = "opspilot_full_adaptive"
+
+
+class FixedPlannerSystem:
+    """Ablation baseline: execute all six dimensions and all legacy Experts."""
+
+    name = "opspilot_fixed_planner"
+    tool_names: ClassVar[list[str]] = [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "topology.query",
+        "alerts.query",
+        "db.inspect",
+        "redis.inspect",
+        "kafka.inspect",
+        "rpc.inspect",
+    ]
+
+    def __init__(self) -> None:
+        self.registry = build_default_registry(timeout_seconds=0.2)
+
+    async def predict(self, alert: AlertEvent, case_id: str) -> dict:
+        started = perf_counter()
+        executor = ToolExecutor(self.registry)
+        calls = []
+        for index, tool_name in enumerate(self.tool_names, start=1):
+            definition = self.registry.get(tool_name)
+            arguments = {"alert": alert.model_dump(mode="json")}
+            calls.append(
+                ToolCall(
+                    tool_call_id=build_tool_call_id(
+                        trace_id=f"fixed-{case_id}",
+                        step_id=f"fixed-{index}",
+                        tool_name=tool_name,
+                        version=definition.version,
+                        arguments=arguments,
+                    ),
+                    tool_name=tool_name,
+                    arguments=arguments,
+                )
+            )
+        results = await asyncio.gather(*(executor.execute(call) for call in calls))
+        dimensions = ["change", "upstream", "downstream", "cluster", "errorlog", "problem"]
+        plan = AnalysisPlan(
+            steps=[
+                PlanStep(step_id=f"fixed-{index}", tool_name=name, priority=index, reason="fixed ablation")
+                for index, name in enumerate(self.tool_names, start=1)
+            ],
+            dimensions=[
+                DimensionTask(
+                    dimension=name,
+                    name=name,
+                    priority=index,
+                    tools=[],
+                    reason="fixed six-dimension ablation",
+                )
+                for index, name in enumerate(dimensions, start=1)
+            ],
+        )
+        dimension_results = analyze_dimensions(alert, plan, results)
+        expert_results = analyze_experts(alert, results)
+        evidence = collect_evidence(alert, results)
+        evidence.extend(collect_semantic_evidence(alert, dimension_results))
+        evidence.extend(collect_expert_evidence(alert, expert_results))
+        _signals, deterministic_evidence, _rules = run_deterministic_pipeline(
+            alert, results, dimension_results, expert_results, evidence
+        )
+        evidence.extend(deterministic_evidence)
+        evidence = sorted(
+            {item.evidence_id: item for item in evidence}.values(),
+            key=lambda item: (-item.confidence, item.evidence_id),
+        )
+        candidates, _ = RootCauseAgent().diagnose(alert, evidence)
+        actions = [
+            {"action_type": "inspect_tool", "target": name, "status": "succeeded"}
+            for name in self.tool_names
+        ]
+        actions.extend(
+            {"action_type": "invoke_expert", "target": name, "status": "succeeded"}
+            for name in ("db", "redis", "kafka", "rpc")
+        )
+        actions.append({"action_type": "finalize", "target": "finalize", "status": "succeeded"})
+        return {
+            "case_id": case_id,
+            "status": "completed",
+            "candidate_types": [item.root_cause_type.value for item in candidates],
+            "evidence_types": [item.evidence_type for item in evidence],
+            "tool_executions": [item.model_dump(mode="json") for item in executor.executions],
+            "latency_ms": (perf_counter() - started) * 1000,
+            "degraded": any(item.status == ToolStatus.ERROR for item in executor.executions),
+            "investigation": {
+                "rounds": 1,
+                "action_history": actions,
+                "expert_budget_used": 4,
+                "duplicate_actions": 0,
+                "stop_reason": "fixed plan completed",
+            },
         }
 
 
@@ -107,27 +233,29 @@ class _DeepSeekToolSystem(_DeepSeekSystem):
         super().__init__(client)
         self.registry = build_default_registry(timeout_seconds=0.2)
         self.coordinator = CoordinatorAgent(self.registry)
+        self.investigator = AdaptiveInvestigator(self.registry)
 
     async def _observe(self, alert: AlertEvent, case_id: str):
         executor = ToolExecutor(self.registry)
-        calls: list[ToolCall] = []
-        for step in self.coordinator.plan(alert).steps:
-            definition = self.registry.get(step.tool_name)
+
+        async def execute_tool(tool_name: str, round_number: int, reason: str):
+            definition = self.registry.get(tool_name)
             arguments = {"alert": alert.model_dump(mode="json")}
-            calls.append(
-                ToolCall(
-                    tool_call_id=build_tool_call_id(
-                        trace_id=f"eval-{case_id}",
-                        step_id=step.step_id,
-                        tool_name=step.tool_name,
-                        version=definition.version,
-                        arguments=arguments,
-                    ),
-                    tool_name=step.tool_name,
+            call = ToolCall(
+                tool_call_id=build_tool_call_id(
+                    trace_id=f"eval-{case_id}",
+                    step_id=f"round-{round_number}:{tool_name}",
+                    tool_name=tool_name,
+                    version=definition.version,
                     arguments=arguments,
-                )
+                ),
+                tool_name=tool_name,
+                arguments=arguments,
             )
-        results = await asyncio.gather(*(executor.execute(call) for call in calls))
+            return await executor.execute(call)
+
+        outcome = await self.investigator.run(alert, execute_tool, parallel_seed=True)
+        results = outcome.tool_results
         observations = {
             item.tool_name: item.data.get("observations", {}) if item.data else {"error": item.error_code}
             for item in results
@@ -166,7 +294,11 @@ class DeepSeekHybridSystem(_DeepSeekToolSystem):
         started = perf_counter()
         plan, results, executions, observations = await self._observe(alert, case_id)
         dimension_results = analyze_dimensions(alert, plan, results)
-        expert_results = analyze_experts(alert, results)
+        expert_domains = next(
+            (task.expert_domains for task in plan.dimensions if task.dimension == "downstream"),
+            [],
+        )
+        expert_results = analyze_experts(alert, results, domains=expert_domains)
         evidence = collect_evidence(alert, results)
         evidence.extend(collect_semantic_evidence(alert, dimension_results))
         _signals, deterministic_evidence, _rules = run_deterministic_pipeline(
@@ -202,6 +334,14 @@ def build_system(name: str, *, config: dict[str, Any] | None = None):
         return DeepRCABaselineSystem()
     if name == OpsPilotHybridSystem.name:
         return OpsPilotHybridSystem()
+    deterministic_systems = {
+        FixedPlannerSystem.name: FixedPlannerSystem,
+        AdaptivePlannerSystem.name: AdaptivePlannerSystem,
+        AdaptiveWithoutDynamicL2System.name: AdaptiveWithoutDynamicL2System,
+        FullAdaptiveRCASystem.name: FullAdaptiveRCASystem,
+    }
+    if name in deterministic_systems:
+        return deterministic_systems[name]()
     deepseek_systems = {
         DeepSeekLLMOnlySystem.name: DeepSeekLLMOnlySystem,
         DeepSeekToolsSystem.name: DeepSeekToolsSystem,

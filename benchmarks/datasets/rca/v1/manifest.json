@@ -2,8 +2,8 @@
   "name": "opspilot-rca",
   "version": "1.0.0",
   "schema_version": "1.0",
-  "case_count": 36,
-  "splits": {"dev": 24, "test": 12},
+  "case_count": 37,
+  "splits": {"dev": 25, "test": 12},
   "categories": ["db", "redis", "kafka", "rpc", "deploy_resource", "normal_noise"],
   "frozen_test": true,
   "label_policy": "Stable root_cause_type and observed evidence types; free text is never the scoring key."

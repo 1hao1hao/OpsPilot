@@ -3,13 +3,13 @@ name: runtime-faults-v1
 database_url_env: OPSPILOT_TEST_DATABASE_URL
 redis_url_env: OPSPILOT_TEST_REDIS_URL
 artifact_root: artifacts/evaluations
-graph_version: opspilot-runtime-v2
+graph_version: opspilot-runtime-v3-adaptive
 config_version: runtime-faults-v1
 cases:
   - case_id: worker-crash
     fault_type: WorkerCrash
     trials: 3
-    injection_point: tool:redis.inspect
+    injection_point: tool:traces.query
     failure_count: 1
     expected_status: SUCCEEDED
     expected_degraded: false

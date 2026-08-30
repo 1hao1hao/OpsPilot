@@ -73,6 +73,26 @@ TOOL_SIGNAL_KEYS = {
     "alerts.query": "problem",
 }
 
+DOMAIN_TOOL_FIELDS = {
+    "db.replication": ("replication_lag_seconds", "slave_delay_seconds"),
+    "db.slowlog": ("slow_query_count", "slow_queries"),
+    "db.connections": ("active_connections", "max_connections"),
+    "redis.memory": ("memory_usage_percent", "used_memory", "evicted_keys"),
+    "redis.hotkeys": ("hit_rate_percent", "hit_rate", "hotkeys"),
+    "kafka.lag": ("consumer_lag", "total_lag", "produce_rate", "consume_rate"),
+    "rpc.metrics": ("timeout_rate", "error_rate", "latency_ms", "baseline_latency_ms", "call_volume"),
+}
+
+DOMAIN_TOOL_SOURCES = {
+    "db.replication": "db",
+    "db.slowlog": "db",
+    "db.connections": "db",
+    "redis.memory": "redis",
+    "redis.hotkeys": "redis",
+    "kafka.lag": "kafka",
+    "rpc.metrics": "rpc",
+}
+
 
 class ObservationProvider:
     """Returns observed data; benchmark snapshots take precedence over HTTP."""
@@ -163,6 +183,29 @@ def build_default_registry(
                 timeout_seconds=timeout_seconds,
                 max_attempts=max_attempts,
                 handler=handler,
+            )
+        )
+
+    for tool_name, signal_key in DOMAIN_TOOL_SOURCES.items():
+        async def domain_handler(
+            payload: AlertToolInput,
+            name: str = tool_name,
+            key: str = signal_key,
+        ) -> ObservationOutput:
+            source = await provider.read(key, payload.alert)
+            fields = DOMAIN_TOOL_FIELDS[name]
+            return ObservationOutput(observations={field: source[field] for field in fields if field in source})
+
+        registry.register(
+            ToolDefinition(
+                name=tool_name,
+                version="1.0",
+                description=f"Read-only adaptive {tool_name} drill-down",
+                input_schema=AlertToolInput,
+                output_schema=ObservationOutput,
+                timeout_seconds=timeout_seconds,
+                max_attempts=max_attempts,
+                handler=domain_handler,
             )
         )
     return registry

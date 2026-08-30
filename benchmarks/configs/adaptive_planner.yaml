@@ -1,0 +1,7 @@
+system: opspilot_adaptive_planner
+dataset_path: benchmarks/datasets/rca/v1
+split: dev
+artifact_root: artifacts/evaluations
+model:
+  type: adaptive_raw_evidence_ablation
+  external_api: false

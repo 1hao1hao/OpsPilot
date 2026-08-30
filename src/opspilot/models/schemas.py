@@ -73,6 +73,47 @@ class AnalysisPlan(StrictModel):
     dimensions: list[DimensionTask] = Field(default_factory=list)
 
 
+class InvestigationActionType(str, Enum):
+    INSPECT_TOOL = "inspect_tool"
+    INVOKE_EXPERT = "invoke_expert"
+    FINALIZE = "finalize"
+
+
+class InvestigationAction(StrictModel):
+    action_type: InvestigationActionType
+    target: str
+    reason: str
+    round: int = Field(ge=1)
+    arguments: dict[str, Any] = Field(default_factory=dict)
+    status: str = "planned"
+
+    @property
+    def identity(self) -> str:
+        arguments = sorted((str(key), str(value)) for key, value in self.arguments.items())
+        return f"{self.action_type.value}|{self.target}|{arguments}"
+
+
+class EvidenceGateDecision(StrictModel):
+    sufficient: bool
+    reason: str
+    top1_confidence: float = Field(ge=0, le=1)
+    score_margin: float = Field(ge=0, le=1)
+    independent_source_count: int = Field(ge=0)
+    budget_exhausted: bool = False
+
+
+class InvestigationTrace(StrictModel):
+    rounds: int = Field(ge=1)
+    action_history: list[InvestigationAction] = Field(default_factory=list)
+    gate_decisions: list[EvidenceGateDecision] = Field(default_factory=list)
+    executed_tools: list[str] = Field(default_factory=list)
+    invoked_experts: list[str] = Field(default_factory=list)
+    stop_reason: str
+    tool_budget_used: int = Field(ge=0)
+    expert_budget_used: int = Field(ge=0)
+    duplicate_actions: int = Field(default=0, ge=0)
+
+
 class ToolStatus(str, Enum):
     SUCCESS = "success"
     ERROR = "error"
@@ -210,6 +251,7 @@ class DiagnosisReport(StrictModel):
     expert_results: list[SemanticAnalysisResult] = Field(default_factory=list)
     algorithm_signals: list[AlgorithmSignal] = Field(default_factory=list)
     matched_rules: list[str] = Field(default_factory=list)
+    investigation: InvestigationTrace | None = None
     llm_used: bool = False
     degraded: bool = False
     missing_sources: list[str] = Field(default_factory=list)

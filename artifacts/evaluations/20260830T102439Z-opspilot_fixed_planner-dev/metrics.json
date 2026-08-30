@@ -1,0 +1,59 @@
+{
+  "case_count": 25,
+  "root_cause_hit_at_1": {
+    "value": 1.0,
+    "numerator": 21,
+    "denominator": 21
+  },
+  "root_cause_hit_at_3": {
+    "value": 1.0,
+    "numerator": 21,
+    "denominator": 21
+  },
+  "evidence_recall_macro": {
+    "value": 1.0,
+    "scored_cases": 21
+  },
+  "tool_success_rate": {
+    "value": 1.0,
+    "numerator": 250,
+    "denominator": 250
+  },
+  "e2e_success_rate": {
+    "value": 1.0,
+    "numerator": 25,
+    "denominator": 25
+  },
+  "false_positive_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 4
+  },
+  "p95_latency_ms": 0.673,
+  "average_tool_calls_per_case": 10.0,
+  "average_expert_calls_per_case": 4.0,
+  "average_investigation_rounds": 1.0,
+  "planner_action_valid_rate": {
+    "value": 1.0,
+    "numerator": 375,
+    "denominator": 375
+  },
+  "duplicate_action_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 375
+  },
+  "budget_exhaustion_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 25
+  },
+  "latency_scope": "in-process end-to-end; Stage 1 has no queue time",
+  "model_usage": {
+    "api_call_count": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "average_total_tokens_per_call": null
+  }
+}

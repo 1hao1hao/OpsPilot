@@ -7,18 +7,16 @@ from datetime import UTC, datetime
 
 from pydantic import ValidationError
 
-from opspilot.agents import CoordinatorAgent, analyze_dimensions, analyze_experts, build_runtime_root_cause_agent
+from opspilot.agents import build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
-from opspilot.evidence import collect_evidence, collect_semantic_evidence
 from opspilot.graph.workflow import recommended_actions
+from opspilot.investigation import AdaptiveInvestigator
 from opspilot.models import (
     AlertEvent,
     AlgorithmSignal,
-    AnalysisPlan,
     DiagnosisReport,
     Evidence,
     RootCauseCandidate,
-    SemanticAnalysisResult,
     ToolCall,
     ToolExecution,
     ToolExecutionStatus,
@@ -46,8 +44,8 @@ class RecoverableExecution:
         self.repository = repository
         self.registry = registry
         self.settings = settings
-        self.coordinator = CoordinatorAgent(registry)
         self.root_cause_agent = build_runtime_root_cause_agent(settings)
+        self.investigator = AdaptiveInvestigator(registry, settings=settings)
         self.before_step = before_step
         self.after_checkpoint = after_checkpoint
 
@@ -77,44 +75,48 @@ class RecoverableExecution:
                 "tool_results": [],
             }
 
-        if "plan" not in state:
-            plan = self.coordinator.plan(alert)
-            state["plan"] = plan.model_dump(mode="json")
-            await self._commit(run_id, "plan", plan.model_dump(mode="json"), state)
-        else:
-            plan = AnalysisPlan.model_validate(state["plan"])
-
-        completed_tools = {item["tool_name"] for item in state.get("tool_results", [])}
-        for plan_step in plan.steps:
-            step_name = f"tool:{plan_step.tool_name}"
-            if plan_step.tool_name in completed_tools:
-                continue
+        async def execute_tool(tool_name: str, round_number: int, reason: str) -> ToolResult:
+            step_name = f"tool:{tool_name}"
             await self.repository.begin_step(run_id, step_name, STEP_EXECUTION_VERSION)
             if self.before_step:
                 self.before_step(run_id, step_name)
-            result = await self._execute_tool(run_id, alert, plan_step.step_id, step_name, plan_step.tool_name)
-            state.setdefault("tool_results", []).append(result.model_dump(mode="json"))
-            await self._checkpoint(run_id, step_name, result.model_dump(mode="json"), state)
+            return await self._execute_tool(
+                run_id,
+                alert,
+                f"round-{round_number}:{tool_name}",
+                step_name,
+                tool_name,
+            )
 
-        results = [ToolResult.model_validate(item) for item in state["tool_results"]]
-        if "dimension_results" not in state:
-            dimension_results = analyze_dimensions(alert, plan, results)
-            expert_results = analyze_experts(alert, results)
-            state["dimension_results"] = [item.model_dump(mode="json") for item in dimension_results]
-            state["expert_results"] = [item.model_dump(mode="json") for item in expert_results]
-            await self._commit(run_id, "semantic_analysis", {"dimensions": len(dimension_results), "experts": len(expert_results)}, state)
-        else:
-            dimension_results = [SemanticAnalysisResult.model_validate(item) for item in state["dimension_results"]]
-            expert_results = [SemanticAnalysisResult.model_validate(item) for item in state.get("expert_results", [])]
+        async def on_investigation_state(event_type: str, snapshot: dict) -> None:
+            state["investigation"] = snapshot
+            state["tool_results"] = list(snapshot["tool_results"])
+            detail = self._investigation_event_detail(event_type, snapshot)
+            await self.repository.append_runtime_event(run_id, event_type, detail=detail)
+            if event_type == "investigation.tool.completed":
+                latest = snapshot["tool_results"][-1]
+                await self._checkpoint(run_id, f"tool:{latest['tool_name']}", latest, state)
+                return
+            sequence = int(state.get("investigation_event_sequence", 0)) + 1
+            state["investigation_event_sequence"] = sequence
+            step_name = f"investigation:{sequence}:{event_type}"
+            await self._commit(run_id, step_name, detail, state)
 
-        if "base_evidence" not in state:
-            evidence = collect_evidence(alert, results)
-            evidence.extend(collect_semantic_evidence(alert, dimension_results))
-            evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
-            state["base_evidence"] = [item.model_dump(mode="json") for item in evidence]
-            await self._commit(run_id, "evidence", {"count": len(evidence)}, state)
-        else:
-            evidence = [Evidence.model_validate(item) for item in state["base_evidence"]]
+        investigation = await self.investigator.run(
+            alert,
+            execute_tool,
+            restored_state=state.get("investigation"),
+            on_state=on_investigation_state,
+        )
+        state["investigation"] = investigation.state
+        state["tool_results"] = [item.model_dump(mode="json") for item in investigation.tool_results]
+        state["dimension_results"] = [item.model_dump(mode="json") for item in investigation.dimension_results]
+        state["expert_results"] = [item.model_dump(mode="json") for item in investigation.expert_results]
+        state["base_evidence"] = [item.model_dump(mode="json") for item in investigation.evidence]
+        results = investigation.tool_results
+        dimension_results = investigation.dimension_results
+        expert_results = investigation.expert_results
+        evidence = list(investigation.evidence)
 
         if "algorithm_signals" not in state:
             algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
@@ -171,6 +173,7 @@ class RecoverableExecution:
             expert_results=expert_results,
             algorithm_signals=algorithm_signals,
             matched_rules=matched_rules,
+            investigation=investigation.trace,
             llm_used=llm_used,
             degraded=bool(failed_sources),
             missing_sources=failed_sources,
@@ -183,6 +186,24 @@ class RecoverableExecution:
         state["report"] = report.model_dump(mode="json")
         await self._commit(run_id, "report", report.model_dump(mode="json"), state)
         return report
+
+    @staticmethod
+    def _investigation_event_detail(event_type: str, snapshot: dict) -> dict:
+        detail = {
+            "round": snapshot.get("round", 0),
+            "executed_tools": list(snapshot.get("executed_tools", [])),
+            "invoked_experts": list(snapshot.get("invoked_experts", [])),
+        }
+        actions = snapshot.get("action_history", [])
+        gates = snapshot.get("gate_decisions", [])
+        if actions:
+            detail["action"] = actions[-1]
+        if gates:
+            detail["gate"] = gates[-1]
+        if event_type == "investigation.tool.completed" and snapshot.get("tool_results"):
+            latest = snapshot["tool_results"][-1]
+            detail["tool"] = {"name": latest["tool_name"], "status": latest["status"]}
+        return detail
 
     async def _execute_tool(
         self, run_id: str, alert: AlertEvent, step_id: str, step_name: str, tool_name: str

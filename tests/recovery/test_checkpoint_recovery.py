@@ -55,13 +55,13 @@ async def runtime(tmp_path):
 
 
 @pytest.mark.asyncio
-async def test_worker_crash_after_db_checkpoint_resumes_without_repeating_tool(runtime):
+async def test_worker_crash_after_adaptive_db_checkpoint_resumes_without_repeating_tool(runtime):
     database, repository, queue, settings, manager = runtime
     provider = CountingProvider()
     registry = build_default_registry(provider=provider)
 
     def crash_after_db(_run_id: str, step_name: str) -> None:
-        if step_name == "tool:db.inspect":
+        if step_name == "tool:db.connections":
             raise WorkerCrash("simulated process termination")
 
     first = RuntimeWorker(
@@ -92,7 +92,7 @@ async def test_worker_crash_after_db_checkpoint_resumes_without_repeating_tool(r
         success_count = await session.scalar(
             select(func.count()).select_from(ToolExecutionRecord).where(
                 ToolExecutionRecord.run_id == accepted.run_id,
-                ToolExecutionRecord.tool_name == "db.inspect",
+                ToolExecutionRecord.tool_name == "db.connections",
                 ToolExecutionRecord.status == ToolExecutionStatus.SUCCEEDED.value,
             )
         )
@@ -123,7 +123,7 @@ async def test_incompatible_checkpoint_fails_with_diagnostic(runtime):
     database, repository, queue, settings, manager = runtime
 
     def crash_after_plan(_run_id: str, step_name: str) -> None:
-        if step_name == "plan":
+        if step_name == "tool:metrics.query":
             raise WorkerCrash
 
     first = RuntimeWorker(

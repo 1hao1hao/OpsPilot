@@ -40,6 +40,14 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
     prompt_tokens = 0
     completion_tokens = 0
     total_tokens = 0
+    tool_calls = 0
+    expert_calls = 0
+    investigation_rounds = 0
+    investigation_cases = 0
+    planner_actions = 0
+    valid_actions = 0
+    duplicate_actions = 0
+    budget_exhaustions = 0
 
     for case in cases:
         prediction = by_id.get(case.case_id, {"status": "missing", "candidate_types": []})
@@ -59,7 +67,22 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
             false_positives += bool(candidates and candidates[0] != RootCauseType.NO_FAULT.value)
         for execution in prediction.get("tool_executions", []):
             tool_attempted += 1
+            tool_calls += 1
             tool_success += execution.get("status") == "success"
+        investigation = prediction.get("investigation")
+        if isinstance(investigation, dict):
+            investigation_cases += 1
+            expert_calls += int(investigation.get("expert_budget_used", 0))
+            investigation_rounds += int(investigation.get("rounds", 0))
+            duplicate_actions += int(investigation.get("duplicate_actions", 0))
+            actions = investigation.get("action_history", [])
+            planner_actions += len(actions)
+            valid_actions += sum(
+                action.get("action_type") in {"inspect_tool", "invoke_expert", "finalize"}
+                and bool(action.get("target"))
+                for action in actions
+            )
+            budget_exhaustions += "budget exhausted" in str(investigation.get("stop_reason", ""))
         if isinstance(prediction.get("latency_ms"), (int, float)):
             latencies.append(float(prediction["latency_ms"]))
         usage = prediction.get("token_usage")
@@ -81,6 +104,12 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
         "e2e_success_rate": _ratio(e2e, len(cases)),
         "false_positive_rate": _ratio(false_positives, normal_count),
         "p95_latency_ms": _p95(latencies),
+        "average_tool_calls_per_case": round(tool_calls / len(cases), 6) if cases else None,
+        "average_expert_calls_per_case": round(expert_calls / investigation_cases, 6) if investigation_cases else None,
+        "average_investigation_rounds": round(investigation_rounds / investigation_cases, 6) if investigation_cases else None,
+        "planner_action_valid_rate": _ratio(valid_actions, planner_actions),
+        "duplicate_action_rate": _ratio(duplicate_actions, planner_actions),
+        "budget_exhaustion_rate": _ratio(budget_exhaustions, investigation_cases),
         "latency_scope": "in-process end-to-end; Stage 1 has no queue time",
         "model_usage": {
             "api_call_count": api_call_count,

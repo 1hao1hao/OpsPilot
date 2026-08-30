@@ -1,62 +1,94 @@
-"""Coordinator selects registered read-only tools; it performs no I/O itself."""
+"""Seed Planner for the adaptive investigation loop."""
 
 from __future__ import annotations
 
 from opspilot.models import AlertEvent, AnalysisPlan, DimensionTask, PlanStep
 from opspilot.tools import ToolRegistry
 
+SEED_TOOLS = {
+    "timeout": ["metrics.query", "traces.query", "changes.query"],
+    "error_rate": ["metrics.query", "logs.query", "traces.query"],
+    "resource": ["metrics.query", "logs.query"],
+    "custom": ["metrics.query", "logs.query", "changes.query"],
+}
+
+TOOL_DIMENSIONS = {
+    "metrics.query": "cluster",
+    "logs.query": "errorlog",
+    "changes.query": "change",
+    "traces.query": "downstream",
+    "topology.query": "upstream",
+    "alerts.query": "problem",
+}
+
+DIMENSION_NAMES = {
+    "change": "Change correlation",
+    "upstream": "Upstream traffic",
+    "downstream": "Downstream dependency",
+    "cluster": "Cluster resources",
+    "errorlog": "Error log patterns",
+    "problem": "Related incidents",
+}
+
 
 class CoordinatorAgent:
+    """Create only the low-cost first investigation round.
+
+    Domain Tools and Experts are deliberately absent here. They are selected by
+    the Adaptive Planner after the seed observations have been analyzed.
+    """
+
     def __init__(self, registry: ToolRegistry) -> None:
         self.registry = registry
 
     def plan(self, alert: AlertEvent) -> AnalysisPlan:
-        dimension_names = {
-            "change": "Change correlation",
-            "upstream": "Upstream traffic",
-            "downstream": "Downstream dependency",
-            "cluster": "Cluster resources",
-            "errorlog": "Error log patterns",
-            "problem": "Related incidents",
-        }
-        dimension_tools = {
-            "change": ["changes.query"],
-            "upstream": ["metrics.query", "topology.query", "rpc.inspect"],
-            "downstream": ["traces.query", "topology.query", "db.inspect", "redis.inspect", "kafka.inspect", "rpc.inspect"],
-            "cluster": ["metrics.query"],
-            "errorlog": ["logs.query"],
-            "problem": ["alerts.query"],
-        }
-        expert_domains = {
-            "downstream": ["db", "redis", "kafka", "rpc"],
-        }
-        by_alert_type = {
-            "timeout": ["change", "downstream", "cluster", "errorlog", "upstream", "problem"],
-            "error_rate": ["change", "downstream", "errorlog", "cluster", "upstream", "problem"],
-            "resource": ["cluster", "downstream", "change", "errorlog", "upstream", "problem"],
-            "custom": ["change", "upstream", "downstream", "cluster", "errorlog", "problem"],
-        }
-        selected = by_alert_type[alert.alert_type.value]
-        dimensions = [
-            DimensionTask(
-                dimension=dimension,
-                name=dimension_names[dimension],
-                priority=index,
-                tools=[name for name in dimension_tools[dimension] if name in self.registry.names()],
-                expert_domains=expert_domains.get(dimension, []),
-                reason=f"Analyze the {dimension} dimension for a {alert.alert_type.value} alert",
+        selected = list(SEED_TOOLS[alert.alert_type.value])
+        label_text = " ".join(f"{key}={value}" for key, value in sorted(alert.labels.items())).lower()
+
+        # Severity and explicit alert metadata may replace the third seed slot,
+        # but the seed round remains capped at three low-cost Tools.
+        if alert.severity.value == "P0" and "logs.query" not in selected:
+            selected.insert(1, "logs.query")
+        if any(token in label_text for token in ("deploy", "release", "version", "config")):
+            selected.insert(0, "changes.query")
+        if any(token in label_text for token in ("dependency", "downstream", "trace", "rpc")):
+            selected.insert(0, "traces.query")
+        selected = [name for name in dict.fromkeys(selected) if name in self.registry.names()][:3]
+        # Small test/extension registries may expose only a custom observation
+        # Tool. Keep the runtime executable without changing the production
+        # default registry's low-cost seed policy.
+        if not selected and self.registry.names():
+            selected = [self.registry.names()[0]]
+
+        dimensions: list[DimensionTask] = []
+        for index, tool_name in enumerate(selected, start=1):
+            dimension = TOOL_DIMENSIONS.get(tool_name, "downstream")
+            # Metrics represent the high-information alert signal. Timeout and
+            # error-rate seeds use it for traffic context; resource/custom use
+            # it for capacity context.
+            if tool_name == "metrics.query" and alert.alert_type.value in {"timeout", "error_rate"}:
+                dimension = "upstream"
+            dimensions.append(
+                DimensionTask(
+                    dimension=dimension,
+                    name=DIMENSION_NAMES[dimension],
+                    priority=index,
+                    tools=[tool_name],
+                    expert_domains=[],
+                    reason=(
+                        f"Seed {dimension} investigation for alert_type={alert.alert_type.value}, "
+                        f"severity={alert.severity.value}"
+                    ),
+                )
             )
-            for index, dimension in enumerate(selected, start=1)
-        ]
-        preferred = list(dict.fromkeys(tool for task in dimensions for tool in task.tools))
+
         steps = [
             PlanStep(
-                step_id=f"inspect-{name.replace('.', '-')}",
+                step_id=f"seed-{name.replace('.', '-')}",
                 tool_name=name,
                 priority=index,
-                reason=f"Collect {name.split('.')[0]} evidence for {alert.alert_type.value} alert",
+                reason=f"Round 1 low-cost seed observation for {alert.alert_type.value}",
             )
-            for index, name in enumerate(preferred, start=1)
-            if name in self.registry.names()
+            for index, name in enumerate(selected, start=1)
         ]
         return AnalysisPlan(steps=steps, dimensions=dimensions)

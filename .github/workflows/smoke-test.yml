@@ -75,26 +75,46 @@ jobs:
           echo "path=$output" >> "$GITHUB_OUTPUT"
           echo "Reliability evidence: $output"
 
-      - name: Run baseline Evaluation demo
-        id: baseline
+      - name: Run Fixed Planner Evaluation demo
+        id: fixed
         run: |
-          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/deeprca_baseline.yaml --split dev)"
+          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/fixed_planner.yaml --split dev)"
           echo "path=$output" >> "$GITHUB_OUTPUT"
-          echo "Baseline evidence: $output"
+          echo "Fixed Planner evidence: $output"
 
-      - name: Run hybrid Evaluation demo
-        id: hybrid
+      - name: Run Adaptive Planner Evaluation demo
+        id: adaptive
         run: |
-          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/opspilot_hybrid.yaml --split dev)"
+          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_planner.yaml --split dev)"
           echo "path=$output" >> "$GITHUB_OUTPUT"
-          echo "Hybrid evidence: $output"
+          echo "Adaptive Planner evidence: $output"
+
+      - name: Run Adaptive without Dynamic L2 demo
+        id: without_l2
+        run: |
+          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_without_dynamic_l2.yaml --split dev)"
+          echo "path=$output" >> "$GITHUB_OUTPUT"
+          echo "Without Dynamic L2 evidence: $output"
+
+      - name: Run Full Adaptive RCA dev and frozen-test demos
+        id: full
+        run: |
+          output="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split dev)"
+          frozen="$(python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split test)"
+          echo "path=$output" >> "$GITHUB_OUTPUT"
+          echo "frozen_path=$frozen" >> "$GITHUB_OUTPUT"
+          echo "Full Adaptive evidence: $output"
+          echo "Full Adaptive frozen evidence: $frozen"
 
       - name: Validate Stage 3 demo evidence
         run: >-
           python scripts/validate_stage3_demos.py
           --reliability "${{ steps.reliability.outputs.path }}"
-          --baseline "${{ steps.baseline.outputs.path }}"
-          --hybrid "${{ steps.hybrid.outputs.path }}"
+          --fixed "${{ steps.fixed.outputs.path }}"
+          --adaptive "${{ steps.adaptive.outputs.path }}"
+          --without-l2 "${{ steps.without_l2.outputs.path }}"
+          --full "${{ steps.full.outputs.path }}"
+          --frozen "${{ steps.full.outputs.frozen_path }}"
 
       - name: Upload Stage 3 demo evidence
         if: always() && steps.reliability.outputs.path != ''
@@ -103,8 +123,11 @@ jobs:
           name: stage3-demo-evidence-${{ github.run_id }}
           path: |
             ${{ steps.reliability.outputs.path }}
-            ${{ steps.baseline.outputs.path }}
-            ${{ steps.hybrid.outputs.path }}
+            ${{ steps.fixed.outputs.path }}
+            ${{ steps.adaptive.outputs.path }}
+            ${{ steps.without_l2.outputs.path }}
+            ${{ steps.full.outputs.path }}
+            ${{ steps.full.outputs.frozen_path }}
 
   docker-smoke-test:
     runs-on: ubuntu-latest

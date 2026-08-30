@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from time import sleep
 
 import pytest
 from pydantic import ValidationError
@@ -88,6 +89,10 @@ def test_legacy_http_endpoint_runs_the_opspilot_adapter(monkeypatch):
         response = client.post("/api/v1/analyze", json=payload)
         assert response.status_code == 202
         trace_id = response.json()["trace_id"]
-        result = client.get(f"/api/v1/analyze/{trace_id}/result")
+        for _ in range(50):
+            result = client.get(f"/api/v1/analyze/{trace_id}/result")
+            if result.status_code == 200:
+                break
+            sleep(0.01)
     assert result.status_code == 200
     assert result.json()["root_cause"]["best_candidate"]["root_cause_type"] == "db_replication_lag"

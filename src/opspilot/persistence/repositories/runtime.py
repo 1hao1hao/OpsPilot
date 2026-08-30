@@ -88,6 +88,26 @@ class RuntimeRepository:
             )
             return list(result)
 
+    async def append_runtime_event(
+        self,
+        run_id: str,
+        event_type: str,
+        *,
+        detail: dict | None = None,
+        status: str | None = None,
+        step_name: str | None = None,
+    ) -> None:
+        """Expose structured investigation decisions without bypassing the repository writer."""
+        async with self.sessions.begin() as session:
+            await self._append_event(
+                session,
+                run_id,
+                event_type,
+                detail=detail,
+                status=status,
+                step_name=step_name,
+            )
+
     async def transition(self, run_id: str, expected: RunStatus, target: RunStatus, **values) -> RunRecord:
         if target not in ALLOWED_TRANSITIONS[expected]:
             raise InvalidStateTransition(f"illegal run transition {expected.value} -> {target.value}")

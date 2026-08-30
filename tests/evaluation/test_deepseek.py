@@ -83,7 +83,7 @@ async def test_three_ablation_systems_receive_only_their_allowed_inputs():
 
     assert "signals" not in calls[0]["alert"]
     assert calls[0].get("tool_observations") is None
-    assert calls[1]["tool_observations"]["db.inspect"] == {"replication_lag_seconds": 18}
+    assert calls[1]["tool_observations"]["db.replication"] == {"replication_lag_seconds": 18}
     assert calls[1].get("evidence") is None
     assert calls[2]["evidence"][0]["evidence_type"] == "db.replication_lag"
     assert calls[2]["allowed_candidates"] == ["db_replication_lag"]

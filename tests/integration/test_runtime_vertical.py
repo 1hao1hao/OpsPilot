@@ -72,9 +72,15 @@ async def test_api_queue_worker_database_vertical_chain(stack):
             assert result.status_code == 200
             assert result.json()["status"] == "SUCCEEDED"
             assert result.json()["report"]["primary_root_cause"]["root_cause_type"] == "db_replication_lag"
+            investigation = result.json()["report"]["investigation"]
+            assert investigation["invoked_experts"] == ["db"]
+            assert "db.replication" in investigation["executed_tools"]
             events = (await client.get(f"/api/v1/runs/{run_id}/events")).json()
             assert events[0]["event_type"] == "run.created"
             assert events[-1]["event_type"] == "run.succeeded"
+            planned = next(item for item in events if item["event_type"] == "investigation.action.planned")
+            assert planned["detail"]["action"]["action_type"] == "invoke_expert"
+            assert planned["detail"]["action"]["reason"]
 
 
 @pytest.mark.asyncio

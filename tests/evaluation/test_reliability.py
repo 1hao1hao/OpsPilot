@@ -14,6 +14,8 @@ def test_runtime_fault_config_contains_exact_minimum_matrix():
     config = ReliabilityConfig.model_validate(payload)
     assert len(config.cases) == 5
     assert sum(case.trials for case in config.cases) == 15
+    worker_crash = next(case for case in config.cases if case.fault_type.value == "WorkerCrash")
+    assert worker_crash.injection_point == "tool:traces.query"
     with pytest.raises(ValidationError, match="fault matrix mismatch"):
         ReliabilityConfig.model_validate({**payload, "cases": payload["cases"][:-1]})
 

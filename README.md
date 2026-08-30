@@ -2,148 +2,94 @@
 
 [![OpsPilot Validation](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml)
 
-OpsPilot 是一个面向微服务故障诊断的可恢复 Agent RCA 平台。系统接收服务告警，按版本化分析计划调用 Metrics、Logs、Changes、Trace、Topology 及领域工具，将异构观测转换为结构化 Evidence，再输出 Top-3 根因、置信度、证据链和处置建议。
+OpsPilot 是一个面向微服务故障诊断的可恢复 Adaptive Agent RCA 平台。系统从少量低成本观测开始，根据本轮 Finding 和 Evidence 动态决定是否继续调用 Tool、下钻 Domain Expert 或结束调查，最终由确定性算法输出 Top-3 根因、证据链和处置建议。
 
-项目重点解决两个问题：一是避免让 LLM 脱离监控事实直接猜测根因；二是让跨多个工具的长任务在 Worker 崩溃、工具超时和重复请求下仍能恢复并保持幂等。
+项目避免让 LLM 脱离监控事实直接猜测根因；同时通过持久化 Checkpoint、稳定 ToolCall 幂等键和独立 Worker，使多轮调查能在进程崩溃、工具超时和重复投递后继续执行。
 
 ## 核心能力
 
-- Semantic Agent RCA：Coordinator / Planner 先生成变更、上游、下游、集群、错误日志、已知问题六维语义计划，再合并为统一的只读 Tool 执行计划。
-- L2 Domain Experts：DB、Redis、Kafka、RPC Expert 消费已持久化 ToolResult 做领域下钻，不绕过 Runtime 重复访问外部系统。
-- Deterministic + Rule + LLM：执行指标筛选、噪声过滤、WoW/DoD、IQR、波动检测和 R001–R008 专家规则；DeepSeek 可选且只能解释被证据约束的确定性候选。
-- Recoverable Runtime：FastAPI、Redis `run_id` 队列、独立 Worker 和 PostgreSQL 事实源解耦任务提交与执行。
-- Checkpoint & Idempotency：持久化 Run、Step、ToolExecution、Checkpoint、Report 和 RuntimeEvent，以 `request_id`、`tool_call_id` 防重。
-- Evaluation & Regression：固定数据集、同集消融、逐 case prediction、失败工件、Runtime 故障注入和 CI 回归门禁。
+- Adaptive Investigation：Seed Planner 按 `alert_type / severity / labels` 选择 2–3 个低成本 Tool；Controller 执行 `Plan → Execute → Observe → Re-plan`，动作限定为 `inspect_tool / invoke_expert / finalize`。
+- 六维语义与动态 L2：保留 Change、Upstream、Downstream、Cluster、Errorlog、Problem 六维 L1；只有 Observation 命中领域后，才按需调度 DB、Redis、Kafka、RPC Expert 及专用 Tool。
+- Evidence Gate：使用 Top-1 confidence、Top1/Top2 margin 和独立来源数判断是否结束；默认最多 4 轮、8 次 Tool、2 次 Expert，并拒绝重复 Action。
+- Deterministic RCA：保留 MetricFilter、NoiseFilter、WoW/DoD、IQR、Volatility 和 R001–R008 ExpertRuleEngine；可选 DeepSeek 只解释确定性候选，不能覆盖 Evidence 或排名。
+- Trace Path Analysis：适配 Mock、Jaeger 和 OTLP 格式，利用 `span_id / parent_span_id` 重建完整调用树，逐 Span 检测异常并保留根服务到异常服务的路径。
+- Recoverable Runtime：FastAPI、PostgreSQL 事实源、Redis `run_id` 队列和独立 Worker；持久化 Run、Step、ToolExecution、Checkpoint、RuntimeEvent 和 Report。
+- Reproducible Evaluation：固定 dev / frozen-test 数据、四路 Planner/L2 消融、逐 case prediction、失败集、并发实验和 Runtime 故障矩阵。
+
+## Adaptive 调查示例
+
+```text
+Round 1: timeout alert
+  metrics.query + traces.query + changes.query
+  -> Trace path: order-service/payment-service/mysql
+
+Evidence Gate: 证据不足
+
+Round 2: invoke_expert(db)
+  db.replication + db.slowlog
+  -> replication lag = 15s
+
+Evidence Gate: 证据充分
+  -> L3 deterministic fusion
+  -> DB_REPLICATION_LAG
+```
+
+每个 `DiagnosisReport.investigation` 和 RuntimeEvent 都能看到 Action 的原因、轮次、已执行 Tool、已调用 Expert、Gate 判断、预算消耗和停止原因。
 
 ## 已验证结果
 
-### Runtime v2 六维主链回归
+### 四路核心消融（25-case dev）
 
-在不调用外部模型的 24-case dev 集上，恢复六维语义层、L2 Expert 和 L3 算法链后的结果为：
-
-- Root Cause Hit@1 / Hit@3：20/20 / 20/20
-- Evidence Recall：1.0
-- False Positive Rate：0/4
-- Tool Success：240/240
-- Model API Calls：0
-
-逐 case 结果和空失败集保存在 [`artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/`](artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev/)。该结果是 dev 回归，不替代 frozen test。
-
-### DeepSeek 三路 RCA 消融（Runtime v2 frozen test）
-
-固定 `opspilot-rca@1.0.0` frozen test 包含 12 个 case，其中 10 个 fault、2 个 normal/noise。三组均使用 `deepseek-v4-flash`、temperature 0、thinking disabled。
-
-| 方案 | Hit@1 | Hit@3 | Evidence Recall | FPR | Tool Success | API Token | P95 |
+| 方案 | Hit@1 | Hit@3 | Evidence Recall | FPR | Avg Tools | Avg Experts | Avg Rounds |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| LLM Only | 4/10 | 4/10 | 0.0 | 0/2 | n/a | 5027 | 1949.359 ms |
-| LLM + Tools | 9/10 | 10/10 | 0.0 | 1/2 | 120/120 | 6165 | 2344.854 ms |
-| Tools + Deterministic Evidence + LLM | 10/10 | 10/10 | 1.0 | 0/2 | 120/120 | 6673 | 2213.429 ms |
+| Fixed Planner：六维 + 4 Expert 全跑 | 21/21 | 21/21 | 1.0 | 0/4 | 10.00 | 4.00 | 1.00 |
+| Adaptive Planner：不提升 L2 Finding | 20/21 | 21/21 | 1.0 | 0/4 | 5.24 | 1.12 | 3.24 |
+| Adaptive without Dynamic L2 | 4/21 | 4/21 | 0.190 | 0/4 | 2.76 | 0 | 1.00 |
+| Full Adaptive RCA | 21/21 | 21/21 | 1.0 | 0/4 | 4.40 | 0.96 | 2.32 |
 
-LLM Only 只接收公开告警字段，不读取作为工具后端的隐藏观测；LLM + Tools 接收 10 个原始工具结果；Hybrid 进一步执行六维分析、L2 Expert、L3 确定性算法与候选约束。本轮 Hybrid 相比 LLM + Tools 修复 1 个 Top-1 错因并消除 1 个 normal case 误报，Evidence Recall 从 0 提升到 1.0；代价是总 Token 增加 508（8.2%），不再沿用 v1 的 Token 降低结论。完整工件：[`LLM Only`](artifacts/evaluations/20260829T060434Z-deepseek_llm_only-test/)、[`LLM + Tools`](artifacts/evaluations/20260829T060459Z-deepseek_tools-test/)、[`Hybrid`](artifacts/evaluations/20260829T060526Z-deepseek_hybrid-test/)。
+Full Adaptive 与 Fixed Planner 准确率相同，平均 Tool Calls 减少 56%，Expert Calls 减少 76%；Planner Action Valid Rate 为 1.0，Duplicate Action Rate 为 0。工件位于：
 
-### Runtime Reliability（Runtime v2 故障矩阵）
+- [`Fixed Planner`](artifacts/evaluations/20260830T102439Z-opspilot_fixed_planner-dev/)
+- [`Adaptive Planner`](artifacts/evaluations/20260830T102440Z-opspilot_adaptive_planner-dev/)
+- [`Without Dynamic L2`](artifacts/evaluations/20260830T102441Z-opspilot_adaptive_without_dynamic_l2-dev/)
+- [`Full Adaptive RCA`](artifacts/evaluations/20260830T102441Z-opspilot_full_adaptive-dev/)
 
-在真实 PostgreSQL、Redis 和独立 Worker 子进程上运行 5 类故障 × 3 轮：
+未参与调参的 12-case frozen test 也达到 Hit@1 10/10、Hit@3 10/10、Evidence Recall 1.0、FPR 0/2，平均 Tool / Expert Calls 为 4.25 / 0.917；工件见 [`Full Adaptive frozen test`](artifacts/evaluations/20260830T103157Z-opspilot_full_adaptive-test/)。
 
-- Recovery Success：15/15
-- E2E Success：15/15
-- 重复成功 ToolExecution：0/147
-- Worker Crash P95 恢复延迟：803.001 ms
-- 全部 trial P95 E2E：2181.098 ms
-- 故障类型：WorkerCrash、ToolTimeout、ToolHTTP500、DuplicateRequest、DuplicateDelivery
-
-全部 15 个 trial 和事件时间线保存在 [`artifacts/evaluations/20260829T060733Z-runtime-faults-v1/`](artifacts/evaluations/20260829T060733Z-runtime-faults-v1/)；WorkerCrash 三轮子进程退出码均为 `[97, 0, 0]`。
-
-### Sequential vs Parallel
-
-同一 24-case dev workload、每个工具固定 20 ms 异步 I/O、每种模式运行 3 轮：
-
-| 模式 | Runs | P50 | P95 | Tool Success |
-|---|---:|---:|---:|---:|
-| Sequential | 72 | 201.909 ms | 202.531 ms | 720/720 |
-| Parallel | 72 | 20.819 ms | 21.135 ms | 720/720 |
-
-Runtime v2 受控实验中 Parallel 的 P95 加速为 9.583×。该结果用于验证 10 个统一工具的异步调度行为，不代表生产网络 SLA；完整运行记录位于 [`artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/`](artifacts/evaluations/20260829T052345Z-tool-concurrency-v1/)。
-
-Runtime v2 的 dev、frozen test、故障矩阵和并发结果均已链接到对应工件。所有数字只表示当前固定合成数据集、DeepSeek 配置与受控故障注入环境，不外推为生产 SLA。
+这些数字来自固定合成数据集，仅验证当前实现和实验假设，不代表生产 SLA。Frozen test、Runtime v3 故障矩阵和并发实验由 CI 使用相同命令持续验证。
 
 ## 架构
 
 ```mermaid
 flowchart TB
-    A[Alert] --> B[FastAPI Run API]
-    B --> C[Agent Runtime]
-    C --> D[Six-Dimension Planner]
-    D --> E[Tool Registry / Executor]
-    E --> L1[L1 Dimension Analyzers]
-    E --> L2[L2 DB / Redis / Kafka / RPC Experts]
-    L1 --> F[Evidence Collector]
-    L2 --> F
-    F --> G[Filter / Noise / WoW-DoD / IQR / Volatility]
-    G --> H[Expert Rules + Root Cause Ranking]
-    H --> LLM[Optional Constrained DeepSeek Explanation]
-    LLM --> I[Diagnosis Report]
+    A[Alert] --> API[FastAPI Run API]
+    API --> SP[Seed Planner]
+    SP --> TE[Tool Registry / Executor]
+    TE --> L1[Six-Dimension L1 Analysis]
+    L1 --> EP[Evidence Pool]
+    EP --> G{Evidence Gate}
+    G -->|insufficient| AP[Adaptive Planner]
+    AP -->|inspect_tool| TE
+    AP -->|invoke_expert| L2[DB / Redis / Kafka / RPC Expert]
+    L2 --> DT[Dynamic Domain Tools] --> EP
+    G -->|sufficient or budget exhausted| L3[Filter / Noise / WoW-DoD / IQR / Volatility / Rules]
+    L3 --> RC[Deterministic Root Cause Ranking]
+    RC --> LLM[Optional constrained DeepSeek explanation]
+    LLM --> R[Diagnosis Report]
 
-    B <--> PG[(PostgreSQL<br/>Run / Step / Checkpoint / Report)]
-    C <--> R[(Redis run_id Queue)]
-    R <--> W[Independent Worker]
-    W --> C
-    C --> T[RuntimeEvent Trace]
-    FI[Fault Injection] --> W
-    FI --> E
-    T --> EV[Evaluation / Regression]
-    I --> EV
+    API <--> PG[(PostgreSQL facts + checkpoints)]
+    API --> Q[(Redis run_id Queue)] --> W[Independent Worker]
+    W --> SP
+    W --> E[RuntimeEvent]
 ```
 
-PostgreSQL 是运行状态和结果的唯一事实源，Redis 只传递 `run_id`。Worker 每完成一个 Step，就在事务中保存输出和 Checkpoint；恢复扫描发现 stale `RUNNING` Run 后，将其重新入队，新 Worker 从最近成功 Checkpoint 后继续。
-
-Jaeger、OpenTelemetry 或 Mock Trace 保持各自外部格式，由 Trace Adapter 转成内部统一 Span；系统再利用 `span_id / parent_span_id` 重建调用树，逐 Span 检测异常并保留根服务到异常服务的完整路径。
-
-在线 Root Cause Agent 默认使用无外部依赖的确定性摘要器。仅显式设置 `OPSPILOT_LLM_ENABLED=true` 时才调用 DeepSeek，并将候选范围限制为确定性算法已经选出的 Top-1；自动测试不会访问付费 API。
-
-## 请求主链
-
-```text
-Alert
--> POST /api/v1/runs
--> PostgreSQL 创建 Run(QUEUED)
--> Redis enqueue(run_id)
--> Worker 领取 Run
--> Planner 生成六维语义计划并合并只读 AnalysisPlan
--> Metrics / Logs / Changes / Trace / Domain Tools
--> L1 六维分析 + L2 DB / Redis / Kafka / RPC Expert
--> Evidence 标准化与去重
--> 指标筛选 / NoiseFilter / WoW-DoD / IQR / 波动检测 / 专家规则
--> Root Cause Agent（确定性排序 + 可选受约束 LLM 解释）
--> DiagnosisReport + RuntimeEvent
--> Run(SUCCEEDED)
-```
-
-故障恢复链：
-
-```text
-Worker Crash
--> stale Run scan
--> RUNNING -> RETRYING -> QUEUED
--> load latest Checkpoint
--> skip completed Steps
--> resume unfinished Step
--> SUCCEEDED
-```
+PostgreSQL 是状态和结果的唯一事实源，Redis 只传递 `run_id`。Worker 在 Action/Tool/Gate 边界保存调查上下文；恢复扫描将 stale Run 重新入队，新 Worker 从最近 Checkpoint 继续未完成 Action。
 
 ## 技术栈
 
-- Python 3.11、FastAPI、Pydantic
-- PostgreSQL、SQLAlchemy、Alembic
-- Redis Queue、独立异步 Worker
-- asyncio、httpx
-- DeepSeek Chat Completion API（离线 Evaluation；在线需显式启用）
-- Docker Compose、GitHub Actions
-- pytest、Ruff
+Python 3.11、FastAPI、Pydantic、asyncio、PostgreSQL、SQLAlchemy、Alembic、Redis、httpx、Docker Compose、GitHub Actions、pytest、Ruff；DeepSeek 为可选解释模型。
 
 ## 快速开始
-
-### 本地 Python 环境
 
 ```bash
 bash scripts/bootstrap_dev_env.sh
@@ -152,45 +98,27 @@ ruff check src tests
 pytest -q --ignore=tests/smoke
 ```
 
-### Docker Compose
+完整服务：
 
 ```bash
 docker compose --profile full up --build -d
 ```
 
-首次启动会执行 Alembic migration，并启动 PostgreSQL、Redis、API、Worker 与 Mock Environment。
-
-提交一个异步 RCA Run：
-
-```bash
-curl -X POST http://localhost:8000/api/v1/runs \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "request_id": "demo-db-001",
-    "alert": {
-      "alert_id": "alert-db-001",
-      "service_name": "checkout-service",
-      "alert_type": "timeout",
-      "severity": "P1",
-      "timestamp": "2026-08-12T00:00:00Z",
-      "signals": {"db": {"replication_lag_seconds": 20}}
-    }
-  }'
-```
-
-使用返回的 `run_id` 查询状态、结果与事件：
-
-```bash
-curl http://localhost:8000/api/v1/runs/<run_id>
-curl http://localhost:8000/api/v1/runs/<run_id>/result
-curl http://localhost:8000/api/v1/runs/<run_id>/events
-```
+首次启动会运行 Alembic migration，并启动 PostgreSQL、Redis、API、Worker 和 Mock Environment。
 
 ## 可复现实验
 
-### Runtime 故障注入
+四路自适应 RCA 消融：
 
-需要隔离的 PostgreSQL 和 Redis 测试实例：
+```bash
+python -m opspilot.evaluation.cli run --config benchmarks/configs/fixed_planner.yaml --split dev
+python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_planner.yaml --split dev
+python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_without_dynamic_l2.yaml --split dev
+python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split dev
+python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split test
+```
+
+Runtime 故障矩阵：
 
 ```bash
 export OPSPILOT_TEST_DATABASE_URL='postgresql+asyncpg://opspilot:opspilot@localhost:5432/opspilot'
@@ -198,57 +126,38 @@ export OPSPILOT_TEST_REDIS_URL='redis://localhost:6379/0'
 python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtime_faults.yaml
 ```
 
-### DeepSeek 三路消融
-
-在项目根目录的 `.env` 中配置 `DEEPSEEK_API_KEY`。以下命令会真实访问付费 API；密钥不会写入实验工件。
-
-```bash
-python -m opspilot.evaluation.cli run --config benchmarks/configs/deepseek_llm_only.yaml --split test
-python -m opspilot.evaluation.cli run --config benchmarks/configs/deepseek_tools.yaml --split test
-python -m opspilot.evaluation.cli run --config benchmarks/configs/deepseek_hybrid.yaml --split test
-```
-
-### 串并行对照
+串并行对照：
 
 ```bash
 python -m opspilot.evaluation.cli concurrency --config benchmarks/configs/tool_concurrency.yaml
 ```
 
-每次评测都会生成 manifest、metrics、prediction/run 明细、failure 和人类可读报告。正式工件不会通过删除失败 case 或修改分母获得更好结果。
+每次评测生成 manifest、metrics、predictions、failures 和报告；失败 case 保留在分母中。
 
 ## 项目结构
 
 ```text
 src/opspilot/
-├── api/             # Run API、状态、结果、事件与 WebSocket
-├── agents/          # 六维 Planner、L1 分析、L2 Expert 与 Root Cause Agent
-├── evidence/        # Evidence 标准化、去重和排序
-├── evaluation/      # RCA、可靠性、并发评测与报告
-├── graph/           # 在线工作流和执行模式
+├── agents/          # Seed Planner、L1/L2 与 Root Cause Agent
+├── investigation/   # Adaptive Planner、Evidence Gate、Controller
+├── tools/           # Registry、Executor、通用与领域 Tool
+├── evidence/        # Finding/Evidence 标准化与去重
+├── rca/             # 确定性算法与专家规则
+├── tracing/         # Trace Adapter、Span Tree 和完整异常路径
+├── runtime/         # Worker、Checkpoint、Recovery、Idempotency
 ├── persistence/     # PostgreSQL models 与 repositories
-├── runtime/         # Worker、Queue、Checkpoint、Recovery、Idempotency
-├── rca/             # 确定性算法链与专家规则
-├── tracing/         # Trace Adapter、统一 Span 模型与调用树异常路径
-├── llm/             # 可选 DeepSeek 证据约束解释
-└── tools/           # Registry、Executor 与只读领域工具
+├── api/             # Run、状态、结果、事件与 WebSocket
+└── evaluation/      # Dataset、消融、可靠性与报告
 
 benchmarks/
-├── configs/         # baseline、DeepSeek、runtime、concurrency 配置
-└── datasets/rca/v1/ # 固定 dev / frozen-test 数据
-
-tests/
-├── contract/
-├── evaluation/
-├── integration/
-├── recovery/
-├── regression/
-└── smoke/
+├── configs/
+└── datasets/rca/v1/
 ```
 
-## 安全边界与限制
+更完整的 Tool、触发条件、Finding 和 L1/L2 调用图见 [`docs/tools_intro.md`](docs/tools_intro.md)。设计需求见 [`docs/plan.md`](docs/plan.md)。
 
-- 所有领域工具默认为只读；系统只生成诊断和处置建议，不自动修改生产资源。
-- 当前数据集是固定合成故障场景，实验结果不能直接外推为生产准确率。
-- DeepSeek 默认关闭；离线消融或在线显式启用时才访问 API，自动测试使用 fake transport。
-- 并发实验使用固定工具 I/O 延迟，用于验证调度实现，不替代生产压测。
-- 当前未实现 Kubernetes 生产部署、自动回滚、带副作用工具审批和 LLM Timeout Runtime 故障注入。
+## 安全边界
+
+- 所有领域 Tool 默认为只读；系统只输出诊断和建议，不自动修改生产资源。
+- DeepSeek 默认关闭；只有显式设置 `OPSPILOT_LLM_ENABLED=true` 才用于受约束解释。
+- 当前未实现 Kubernetes 生产部署、自动回滚或带副作用 Tool 的审批流程。

@@ -6,7 +6,23 @@ from pathlib import Path
 
 import pytest
 
-from opspilot.evaluation.ci_validation import validate_stage3_demos
+from opspilot.evaluation.ci_validation import validate_adaptive_demos, validate_stage3_demos
+
+
+def test_adaptive_demo_evidence_satisfies_ci_contract():
+    summary = validate_adaptive_demos(
+        reliability="artifacts/evaluations/20260812T061631Z-runtime-faults-v1",
+        fixed="artifacts/evaluations/20260830T102439Z-opspilot_fixed_planner-dev",
+        adaptive="artifacts/evaluations/20260830T102440Z-opspilot_adaptive_planner-dev",
+        without_l2="artifacts/evaluations/20260830T102441Z-opspilot_adaptive_without_dynamic_l2-dev",
+        full="artifacts/evaluations/20260830T102441Z-opspilot_full_adaptive-dev",
+        frozen="artifacts/evaluations/20260830T103157Z-opspilot_full_adaptive-test",
+    )
+    assert summary["reliability_trials"] == 15
+    assert summary["case_count"] == 25
+    assert summary["full_hit_at_1"] == 1.0
+    assert summary["frozen_cases"] == 12
+    assert summary["full_average_tools"] < summary["fixed_average_tools"]
 
 
 def test_existing_stage3_evidence_satisfies_ci_contract():

@@ -6,16 +6,21 @@ import argparse
 import json
 from pathlib import Path
 
-from opspilot.evaluation.ci_validation import validate_stage3_demos
+from opspilot.evaluation.ci_validation import validate_adaptive_demos
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reliability", type=Path, required=True)
-    parser.add_argument("--baseline", type=Path, required=True)
-    parser.add_argument("--hybrid", type=Path, required=True)
+    parser.add_argument("--fixed", type=Path, required=True)
+    parser.add_argument("--adaptive", type=Path, required=True)
+    parser.add_argument("--without-l2", type=Path, required=True)
+    parser.add_argument("--full", type=Path, required=True)
+    parser.add_argument("--frozen", type=Path, required=True)
     args = parser.parse_args()
-    print(json.dumps(validate_stage3_demos(args.reliability, args.baseline, args.hybrid), sort_keys=True))
+    print(json.dumps(validate_adaptive_demos(
+        args.reliability, args.fixed, args.adaptive, args.without_l2, args.full, args.frozen
+    ), sort_keys=True))
 
 
 if __name__ == "__main__":

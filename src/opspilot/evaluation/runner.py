@@ -141,6 +141,11 @@ def _render_report(manifest: dict, metrics: dict, failures: list[dict]) -> str:
 - E2E Success Rate: {value('e2e_success_rate')}
 - False Positive Rate: {value('false_positive_rate')}
 - P95 latency: {metrics['p95_latency_ms']} ms
+- Average Tool / Expert calls: {metrics['average_tool_calls_per_case']} / {metrics['average_expert_calls_per_case']}
+- Average Investigation rounds: {metrics['average_investigation_rounds']}
+- Planner Action Valid Rate: {value('planner_action_valid_rate')}
+- Duplicate Action Rate: {value('duplicate_action_rate')}
+- Budget Exhaustion Rate: {value('budget_exhaustion_rate')}
 - Model API calls: {metrics['model_usage']['api_call_count']}
 - Prompt / completion / total tokens: {metrics['model_usage']['prompt_tokens']} / {metrics['model_usage']['completion_tokens']} / {metrics['model_usage']['total_tokens']}
 

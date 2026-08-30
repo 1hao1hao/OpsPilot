@@ -110,6 +110,43 @@ def collect_semantic_evidence(
     return evidence
 
 
+def collect_expert_evidence(
+    alert: AlertEvent,
+    expert_results: list[SemanticAnalysisResult],
+) -> list[Evidence]:
+    """Promote selected L2 Expert findings into the shared Evidence Pool."""
+    cause_map = {
+        "db_replication_lag": RootCauseType.DB_REPLICATION_LAG,
+        "db_slow_query": RootCauseType.DB_SLOW_QUERY,
+        "db_connection_exhausted": RootCauseType.DB_CONNECTION_EXHAUSTED,
+        "redis_memory_pressure": RootCauseType.REDIS_MEMORY_PRESSURE,
+        "redis_low_hit_rate": RootCauseType.REDIS_LOW_HIT_RATE,
+        "kafka_consumer_lag": RootCauseType.KAFKA_CONSUMER_LAG,
+        "rpc_timeout": RootCauseType.RPC_TIMEOUT,
+        "rpc_error_rate": RootCauseType.RPC_ERROR_RATE,
+    }
+    evidence: list[Evidence] = []
+    for result in expert_results:
+        for finding in result.findings:
+            cause = cause_map.get(finding.finding_type)
+            if cause is None:
+                continue
+            evidence.append(
+                _evidence(
+                    alert=alert,
+                    source_name=result.name,
+                    evidence_type=f"expert.{finding.finding_type}",
+                    source_type=EvidenceSourceType.RULE,
+                    fact=finding.summary,
+                    severity=finding.severity,
+                    confidence=finding.confidence,
+                    supports=[cause],
+                    service=finding.service,
+                )
+            )
+    return evidence
+
+
 def _db(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
     items: list[Evidence] = []
     lag = _number(data, "replication_lag_seconds", _number(data, "slave_delay_seconds"))
@@ -203,4 +240,11 @@ _CONVERTERS = {
     "redis.inspect": _redis,
     "kafka.inspect": _kafka,
     "rpc.inspect": _rpc,
+    "db.replication": _db,
+    "db.slowlog": _db,
+    "db.connections": _db,
+    "redis.memory": _redis,
+    "redis.hotkeys": _redis,
+    "kafka.lag": _kafka,
+    "rpc.metrics": _rpc,
 }

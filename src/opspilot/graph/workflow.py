@@ -2,19 +2,13 @@
 
 from __future__ import annotations
 
-import asyncio
 import uuid
 from datetime import UTC, datetime
 from time import perf_counter
 
-from opspilot.agents import (
-    CoordinatorAgent,
-    RootCauseAgent,
-    analyze_dimensions,
-    analyze_experts,
-    build_runtime_root_cause_agent,
-)
-from opspilot.evidence import collect_evidence, collect_semantic_evidence
+from opspilot.agents import CoordinatorAgent, RootCauseAgent, build_runtime_root_cause_agent
+from opspilot.config import RuntimeSettings
+from opspilot.investigation import AdaptiveInvestigator
 from opspilot.models import AlertEvent, DiagnosisReport, RootCauseType, ToolCall, ToolStatus
 from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
@@ -27,46 +21,53 @@ class OpsPilotWorkflow:
         root_cause_agent: RootCauseAgent | None = None,
         *,
         execution_mode: str = "parallel",
+        settings: RuntimeSettings | None = None,
+        promote_expert_evidence: bool = True,
     ) -> None:
         if execution_mode not in {"parallel", "sequential"}:
             raise ValueError(f"unsupported execution mode: {execution_mode}")
         self.registry = registry
+        self.settings = settings or RuntimeSettings()
         self.coordinator = CoordinatorAgent(registry)
-        self.root_cause_agent = root_cause_agent or build_runtime_root_cause_agent()
+        self.root_cause_agent = root_cause_agent or build_runtime_root_cause_agent(self.settings)
+        self.investigator = AdaptiveInvestigator(
+            registry,
+            settings=self.settings,
+            promote_expert_evidence=promote_expert_evidence,
+        )
         self.execution_mode = execution_mode
 
     async def analyze(self, alert: AlertEvent, *, trace_id: str | None = None) -> DiagnosisReport:
         trace_id = trace_id or f"trace-{uuid.uuid4().hex[:12]}"
         started_at = datetime.now(UTC)
         started = perf_counter()
-        plan = self.coordinator.plan(alert)
         executor = ToolExecutor(self.registry)
 
-        calls = []
-        for step in plan.steps:
-            definition = self.registry.get(step.tool_name)
+        async def execute_tool(tool_name: str, round_number: int, reason: str):
+            definition = self.registry.get(tool_name)
             arguments = {"alert": alert.model_dump(mode="json")}
-            calls.append(
-                ToolCall(
-                    tool_call_id=build_tool_call_id(
-                        trace_id=trace_id,
-                        step_id=step.step_id,
-                        tool_name=step.tool_name,
-                        version=definition.version,
-                        arguments=arguments,
-                    ),
-                    tool_name=step.tool_name,
+            call = ToolCall(
+                tool_call_id=build_tool_call_id(
+                    trace_id=trace_id,
+                    step_id=f"round-{round_number}:{tool_name}",
+                    tool_name=tool_name,
+                    version=definition.version,
                     arguments=arguments,
-                )
+                ),
+                tool_name=tool_name,
+                arguments=arguments,
             )
-        if self.execution_mode == "parallel":
-            results = await asyncio.gather(*(executor.execute(call) for call in calls))
-        else:
-            results = [await executor.execute(call) for call in calls]
-        dimension_results = analyze_dimensions(alert, plan, results)
-        expert_results = analyze_experts(alert, results)
-        evidence = collect_evidence(alert, results)
-        evidence.extend(collect_semantic_evidence(alert, dimension_results))
+            return await executor.execute(call)
+
+        investigation = await self.investigator.run(
+            alert,
+            execute_tool,
+            parallel_seed=self.execution_mode == "parallel",
+        )
+        results = investigation.tool_results
+        dimension_results = investigation.dimension_results
+        expert_results = investigation.expert_results
+        evidence = list(investigation.evidence)
         algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
             alert, results, dimension_results, expert_results, evidence
         )
@@ -89,6 +90,7 @@ class OpsPilotWorkflow:
             expert_results=expert_results,
             algorithm_signals=algorithm_signals,
             matched_rules=matched_rules,
+            investigation=investigation.trace,
             llm_used=llm_used,
             degraded=bool(failed_sources),
             missing_sources=failed_sources,

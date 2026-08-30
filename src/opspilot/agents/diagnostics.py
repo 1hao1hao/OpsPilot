@@ -24,6 +24,13 @@ def _observations(results: list[ToolResult]) -> dict[str, dict[str, Any]]:
     }
 
 
+def _merged(observed: dict[str, dict[str, Any]], names: tuple[str, ...]) -> dict[str, Any]:
+    merged: dict[str, Any] = {}
+    for name in names:
+        merged.update(observed.get(name, {}))
+    return merged
+
+
 def _number(data: dict[str, Any], name: str, default: float = 0.0) -> float:
     value = data.get(name, default)
     if isinstance(value, dict):
@@ -174,12 +181,18 @@ def analyze_dimensions(
     return output
 
 
-def analyze_experts(alert: AlertEvent, results: list[ToolResult]) -> list[SemanticAnalysisResult]:
-    """Run DB/Redis/Kafka/RPC L2 experts over already persisted observations."""
+def analyze_experts(
+    alert: AlertEvent,
+    results: list[ToolResult],
+    *,
+    domains: list[str] | None = None,
+) -> list[SemanticAnalysisResult]:
+    """Run only the selected L2 experts over persisted observations."""
+    selected_domains = {"db", "redis", "kafka", "rpc"} if domains is None else set(domains)
     observed = _observations(results)
     output: list[SemanticAnalysisResult] = []
 
-    db = observed.get("db.inspect", {})
+    db = _merged(observed, ("db.inspect", "db.replication", "db.slowlog", "db.connections"))
     db_findings: list[DiagnosticFinding] = []
     lag = _number(db, "replication_lag_seconds", _number(db, "slave_delay_seconds"))
     if lag >= 5:
@@ -196,7 +209,7 @@ def analyze_experts(alert: AlertEvent, results: list[ToolResult]) -> list[Semant
         db_findings.append(_finding(alert, "db", "db_connection_exhausted", f"DB connection usage is {active / maximum:.1%}", confidence=0.9))
     output.append(_result("db_expert", "L2", "db", db_findings))
 
-    redis = observed.get("redis.inspect", {})
+    redis = _merged(observed, ("redis.inspect", "redis.memory", "redis.hotkeys"))
     redis_findings: list[DiagnosticFinding] = []
     memory = _number(redis, "memory_usage_percent")
     if not memory and isinstance(redis.get("used_memory"), dict):
@@ -210,14 +223,14 @@ def analyze_experts(alert: AlertEvent, results: list[ToolResult]) -> list[Semant
         redis_findings.append(_finding(alert, "redis", "redis_low_hit_rate", f"Redis hit rate is {hit_rate:.1f}%", confidence=0.85))
     output.append(_result("redis_expert", "L2", "redis", redis_findings))
 
-    kafka = observed.get("kafka.inspect", {})
+    kafka = _merged(observed, ("kafka.inspect", "kafka.lag"))
     kafka_findings: list[DiagnosticFinding] = []
     lag = _number(kafka, "consumer_lag", _number(kafka, "total_lag"))
     if lag >= 1000:
         kafka_findings.append(_finding(alert, "kafka", "kafka_consumer_lag", f"Kafka consumer lag is {lag:.0f}", confidence=0.9))
     output.append(_result("kafka_expert", "L2", "kafka", kafka_findings))
 
-    rpc = observed.get("rpc.inspect", {})
+    rpc = _merged(observed, ("rpc.inspect", "rpc.metrics"))
     rpc_findings: list[DiagnosticFinding] = []
     timeout_rate, error_rate = _number(rpc, "timeout_rate"), _number(rpc, "error_rate")
     latency, baseline = _number(rpc, "latency_ms"), max(_number(rpc, "baseline_latency_ms", 1), 1)
@@ -226,4 +239,4 @@ def analyze_experts(alert: AlertEvent, results: list[ToolResult]) -> list[Semant
     if error_rate >= 0.05:
         rpc_findings.append(_finding(alert, "rpc", "rpc_error_rate", f"RPC error rate is {error_rate:.1%}", confidence=0.85))
     output.append(_result("rpc_expert", "L2", "rpc", rpc_findings))
-    return output
+    return [result for result in output if result.dimension in selected_domains]

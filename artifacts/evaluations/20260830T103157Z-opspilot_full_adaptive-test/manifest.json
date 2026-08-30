@@ -1,0 +1,25 @@
+{
+  "evaluation_id": "20260830T103157Z-opspilot_full_adaptive-test",
+  "created_at": "2026-08-30T10:31:57.776965+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "test",
+  "case_count": 12,
+  "system": "opspilot_full_adaptive",
+  "config_path": "benchmarks/configs/full_adaptive_rca.yaml",
+  "config": {
+    "system": "opspilot_full_adaptive",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "dev",
+    "artifact_root": "artifacts/evaluations",
+    "model": {
+      "type": "full_adaptive_deterministic_rca",
+      "external_api": false
+    }
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py run --config benchmarks/configs/full_adaptive_rca.yaml --split test",
+  "python": "3.11.7",
+  "git_sha": "e9271f24970fc0a9d79f3ac07c526acee867c343",
+  "git_dirty": true
+}

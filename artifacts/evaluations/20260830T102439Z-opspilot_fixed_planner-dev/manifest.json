@@ -1,0 +1,25 @@
+{
+  "evaluation_id": "20260830T102439Z-opspilot_fixed_planner-dev",
+  "created_at": "2026-08-30T10:24:39.774189+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "dev",
+  "case_count": 25,
+  "system": "opspilot_fixed_planner",
+  "config_path": "benchmarks/configs/fixed_planner.yaml",
+  "config": {
+    "system": "opspilot_fixed_planner",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "split": "dev",
+    "artifact_root": "artifacts/evaluations",
+    "model": {
+      "type": "deterministic_fixed_ablation",
+      "external_api": false
+    }
+  },
+  "command": "/share/home/202520143645/bjh/program_2/DeepRCA-Agent-master/src/opspilot/evaluation/cli.py run --config benchmarks/configs/fixed_planner.yaml --split dev",
+  "python": "3.11.7",
+  "git_sha": "e9271f24970fc0a9d79f3ac07c526acee867c343",
+  "git_dirty": true
+}
