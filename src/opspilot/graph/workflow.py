@@ -10,7 +10,6 @@ from opspilot.agents import CoordinatorAgent, RootCauseAgent, build_runtime_root
 from opspilot.config import RuntimeSettings
 from opspilot.investigation import AdaptiveInvestigator
 from opspilot.models import AlertEvent, DiagnosisReport, RootCauseType, ToolCall, ToolStatus
-from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
 
@@ -68,12 +67,10 @@ class OpsPilotWorkflow:
         dimension_results = investigation.dimension_results
         expert_results = investigation.expert_results
         evidence = list(investigation.evidence)
-        algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
-            alert, results, dimension_results, expert_results, evidence
-        )
-        evidence.extend(deterministic_evidence)
-        evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
-        candidates, rationale, llm_used = await self.root_cause_agent.diagnose_with_optional_llm(alert, evidence)
+        algorithm_signals = investigation.algorithm_signals
+        matched_rules = investigation.matched_rules
+        candidates = investigation.provisional_candidates
+        rationale, llm_used = await self.root_cause_agent.explain_existing(alert, candidates, evidence)
         failed_sources = sorted(result.tool_name for result in results if result.status == ToolStatus.ERROR)
         primary = candidates[0]
         actions = recommended_actions(primary.root_cause_type)

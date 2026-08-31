@@ -150,6 +150,26 @@ class DeepSeekRCAClient:
             finish_reason=choice["finish_reason"],
         )
 
+    async def complete_json(self, *, system_prompt: str, payload: dict[str, Any]) -> dict[str, Any]:
+        """Return one schema-validated-by-caller JSON object for constrained control tasks."""
+        body = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+            ],
+            "response_format": {"type": "json_object"},
+            "thinking": {"type": "disabled"},
+            "temperature": 0,
+            "max_tokens": self.max_tokens,
+        }
+        response_data = await self._post(body)
+        content = response_data["choices"][0]["message"].get("content")
+        parsed = json.loads(content)
+        if not isinstance(parsed, dict):
+            raise TypeError("DeepSeek JSON response must be an object")
+        return parsed
+
     async def _post(self, body: dict[str, Any]) -> dict[str, Any]:
         headers = {
             "Authorization": f"Bearer {self._api_key.get_secret_value()}",

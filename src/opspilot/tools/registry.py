@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable, Callable
-from typing import Any
+from typing import Any, Literal
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field
@@ -36,6 +36,8 @@ class ToolDefinition(BaseModel):
     max_attempts: int = Field(default=1, ge=1)
     idempotent: bool = True
     side_effect: bool = False
+    tool_kind: Literal["general", "domain", "compatibility"] = "general"
+    expert_domain: Literal["db", "redis", "kafka", "rpc"] | None = None
     handler: ToolHandler
 
 
@@ -58,6 +60,16 @@ class ToolRegistry:
 
     def names(self) -> list[str]:
         return sorted(self._definitions)
+
+    def general_names(self) -> list[str]:
+        return sorted(name for name, item in self._definitions.items() if item.tool_kind == "general")
+
+    def domain_names(self, expert_domain: str) -> list[str]:
+        return sorted(
+            name
+            for name, item in self._definitions.items()
+            if item.tool_kind == "domain" and item.expert_domain == expert_domain
+        )
 
 
 TOOL_SIGNAL_KEYS = {
@@ -182,6 +194,8 @@ def build_default_registry(
                 output_schema=ObservationOutput,
                 timeout_seconds=timeout_seconds,
                 max_attempts=max_attempts,
+                tool_kind=("compatibility" if tool_name.endswith(".inspect") else "general"),
+                expert_domain=(tool_name.split(".", 1)[0] if tool_name.endswith(".inspect") else None),
                 handler=handler,
             )
         )
@@ -205,6 +219,8 @@ def build_default_registry(
                 output_schema=ObservationOutput,
                 timeout_seconds=timeout_seconds,
                 max_attempts=max_attempts,
+                tool_kind="domain",
+                expert_domain=tool_name.split(".", 1)[0],
                 handler=domain_handler,
             )
         )

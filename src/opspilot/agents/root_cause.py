@@ -95,6 +95,27 @@ class RootCauseAgent:
         except Exception:  # noqa: BLE001 - the deterministic decision must survive LLM failure
             return candidates, f"Deterministic fallback: {rationale}", False
 
+    async def explain_existing(
+        self,
+        alert: AlertEvent,
+        candidates: list[RootCauseCandidate],
+        evidence: list[Evidence],
+    ) -> tuple[str, bool]:
+        """Explain an existing deterministic ranking without running ranking again."""
+        try:
+            rationale = self.summarizer(candidates[0], evidence)
+        except Exception:  # noqa: BLE001
+            rationale = (
+                f"Deterministic ranking selected {candidates[0].root_cause_type.value} "
+                f"from {len(candidates[0].evidence_ids)} evidence item(s)."
+            )
+        if self.async_summarizer is None:
+            return rationale, False
+        try:
+            return await self.async_summarizer(alert, candidates[0], evidence), True
+        except Exception:  # noqa: BLE001
+            return f"Deterministic fallback: {rationale}", False
+
 
 class DeepSeekEvidenceSummarizer:
     """Explain one deterministic candidate; it cannot alter candidate ranking."""

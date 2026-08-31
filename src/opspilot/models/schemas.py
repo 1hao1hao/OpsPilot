@@ -191,6 +191,7 @@ class Evidence(StrictModel):
     evidence_type: str
     source_type: EvidenceSourceType
     source_name: str
+    source_group: str = ""
     service: str
     observed_at: datetime
     fact: str
@@ -217,6 +218,7 @@ class DiagnosticFinding(StrictModel):
     severity: EvidenceSeverity
     confidence: float = Field(ge=0, le=1)
     data: dict[str, Any] = Field(default_factory=dict)
+    source_groups: list[str] = Field(default_factory=list)
 
 
 class SemanticAnalysisResult(StrictModel):
@@ -235,6 +237,18 @@ class AlgorithmSignal(StrictModel):
     is_anomaly: bool
     confidence: float = Field(ge=0, le=1)
     details: dict[str, Any] = Field(default_factory=dict)
+    source_group: str = ""
+
+
+class RoundAnalysisResult(StrictModel):
+    """The one complete deterministic analysis consumed by a round's Gate and final report."""
+
+    dimension_results: list[SemanticAnalysisResult] = Field(default_factory=list)
+    expert_results: list[SemanticAnalysisResult] = Field(default_factory=list)
+    algorithm_signals: list[AlgorithmSignal] = Field(default_factory=list)
+    matched_rules: list[str] = Field(default_factory=list)
+    evidence: list[Evidence] = Field(default_factory=list)
+    candidates: list[RootCauseCandidate] = Field(default_factory=list)
 
 
 class DiagnosisReport(StrictModel):

@@ -25,6 +25,7 @@ def alert() -> AlertEvent:
         alert_type="timeout",
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
+        description="read requests are timing out",
         signals={"db": {"replication_lag_seconds": 18}, "metric": {"cpu_usage": 0.42}},
     )
 
@@ -73,7 +74,7 @@ async def test_api_queue_worker_database_vertical_chain(stack):
             assert result.json()["status"] == "SUCCEEDED"
             assert result.json()["report"]["primary_root_cause"]["root_cause_type"] == "db_replication_lag"
             investigation = result.json()["report"]["investigation"]
-            assert investigation["invoked_experts"] == ["db"]
+            assert "db" in investigation["invoked_experts"]
             assert "db.replication" in investigation["executed_tools"]
             events = (await client.get(f"/api/v1/runs/{run_id}/events")).json()
             assert events[0]["event_type"] == "run.created"

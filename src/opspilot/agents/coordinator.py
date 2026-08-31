@@ -53,7 +53,7 @@ class CoordinatorAgent:
             selected.insert(0, "changes.query")
         if any(token in label_text for token in ("dependency", "downstream", "trace", "rpc")):
             selected.insert(0, "traces.query")
-        selected = [name for name in dict.fromkeys(selected) if name in self.registry.names()][:3]
+        selected = [name for name in dict.fromkeys(selected) if name in self.registry.general_names()][:3]
         # Small test/extension registries may expose only a custom observation
         # Tool. Keep the runtime executable without changing the production
         # default registry's low-cost seed policy.

@@ -20,7 +20,7 @@ def make_alert(**signals) -> AlertEvent:
         alert_type="timeout",
         severity="P1",
         timestamp=datetime(2026, 8, 1, tzinfo=UTC),
-        description="generic latency increase",
+        description="read requests are timing out",
         signals=signals,
     )
 

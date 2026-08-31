@@ -13,10 +13,7 @@ from opspilot.graph.workflow import recommended_actions
 from opspilot.investigation import AdaptiveInvestigator
 from opspilot.models import (
     AlertEvent,
-    AlgorithmSignal,
     DiagnosisReport,
-    Evidence,
-    RootCauseCandidate,
     ToolCall,
     ToolExecution,
     ToolExecutionStatus,
@@ -24,7 +21,6 @@ from opspilot.models import (
     ToolStatus,
 )
 from opspilot.persistence.repositories import RuntimeRepository
-from opspilot.rca.pipeline import run_deterministic_pipeline
 from opspilot.runtime.errors import CheckpointVersionMismatch
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
@@ -117,30 +113,20 @@ class RecoverableExecution:
         dimension_results = investigation.dimension_results
         expert_results = investigation.expert_results
         evidence = list(investigation.evidence)
+        algorithm_signals = investigation.algorithm_signals
+        matched_rules = investigation.matched_rules
+        candidates = investigation.provisional_candidates
+        state["algorithm_signals"] = [item.model_dump(mode="json") for item in algorithm_signals]
+        state["matched_rules"] = matched_rules
+        state["evidence"] = [item.model_dump(mode="json") for item in evidence]
+        state["candidates"] = [item.model_dump(mode="json") for item in candidates]
 
-        if "algorithm_signals" not in state:
-            algorithm_signals, deterministic_evidence, matched_rules = run_deterministic_pipeline(
-                alert, results, dimension_results, expert_results, evidence
-            )
-            evidence.extend(deterministic_evidence)
-            evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
-            state["algorithm_signals"] = [item.model_dump(mode="json") for item in algorithm_signals]
-            state["matched_rules"] = matched_rules
-            state["evidence"] = [item.model_dump(mode="json") for item in evidence]
-            await self._commit(run_id, "deterministic_analysis", {"signals": len(algorithm_signals), "rules": matched_rules}, state)
-        else:
-            algorithm_signals = [AlgorithmSignal.model_validate(item) for item in state["algorithm_signals"]]
-            matched_rules = list(state.get("matched_rules", []))
-            evidence = [Evidence.model_validate(item) for item in state["evidence"]]
-
-        if "candidates" not in state:
-            candidates, rationale, llm_used = await self.root_cause_agent.diagnose_with_optional_llm(alert, evidence)
-            state["candidates"] = [item.model_dump(mode="json") for item in candidates]
+        if "rationale" not in state:
+            rationale, llm_used = await self.root_cause_agent.explain_existing(alert, candidates, evidence)
             state["rationale"] = rationale
             state["llm_used"] = llm_used
-            await self._commit(run_id, "diagnosis", {"candidate_count": len(candidates)}, state)
+            await self._commit(run_id, "explanation", {"candidate_count": len(candidates)}, state)
         else:
-            candidates = [RootCauseCandidate.model_validate(item) for item in state["candidates"]]
             rationale = state["rationale"]
             llm_used = bool(state.get("llm_used", False))
 

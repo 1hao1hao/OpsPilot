@@ -24,6 +24,20 @@ def _observations(results: list[ToolResult]) -> dict[str, dict[str, Any]]:
     }
 
 
+def _source_groups(results: list[ToolResult]) -> dict[str, str]:
+    return {
+        result.tool_name: f"tool:{result.tool_name}:{result.tool_call_id}"
+        for result in results
+        if result.status == ToolStatus.SUCCESS
+    }
+
+
+def _with_source(findings: list[DiagnosticFinding], group: str | None) -> list[DiagnosticFinding]:
+    if not group:
+        return findings
+    return [item.model_copy(update={"source_groups": [group]}) for item in findings]
+
+
 def _merged(observed: dict[str, dict[str, Any]], names: tuple[str, ...]) -> dict[str, Any]:
     merged: dict[str, Any] = {}
     for name in names:
@@ -103,6 +117,7 @@ def analyze_dimensions(
 ) -> list[SemanticAnalysisResult]:
     """Run the six L1 dimensions without issuing any additional I/O."""
     observed = _observations(results)
+    source_groups = _source_groups(results)
     metrics = observed.get("metrics.query", {})
     topology = observed.get("topology.query", {})
     output: list[SemanticAnalysisResult] = []
@@ -177,7 +192,22 @@ def analyze_dimensions(
             if related or known:
                 findings.append(_finding(alert, "problem", "related_incident", f"Matched {len(related)} related alert(s) and {len(known)} known issue(s)", confidence=min(0.5 + (len(related) + len(known)) * 0.1, 0.9)))
 
-        output.append(_result(f"{task.dimension}_analyzer", "L1", task.dimension, findings))
+        source_tool = {
+            "change": "changes.query",
+            "upstream": "metrics.query",
+            "downstream": "traces.query",
+            "cluster": "metrics.query",
+            "errorlog": "logs.query",
+            "problem": "alerts.query",
+        }.get(task.dimension)
+        output.append(
+            _result(
+                f"{task.dimension}_analyzer",
+                "L1",
+                task.dimension,
+                _with_source(findings, source_groups.get(source_tool or "")),
+            )
+        )
     return output
 
 
@@ -190,6 +220,7 @@ def analyze_experts(
     """Run only the selected L2 experts over persisted observations."""
     selected_domains = {"db", "redis", "kafka", "rpc"} if domains is None else set(domains)
     observed = _observations(results)
+    source_groups = _source_groups(results)
     output: list[SemanticAnalysisResult] = []
 
     db = _merged(observed, ("db.inspect", "db.replication", "db.slowlog", "db.connections"))
@@ -207,6 +238,24 @@ def analyze_experts(
     maximum = max(maximum, 1)
     if active / maximum >= 0.8:
         db_findings.append(_finding(alert, "db", "db_connection_exhausted", f"DB connection usage is {active / maximum:.1%}", confidence=0.9))
+    db_source_by_finding = {
+        "db_replication_lag": ("db.replication", "db.inspect"),
+        "db_slow_query": ("db.slowlog", "db.inspect"),
+        "db_connection_exhausted": ("db.connections", "db.inspect"),
+    }
+    db_findings = [
+        item.model_copy(
+            update={
+                "source_groups": [
+                    next(
+                        (source_groups[name] for name in db_source_by_finding[item.finding_type] if name in source_groups),
+                        f"expert:db:{item.finding_type}",
+                    )
+                ]
+            }
+        )
+        for item in db_findings
+    ]
     output.append(_result("db_expert", "L2", "db", db_findings))
 
     redis = _merged(observed, ("redis.inspect", "redis.memory", "redis.hotkeys"))
@@ -221,6 +270,23 @@ def analyze_experts(
         hit_rate = _number(redis["hit_rate"], "current", 1) * 100
     if hit_rate <= 90:
         redis_findings.append(_finding(alert, "redis", "redis_low_hit_rate", f"Redis hit rate is {hit_rate:.1f}%", confidence=0.85))
+    redis_source_by_finding = {
+        "redis_memory_pressure": ("redis.memory", "redis.inspect"),
+        "redis_low_hit_rate": ("redis.hotkeys", "redis.inspect"),
+    }
+    redis_findings = [
+        item.model_copy(
+            update={
+                "source_groups": [
+                    next(
+                        (source_groups[name] for name in redis_source_by_finding[item.finding_type] if name in source_groups),
+                        f"expert:redis:{item.finding_type}",
+                    )
+                ]
+            }
+        )
+        for item in redis_findings
+    ]
     output.append(_result("redis_expert", "L2", "redis", redis_findings))
 
     kafka = _merged(observed, ("kafka.inspect", "kafka.lag"))
@@ -228,6 +294,10 @@ def analyze_experts(
     lag = _number(kafka, "consumer_lag", _number(kafka, "total_lag"))
     if lag >= 1000:
         kafka_findings.append(_finding(alert, "kafka", "kafka_consumer_lag", f"Kafka consumer lag is {lag:.0f}", confidence=0.9))
+    kafka_findings = _with_source(
+        kafka_findings,
+        source_groups.get("kafka.lag", source_groups.get("kafka.inspect")),
+    )
     output.append(_result("kafka_expert", "L2", "kafka", kafka_findings))
 
     rpc = _merged(observed, ("rpc.inspect", "rpc.metrics"))
@@ -238,5 +308,9 @@ def analyze_experts(
         rpc_findings.append(_finding(alert, "rpc", "rpc_timeout", f"RPC timeout rate={timeout_rate:.1%}, latency ratio={latency / baseline:.1f}x", confidence=0.9))
     if error_rate >= 0.05:
         rpc_findings.append(_finding(alert, "rpc", "rpc_error_rate", f"RPC error rate is {error_rate:.1%}", confidence=0.85))
+    rpc_findings = _with_source(
+        rpc_findings,
+        source_groups.get("rpc.metrics", source_groups.get("rpc.inspect")),
+    )
     output.append(_result("rpc_expert", "L2", "rpc", rpc_findings))
     return [result for result in output if result.dimension in selected_domains]

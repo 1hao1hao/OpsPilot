@@ -21,6 +21,7 @@ def _evidence(
     *,
     alert: AlertEvent,
     source_name: str,
+    source_group: str = "",
     evidence_type: str,
     source_type: EvidenceSourceType,
     fact: str,
@@ -37,6 +38,7 @@ def _evidence(
         evidence_type=evidence_type,
         source_type=source_type,
         source_name=source_name,
+        source_group=source_group,
         service=service or alert.service_name,
         observed_at=alert.timestamp,
         fact=fact,
@@ -65,7 +67,11 @@ def collect_evidence(alert: AlertEvent, results: list[ToolResult]) -> list[Evide
         observations = result.data.get("observations", {})
         converter = _CONVERTERS.get(result.tool_name)
         if converter:
-            evidence.extend(converter(alert, observations, result.tool_name))
+            source_group = f"tool:{result.tool_name}:{result.tool_call_id}"
+            evidence.extend(
+                item.model_copy(update={"source_group": source_group})
+                for item in converter(alert, observations, result.tool_name)
+            )
     unique = {item.evidence_id: item for item in evidence}
     return sorted(unique.values(), key=lambda item: (-item.confidence, item.evidence_id))
 
@@ -88,6 +94,18 @@ def collect_semantic_evidence(
     for result in dimension_results:
         for finding in result.findings:
             supports = cause_map.get(finding.finding_type, [])
+            if finding.dimension == "downstream":
+                dependency = f"{finding.service} {finding.data.get('path', '')}".lower()
+                if any(token in dependency for token in ("mysql", "postgres", "database", "db")):
+                    supports = [
+                        RootCauseType.DB_REPLICATION_LAG,
+                        RootCauseType.DB_SLOW_QUERY,
+                        RootCauseType.DB_CONNECTION_EXHAUSTED,
+                    ]
+                elif "redis" in dependency:
+                    supports = [RootCauseType.REDIS_MEMORY_PRESSURE, RootCauseType.REDIS_LOW_HIT_RATE]
+                elif any(token in dependency for token in ("kafka", "broker")):
+                    supports = [RootCauseType.KAFKA_CONSUMER_LAG]
             if not supports:
                 continue
             raw_ref = None
@@ -97,6 +115,7 @@ def collect_semantic_evidence(
                 _evidence(
                     alert=alert,
                     source_name=finding.dimension,
+                    source_group=(finding.source_groups[0] if finding.source_groups else ""),
                     evidence_type=f"{finding.dimension}.{finding.finding_type}",
                     source_type=EvidenceSourceType.TRACE if finding.dimension == "downstream" else EvidenceSourceType.RULE,
                     fact=finding.summary,
@@ -135,6 +154,7 @@ def collect_expert_evidence(
                 _evidence(
                     alert=alert,
                     source_name=result.name,
+                    source_group=(finding.source_groups[0] if finding.source_groups else ""),
                     evidence_type=f"expert.{finding.finding_type}",
                     source_type=EvidenceSourceType.RULE,
                     fact=finding.summary,

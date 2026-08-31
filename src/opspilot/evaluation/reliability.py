@@ -42,7 +42,7 @@ class ReliabilityConfig(StrictModel):
     database_url_env: str = "OPSPILOT_TEST_DATABASE_URL"
     redis_url_env: str = "OPSPILOT_TEST_REDIS_URL"
     artifact_root: str = "artifacts/evaluations"
-    graph_version: str = "opspilot-runtime-v3-adaptive"
+    graph_version: str = "opspilot-runtime-v4-unified-evidence"
     config_version: str = "runtime-faults-v1"
     cases: list[RuntimeFaultCase]
 

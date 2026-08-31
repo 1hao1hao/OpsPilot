@@ -1,626 +1,458 @@
-下面这份可以直接丢给 Codex。目标是**只重构 Planner / L2 / Evidence 调查链，不破坏现有 L3、Runtime 和 Evaluation 基础设施**。
-
----
-
-# OpsPilot Adaptive RCA 改造需求书
-
-## 1. 改造目标
-
-当前存在两个核心问题：
-
-```text
-1. Coordinator 对所有告警都规划六个维度，只调整顺序
-2. DB / Redis / Kafka / RPC 四个 L2 Expert 基本全部执行，且只分析已有 ToolResult
 ```
+请基于当前 main 分支继续重构 OpsPilot。本轮目标不是增加更多功能，
+而是让 Adaptive RCA 架构严格统一成一条容易理解、容易解释的数据流。
 
-当前实现可见 `CoordinatorAgent.plan()` 与 `analyze_experts()`。
+重要原则：
+1. 不根据现有代码勉强兼容错误设计；优先让代码符合下面定义的架构。
+2. 保留现有 Runtime、Checkpoint、幂等、Mock Environment、L1/L2 分析逻辑和 RCA 算法实现。
+3. 不增加 Memory、Self-Consistency、复杂 RAG 等额外模块。
+4. 完成后必须更新测试与 README，但暂时不要生成学习说明书。
 
-重构目标：
+==================================================
+一、最终目标架构
+==================================================
 
-```text
-固定一次性 Planner
-        ↓
-Adaptive Investigation Loop
+必须实现：
 
-Plan
-→ Execute
-→ Observe
-→ Re-plan
-→ Dynamic Expert
+Alert
+→ Seed Planner
+→ Tool execution
+→ ToolResult
+→ L1 / selected L2 analysis
+→ Deterministic Evidence Engine
+    - Raw Tool Evidence
+    - L1 Evidence
+    - L2 Expert Evidence
+    - AlgorithmSignal: MetricFilter/NoiseFilter/WoW-DoD/IQR/Volatility
+    - ExpertRuleEngine
+→ 完整 Evidence Pool
+→ RootCause Ranking
 → Evidence Gate
-→ Finalize
-```
+    - sufficient → stop investigation
+    - budget exhausted → stop investigation
+    - insufficient → LLM Adaptive Planner
+→ Planner chooses next Tool or Domain Expert
+→ execute
+→ next round
 
-让 Agent **根据已经观察到的 Finding / Evidence 动态决定下一步查什么**，而不是提前把所有 Tool 和 Expert 跑完。
+循环结束后：
+直接把最后一轮 Evidence Pool + RootCause Ranking 作为最终结果，
+不要重新构造另一套独立 Ranking 流程。
 
----
+Optional constrained LLM explanation 仍然只负责解释最终 Top1。
 
-# 2. 改造后的主链
+==================================================
+二、修复当前“Provisional Ranking 在 L3 之前”的分裂设计
+==================================================
 
-```text
-Alert
- ↓
-Seed Planner
- ↓
-第一轮低成本 Tool
- ↓
-Incremental L1 Analysis
- ↓
-Finding / Evidence
- ↓
-Adaptive Planner
- ├─ inspect_tool
- ├─ invoke_expert
- └─ finalize
-        │
-        ↓
-Dynamic L2 Expert
- ↓
-领域 Tool 下钻
- ↓
-Expert Finding
- ↓
-Expert Evidence
- ↓
-Evidence Gate
- ├─ evidence insufficient → Re-plan
- └─ evidence sufficient / budget exhausted
-                    ↓
-                    L3
- MetricFilter / NoiseFilter
- WoW / DoD / IQR / Volatility
- ExpertRuleEngine
-                    ↓
-              Evidence Pool
-                    ↓
-          RootCause Ranking
-                    ↓
-                 Top-K
-                    ↓
-      Optional constrained LLM explanation
-```
+当前 investigation.engine 中：
+Raw/L1/L2 Evidence → provisional ranking → Gate
 
----
+而 runtime.execution 中：
+调查结束 → run_deterministic_pipeline → 加 Algorithm/Rule Evidence → 再 Ranking
 
-# 3. Seed Planner
+删除这种阶段分裂。
 
-不要一开始规划全部六维 Tool。
+新增/重构一个统一的 DeterministicEvidenceEngine（名称可合理调整）。
 
-根据 `alert_type` 只选择 **2~3 个高信息量、低成本初始 Tool**。
+每一轮 Tool 执行结束后统一执行：
 
-例如：
+1. analyze_dimensions()
+2. analyze_experts(selected domains)
+3. collect_evidence()
+4. collect_semantic_evidence()
+5. collect_expert_evidence()
+6. MetricFilter + NoiseFilter
+7. WoW / DoD
+8. IQR
+9. Volatility
+10. ExpertRuleEngine
+11. AlgorithmSignal / Rule → Evidence
+12. Evidence 去重
+13. RootCauseAgent deterministic ranking
 
-```text
-timeout
-→ metrics.query
-→ traces.query
-→ changes.query
+输出统一 RoundAnalysisResult，至少包含：
 
-error_rate
-→ metrics.query
-→ logs.query
-→ traces.query
+dimension_results
+expert_results
+algorithm_signals
+matched_rules
+evidence
+candidates
 
-resource
-→ metrics.query
-→ logs.query
-```
+Evidence Gate 必须基于这个“完整 Evidence Pool + candidates”。
 
-六维概念继续保留，但从：
+runtime.execution 不应再在 investigation 结束后重复跑一次 deterministic pipeline。
 
-```text
-六维全部执行
-```
+==================================================
+三、Adaptive Planner 改为真正的 LLM Planner
+==================================================
 
-改成：
+当前 AdaptivePlanner 是关键词规则 Planner，请改为：
 
-```text
-六维候选调查空间
-```
+LLMAdaptivePlanner
++
+DeterministicPlannerFallback
 
----
+正常模式：
+如果 OPSPILOT_LLM_ENABLED=true，
+Adaptive Planner 使用 DeepSeek 做调查决策。
 
-# 4. Adaptive Planner
+LLM Planner 输入只能包含：
 
-新增 Adaptive Planner。
+- Alert 的公开字段：
+  service_name
+  alert_type
+  severity
+  description
+  labels
 
-输入：
+- 当前 L1 Findings 摘要
+- 当前 L2 Findings 摘要
+- 当前 Evidence 摘要
+- 当前 provisional Top-K（root cause type + score/confidence 即可）
+- 已执行 Tool
+- 已调用 Expert
+- action history
+- remaining round/tool/expert budget
+- allowed actions
 
-```text
-Alert
-当前已完成 actions
-已有 ToolResults
-L1 Findings
-L2 Findings
-当前 Evidence 摘要
-当前 provisional Top-K
-remaining_tool_budget
-remaining_round_budget
-```
+绝对禁止直接读取 alert.signals。
+alert.signals 是 Tool backend / benchmark observation snapshot，
+Planner 不允许绕过 Tool 查看。
 
-输出必须是结构化 Action：
+Planner 输出严格结构化，只允许：
 
-```text
-inspect_tool(tool_name)
-
-invoke_expert(domain)
-
-finalize(reason)
-```
-
-例如：
-
-```json
 {
-  "action": "invoke_expert",
-  "target": "db",
-  "reason": "Trace anomaly terminates at mysql and latency increased"
+  "action": "inspect_tool" | "invoke_expert",
+  "target": "...",
+  "reason": "..."
 }
-```
 
-### Planner 原则
+Adaptive Planner 不再输出 FINALIZE。
 
-Planner 负责：
+停止调查只允许由：
+1. Evidence Gate sufficient
+2. budget exhausted
+3. 没有任何合法的新 Action
+触发。
 
-> **决定下一步调查动作。**
+这样避免 Planner finalize 和 Evidence Gate 双重停止逻辑。
 
-Planner 不负责：
+如果：
+- LLM disabled
+- timeout
+- API error
+- JSON/schema invalid
+- target 不在 whitelist
 
-```text
-直接预测最终 root cause
-修改 Evidence confidence
-修改 RootCause ranking
-```
+则使用 deterministic fallback Planner。
 
-可以使用 DeepSeek 做 Planner decision，但必须：
+Fallback 只作为可靠性兜底，不要再增加“规则置信度→决定是否调用LLM”的复杂逻辑。
 
-```text
-allowed_actions 白名单
-结构化输出
-temperature=0
-非法输出 deterministic fallback
-```
+==================================================
+四、Planner / Expert Tool 权限边界
+==================================================
 
----
+当前所有 Domain Tool 都注册在同一个 Registry，
+代码层面任何调用方理论上都能执行。
 
-# 5. Dynamic L2 Expert
+请增加明确的 Tool metadata / action validation，使：
 
-废弃当前：
+Seed Planner：
+只能选择 seed/general observation tools。
 
-```python
-analyze_experts(alert, all_results)
-```
+Adaptive Planner：
+只能直接选择 general tools，例如：
+metrics.query
+logs.query
+changes.query
+traces.query
+topology.query
+alerts.query
 
-一次执行全部四个 Expert 的方式。
+Adaptive Planner 不允许直接调用：
+db.replication
+db.slowlog
+db.connections
+redis.memory
+redis.hotkeys
+kafka.lag
+rpc.metrics
 
-改为：
+这些 Domain Tools 只能通过：
 
-```text
 invoke_expert("db")
 invoke_expert("redis")
 invoke_expert("kafka")
 invoke_expert("rpc")
-```
 
-按 Planner 决策执行。
+后由对应 Expert 选择。
 
-## DB Expert 示例
+需要中央 validator 强制执行，
+不要只依赖 Planner 自觉。
 
-不要只读取一个 `db.inspect`。
+==================================================
+五、Dynamic L2 Expert
+==================================================
 
-建议拆成：
+保留四个 Domain Expert：
 
-```text
-db.metrics
-db.slowlog
+DB
+Redis
+Kafka
+RPC
+
+Planner 只决定 invoke_expert(domain)。
+
+Expert 根据当前：
+Alert
++ L1 Findings
++ 已有 ToolResult / Evidence
+
+选择自己的领域 Tool。
+
+例如 DB：
+
 db.replication
+db.slowlog
 db.connections
-```
 
-DB Expert 根据已有上下文决定需要哪些领域 Tool，再输出：
+不能固定全部调用，要按上下文选择必要 Tool。
 
-```text
-db_replication_lag
-db_slow_query
-db_connection_exhausted
-```
+Expert ToolResult
+→ L2 Finding
+→ collect_expert_evidence()
+→ 正式进入 Evidence Pool。
 
-Redis / Kafka / RPC 同理。
+==================================================
+六、Evidence Gate 的“独立来源”修复
+==================================================
 
-已有 Mock Environment 已提供 DB slow-log、Redis hotkey、Kafka lag 等接口，应优先复用，不重新造整套环境。
+当前代码使用 evidence.source_name 去重，
+这会把：
 
----
+db.replication Tool Evidence
+和
+基于同一个 db.replication ToolResult 得出的 db_expert Evidence
 
-# 6. L2 Finding 正式进入 Evidence
+错误计算成两个“独立来源”。
 
-当前 L2 Finding 不直接走 semantic Evidence。
+请增加明确 provenance/source_group 概念。
 
-新增：
+目标：
 
-```python
-collect_expert_evidence(...)
-```
+同一个底层 Observation 派生出的：
+
+Tool Evidence
+Finding Evidence
+Algorithm Evidence
+
+必须继承同一个 observation provenance，
+不能因为 source_name 不同就算多个独立来源。
 
 例如：
 
-```text
-db_replication_lag
-→ Evidence
-supports = DB_REPLICATION_LAG
+db.replication ToolResult
+→ raw Evidence
+→ DB Finding
+→ Expert Evidence
 
-redis_memory_pressure
-→ Evidence
-supports = REDIS_MEMORY_PRESSURE
+它们的 source_group 应相同，例如：
+tool:db.replication:<tool_call_id>
 
-kafka_consumer_lag
-→ Evidence
-supports = KAFKA_CONSUMER_LAG
+因此 Evidence Gate 的 independent_source_count
+统计的是不同 source_group，而不是 source_name。
 
-rpc_timeout
-→ Evidence
-supports = RPC_TIMEOUT
-```
+对于 Metrics：
 
-形成：
+metrics.query
+→ L1 cpu finding
+→ IQR AlgorithmSignal
+→ algorithm Evidence
 
-```text
-Tool Evidence
-+ L1 Evidence
-+ L2 Expert Evidence
-+ L3 Algorithm Evidence
-+ Rule Evidence
-        ↓
+如果全部来自同一 metrics.query observation，
+也只能算一个独立 observation source。
+
+Trace / Logs / DB replication 等真正不同的 Observation
+才能算多个独立来源。
+
+保留 Gate 三条件：
+
+Top1 confidence >= configured threshold
+AND
+Top1 - Top2 margin >= configured margin
+AND
+支持 Top1 的 independent source_group >= configured min_sources
+
+==================================================
+七、RootCause Ranking
+==================================================
+
+RootCauseAgent 保持一套确定性算法。
+
+每轮 Evidence Engine 调用一次：
+
 Evidence Pool
-```
+→ RootCauseAgent.diagnose()
+→ provisional candidates
 
----
+Evidence Gate 使用 provisional candidates。
 
-# 7. Evidence Gate
+调查停止后：
 
-每轮调查结束后进行一次 provisional ranking。
+最后一轮 provisional candidates
+直接成为 final deterministic candidates。
 
-判断是否继续调查。
+不要在 Runtime 后面再次重新 Ranking，
+除非 Evidence 又发生了变化。
 
-初始规则建议：
+命名/代码结构要明确表达：
 
-```text
-满足以下条件可以 finalize：
+same ranking algorithm
++
+different investigation round
 
-Top1 confidence >= 0.8
-AND
-Top1 与 Top2 score margin 达到配置阈值
-AND
-Top1 至少有 2 个独立 evidence source 支持
-```
+而不是两套 Ranking。
 
-否则：
+==================================================
+八、Budget
+==================================================
 
-```text
-→ Re-plan
-```
+继续保留简单的三种硬预算：
 
-同时必须有硬终止条件：
-
-```text
 max_rounds
 max_tool_calls
 max_expert_calls
-no_duplicate_action
-```
 
-达到 budget：
+不要新增复杂 token cost / confidence cost 模型。
 
-```text
-→ 强制进入 L3 / Ranking
-```
+达到任意 hard limit：
+budget_exhausted=True
+→ 停止 Adaptive Investigation
+→ 使用当前完整 Evidence Pool 的 Ranking 作为结果。
 
-避免无限 Agent Loop。
+==================================================
+九、删除/避免冗余
+==================================================
 
----
+重点检查并删除以下冗余：
 
-# 8. Action 去重
+1. Engine 先判断 gate.sufficient，
+   Planner 内部又判断 gate.sufficient。
 
-维护：
+2. Planner FINALIZE Action 与 Evidence Gate 重复。
 
-```text
-action_history
-```
+3. Investigation provisional ranking 和 Runtime 最终 L3 ranking 分裂。
 
-Action identity 至少包含：
+4. Planner 直接读取 alert.signals。
 
-```text
-action_type
-target
-arguments
-```
+5. source_name 被当成 independent evidence source。
 
-如果：
+6. 相同底层 Observation 通过 Tool/L1/L2/Algorithm 多次派生 Evidence
+   时造成 Gate 虚假多源支持。
 
-```text
-同一个 Tool
-+ 相同 arguments
-```
+==================================================
+十、期望的数据流示例
+==================================================
 
-已经成功执行，则 Planner 不允许再次调用。
-
-这和现有 `tool_call_id` 持久化幂等互补：
-
-```text
-Planner层
-→ 防止产生无意义重复 Action
-
-Runtime层
-→ 即使产生重复，也防止重复执行副作用
-```
-
----
-
-# 9. Runtime 集成
-
-**不要推翻现有 Recoverable Runtime。**
-
-需要把 adaptive loop 状态加入 Checkpoint，例如：
-
-```text
-investigation_round
-action_history
-executed_tools
-invoked_experts
-dimension_results
-expert_results
-evidence
-provisional_candidates
-remaining_budget
-```
-
-恢复后：
-
-```text
-load checkpoint
-→ 恢复 Adaptive Planner 上下文
-→ 从下一轮 Action 继续
-```
-
-现有：
-
-```text
-request_id
-run_id
-tool_call_id
-ToolExecution
-Checkpoint
-stale recovery
-```
-
-全部保留。
-
----
-
-# 10. L3 不做大改
-
-现有：
-
-```text
-MetricFilter
-NoiseFilter
-WoW / DoD
-IQR
-Volatility
-ExpertRuleEngine
-RootCause Ranking
-```
-
-继续保留。
-
-但 L3 应在：
-
-```text
-Evidence Gate finalize
-或
-budget exhausted
-```
-
-后集中执行。
-
-不要让 LLM Planner修改 L3 的计算结果。
-
----
-
-# 11. LLM 边界
-
-明确区分两个 LLM 用途：
-
-```text
-Adaptive Planner LLM
-→ 决定“下一步调查什么”
-
-Explanation LLM
-→ 最终解释确定性 Top1
-```
-
-两者都不能直接覆盖：
-
-```text
-Evidence
-RootCause score
-最终 deterministic ranking
-```
-
-如果 Planner LLM 不可用：
-
-```text
-→ deterministic planner fallback
-```
-
-整个 RCA 仍必须能够执行。
-
----
-
-# 12. Evaluation 必须同步重构
-
-不要再把：
-
-```text
-LLM Only / LLM + Tools / Hybrid
-```
-
-作为主要亮点实验。
-
-新增核心消融：
-
-```text
-A. Fixed Planner
-   六维 + Expert 全跑
-
-B. Adaptive Planner
-   动态 Tool / Expert
-
-C. Adaptive Planner without Dynamic L2
-
-D. Full Adaptive RCA
-```
-
-重点比较：
-
-```text
-Hit@1
-Hit@3
-Evidence Recall
-FPR
-
-平均 Tool Calls / Case
-平均 Expert Calls / Case
-平均 Investigation Rounds
-P95 latency
-```
-
-最关键希望验证两个问题：
-
-```text
-① Adaptive 后准确率不能下降
-
-② 在相同/更高准确率下，
-   Tool Calls / Expert Calls 明显减少
-```
-
-再增加：
-
-```text
-Planner Action Valid Rate
-Duplicate Action Rate
-Budget Exhaustion Rate
-```
-
----
-
-# 13. 必须覆盖的测试场景
-
-至少覆盖：
-
-```text
-DB replication lag
-DB connection exhaustion
-Redis memory pressure
-Kafka consumer lag
-RPC timeout
-OOM
-Traffic/resource saturation
-Normal / noise
-```
-
-并额外设计几类“需要二次调查”的 case，例如：
-
-```text
-Alert只表现为 timeout
-
-第一轮：
-metrics → tp99异常
-trace → mysql慢
-
-第二轮：
-Planner → DB Expert
-
-第三轮：
-DB replication → lag 15s
-
-最终：
-DB_REPLICATION_LAG
-```
-
-必须证明：
-
-> **后续 Tool 是由前一轮 Observation 触发的，而不是预先写死全部执行。**
-
----
-
-# 14. 验收标准
-
-重构完成后必须能够真实展示：
-
-```text
-Round 1
-Alert(timeout)
+timeout Alert
+↓
+Seed Planner
 → metrics.query
 → traces.query
+→ changes.query
 
-Observation:
-mysql span slow
+↓ Round Analysis
 
-Round 2
-Adaptive Planner
-→ invoke DB Expert
+L1:
+trace path order → inventory → mysql is slow
 
+Algorithms:
+tp99 IQR anomaly
+
+Evidence Pool:
+trace anomaly evidence
+metric anomaly evidence
+
+Ranking:
+RPC_TIMEOUT Top1
+
+Evidence Gate:
+confidence/margin/source diversity 不足
+→ continue
+
+LLM Adaptive Planner 输入：
+Alert
++ findings
++ evidence summary
++ provisional ranking
++ action history
++ budget
+
+LLM输出：
+invoke_expert("db")
+reason:
+"slow trace terminates at mysql; DB-specific evidence is missing"
+
+↓
 DB Expert
-→ db.replication
-→ db.slowlog
 
-Observation:
-replication lag = 15s
+选择：
+db.replication
+db.slowlog
 
-Evidence Gate
-→ evidence sufficient
+↓ Round Analysis重新执行
 
-L3
-→ Evidence fusion
+L2:
+db_replication_lag
 
-RootCause Ranking
-→ DB_REPLICATION_LAG
+完整 Evidence：
+trace
+metrics algorithm
+DB replication
+
+Ranking:
+DB_REPLICATION_LAG Top1
+
+Gate：
+confidence >= threshold
+margin >= threshold
+independent observation sources >= threshold
+
+→ STOP
+
+最后一轮：
+Evidence Pool + Ranking
+直接作为最终确定性结果
+
+→ optional constrained LLM explanation
+→ Report
+
+==================================================
+十一、验收
+==================================================
+
+完成代码后：
+
+1. 跑完整测试。
+2. 修复所有 regression。
+3. 增加测试证明：
+   - Planner 不可读取 alert.signals
+   - Planner 不可直接调用 Domain Tool
+   - LLM Planner invalid output 会 fallback
+   - 同一 ToolResult 派生的多份 Evidence 只算一个 independent source
+   - 不同 Observation 能正确计为多 source
+   - Algorithm Evidence 在每轮 Gate 之前已经存在
+   - Gate 使用完整 Evidence Pool
+   - 调查结束后不会重复执行 L3 / Ranking
+   - Worker checkpoint/recovery 仍然工作
+4. 输出：
+   - 修改文件列表
+   - 新主数据流
+   - 测试结果
+   - 与本需求仍存在的偏差（如有）
+
+不要生成项目学习说明书。
+等这一轮架构稳定后再单独整理说明书。
 ```
-
-并能在 RuntimeEvent / Report 中看到：
-
-```text
-为什么执行某个 Action
-哪一轮执行
-产生了什么 Finding
-为什么继续调查
-为什么最终停止
-```
-
----
-
-## 最终目标
-
-项目从：
-
-```text
-六维固定 Tool 流水线
-+ 四个规则 Expert
-```
-
-升级为：
-
-> **六维先验驱动的自适应 Agent RCA：Controller 根据实时 Observation 动态 Re-plan，并按需调度 Domain Expert 下钻，在 Evidence Gate 控制下完成多轮调查，最终由确定性算法融合多源 Evidence 输出根因。**
-
-同时保留现有：
-
-```text
-L3核心算法
-Evidence体系
-Trace分析
-Mock Environment
-Recoverable Runtime
-Fault Injection
-```
-
-避免无意义的大重写。

@@ -29,6 +29,7 @@ def make_alert() -> AlertEvent:
         alert_type="timeout",
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
+        description="database connections are waiting for capacity",
         signals={"db": {"active_connections": 198, "max_connections": 200}},
     )
 

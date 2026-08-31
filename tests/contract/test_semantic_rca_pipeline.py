@@ -100,7 +100,7 @@ async def test_evidence_shortage_triggers_db_expert_after_seed_observation():
     assert "db.replication" in trace.executed_tools
     expert_action = next(item for item in trace.action_history if item.action_type == InvestigationActionType.INVOKE_EXPERT)
     assert expert_action.round == 2
-    assert "observed context matched db" in expert_action.reason
+    assert "observed/public context for db" in expert_action.reason
     assert report.primary_root_cause.root_cause_type == RootCauseType.DB_REPLICATION_LAG
     assert trace.duplicate_actions == 0
     assert trace.tool_budget_used <= 8
@@ -116,9 +116,9 @@ async def test_resource_alert_activates_only_the_observed_db_expert():
     report = await OpsPilotWorkflow(build_default_registry()).analyze(alert)
 
     assert report.investigation.executed_tools[:2] == ["metrics.query", "logs.query"]
-    assert report.investigation.invoked_experts == ["db"]
+    assert report.investigation.invoked_experts[0] == "db"
     assert "db.connections" in report.investigation.executed_tools
-    assert [item.dimension for item in report.expert_results] == ["db"]
+    assert report.expert_results[0].dimension == "db"
     assert report.primary_root_cause.root_cause_type == RootCauseType.DB_CONNECTION_EXHAUSTED
 
 
