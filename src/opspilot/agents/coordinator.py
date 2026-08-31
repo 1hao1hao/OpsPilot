@@ -31,6 +31,14 @@ DIMENSION_NAMES = {
 }
 
 
+def dimension_for_tool(tool_name: str, alert_type: str) -> str | None:
+    """Map an observation Tool to its L1 semantic dimension."""
+    dimension = TOOL_DIMENSIONS.get(tool_name)
+    if tool_name == "metrics.query":
+        return "upstream" if alert_type in {"timeout", "error_rate"} else "cluster"
+    return dimension
+
+
 class CoordinatorAgent:
     """Create only the low-cost first investigation round.
 
@@ -62,12 +70,7 @@ class CoordinatorAgent:
 
         dimensions: list[DimensionTask] = []
         for index, tool_name in enumerate(selected, start=1):
-            dimension = TOOL_DIMENSIONS.get(tool_name, "downstream")
-            # Metrics represent the high-information alert signal. Timeout and
-            # error-rate seeds use it for traffic context; resource/custom use
-            # it for capacity context.
-            if tool_name == "metrics.query" and alert.alert_type.value in {"timeout", "error_rate"}:
-                dimension = "upstream"
+            dimension = dimension_for_tool(tool_name, alert.alert_type.value) or "downstream"
             dimensions.append(
                 DimensionTask(
                     dimension=dimension,

@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from opspilot.agents import CoordinatorAgent, RootCauseAgent
+from opspilot.agents.coordinator import DIMENSION_NAMES, dimension_for_tool
 from opspilot.config import RuntimeSettings
 from opspilot.investigation.analysis import DeterministicEvidenceEngine
 from opspilot.investigation.planner import ActionValidator, EvidenceGate, LLMAdaptivePlanner
@@ -122,7 +123,7 @@ class AdaptiveInvestigator:
             state["round"] = max(state["round"], pending.round)
             await self._execute_action(state, alert, pending, execute_tool, on_state)
 
-        analysis_plan = self._analysis_plan(seed_plan, state["executed_tools"])
+        analysis_plan = self._analysis_plan(alert, seed_plan, state["executed_tools"])
         self._analyze(state, alert, analysis_plan)
         await self._notify(on_state, "investigation.round.completed", state)
 
@@ -168,7 +169,7 @@ class AdaptiveInvestigator:
 
             await self._execute_action(state, alert, action, execute_tool, on_state)
 
-            analysis_plan = self._analysis_plan(seed_plan, state["executed_tools"])
+            analysis_plan = self._analysis_plan(alert, seed_plan, state["executed_tools"])
             self._analyze(state, alert, analysis_plan)
             await self._notify(on_state, "investigation.round.completed", state)
 
@@ -291,26 +292,33 @@ class AdaptiveInvestigator:
         state["provisional_candidates"] = analysis.candidates
 
     @staticmethod
-    def _analysis_plan(seed: AnalysisPlan, executed_tools: list[str]) -> AnalysisPlan:
-        dimensions = list(seed.dimensions)
-        mapping = {
-            "topology.query": "upstream",
-            "alerts.query": "problem",
-        }
-        existing = {item.dimension for item in dimensions}
+    def _analysis_plan(
+        alert: AlertEvent,
+        seed: AnalysisPlan,
+        executed_tools: list[str],
+    ) -> AnalysisPlan:
+        dimensions = [item.model_copy(deep=True) for item in seed.dimensions]
+        positions = {item.dimension: index for index, item in enumerate(dimensions)}
         for tool_name in executed_tools:
-            dimension = mapping.get(tool_name)
-            if dimension and dimension not in existing:
+            dimension = dimension_for_tool(tool_name, alert.alert_type.value)
+            if dimension is None:
+                continue
+            if dimension in positions:
+                index = positions[dimension]
+                current = dimensions[index]
+                if tool_name not in current.tools:
+                    dimensions[index] = current.model_copy(update={"tools": [*current.tools, tool_name]})
+            else:
                 dimensions.append(
                     DimensionTask(
                         dimension=dimension,
-                        name=dimension.title(),
+                        name=DIMENSION_NAMES[dimension],
                         priority=len(dimensions) + 1,
                         tools=[tool_name],
                         reason=f"Adaptive inspection selected {tool_name}",
                     )
                 )
-                existing.add(dimension)
+                positions[dimension] = len(dimensions) - 1
         return AnalysisPlan(steps=seed.steps, dimensions=dimensions)
 
     def _budget_exhausted(self, state: dict[str, Any]) -> bool:

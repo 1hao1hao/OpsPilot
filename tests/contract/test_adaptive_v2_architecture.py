@@ -8,9 +8,11 @@ import pytest
 from opspilot.agents import CoordinatorAgent, RootCauseAgent, analyze_experts
 from opspilot.evidence import collect_evidence, collect_expert_evidence
 from opspilot.graph import OpsPilotWorkflow
+from opspilot.investigation.engine import AdaptiveInvestigator
 from opspilot.investigation.planner import ActionValidator, EvidenceGate, LLMAdaptivePlanner
 from opspilot.models import (
     AlertEvent,
+    AnalysisPlan,
     Evidence,
     EvidenceSeverity,
     EvidenceSourceType,
@@ -187,3 +189,43 @@ def test_coordinator_seed_contains_general_tools_only():
     registry = build_default_registry()
     plan = CoordinatorAgent(registry).plan(alert())
     assert {step.tool_name for step in plan.steps} <= set(registry.general_names())
+
+
+@pytest.mark.parametrize(
+    ("alert_type", "tool_name", "expected_dimension"),
+    [
+        ("timeout", "metrics.query", "upstream"),
+        ("error_rate", "metrics.query", "upstream"),
+        ("resource", "metrics.query", "cluster"),
+        ("custom", "metrics.query", "cluster"),
+        ("timeout", "logs.query", "errorlog"),
+        ("timeout", "changes.query", "change"),
+        ("timeout", "traces.query", "downstream"),
+        ("timeout", "topology.query", "upstream"),
+        ("timeout", "alerts.query", "problem"),
+    ],
+)
+def test_dynamic_analysis_plan_maps_every_general_tool(
+    alert_type: str,
+    tool_name: str,
+    expected_dimension: str,
+):
+    item = AlertEvent.model_validate({**alert().model_dump(), "alert_type": alert_type})
+    plan = AdaptiveInvestigator._analysis_plan(item, AnalysisPlan(steps=[]), [tool_name])
+
+    assert [(dimension.dimension, dimension.tools) for dimension in plan.dimensions] == [
+        (expected_dimension, [tool_name])
+    ]
+
+
+def test_dynamic_analysis_plan_merges_tools_that_share_upstream_dimension():
+    item = alert()
+    seed = CoordinatorAgent(build_default_registry()).plan(item)
+    plan = AdaptiveInvestigator._analysis_plan(
+        item,
+        seed,
+        ["metrics.query", "traces.query", "changes.query", "topology.query"],
+    )
+
+    upstream = next(dimension for dimension in plan.dimensions if dimension.dimension == "upstream")
+    assert upstream.tools == ["metrics.query", "topology.query"]
