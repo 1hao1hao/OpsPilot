@@ -1,4 +1,4 @@
-"""Run resources and the deprecated /analyze compatibility adapter."""
+"""Persistent Run resources and investigation events."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import asyncio
 
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect, status
 
-from opspilot.models import AlertEvent, CreateRunRequest, RunAccepted, RunResult, RunStatus, RuntimeEventView, RunView
+from opspilot.models import CreateRunRequest, RunAccepted, RunResult, RunStatus, RuntimeEventView, RunView
 from opspilot.runtime.task_manager import TaskManager
 
 
@@ -54,39 +54,17 @@ def create_runs_router() -> APIRouter:
                 events = await manager.get_events(run_id, after=sequence)
                 if events is None:
                     await websocket.send_json({"event": "error", "detail": "run not found"})
+                    await websocket.close()
                     return
                 for event in events:
                     sequence = event.sequence
                     await websocket.send_json(event.model_dump(mode="json"))
                 run = await manager.get_run(run_id)
                 if run and run.status in {RunStatus.SUCCEEDED, RunStatus.FAILED, RunStatus.CANCELLED}:
+                    await websocket.close()
                     return
                 await asyncio.sleep(0.2)
         except WebSocketDisconnect:
             return
-
-    @router.post("/api/v1/analyze", status_code=status.HTTP_202_ACCEPTED)
-    async def legacy_analyze(alert: AlertEvent, request: Request) -> dict:
-        """Compatibility entrypoint; it creates the exact same persistent Run."""
-        accepted = await _manager(request).create_run(request_id=f"legacy:{alert.alert_id}", alert=alert)
-        return {
-            "trace_id": accepted.run_id,
-            "status": accepted.status.value.lower(),
-            "websocket_url": f"/api/v1/runs/{accepted.run_id}/stream",
-        }
-
-    @router.get("/api/v1/analyze/{run_id}/status")
-    async def legacy_status(run_id: str, request: Request) -> dict:
-        run = await get_run(run_id, request)
-        return {"trace_id": run.run_id, "status": run.status.value.lower(), "current_step": run.current_step}
-
-    @router.get("/api/v1/analyze/{run_id}/result")
-    async def legacy_result(run_id: str, request: Request) -> dict:
-        result = await get_result(run_id, request)
-        return {
-            "trace_id": result.run_id,
-            "status": result.status.value.lower(),
-            "report": result.report.model_dump(mode="json") if result.report else None,
-        }
 
     return router

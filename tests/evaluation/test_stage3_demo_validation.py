@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from opspilot.evaluation.ci_validation import validate_adaptive_demos, validate_stage3_demos
+from opspilot.evaluation.ci_validation import validate_adaptive_demos
 
 
 def test_adaptive_demo_evidence_satisfies_ci_contract():
@@ -25,40 +25,29 @@ def test_adaptive_demo_evidence_satisfies_ci_contract():
     assert summary["full_average_tools"] < summary["fixed_average_tools"]
 
 
-def test_existing_stage3_evidence_satisfies_ci_contract():
-    summary = validate_stage3_demos(
-        reliability="artifacts/evaluations/20260812T061631Z-runtime-faults-v1",
-        baseline="artifacts/evaluations/20260812T040942Z-deeprca_baseline-dev",
-        hybrid="artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev",
-    )
-    assert summary == {"reliability_trials": 15, "baseline_cases": 24, "hybrid_cases": 24}
-
-
-def test_stage3_evidence_rejects_failed_reliability_trial(tmp_path):
-    source = "artifacts/evaluations/20260812T061631Z-runtime-faults-v1"
-    reliability = tmp_path / "reliability"
-    shutil.copytree(Path(source), reliability)
-    (reliability / "failures.jsonl").write_text(json.dumps({"trial_id": "worker-crash-01"}) + "\n")
-    with pytest.raises(ValueError, match="failed trials"):
-        validate_stage3_demos(
-            reliability=reliability,
-            baseline="artifacts/evaluations/20260812T040942Z-deeprca_baseline-dev",
-            hybrid="artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev",
-        )
-
-
-def test_stage3_evidence_rejects_incomplete_six_dimension_tool_plan(tmp_path):
-    source = Path("artifacts/evaluations/20260829T052113Z-opspilot_hybrid-dev")
-    hybrid = tmp_path / "hybrid"
-    shutil.copytree(source, hybrid)
-    metrics_path = hybrid / "metrics.json"
+def test_fixed_observation_ranking_regression_is_rejected(tmp_path):
+    source = Path("artifacts/evaluations/20260830T102439Z-opspilot_fixed_planner-dev")
+    fixed = tmp_path / "fixed"
+    shutil.copytree(source, fixed)
+    metrics_path = fixed / "metrics.json"
     metrics = json.loads(metrics_path.read_text())
-    metrics["tool_success_rate"] = {"value": 1.0, "numerator": 239, "denominator": 239}
+    metrics["root_cause_hit_at_1"]["numerator"] -= 1
     metrics_path.write_text(json.dumps(metrics))
-
-    with pytest.raises(ValueError, match="expected 240/240"):
-        validate_stage3_demos(
+    with pytest.raises(ValueError, match="Fixed observation Hit@1"):
+        validate_adaptive_demos(
             reliability="artifacts/evaluations/20260812T061631Z-runtime-faults-v1",
-            baseline="artifacts/evaluations/20260812T040942Z-deeprca_baseline-dev",
-            hybrid=hybrid,
+            fixed=fixed,
+            adaptive="artifacts/evaluations/20260830T102440Z-opspilot_adaptive_planner-dev",
+            without_l2="artifacts/evaluations/20260830T102441Z-opspilot_adaptive_without_dynamic_l2-dev",
+            full="artifacts/evaluations/20260830T102441Z-opspilot_full_adaptive-dev",
         )
+
+
+def test_failed_reliability_trial_is_still_rejected(tmp_path):
+    from opspilot.evaluation.ci_validation import validate_reliability
+
+    path = tmp_path / "reliability"
+    shutil.copytree(Path("artifacts/evaluations/20260812T061631Z-runtime-faults-v1"), path)
+    (path / "failures.jsonl").write_text(json.dumps({"trial_id": "worker-crash-01"}) + "\n")
+    with pytest.raises(ValueError, match="failed trials"):
+        validate_reliability(path)

@@ -78,7 +78,7 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
             actions = investigation.get("action_history", [])
             planner_actions += len(actions)
             valid_actions += sum(
-                action.get("action_type") in {"inspect_tool", "invoke_expert", "finalize"}
+                action.get("action_type") in {"inspect_tool", "invoke_expert"}
                 and bool(action.get("target"))
                 for action in actions
             )

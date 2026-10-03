@@ -1,0 +1,25 @@
+{
+  "evaluation_id": "20261003T142505Z-opspilot_adaptive_without_dynamic_l2-dev",
+  "created_at": "2026-10-03T14:25:05.011295+00:00",
+  "dataset_name": "opspilot-rca",
+  "dataset_version": "1.0.0",
+  "dataset_schema_version": "1.0",
+  "split": "dev",
+  "case_count": 25,
+  "system": "opspilot_adaptive_without_dynamic_l2",
+  "config_path": "/tmp/reconstruction2-configs/adaptive_without_dynamic_l2-dev.yaml",
+  "config": {
+    "artifact_root": "artifacts/reconstruction_2/evaluations",
+    "dataset_path": "benchmarks/datasets/rca/v1",
+    "model": {
+      "external_api": false,
+      "type": "adaptive_without_dynamic_l2_ablation"
+    },
+    "split": "dev",
+    "system": "opspilot_adaptive_without_dynamic_l2"
+  },
+  "command": "-",
+  "python": "3.11.7",
+  "git_sha": "2c3d0a581ff6a497621a927b28646ee3f937d139",
+  "git_dirty": true
+}

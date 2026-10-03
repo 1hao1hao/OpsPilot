@@ -5,6 +5,8 @@ from __future__ import annotations
 import time
 import uuid
 
+from . import dependency_trace
+
 import pytest
 
 SCENARIOS = [
@@ -28,7 +30,7 @@ def test_business_scenario(agent_client, signals, expected):
                 "alert_type": "timeout",
                 "severity": "P1",
                 "timestamp": "2026-08-12T00:00:00Z",
-                "signals": signals,
+                "signals": {**signals, "trace": dependency_trace({"db": "mysql", "redis": "redis", "kafka": "kafka", "rpc": "payment"}[next(iter(signals))])},
             },
         },
     )

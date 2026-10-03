@@ -150,7 +150,7 @@ def _alert(trial_id: str) -> AlertEvent:
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
         description="fixed reliability scenario",
-        signals={"db": {"replication_lag_seconds": 20}, "metric": {"cpu_usage": 0.55}},
+        signals={"db": {"replication_lag_seconds": 20}, "metric": {"cpu_usage": 0.55}, "trace": {"traces": [{"trace_id": "t", "spans": [{"span_id": "root", "service": "checkout", "status": "OK"}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
 
 

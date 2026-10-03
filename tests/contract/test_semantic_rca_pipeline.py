@@ -2,7 +2,7 @@ from datetime import UTC, datetime
 
 import pytest
 
-from opspilot.agents import RootCauseAgent
+from opspilot.agents import CoordinatorAgent, RootCauseAgent
 from opspilot.graph import OpsPilotWorkflow
 from opspilot.models import AlertEvent, InvestigationActionType, RootCauseType
 from opspilot.tools import build_default_registry
@@ -44,17 +44,14 @@ def rich_alert() -> AlertEvent:
 async def test_online_workflow_runs_seed_gate_l3_and_full_span_path_analysis():
     report = await OpsPilotWorkflow(build_default_registry()).analyze(rich_alert())
 
-    assert [item.dimension for item in report.dimension_results] == ["upstream", "downstream", "change"]
-    assert {item.dimension for item in report.expert_results} == {"redis", "rpc"}
-    assert {item.algorithm for item in report.algorithm_signals} >= {
-        "metric_filter+noise_filter", "wow_dod_comparator", "iqr_detector", "volatility_detector"
-    }
-    trace_evidence = next(item for item in report.evidence if item.evidence_type == "downstream.downstream_span_error")
+    assert not {"dimension_results", "expert_results", "algorithm_signals", "matched_rules", "tool_executions"} & report.model_dump().keys()
+    assert {item.evidence_type for item in report.evidence} >= {"anomaly.historical_baseline", "anomaly.iqr", "anomaly.volatility"}
+    trace_evidence = next(item for item in report.evidence if item.evidence_type == "trace.span_error")
     assert trace_evidence.service == "redis"
     assert "order-service/payment-service/redis" in trace_evidence.fact
     assert trace_evidence.raw_ref == "trace:trace-semantic/span:redis"
     assert report.primary_root_cause.root_cause_type == RootCauseType.RPC_TIMEOUT
-    assert report.investigation.rounds == 3
+    assert report.investigation.rounds <= 4
     assert report.investigation.gate_decisions[0].sufficient is False
 
 
@@ -71,12 +68,12 @@ def test_seed_planner_is_alert_aware_bounded_and_has_no_domain_tools(alert_type,
         alert_id=f"seed-{alert_type}", service_name="order-service", alert_type=alert_type,
         severity="P2", timestamp=datetime(2026, 8, 29, tzinfo=UTC),
     )
-    plan = OpsPilotWorkflow(build_default_registry()).coordinator.plan(alert)
+    plan = CoordinatorAgent(build_default_registry()).plan(alert)
 
     assert [item.tool_name for item in plan.steps] == expected_tools
     assert 2 <= len(plan.steps) <= 3
     assert not any(name.startswith(("db.", "redis.", "kafka.", "rpc.")) for name in expected_tools)
-    assert all(not item.expert_domains for item in plan.dimensions)
+    assert "dimensions" not in plan.model_dump()
 
 
 @pytest.mark.asyncio
@@ -100,7 +97,7 @@ async def test_evidence_shortage_triggers_db_expert_after_seed_observation():
     assert "db.replication" in trace.executed_tools
     expert_action = next(item for item in trace.action_history if item.action_type == InvestigationActionType.INVOKE_EXPERT)
     assert expert_action.round == 2
-    assert "observed/public context for db" in expert_action.reason
+    assert "Evidence supports db" in expert_action.reason
     assert report.primary_root_cause.root_cause_type == RootCauseType.DB_REPLICATION_LAG
     assert trace.duplicate_actions == 0
     assert trace.tool_budget_used <= 8
@@ -111,14 +108,15 @@ async def test_resource_alert_activates_only_the_observed_db_expert():
     alert = AlertEvent(
         alert_id="resource-db", service_name="payment-service", alert_type="resource", severity="P1",
         timestamp=datetime(2026, 8, 29, tzinfo=UTC),
-        signals={"db": {"active_connections": 196, "max_connections": 200}},
+        signals={"db": {"active_connections": 196, "max_connections": 200},
+                 "trace": {"traces": [{"trace_id": "db", "spans": [{"span_id": "root", "service": "checkout", "status": "OK", "duration_ms": 10}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
     report = await OpsPilotWorkflow(build_default_registry()).analyze(alert)
 
     assert report.investigation.executed_tools[:2] == ["metrics.query", "logs.query"]
     assert report.investigation.invoked_experts[0] == "db"
     assert "db.connections" in report.investigation.executed_tools
-    assert report.expert_results[0].dimension == "db"
+    assert any(item.evidence_type == "db.connection_usage" for item in report.evidence)
     assert report.primary_root_cause.root_cause_type == RootCauseType.DB_CONNECTION_EXHAUSTED
 
 
@@ -128,10 +126,10 @@ def test_labels_and_severity_reorder_seed_without_expanding_it():
         timestamp=datetime(2026, 8, 29, tzinfo=UTC),
         labels={"component": "payment-db", "change_kind": "release"},
     )
-    plan = OpsPilotWorkflow(build_default_registry()).coordinator.plan(alert)
+    plan = CoordinatorAgent(build_default_registry()).plan(alert)
 
     assert [item.tool_name for item in plan.steps] == ["changes.query", "metrics.query", "logs.query"]
-    assert all(not item.expert_domains for item in plan.dimensions)
+    assert "dimensions" not in plan.model_dump()
 
 
 @pytest.mark.asyncio

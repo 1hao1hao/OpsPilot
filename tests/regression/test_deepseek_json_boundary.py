@@ -3,7 +3,7 @@ import json
 import httpx
 import pytest
 
-from opspilot.evaluation.deepseek import DeepSeekRCAClient
+from opspilot.llm import DeepSeekRCAClient
 
 
 def _response(content):

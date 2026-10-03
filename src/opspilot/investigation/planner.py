@@ -17,7 +17,6 @@ from opspilot.models import (
     InvestigationActionType,
     RootCauseCandidate,
     RootCauseType,
-    SemanticAnalysisResult,
 )
 from opspilot.tools import ToolRegistry
 
@@ -28,32 +27,14 @@ DOMAIN_TOOLS = {
     "rpc": ["rpc.metrics"],
 }
 
-DOMAIN_HINTS = {
-    "db": (
-        "mysql",
-        "postgres",
-        "database",
-        "persistence",
-        "replica",
-        "read request",
-        "slow query",
-        "connection",
-        "storage",
-    ),
-    "redis": ("redis", "cache", "hotkey", "fallback", "backend load"),
-    "kafka": (
-        "kafka",
-        "consumer",
-        "message",
-        "queue",
-        "event",
-        "background work",
-        "async",
-        "processing throughput",
-        "processing delay",
-    ),
-    "rpc": ("rpc", "grpc", "dependency", "downstream", "payment", "http"),
-}
+GENERAL_TOOL_PRIORITY = (
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "changes.query",
+    "topology.query",
+    "alerts.query",
+)
 
 PlannerJSONCall = Callable[..., Awaitable[dict[str, Any]]]
 
@@ -111,9 +92,7 @@ class EvidenceGate:
         sources = {
             item.source_group
             for item in evidence
-            if item.source_group
-            and top1.root_cause_type in item.supports
-            and item.evidence_id in top1.evidence_ids
+            if item.source_group and top1.root_cause_type in item.supports and item.evidence_id in top1.evidence_ids
         }
         sufficient = (
             top1.root_cause_type != RootCauseType.NO_FAULT
@@ -144,7 +123,7 @@ class EvidenceGate:
 
 
 class DeterministicPlannerFallback:
-    """Reliable fallback that consumes only public Alert fields and observed analysis results."""
+    """Evidence-linked Expert first, otherwise a fixed order of unused general Tools."""
 
     def __init__(self, registry: ToolRegistry, validator: ActionValidator) -> None:
         self.registry = registry
@@ -155,8 +134,6 @@ class DeterministicPlannerFallback:
         *,
         alert: AlertEvent,
         round_number: int,
-        dimension_results: list[SemanticAnalysisResult],
-        expert_results: list[SemanticAnalysisResult],
         evidence: list[Evidence],
         candidates: list[RootCauseCandidate],
         executed_tools: list[str],
@@ -167,92 +144,36 @@ class DeterministicPlannerFallback:
         remaining_tool_budget: int,
         remaining_expert_budget: int,
     ) -> InvestigationAction | None:
-        del action_history, remaining_round_budget
-        if remaining_tool_budget <= 0:
+        del action_history, candidates
+        if remaining_tool_budget <= 0 or remaining_round_budget <= 0:
             return None
-        context = self._context(alert, dimension_results, expert_results, evidence, candidates)
-        change_hints = ("deploy", "release", "version", "config change", "changed in the incident")
-        if "changes.query" not in executed_tools and any(token in context for token in change_hints):
-            action = InvestigationAction(
-                action_type=InvestigationActionType.INSPECT_TOOL,
-                target="changes.query",
-                reason="public alert context indicates a recent change",
-                round=round_number,
-                arguments={"service_name": alert.service_name},
+        domains = {cause.value.split("_", 1)[0] for item in evidence for cause in item.supports}
+        choices = []
+        if remaining_expert_budget > 0:
+            choices.extend(
+                (InvestigationActionType.INVOKE_EXPERT, domain, "Evidence supports " + domain)
+                for domain in DOMAIN_TOOLS
+                if domain in domains and domain not in invoked_experts and self.registry.domain_names(domain)
             )
-            if action.identity not in action_identities:
-                return self.validator.validate_planner_action(action)
-        domain = self._next_domain(alert, context, invoked_experts)
-        if domain and remaining_expert_budget > 0:
+        general = self.registry.general_names()
+        choices.extend(
+            (InvestigationActionType.INSPECT_TOOL, name, "Next unexecuted general observation")
+            for name in dict.fromkeys((*GENERAL_TOOL_PRIORITY, *general))
+            if name in general and name not in executed_tools
+        )
+        for action_type, target, reason in choices:
             action = InvestigationAction(
-                action_type=InvestigationActionType.INVOKE_EXPERT,
-                target=domain,
-                reason=f"deterministic fallback matched observed/public context for {domain}: {context[:180]}",
-                round=round_number,
-            )
-            if action.identity not in action_identities:
-                return self.validator.validate_planner_action(action)
-
-        for tool_name, reason in self._supplementary_tools(alert):
-            if tool_name not in self.registry.general_names() or tool_name in executed_tools:
-                continue
-            action = InvestigationAction(
-                action_type=InvestigationActionType.INSPECT_TOOL,
-                target=tool_name,
+                action_type=action_type,
+                target=target,
                 reason=reason,
                 round=round_number,
-                arguments={"service_name": alert.service_name},
+                arguments={"service_name": alert.service_name}
+                if action_type == InvestigationActionType.INSPECT_TOOL
+                else {},
             )
             if action.identity not in action_identities:
                 return self.validator.validate_planner_action(action)
         return None
-
-    @staticmethod
-    def _context(
-        alert: AlertEvent,
-        dimension_results: list[SemanticAnalysisResult],
-        expert_results: list[SemanticAnalysisResult],
-        evidence: list[Evidence],
-        candidates: list[RootCauseCandidate],
-    ) -> str:
-        findings = " ".join(
-            f"{finding.summary} {finding.data.get('path', '')} {finding.service}"
-            for result in dimension_results + expert_results
-            for finding in result.findings
-        )
-        labels = " ".join(f"{key} {value}" for key, value in alert.labels.items())
-        facts = " ".join(item.fact for item in evidence[:10])
-        top = " ".join(item.root_cause_type.value for item in candidates[:3])
-        # alert.signals is intentionally absent: it is a Tool backend snapshot.
-        # Keep service_name in the LLM payload, but do not treat a business service name
-        # (for example payment-service) as evidence for a matching Expert domain.
-        return f" {alert.alert_type.value} {alert.description} {labels} {findings} {facts} {top} ".lower()
-
-    @staticmethod
-    def _next_domain(alert: AlertEvent, context: str, invoked_experts: list[str]) -> str | None:
-        for domain, hints in DOMAIN_HINTS.items():
-            if domain not in invoked_experts and any(hint in context for hint in hints):
-                return domain
-        defaults = {
-            "timeout": ("rpc", "db"),
-            "error_rate": ("rpc", "redis", "kafka", "db"),
-            "resource": ("db", "redis", "kafka"),
-            "custom": ("kafka", "db", "redis", "rpc"),
-        }
-        return next((domain for domain in defaults[alert.alert_type.value] if domain not in invoked_experts), None)
-
-    @staticmethod
-    def _supplementary_tools(alert: AlertEvent) -> list[tuple[str, str]]:
-        items: list[tuple[str, str]] = []
-        if alert.alert_type.value in {"timeout", "error_rate"}:
-            items.append(("topology.query", "inspect dependency context after inconclusive evidence"))
-        if alert.severity.value in {"P0", "P1"}:
-            items.append(("alerts.query", "correlate high-severity alert with related incidents"))
-        items.extend([
-            ("changes.query", "check recent changes after inconclusive evidence"),
-            ("logs.query", "check error signatures after inconclusive evidence"),
-        ])
-        return items
 
 
 class LLMAdaptivePlanner:
@@ -298,6 +219,8 @@ class LLMAdaptivePlanner:
     async def decide(self, **kwargs) -> InvestigationAction | None:
         self.last_used_llm = False
         self.last_fallback_reason = None
+        if kwargs["remaining_round_budget"] <= 0 or kwargs["remaining_tool_budget"] <= 0:
+            return None
         if self.llm_enabled and self.json_call is not None:
             try:
                 raw = await self.json_call(
@@ -315,14 +238,14 @@ class LLMAdaptivePlanner:
                     reason=decision.reason,
                     round=kwargs["round_number"],
                     arguments=(
-                        {"service_name": kwargs["alert"].service_name}
-                        if decision.action == "inspect_tool"
-                        else {}
+                        {"service_name": kwargs["alert"].service_name} if decision.action == "inspect_tool" else {}
                     ),
                 )
                 action = self.validator.validate_planner_action(action)
                 if action.identity in kwargs["action_identities"]:
                     raise ValueError("LLM returned a duplicate action")
+                if action.target not in self._payload(**kwargs)["allowed_actions"][decision.action]:
+                    raise ValueError("LLM returned an unavailable or budget-exhausted action")
                 self.last_used_llm = True
                 return action
             except Exception as exc:  # noqa: BLE001 - fallback is the reliability contract
@@ -339,10 +262,14 @@ class LLMAdaptivePlanner:
                 "description": alert.description,
                 "labels": alert.labels,
             },
-            "l1_findings": self._findings(kwargs["dimension_results"]),
-            "l2_findings": self._findings(kwargs["expert_results"]),
             "evidence": [
-                {"type": item.evidence_type, "fact": item.fact, "confidence": item.confidence}
+                {
+                    "type": item.evidence_type,
+                    "fact": item.fact,
+                    "confidence": item.confidence,
+                    "source_group": item.source_group,
+                    "supports": [cause.value for cause in item.supports],
+                }
                 for item in kwargs["evidence"][:20]
             ],
             "provisional_top_k": [
@@ -364,59 +291,36 @@ class LLMAdaptivePlanner:
                 "inspect_tool": [
                     name for name in self.registry.general_names() if name not in kwargs["executed_tools"]
                 ],
-                "invoke_expert": [name for name in DOMAIN_TOOLS if name not in kwargs["invoked_experts"]],
+                "invoke_expert": [
+                    name
+                    for name in DOMAIN_TOOLS
+                    if name not in kwargs["invoked_experts"]
+                    and kwargs["remaining_expert_budget"] > 0
+                    and self.registry.domain_names(name)
+                ],
             },
         }
-
-    @staticmethod
-    def _findings(results: list[SemanticAnalysisResult]) -> list[dict[str, Any]]:
-        return [
-            {
-                "type": finding.finding_type,
-                "service": finding.service,
-                "summary": finding.summary,
-                "confidence": finding.confidence,
-            }
-            for result in results
-            for finding in result.findings
-        ]
 
     def expert_tools(
         self,
         domain: str,
         alert: AlertEvent,
-        dimension_results: list[SemanticAnalysisResult],
         evidence: list[Evidence],
     ) -> list[str]:
-        context = DeterministicPlannerFallback._context(alert, dimension_results, [], evidence, [])
-        if domain == "db":
-            selected = []
-            if any(token in context for token in ("replica", "read", "mysql")):
-                selected.append("db.replication")
-            if any(token in context for token in ("slow", "query", "mysql", "persistence")):
-                selected.append("db.slowlog")
-            if any(token in context for token in ("connection", "queue", "capacity", "resource", "storage", "waiting")):
-                selected.append("db.connections")
-            if selected:
-                candidates = selected
-            elif alert.alert_type.value == "resource":
-                candidates = ["db.connections"]
-            elif alert.alert_type.value == "timeout":
-                # Timeout alone cannot distinguish read-replica lag from a slow query.
-                candidates = ["db.replication", "db.slowlog"]
-            else:
-                candidates = ["db.slowlog"]
-        elif domain == "redis":
-            selected = []
-            if any(token in context for token in ("memory", "capacity", "resource")):
-                selected.append("redis.memory")
-            if any(token in context for token in ("hit", "hotkey", "fallback", "backend load")):
-                selected.append("redis.hotkeys")
-            candidates = selected or ["redis.memory"]
-        else:
-            candidates = DOMAIN_TOOLS[domain]
-        return [name for name in candidates if name in self.registry.domain_names(domain)]
-
-
-# Compatibility import for callers that used the v3 name.
-AdaptivePlanner = LLMAdaptivePlanner
+        del alert
+        # Select only tools whose causes are supported; without a clue, inspect
+        # the domain's small fixed tool set. Selection never diagnoses a cause.
+        cause_tools = {
+            RootCauseType.DB_REPLICATION_LAG: "db.replication",
+            RootCauseType.DB_SLOW_QUERY: "db.slowlog",
+            RootCauseType.DB_CONNECTION_EXHAUSTED: "db.connections",
+            RootCauseType.REDIS_MEMORY_PRESSURE: "redis.memory",
+            RootCauseType.REDIS_LOW_HIT_RATE: "redis.hotkeys",
+            RootCauseType.KAFKA_CONSUMER_LAG: "kafka.lag",
+            RootCauseType.RPC_TIMEOUT: "rpc.metrics",
+            RootCauseType.RPC_ERROR_RATE: "rpc.metrics",
+        }
+        supported = {cause_tools[cause] for item in evidence for cause in item.supports if cause in cause_tools}
+        tools = DOMAIN_TOOLS[domain]
+        selected = [name for name in tools if name in supported] or tools
+        return [name for name in selected if name in self.registry.domain_names(domain)]

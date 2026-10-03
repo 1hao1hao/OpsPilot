@@ -1,162 +1,136 @@
 # OpsPilot
 
-[![OpsPilot Validation](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/1hao1hao/OpsPilot/actions/workflows/smoke-test.yml)
+OpsPilot 是面向微服务故障诊断的自适应 Multi-Agent RCA 系统。项目分成两部分：RCA Engine 决定怎么诊断，异步 Runtime 保证诊断能够可靠执行和恢复。
 
-OpsPilot 是一个面向微服务故障诊断的可恢复 Adaptive Agent RCA 平台。系统从少量低成本观测开始，每轮将 ToolResult、六维 L1、动态 L2、确定性算法与专家规则统一汇入 Evidence Pool，再由 Evidence Gate 决定是否继续调查，最终输出 Top-3 根因、证据链和处置建议。
-
-项目避免让 LLM 脱离监控事实直接猜测根因；同时通过持久化 Checkpoint、稳定 ToolCall 幂等键和独立 Worker，使多轮调查能在进程崩溃、工具超时和重复投递后继续执行。
-
-## 核心能力
-
-- Adaptive Investigation：Seed Planner 按 `alert_type / severity / labels` 选择 2–3 个通用 Tool；证据不足时由可选 DeepSeek Planner 或确定性 fallback 选择 `inspect_tool / invoke_expert`，停止权只属于 Gate、硬预算和“无合法动作”。
-- 六维语义与动态 L2：保留 Change、Upstream、Downstream、Cluster、Errorlog、Problem 六维 L1；DB、Redis、Kafka、RPC Expert 根据公开告警上下文与已观测 Finding 动态选择自己的领域 Tool 子集。
-- Unified Evidence Engine：每一轮只执行一次完整的 Raw/L1/L2 Evidence、MetricFilter、NoiseFilter、WoW/DoD、IQR、Volatility、ExpertRuleEngine 和根因排名；Gate 与最终 Report 复用该轮同一份结果。
-- Evidence Gate：使用 Top-1 confidence、Top1/Top2 margin 和独立 Observation 来源数判断是否结束；同一 ToolResult 派生的 Raw、Finding、Algorithm、Rule Evidence 只计一个来源。
-- 权限边界：Seed 与 Adaptive Planner 只能直接调用通用 Tool；领域 Tool 必须经对应 Expert，中央校验器在执行前拒绝越权动作；Planner 永远看不到作为 Tool backend snapshot 的 `alert.signals`。
-- Deterministic RCA：确定性 Evidence 与排名始终是最终事实；DeepSeek 可用于受约束的下一步规划和结果解释，模型异常、超时或非法输出会自动回退，不能覆盖 Evidence 或排名。
-- Trace Path Analysis：适配 Mock、Jaeger 和 OTLP 格式，利用 `span_id / parent_span_id` 重建完整调用树，逐 Span 检测异常并保留根服务到异常服务的路径。
-- Recoverable Runtime：FastAPI、PostgreSQL 事实源、Redis `run_id` 队列和独立 Worker；持久化 Run、Step、ToolExecution、Checkpoint、RuntimeEvent 和 Report。
-- Reproducible Evaluation：固定 dev / frozen-test 数据、四路 Planner/L2 消融、逐 case prediction、失败集、并发实验和 Runtime 故障矩阵。
-
-## Adaptive 调查示例
-
-```text
-Round 1: timeout alert
-  metrics.query + traces.query + changes.query
-  -> Trace path: order-service/payment-service/mysql
-
-Evidence Gate: 证据不足
-
-Round 2: invoke_expert(db)
-  db.replication + db.slowlog
-  -> replication lag = 15s
-
-Unified Evidence Engine:
-  Raw + L1 + DB Expert Finding
-  + IQR / Volatility / Rules
-  -> provisional ranking = DB_REPLICATION_LAG
-
-Evidence Gate: 证据充分
-  -> 直接使用本轮 Evidence + Ranking 生成报告
-```
-
-每个 `DiagnosisReport.investigation` 和 RuntimeEvent 都能看到 Action 的原因、轮次、已执行 Tool、已调用 Expert、Gate 判断、预算消耗和停止原因。
-
-## 已验证结果
-
-### Unified Evidence v4
-
-| 数据集 | Hit@1 | Hit@3 | Evidence Recall | FPR | Avg Tools | Avg Experts | Avg Rounds |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| 25-case dev | 21/21 | 21/21 | 1.0 | 0/4 | 4.96 | 1.96 | 3.00 |
-| 12-case frozen test | 10/10 | 10/10 | 1.0 | 0/2 | 4.83 | 2.00 | 3.08 |
-
-工件位于 [`dev`](artifacts/evaluations/20260831T081531Z-opspilot_full_adaptive-dev/) 和 [`frozen test`](artifacts/evaluations/20260831T081532Z-opspilot_full_adaptive-test/)。这些数字来自固定合成数据集，仅验证当前实现和实验假设，不代表生产 SLA。严格的 Observation provenance 使单观测 case 不再通过派生 Evidence 虚增来源，因此当前 dev / frozen 的预算耗尽率分别为 96% / 100%；报告仍使用最后一轮完整确定性排名。
-
-## 架构
+## RCA Engine：怎么诊断
 
 ```mermaid
-flowchart TB
-    A[Alert] --> API[FastAPI Run API]
-    API --> SP[Seed Planner]
-    SP --> TE[Tool Registry / Executor]
-    TE --> L1[Selected Six-Dimension L1]
-    TE --> L2[Selected DB / Redis / Kafka / RPC Expert]
-    L2 --> DT[Dynamic Domain Tool subset] --> TE
-    L1 --> UE[Unified Deterministic Evidence Engine]
-    L2 --> UE
-    TE --> UE
-    UE --> ALG[Filter / Noise / WoW-DoD / IQR / Volatility / Rules]
-    ALG --> EP[Complete Evidence Pool]
-    EP --> RC[Provisional deterministic ranking]
-    RC --> G{Evidence Gate}
-    G -->|insufficient| AP[DeepSeek Planner or deterministic fallback]
-    AP -->|inspect general Tool| TE
-    AP -->|invoke Domain Expert| L2
-    G -->|sufficient / budget / no legal action| LLM[Optional constrained DeepSeek explanation]
-    LLM --> R[Diagnosis Report]
-
-    API <--> PG[(PostgreSQL facts + checkpoints)]
-    API --> Q[(Redis run_id Queue)] --> W[Independent Worker]
-    W --> SP
-    W --> E[RuntimeEvent]
+flowchart TD
+    A[Alert] --> C[Coordinator]
+    C --> L1[L1: Metrics / Logs / Traces / Changes]
+    L1 --> T[ToolResult]
+    T --> E[Evidence Builder / AnomalyDetector]
+    E --> P[Evidence Pool]
+    P --> R[Deterministic RootCause Ranking / Top-K]
+    R --> G{Evidence Gate}
+    G -->|PASS| F[Final RCA]
+    G -->|FAIL 且预算充足| L[LLM Adaptive Planner]
+    L -->|inspect_tool| L1
+    L -->|invoke_expert| X[L2: DB / Redis / Kafka / RPC Expert]
+    X --> D[Domain Tools]
+    D --> T
+    G -->|预算耗尽或没有合法动作| F
 ```
 
-PostgreSQL 是状态和结果的唯一事实源，Redis 只传递 `run_id`。Worker 在 Action/Tool/Gate 边界保存调查上下文；恢复扫描将 stale Run 重新入队，新 Worker 从最近 Checkpoint 继续未完成 Action。
+Coordinator 根据公开告警类型、严重程度和标签选择 2–3 个低成本通用工具作为首轮调查。L1 的广度调查指 Metrics、Logs、Traces、Changes；Topology 和相关告警查询是补充工具。L2 Expert 选择自己的领域工具，得到的 ToolResult 使用同一个 Evidence Builder。
 
-## 技术栈
+L3 确定性分析包含历史基线对比、IQR 和滚动波动检测，输出直接进入 Evidence Pool。证据保留来源、置信度、支持/反驳的根因和原始观测引用；同一事实去重，同一 ToolResult 的多个检测结果只算一个独立来源。排名累加支持证据的 confidence、扣减反驳证据的 confidence，输出 Top-3。
 
-Python 3.11、FastAPI、Pydantic、asyncio、PostgreSQL、SQLAlchemy、Alembic、Redis、httpx、Docker Compose、GitHub Actions、pytest、Ruff；DeepSeek 为可选调查 Planner 与解释模型。
+Evidence Gate 检查 Top-1 不是 NO_FAULT、confidence、Top1/Top2 margin 和独立证据来源数。通过则停止；未通过则继续规划，直到轮数或工具预算耗尽，或者没有合法动作。Expert budget 单独限制领域调用，不会阻止普通工具补查。最终结果记录 stop_reason。
 
-## 快速开始
+**设计边界：LLM 负责下一步查什么；确定性代码负责工具权限、Evidence、异常检测、Gate、预算和最终根因排名。** 可选 LLM 解释只针对已经确定的根因，不能修改候选排名。Planner 只能返回 `inspect_tool` 或 `invoke_expert`，且不能读取作为工具后端快照的 `alert.signals`。
+
+### LLM 失败后的 fallback
+
+1. Evidence 的 `supports` 明确指向一个未调用领域，且 Expert budget 充足：调用该 Expert。
+2. 否则依次选择未执行的 Metrics、Logs、Traces、Changes、Topology、Alerts 工具。
+3. 没有合法且未重复的动作：返回 None。
+
+Fallback 不分析告警关键词、不根据 alert_type 猜领域，也不读取未观测的后端快照。它保证可靠退出，不能替代 LLM 的开放式调查能力。Expert 根据证据支持的根因选择对应领域工具；缺少细分线索时检查该领域的小型固定工具集。
+
+## Runtime：怎么可靠执行
+
+```mermaid
+flowchart LR
+    API[Run API] --> PG[(PostgreSQL Run)]
+    API --> Q[(Redis run_id Queue)]
+    Q --> W[Independent Worker]
+    W --> RCA[RCA Engine]
+    RCA --> CP[Checkpoint]
+    CP --> PG
+    PG --> REC[Stale Run Recovery]
+    REC --> Q
+```
+
+PostgreSQL 是 Run、ToolExecution、Checkpoint、事件和报告的事实源；Redis 只传递 run_id。Worker 在 Action、Tool 和 Gate 边界保存状态，恢复扫描重新入队 stale Run，持久化 ToolCall 幂等键避免已成功工具重复执行。重试和超时仍由 Tool Executor 控制。
+
+Runtime 不解释异常检测或领域证据。它给 `AdaptiveInvestigator` 注入工具执行函数和 checkpoint 回调，保存/恢复调查状态。在线执行和离线评测共用 Engine；`OpsPilotWorkflow` 仅作为离线工具执行包装，两种入口都调用 `investigation/report.py` 的唯一报告构造函数。
+
+当前 checkpoint schema 为 **3.0**，graph version 为 `opspilot-runtime-v6-compact-report`；不转换旧 checkpoint，版本不匹配会明确失败。
+
+## API 与 Report
+
+| 方法 | 路径 | 用途 |
+|---|---|---|
+| POST | `/api/v1/runs` | 提交 request_id 与 Alert，返回 run_id |
+| GET | `/api/v1/runs/{run_id}` | 查询状态 |
+| GET | `/api/v1/runs/{run_id}/result` | 获取最终结果；运行中返回 202 |
+| GET | `/api/v1/runs/{run_id}/events?after=0` | 按事件序号增量查询 |
+| WS | `/api/v1/runs/{run_id}/stream` | 订阅调查事件 |
+
+DiagnosisReport schema **2.0** 包含 trace_id（在线时等于 run_id）、告警与服务标识、Top-K、primary_root_cause、Evidence、decision_rationale、recommended_actions，以及耗时和降级信息。调查说明集中在嵌套的 `investigation: InvestigationTrace`，包括轮数、动作、Gate 判断、预算和停止原因。
+
+工具调用 ID、attempt、latency、status、error_code 通过 `/events` 查询，不再平铺在最终报告中。旧报告中间结构和旧兼容接口已删除。
+
+## 运行和验证
 
 ```bash
 bash scripts/bootstrap_dev_env.sh
 source .venv/bin/activate
 ruff check src tests
-pytest -q --ignore=tests/smoke
+pytest -q
 ```
 
-完整服务：
+未配置服务 URL 时，HTTP 冒烟测试运行本地测试应用，使用 SQLite 和内存队列；这不等同于真实 PostgreSQL/Redis 的独立进程验证。真实基础设施测试需要设置 `OPSPILOT_TEST_DATABASE_URL`、`OPSPILOT_TEST_REDIS_URL`。显式设置 `AGENT_URL` 和 `MOCK_URL` 时，冒烟客户端连接部署服务。
+
+启动 API、Worker、PostgreSQL、Redis 与 Mock：
 
 ```bash
 docker compose --profile full up --build -d
 ```
 
-首次启动会运行 Alembic migration，并启动 PostgreSQL、Redis、API、Worker 和 Mock Environment。
+LLM 默认关闭。需要时设置 `OPSPILOT_LLM_ENABLED=true` 和 `DEEPSEEK_API_KEY`；模型、地址和超时使用 `OPSPILOT_LLM_MODEL`、`OPSPILOT_LLM_BASE_URL`、`OPSPILOT_LLM_TIMEOUT_SECONDS`。所有工具只读，报告提供处置建议，不自动修改生产资源。
 
-## 可复现实验
+API 示例与恢复验证见 [测试指南](tests/guide/full-flow-test-guide.md)。
 
-四路自适应 RCA 消融：
+## 评测范围与已知限制
+
+v1 原始数据集保持不变，共 25 个 dev、12 个 frozen-test 样本。第二阶段对照关闭 LLM，结果如下：
+
+| 模式 | dev 故障 Hit@1 | test 故障 Hit@1 |
+|---|---:|---:|
+| 第二阶段之前的关键词/default fallback | 21/21 | 10/10 |
+| 当前 Evidence + 固定工具顺序 fallback | 6/21 | 2/10 |
+| 当前固定执行全部工具，使用同一 Evidence + Ranker | 21/21 | 10/10 |
+
+许多旧样本只有领域后端快照，没有 L1 领域线索。删掉语义 fallback 后，未启用 LLM 就不会猜测这些领域。**这是真实的调查覆盖率下降，不能用排名正确率代替完整自适应诊断准确率。** 当前未执行付费真实 LLM 评测；Planner 的成功、非法输出、异常和 fallback 边界由可控响应测试覆盖。
+
+[逐样本对照](artifacts/reconstruction_2/comparison.json) 保留重构前结果、当前 fallback 与完整观测 Top-K。CI 分别检查完整观测的确定性排名、合法动作/预算和 Runtime 可靠性；自适应覆盖率原样报告，不再使用已经移除的语义 fallback 的全命中门槛。
 
 ```bash
 python -m opspilot.evaluation.cli run --config benchmarks/configs/fixed_planner.yaml --split dev
-python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_planner.yaml --split dev
-python -m opspilot.evaluation.cli run --config benchmarks/configs/adaptive_without_dynamic_l2.yaml --split dev
 python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split dev
 python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split test
-```
-
-Runtime 故障矩阵：
-
-```bash
-export OPSPILOT_TEST_DATABASE_URL='postgresql+asyncpg://opspilot:opspilot@localhost:5432/opspilot'
-export OPSPILOT_TEST_REDIS_URL='redis://localhost:6379/0'
+python -m opspilot.evaluation.cli concurrency --config benchmarks/configs/tool_concurrency.yaml
 python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtime_faults.yaml
 ```
 
-串并行对照：
+历史评测工件保留供追溯，不代表当前版本。`adaptive_planner` 和 `full_adaptive_rca` 两个历史配置名目前调用同一实现；`adaptive_without_dynamic_l2` 通过 Expert budget=0 禁用领域深挖。
 
-```bash
-python -m opspilot.evaluation.cli concurrency --config benchmarks/configs/tool_concurrency.yaml
-```
-
-每次评测生成 manifest、metrics、predictions、failures 和报告；失败 case 保留在分母中。
-
-## 项目结构
+## 代码入口
 
 ```text
 src/opspilot/
-├── agents/          # Seed Planner、L1/L2 与 Root Cause Agent
-├── investigation/   # LLM/Fallback Planner、Unified Evidence Engine、Gate、Controller
-├── tools/           # Registry、Executor、通用与领域 Tool
-├── evidence/        # Finding/Evidence 标准化与去重
-├── rca/             # 确定性算法与专家规则
-├── tracing/         # Trace Adapter、Span Tree 和完整异常路径
-├── runtime/         # Worker、Checkpoint、Recovery、Idempotency
-├── persistence/     # PostgreSQL models 与 repositories
-├── api/             # Run、状态、结果、事件与 WebSocket
-└── evaluation/      # Dataset、消融、可靠性与报告
-
-benchmarks/
-├── configs/
-└── datasets/rca/v1/
+├── agents/          # Coordinator、确定性 Ranker、可选结果解释
+├── investigation/   # Engine、Planner、Gate、共享 Report 构造
+├── evidence/        # ToolResult → Evidence
+├── rca/             # Historical Baseline / IQR / Rolling Volatility
+├── tools/           # Registry、Executor、通用与领域工具
+├── tracing/         # Mock / Jaeger / OTLP 与异常 Span 路径
+├── runtime/         # TaskManager、Queue、Worker、可恢复执行
+├── persistence/     # PostgreSQL models / repositories
+├── api/             # Runs、Events、WebSocket
+├── graph/           # 薄离线包装，不维护另一套 RCA
+└── evaluation/      # 数据集、对照评测、可靠性验证
+src/deeprca/mock_env/ # 独立 Mock 服务；旧诊断实现已删除
 ```
-
-更完整的 Tool、触发条件、Finding 和 L1/L2 调用图见 [`docs/tools_intro.md`](docs/tools_intro.md)。设计需求见 [`docs/plan.md`](docs/plan.md)。
-
-## 安全边界
-
-- 所有领域 Tool 默认为只读；系统只输出诊断和建议，不自动修改生产资源。
-- DeepSeek 默认关闭；只有显式设置 `OPSPILOT_LLM_ENABLED=true` 才用于受约束的调查规划与结果解释。
-- 当前未实现 Kubernetes 生产部署、自动回滚或带副作用 Tool 的审批流程。

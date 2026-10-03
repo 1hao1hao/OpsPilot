@@ -1,4 +1,4 @@
-"""Application service used by both the new Run API and legacy adapter."""
+"""Application service for persistent Run resources."""
 
 from __future__ import annotations
 

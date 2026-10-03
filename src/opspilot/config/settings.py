@@ -10,9 +10,9 @@ class RuntimeSettings(BaseSettings):
     database_url: str = "postgresql+asyncpg://opspilot:opspilot@localhost:5432/opspilot"
     redis_url: str = "redis://localhost:6379/0"
     queue_name: str = "opspilot:runs"
-    graph_version: str = "opspilot-runtime-v4-unified-evidence"
+    graph_version: str = "opspilot-runtime-v6-compact-report"
     config_version: str = "adaptive-v2"
-    checkpoint_schema_version: str = "1.0"
+    checkpoint_schema_version: str = "3.0"
     recovery_stale_seconds: float = Field(default=30.0, ge=0)
     queue_poll_seconds: float = Field(default=1.0, gt=0)
     retry_backoff_seconds: float = Field(default=0.05, ge=0)

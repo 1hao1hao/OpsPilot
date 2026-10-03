@@ -30,7 +30,8 @@ def make_alert() -> AlertEvent:
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
         description="database connections are waiting for capacity",
-        signals={"db": {"active_connections": 198, "max_connections": 200}},
+        signals={"db": {"active_connections": 198, "max_connections": 200},
+                 "trace": {"traces": [{"trace_id": "db", "spans": [{"span_id": "root", "service": "checkout", "status": "OK", "duration_ms": 10}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
 
 
@@ -75,7 +76,7 @@ async def test_worker_crash_after_adaptive_db_checkpoint_resumes_without_repeati
     with pytest.raises(WorkerCrash):
         await first.process_once(timeout_seconds=0.01)
     assert (await manager.get_run(accepted.run_id)).status == RunStatus.RUNNING
-    assert provider.calls["db"] == 1
+    assert provider.calls["db"] == 3
 
     second = RuntimeWorker(
         repository,
@@ -88,7 +89,12 @@ async def test_worker_crash_after_adaptive_db_checkpoint_resumes_without_repeati
     recovered = await manager.get_run(accepted.run_id)
     assert recovered.status == RunStatus.SUCCEEDED
     assert recovered.recovered_count == 1
-    assert provider.calls["db"] == 1
+    assert provider.calls["db"] == 3
+    checkpoint = await repository.latest_checkpoint(accepted.run_id)
+    obsolete = {"dimension_results", "expert_results", "algorithm_signals", "matched_rules", "base_evidence"}
+    assert not obsolete & checkpoint.state_json.keys()
+    assert not obsolete & checkpoint.state_json["investigation"].keys()
+    assert checkpoint.schema_version == "3.0"
     async with database.sessions() as session:
         success_count = await session.scalar(
             select(func.count()).select_from(ToolExecutionRecord).where(
@@ -160,7 +166,7 @@ def one_tool_registry(handler, *, max_attempts: int = 3, timeout_seconds: float 
     registry = ToolRegistry()
     registry.register(
         ToolDefinition(
-            name="db.inspect",
+            name="db.connections",
             version="1",
             description="controlled DB tool",
             input_schema=AlertToolInput,
@@ -194,7 +200,9 @@ async def test_retryable_error_retries_and_permanent_error_does_not(runtime):
     retry_run = await manager.create_run(request_id="retryable", alert=make_alert())
     await first.process_once(timeout_seconds=0.01)
     assert retry_calls == 2
-    assert (await manager.get_result(retry_run.run_id)).report.tool_executions[0].attempt == 2
+    events = await manager.get_events(retry_run.run_id)
+    tool = next(e.detail["tool"] for e in events if e.event_type == "investigation.tool.completed")
+    assert tool["attempt"] == 2
 
     permanent_calls = 0
 
@@ -214,7 +222,9 @@ async def test_retryable_error_retries_and_permanent_error_does_not(runtime):
     assert permanent_calls == 1
     report = (await manager.get_result(permanent_run.run_id)).report
     assert report.degraded is True
-    assert report.tool_executions[0].attempt == 1
+    events = await manager.get_events(permanent_run.run_id)
+    tool = next(e.detail["tool"] for e in events if e.event_type == "investigation.tool.completed")
+    assert tool["attempt"] == 1
 
 
 @pytest.mark.asyncio
@@ -239,5 +249,7 @@ async def test_tool_timeout_is_persisted_and_bounded(runtime):
     report = (await manager.get_result(accepted.run_id)).report
     assert calls == 2
     assert report.degraded is True
-    assert report.tool_executions[0].error_code == "tool_timeout"
-    assert report.tool_executions[0].attempt == 2
+    events = await manager.get_events(accepted.run_id)
+    tool = next(e.detail["tool"] for e in events if e.event_type == "investigation.tool.completed")
+    assert tool["error_code"] == "tool_timeout"
+    assert tool["attempt"] == 2

@@ -3,7 +3,7 @@
 #
 # 服务矩阵:
 #   redis       — 缓存与状态存储 (redis:7-alpine)
-#   deeprca-agent — 核心 Agent 服务 (自建, :8000)
+#   api / worker — HTTP 接入与可恢复执行
 #   mock-env    — 模拟环境独立服务 (自建, :8001)
 #   smoke-test  — 冒烟测试执行器 (run-to-completion)
 
@@ -110,59 +110,8 @@ services:
       start_period: 5s
     profiles:
       - redis-only
-      - agent
       - full
       - smoke
-
-  # ─── Agent 服务 ─────────────────────────────────────────
-  deeprca-agent:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: deeprca-agent
-    restart: unless-stopped
-    command: ["uvicorn", "deeprca.main:app", "--host", "0.0.0.0", "--port", "8000"]
-    ports:
-      - "8000:8000"
-    environment:
-      - APP_ENV=production
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
-      - APP_EXTERNAL_HOST=${APP_EXTERNAL_HOST:-localhost}
-      - LLM_API_BASE=${LLM_API_BASE:-http://localhost:11434/v1}
-      - LLM_API_KEY=${LLM_API_KEY:-}
-      - LLM_MODEL=${LLM_MODEL:-gpt-4o}
-      - LLM_MAX_TOKENS=${LLM_MAX_TOKENS:-4096}
-      - LLM_TIMEOUT=${LLM_TIMEOUT:-30}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - REDIS_DB=0
-      # Kafka 默认值指向 localhost:9092；仅当已部署外部 Kafka 时才覆盖为 kafka:9092 等地址。
-      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
-      - KAFKA_FEEDBACK_TOPIC=${KAFKA_FEEDBACK_TOPIC:-deeprca-feedback}
-      - MOCK_ENV_ENABLED=true
-      - MOCK_K8S_API=http://mock-env:8001
-      - MOCK_MONITOR_API=http://mock-env:8001
-      - MOCK_LOG_API=http://mock-env:8001
-      - MOCK_CHANGE_API=http://mock-env:8001
-      - ANALYSIS_TIMEOUT=${ANALYSIS_TIMEOUT:-60}
-      - TOOL_CALL_TIMEOUT=${TOOL_CALL_TIMEOUT:-10}
-      - MAX_CONCURRENT_TASKS=${MAX_CONCURRENT_TASKS:-10}
-    volumes:
-      - deeprca-logs:/app/logs
-      - ./.env:/app/.env:ro
-    networks:
-      - deeprca-net
-    depends_on:
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
-    profiles:
-      - agent
 
   # ─── 模拟环境 ───────────────────────────────────────────
   mock-env:

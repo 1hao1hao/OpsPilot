@@ -5,7 +5,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", "src"))
 
-from deeprca.detection.quantile import QuantileAnomalyDetector, AnomalyResult
+from opspilot.rca.quantile import QuantileAnomalyDetector, AnomalyResult
 
 
 class TestQuantileAnomalyDetector:
@@ -88,17 +88,6 @@ class TestQuantileAnomalyDetector:
         series = [10.0] * 10 + [100.0, 10.0, 10.0]
         results = self.detector.detect_batch(series)
         assert len(results) == len(series)
-
-    def test_detect_dict_compatibility(self):
-        """detect_dict 应返回 dict 格式结果。"""
-        baseline = [10.0] * 15
-        result = self.detector.detect_dict(baseline, 100.0)
-        assert isinstance(result, dict)
-        assert "is_anomaly" in result
-        assert "score" in result
-        assert "deviation" in result
-        assert "bounds" in result
-        assert "median" in result
 
     def test_deviation_threshold(self):
         """偏离比超过 deviation_threshold 应触发异常。"""

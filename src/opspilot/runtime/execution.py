@@ -9,13 +9,12 @@ from pydantic import ValidationError
 
 from opspilot.agents import build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
-from opspilot.graph.workflow import recommended_actions
 from opspilot.investigation import AdaptiveInvestigator
+from opspilot.investigation.report import build_report
 from opspilot.models import (
     AlertEvent,
     DiagnosisReport,
     ToolCall,
-    ToolExecution,
     ToolExecutionStatus,
     ToolResult,
     ToolStatus,
@@ -106,18 +105,8 @@ class RecoverableExecution:
         )
         state["investigation"] = investigation.state
         state["tool_results"] = [item.model_dump(mode="json") for item in investigation.tool_results]
-        state["dimension_results"] = [item.model_dump(mode="json") for item in investigation.dimension_results]
-        state["expert_results"] = [item.model_dump(mode="json") for item in investigation.expert_results]
-        state["base_evidence"] = [item.model_dump(mode="json") for item in investigation.evidence]
-        results = investigation.tool_results
-        dimension_results = investigation.dimension_results
-        expert_results = investigation.expert_results
         evidence = list(investigation.evidence)
-        algorithm_signals = investigation.algorithm_signals
-        matched_rules = investigation.matched_rules
         candidates = investigation.provisional_candidates
-        state["algorithm_signals"] = [item.model_dump(mode="json") for item in algorithm_signals]
-        state["matched_rules"] = matched_rules
         state["evidence"] = [item.model_dump(mode="json") for item in evidence]
         state["candidates"] = [item.model_dump(mode="json") for item in candidates]
 
@@ -133,41 +122,9 @@ class RecoverableExecution:
         if "report" in state:
             return DiagnosisReport.model_validate(state["report"])
 
-        results = [ToolResult.model_validate(item) for item in state["tool_results"]]
-        failed_sources = sorted(item.tool_name for item in results if item.status == ToolStatus.ERROR)
-        finished_at = datetime.now(UTC)
-        started_at = datetime.fromisoformat(state["started_at"])
-        report = DiagnosisReport(
-            trace_id=run_id,
-            alert_id=alert.alert_id,
-            service_name=alert.service_name,
-            candidates=candidates,
-            primary_root_cause=candidates[0],
-            evidence=evidence,
-            tool_executions=[
-                ToolExecution(
-                    tool_call_id=item.tool_call_id,
-                    tool_name=item.tool_name,
-                    status=item.status,
-                    latency_ms=item.latency_ms,
-                    attempt=item.attempt,
-                    error_code=item.error_code,
-                )
-                for item in results
-            ],
-            dimension_results=dimension_results,
-            expert_results=expert_results,
-            algorithm_signals=algorithm_signals,
-            matched_rules=matched_rules,
-            investigation=investigation.trace,
-            llm_used=llm_used,
-            degraded=bool(failed_sources),
-            missing_sources=failed_sources,
-            decision_rationale=rationale,
-            recommended_actions=recommended_actions(candidates[0].root_cause_type),
-            started_at=started_at,
-            finished_at=finished_at,
-            latency_ms=max((finished_at - started_at).total_seconds() * 1000, 0),
+        report = build_report(
+            alert=alert, outcome=investigation, trace_id=run_id,
+            started_at=datetime.fromisoformat(state["started_at"]), rationale=rationale, llm_used=llm_used,
         )
         state["report"] = report.model_dump(mode="json")
         await self._commit(run_id, "report", report.model_dump(mode="json"), state)
@@ -188,7 +145,8 @@ class RecoverableExecution:
             detail["gate"] = gates[-1]
         if event_type == "investigation.tool.completed" and snapshot.get("tool_results"):
             latest = snapshot["tool_results"][-1]
-            detail["tool"] = {"name": latest["tool_name"], "status": latest["status"]}
+            detail["tool"] = {key: latest[key] for key in
+                              ("tool_call_id", "tool_name", "status", "latency_ms", "attempt", "error_code")}
         return detail
 
     async def _execute_tool(

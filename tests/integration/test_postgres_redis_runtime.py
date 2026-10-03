@@ -33,7 +33,7 @@ def process_alert(alert_id: str) -> AlertEvent:
         alert_type="timeout",
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
-        signals={"db": {"replication_lag_seconds": 21}, "metric": {"cpu_usage": 0.51}},
+        signals={"db": {"replication_lag_seconds": 21}, "metric": {"cpu_usage": 0.51}, "trace": {"traces": [{"trace_id": "t", "spans": [{"span_id": "root", "service": "checkout", "status": "OK"}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
 
 
@@ -119,7 +119,7 @@ async def test_real_worker_process_crash_recovers_without_repeating_db_tool(real
     database, _queue, manager, settings = real_stack
     request_id = f"real-crash-{uuid.uuid4().hex}"
     accepted = await manager.create_run(request_id=request_id, alert=process_alert(request_id))
-    assert await run_worker(settings, "--once", OPSPILOT_CRASH_BEFORE_STEP="tool:redis.inspect") == 97
+    assert await run_worker(settings, "--once", OPSPILOT_CRASH_AFTER_STEP="tool:db.replication") == 97
     crashed = await manager.get_run(accepted.run_id)
     assert crashed.status == RunStatus.RUNNING
 
@@ -129,7 +129,7 @@ async def test_real_worker_process_crash_recovers_without_repeating_db_tool(real
             await session.scalars(
                 select(ToolExecutionRecord).where(
                     ToolExecutionRecord.run_id == accepted.run_id,
-                    ToolExecutionRecord.tool_name == "db.inspect",
+                    ToolExecutionRecord.tool_name == "db.replication",
                 )
             )
         )

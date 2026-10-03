@@ -1,16 +1,5 @@
-"""Deterministic RCA algorithms used by the OpsPilot online L3 pipeline."""
+"""Deterministic anomaly analysis; its business output is Evidence."""
 
-from deeprca.detection.comparator import MultiDimensionComparator
-from deeprca.detection.filters import ExpertRuleEngine, MetricFilter, NoiseFilter
-from deeprca.detection.quantile import AnomalyResult, QuantileAnomalyDetector
-from deeprca.detection.volatility import VolatilityDetector
+from opspilot.rca.anomaly import AnomalyDetector
 
-__all__ = [
-    "AnomalyResult",
-    "ExpertRuleEngine",
-    "MetricFilter",
-    "MultiDimensionComparator",
-    "NoiseFilter",
-    "QuantileAnomalyDetector",
-    "VolatilityDetector",
-]
+__all__ = ["AnomalyDetector"]

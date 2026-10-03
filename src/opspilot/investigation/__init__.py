@@ -2,12 +2,12 @@
 
 from opspilot.investigation.analysis import DeterministicEvidenceEngine
 from opspilot.investigation.engine import AdaptiveInvestigator, InvestigationOutcome
-from opspilot.investigation.planner import AdaptivePlanner, EvidenceGate
+from opspilot.investigation.planner import EvidenceGate, LLMAdaptivePlanner
 
 __all__ = [
     "AdaptiveInvestigator",
-    "AdaptivePlanner",
     "DeterministicEvidenceEngine",
     "EvidenceGate",
     "InvestigationOutcome",
+    "LLMAdaptivePlanner",
 ]

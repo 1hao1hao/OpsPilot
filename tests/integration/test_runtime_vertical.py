@@ -26,7 +26,7 @@ def alert() -> AlertEvent:
         severity="P1",
         timestamp=datetime(2026, 8, 12, tzinfo=UTC),
         description="read requests are timing out",
-        signals={"db": {"replication_lag_seconds": 18}, "metric": {"cpu_usage": 0.42}},
+        signals={"db": {"replication_lag_seconds": 18}, "metric": {"cpu_usage": 0.42}, "trace": {"traces": [{"trace_id": "db", "spans": [{"span_id": "root", "service": "checkout", "status": "OK", "duration_ms": 10}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
 
 
@@ -109,13 +109,41 @@ async def test_illegal_state_transition_is_rejected(stack):
 
 
 @pytest.mark.asyncio
-async def test_legacy_analyze_uses_the_same_task_manager(stack):
-    _database, _repository, queue, manager, _worker = stack
+async def test_removed_api_is_unavailable_and_report_is_compact(stack):
+    _database, _repository, queue, manager, worker = stack
     app = create_app(task_manager=manager)
     async with (
         app.router.lifespan_context(app),
         httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as client,
     ):
-            response = await client.post("/api/v1/analyze", json=alert().model_dump(mode="json"))
-    assert response.status_code == 202
-    assert response.json()["trace_id"] == queue.messages[0]
+        assert all("/analyze" not in path for path in app.openapi()["paths"])
+        for method, path in [("POST", "/api/v1/analyze"), ("GET", "/api/v1/analyze/old/status"),
+                             ("GET", "/api/v1/analyze/old/result")]:
+            response = await client.request(method, path, json=alert().model_dump(mode="json"))
+            assert response.status_code == 404
+        assert not queue.messages
+        accepted = await client.post("/api/v1/runs", json={"request_id": "compact", "alert": alert().model_dump(mode="json")})
+        run_id = accepted.json()["run_id"]
+        await worker.process_once(timeout_seconds=.01)
+        report = (await client.get(f"/api/v1/runs/{run_id}/result")).json()["report"]
+        assert not {"dimension_results", "expert_results", "algorithm_signals", "matched_rules", "tool_executions"} & report.keys()
+        events = (await client.get(f"/api/v1/runs/{run_id}/events")).json()
+        tools = [event["detail"]["tool"] for event in events if event["event_type"] == "investigation.tool.completed"]
+        assert tools and all("attempt" in item and "latency_ms" in item for item in tools)
+        after = events[-2]["sequence"]
+        assert (await client.get(f"/api/v1/runs/{run_id}/events?after={after}")).json() == events[-1:]
+
+
+@pytest.mark.asyncio
+async def test_offline_wrapper_and_runtime_use_the_same_report_builder(stack):
+    from opspilot.graph import OpsPilotWorkflow
+
+    _database, _repository, _queue, manager, worker = stack
+    accepted = await manager.create_run(request_id="shared-report", alert=alert())
+    await worker.process_once(timeout_seconds=.01)
+    persisted = (await manager.get_result(accepted.run_id)).report
+    offline = await OpsPilotWorkflow(build_default_registry(), execution_mode="sequential").analyze(
+        alert(), trace_id=accepted.run_id,
+    )
+    ignored = {"latency_ms", "started_at", "finished_at"}
+    assert persisted.model_dump(exclude=ignored) == offline.model_dump(exclude=ignored)

@@ -5,7 +5,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", "src"))
 
-from deeprca.detection.comparator import MultiDimensionComparator
+from opspilot.rca.comparator import MultiDimensionComparator
 
 
 class TestMultiDimensionComparator:

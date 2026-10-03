@@ -58,25 +58,14 @@ class PlanStep(StrictModel):
     reason: str
 
 
-class DimensionTask(StrictModel):
-    dimension: str
-    name: str
-    priority: int = Field(ge=1)
-    tools: list[str]
-    expert_domains: list[str] = Field(default_factory=list)
-    reason: str
-
-
 class AnalysisPlan(StrictModel):
     schema_version: str = "2.0"
     steps: list[PlanStep]
-    dimensions: list[DimensionTask] = Field(default_factory=list)
 
 
 class InvestigationActionType(str, Enum):
     INSPECT_TOOL = "inspect_tool"
     INVOKE_EXPERT = "invoke_expert"
-    FINALIZE = "finalize"
 
 
 class InvestigationAction(StrictModel):
@@ -161,7 +150,6 @@ class EvidenceSourceType(str, Enum):
     CHANGE = "change"
     TRACE = "trace"
     TOPOLOGY = "topology"
-    RULE = "rule"
 
 
 class EvidenceSeverity(str, Enum):
@@ -210,49 +198,15 @@ class RootCauseCandidate(StrictModel):
     evidence_ids: list[str] = Field(default_factory=list)
 
 
-class DiagnosticFinding(StrictModel):
-    finding_type: str
-    dimension: str
-    service: str
-    summary: str
-    severity: EvidenceSeverity
-    confidence: float = Field(ge=0, le=1)
-    data: dict[str, Any] = Field(default_factory=dict)
-    source_groups: list[str] = Field(default_factory=list)
-
-
-class SemanticAnalysisResult(StrictModel):
-    name: str
-    layer: str
-    dimension: str
-    findings: list[DiagnosticFinding] = Field(default_factory=list)
-    confidence: float = Field(ge=0, le=1)
-    error: str | None = None
-
-
-class AlgorithmSignal(StrictModel):
-    algorithm: str
-    metric: str
-    signal_type: str
-    is_anomaly: bool
-    confidence: float = Field(ge=0, le=1)
-    details: dict[str, Any] = Field(default_factory=dict)
-    source_group: str = ""
-
-
 class RoundAnalysisResult(StrictModel):
     """The one complete deterministic analysis consumed by a round's Gate and final report."""
 
-    dimension_results: list[SemanticAnalysisResult] = Field(default_factory=list)
-    expert_results: list[SemanticAnalysisResult] = Field(default_factory=list)
-    algorithm_signals: list[AlgorithmSignal] = Field(default_factory=list)
-    matched_rules: list[str] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     candidates: list[RootCauseCandidate] = Field(default_factory=list)
 
 
 class DiagnosisReport(StrictModel):
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
     trace_id: str
     alert_id: str
     service_name: str
@@ -260,11 +214,6 @@ class DiagnosisReport(StrictModel):
     candidates: list[RootCauseCandidate]
     primary_root_cause: RootCauseCandidate
     evidence: list[Evidence]
-    tool_executions: list[ToolExecution]
-    dimension_results: list[SemanticAnalysisResult] = Field(default_factory=list)
-    expert_results: list[SemanticAnalysisResult] = Field(default_factory=list)
-    algorithm_signals: list[AlgorithmSignal] = Field(default_factory=list)
-    matched_rules: list[str] = Field(default_factory=list)
     investigation: InvestigationTrace | None = None
     llm_used: bool = False
     degraded: bool = False

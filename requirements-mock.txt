@@ -10,8 +10,3 @@ numpy>=1.26.0
 pandas>=2.2.0
 
 # 端到端场景运行 /scenarios/{name}/run 通过 HTTP API 调用 Agent，
-# 不直接导入 build_coordinator_graph，但需要 models/ 和 config/ 依赖
-langchain>=0.2.0,<0.3.0
-langchain-core>=0.2.0,<0.3.0
-langgraph>=0.1.0,<0.2.0
-langchain-openai>=0.1.0

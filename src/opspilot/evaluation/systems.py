@@ -6,14 +6,11 @@ import asyncio
 from time import perf_counter
 from typing import Any, ClassVar
 
-from opspilot.agents import CoordinatorAgent, RootCauseAgent, analyze_dimensions, analyze_experts
 from opspilot.config import RuntimeSettings
-from opspilot.evaluation.deepseek import DeepSeekRCAClient
-from opspilot.evidence import collect_evidence, collect_expert_evidence, collect_semantic_evidence
 from opspilot.graph import OpsPilotWorkflow
-from opspilot.investigation import AdaptiveInvestigator
-from opspilot.models import AlertEvent, AnalysisPlan, DimensionTask, PlanStep, RootCauseType, ToolCall, ToolStatus
-from opspilot.rca.pipeline import run_deterministic_pipeline
+from opspilot.investigation.analysis import DeterministicEvidenceEngine
+from opspilot.llm import DeepSeekRCAClient
+from opspilot.models import AlertEvent, RootCauseType, ToolCall, ToolStatus
 from opspilot.tools import ToolExecutor, build_default_registry, build_tool_call_id
 
 
@@ -58,28 +55,28 @@ class OpsPilotHybridSystem:
         self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2))
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
-        report = await self.workflow.analyze(alert, trace_id=f"eval-{case_id}")
+        started = perf_counter()
+        outcome = await self.workflow.observe(alert, trace_id=f"eval-{case_id}")
         return {
-            "case_id": case_id,
-            "status": report.status,
-            "candidate_types": [item.root_cause_type.value for item in report.candidates],
-            "evidence_types": [item.evidence_type for item in report.evidence],
-            "tool_executions": [item.model_dump(mode="json") for item in report.tool_executions],
-            "latency_ms": report.latency_ms,
-            "degraded": report.degraded,
-            "investigation": report.investigation.model_dump(mode="json") if report.investigation else None,
+            "case_id": case_id, "status": "completed",
+            "candidate_types": [item.root_cause_type.value for item in outcome.provisional_candidates],
+            "evidence_types": [item.evidence_type for item in outcome.evidence],
+            "tool_executions": [item.model_dump(mode="json", exclude={"data"}) for item in outcome.tool_results],
+            "latency_ms": (perf_counter()-started)*1000,
+            "degraded": any(item.status == ToolStatus.ERROR for item in outcome.tool_results),
+            "investigation": outcome.trace.model_dump(mode="json"),
         }
 
 
+
 class AdaptivePlannerSystem(OpsPilotHybridSystem):
-    """Adaptive controller with raw Tool evidence, before L2 Finding promotion."""
+    """Historical evaluation name for the unified adaptive controller."""
 
     name = "opspilot_adaptive_planner"
 
     def __init__(self) -> None:
         self.workflow = OpsPilotWorkflow(
             build_default_registry(timeout_seconds=0.2),
-            promote_expert_evidence=False,
         )
 
 
@@ -96,7 +93,7 @@ class FullAdaptiveRCASystem(OpsPilotHybridSystem):
 
 
 class FixedPlannerSystem:
-    """Ablation baseline: execute all six dimensions and all legacy Experts."""
+    """Ablation baseline: execute a fixed list through the same Evidence Builder."""
 
     name = "opspilot_fixed_planner"
     tool_names: ClassVar[list[str]] = [
@@ -106,10 +103,13 @@ class FixedPlannerSystem:
         "traces.query",
         "topology.query",
         "alerts.query",
-        "db.inspect",
-        "redis.inspect",
-        "kafka.inspect",
-        "rpc.inspect",
+        "db.replication",
+        "db.slowlog",
+        "db.connections",
+        "redis.memory",
+        "redis.hotkeys",
+        "kafka.lag",
+        "rpc.metrics",
     ]
 
     def __init__(self) -> None:
@@ -136,37 +136,8 @@ class FixedPlannerSystem:
                 )
             )
         results = await asyncio.gather(*(executor.execute(call) for call in calls))
-        dimensions = ["change", "upstream", "downstream", "cluster", "errorlog", "problem"]
-        plan = AnalysisPlan(
-            steps=[
-                PlanStep(step_id=f"fixed-{index}", tool_name=name, priority=index, reason="fixed ablation")
-                for index, name in enumerate(self.tool_names, start=1)
-            ],
-            dimensions=[
-                DimensionTask(
-                    dimension=name,
-                    name=name,
-                    priority=index,
-                    tools=[],
-                    reason="fixed six-dimension ablation",
-                )
-                for index, name in enumerate(dimensions, start=1)
-            ],
-        )
-        dimension_results = analyze_dimensions(alert, plan, results)
-        expert_results = analyze_experts(alert, results)
-        evidence = collect_evidence(alert, results)
-        evidence.extend(collect_semantic_evidence(alert, dimension_results))
-        evidence.extend(collect_expert_evidence(alert, expert_results))
-        _signals, deterministic_evidence, _rules = run_deterministic_pipeline(
-            alert, results, dimension_results, expert_results, evidence
-        )
-        evidence.extend(deterministic_evidence)
-        evidence = sorted(
-            {item.evidence_id: item for item in evidence}.values(),
-            key=lambda item: (-item.confidence, item.evidence_id),
-        )
-        candidates, _ = RootCauseAgent().diagnose(alert, evidence)
+        analysis = DeterministicEvidenceEngine().analyze(alert, results)
+        evidence, candidates = analysis.evidence, analysis.candidates
         actions = [
             {"action_type": "inspect_tool", "target": name, "status": "succeeded"}
             for name in self.tool_names
@@ -175,7 +146,6 @@ class FixedPlannerSystem:
             {"action_type": "invoke_expert", "target": name, "status": "succeeded"}
             for name in ("db", "redis", "kafka", "rpc")
         )
-        actions.append({"action_type": "finalize", "target": "finalize", "status": "succeeded"})
         return {
             "case_id": case_id,
             "status": "completed",
@@ -231,36 +201,15 @@ class DeepSeekLLMOnlySystem(_DeepSeekSystem):
 class _DeepSeekToolSystem(_DeepSeekSystem):
     def __init__(self, client: DeepSeekRCAClient) -> None:
         super().__init__(client)
-        self.registry = build_default_registry(timeout_seconds=0.2)
-        self.coordinator = CoordinatorAgent(self.registry)
-        self.investigator = AdaptiveInvestigator(self.registry)
+        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2))
 
     async def _observe(self, alert: AlertEvent, case_id: str):
-        executor = ToolExecutor(self.registry)
-
-        async def execute_tool(tool_name: str, round_number: int, reason: str):
-            definition = self.registry.get(tool_name)
-            arguments = {"alert": alert.model_dump(mode="json")}
-            call = ToolCall(
-                tool_call_id=build_tool_call_id(
-                    trace_id=f"eval-{case_id}",
-                    step_id=f"round-{round_number}:{tool_name}",
-                    tool_name=tool_name,
-                    version=definition.version,
-                    arguments=arguments,
-                ),
-                tool_name=tool_name,
-                arguments=arguments,
-            )
-            return await executor.execute(call)
-
-        outcome = await self.investigator.run(alert, execute_tool, parallel_seed=True)
-        results = outcome.tool_results
+        outcome = await self.workflow.observe(alert, trace_id=f"eval-{case_id}")
         observations = {
             item.tool_name: item.data.get("observations", {}) if item.data else {"error": item.error_code}
-            for item in results
+            for item in outcome.tool_results
         }
-        return self.coordinator.plan(alert), results, executor.executions, observations
+        return outcome, observations
 
 
 class DeepSeekToolsSystem(_DeepSeekToolSystem):
@@ -268,7 +217,8 @@ class DeepSeekToolsSystem(_DeepSeekToolSystem):
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
         started = perf_counter()
-        _plan, _results, executions, observations = await self._observe(alert, case_id)
+        outcome, observations = await self._observe(alert, case_id)
+        executions = outcome.tool_results
         result = await self.client.diagnose(
             alert=self._public_alert(alert),
             tool_observations=observations,
@@ -278,7 +228,7 @@ class DeepSeekToolsSystem(_DeepSeekToolSystem):
             "status": "completed",
             "candidate_types": [item.value for item in result.decision.candidate_types],
             "evidence_types": result.decision.evidence_types,
-            "tool_executions": [item.model_dump(mode="json") for item in executions],
+            "tool_executions": [item.model_dump(mode="json", exclude={"data"}) for item in executions],
             "latency_ms": (perf_counter() - started) * 1000,
             "degraded": any(item.status == ToolStatus.ERROR for item in executions),
             "rationale": result.decision.rationale,
@@ -292,21 +242,9 @@ class DeepSeekHybridSystem(_DeepSeekToolSystem):
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
         started = perf_counter()
-        plan, results, executions, observations = await self._observe(alert, case_id)
-        dimension_results = analyze_dimensions(alert, plan, results)
-        expert_domains = next(
-            (task.expert_domains for task in plan.dimensions if task.dimension == "downstream"),
-            [],
-        )
-        expert_results = analyze_experts(alert, results, domains=expert_domains)
-        evidence = collect_evidence(alert, results)
-        evidence.extend(collect_semantic_evidence(alert, dimension_results))
-        _signals, deterministic_evidence, _rules = run_deterministic_pipeline(
-            alert, results, dimension_results, expert_results, evidence
-        )
-        evidence.extend(deterministic_evidence)
-        evidence = sorted({item.evidence_id: item for item in evidence}.values(), key=lambda item: (-item.confidence, item.evidence_id))
-        deterministic_candidates, _ = RootCauseAgent().diagnose(alert, evidence)
+        outcome, observations = await self._observe(alert, case_id)
+        executions = outcome.tool_results
+        evidence, deterministic_candidates = outcome.evidence, outcome.provisional_candidates
         allowed = [candidate.root_cause_type.value for candidate in deterministic_candidates]
         result = await self.client.diagnose(
             alert=self._public_alert(alert),
@@ -319,7 +257,7 @@ class DeepSeekHybridSystem(_DeepSeekToolSystem):
             "status": "completed",
             "candidate_types": [item.value for item in result.decision.candidate_types],
             "evidence_types": [item.evidence_type for item in evidence],
-            "tool_executions": [item.model_dump(mode="json") for item in executions],
+            "tool_executions": [item.model_dump(mode="json", exclude={"data"}) for item in executions],
             "latency_ms": (perf_counter() - started) * 1000,
             "degraded": any(item.status == ToolStatus.ERROR for item in executions),
             "rationale": result.decision.rationale,

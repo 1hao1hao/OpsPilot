@@ -36,7 +36,7 @@ class ToolDefinition(BaseModel):
     max_attempts: int = Field(default=1, ge=1)
     idempotent: bool = True
     side_effect: bool = False
-    tool_kind: Literal["general", "domain", "compatibility"] = "general"
+    tool_kind: Literal["general", "domain"] = "general"
     expert_domain: Literal["db", "redis", "kafka", "rpc"] | None = None
     handler: ToolHandler
 
@@ -78,10 +78,6 @@ TOOL_SIGNAL_KEYS = {
     "changes.query": "change",
     "traces.query": "trace",
     "topology.query": "topology",
-    "db.inspect": "db",
-    "redis.inspect": "redis",
-    "kafka.inspect": "kafka",
-    "rpc.inspect": "rpc",
     "alerts.query": "problem",
 }
 
@@ -194,8 +190,6 @@ def build_default_registry(
                 output_schema=ObservationOutput,
                 timeout_seconds=timeout_seconds,
                 max_attempts=max_attempts,
-                tool_kind=("compatibility" if tool_name.endswith(".inspect") else "general"),
-                expert_domain=(tool_name.split(".", 1)[0] if tool_name.endswith(".inspect") else None),
                 handler=handler,
             )
         )

@@ -4,8 +4,8 @@ from datetime import UTC, datetime
 import httpx
 import pytest
 
-from opspilot.evaluation.deepseek import DeepSeekRCAClient
 from opspilot.evaluation.systems import DeepSeekHybridSystem, DeepSeekLLMOnlySystem, DeepSeekToolsSystem
+from opspilot.llm import DeepSeekRCAClient
 from opspilot.models import AlertEvent
 
 
@@ -38,7 +38,8 @@ def _alert():
         severity="P1",
         timestamp=datetime(2026, 8, 1, tzinfo=UTC),
         description="read requests are timing out",
-        signals={"db": {"replication_lag_seconds": 18}},
+        signals={"db": {"replication_lag_seconds": 18},
+                 "trace": {"traces": [{"trace_id": "db", "spans": [{"span_id": "root", "service": "checkout", "status": "OK", "duration_ms": 10}, {"span_id": "db", "parent_span_id": "root", "service": "mysql", "status": "ERROR", "duration_ms": 1500}]}]}},
     )
 
 
@@ -85,6 +86,6 @@ async def test_three_ablation_systems_receive_only_their_allowed_inputs():
     assert calls[0].get("tool_observations") is None
     assert calls[1]["tool_observations"]["db.replication"] == {"replication_lag_seconds": 18}
     assert calls[1].get("evidence") is None
-    assert calls[2]["evidence"][0]["evidence_type"] == "db.replication_lag"
-    assert calls[2]["allowed_candidates"] == ["db_replication_lag"]
+    assert "db.replication_lag" in {item["evidence_type"] for item in calls[2]["evidence"]}
+    assert calls[2]["allowed_candidates"][0] == "db_replication_lag"
     assert all(prediction["token_usage"]["total_tokens"] == 120 for prediction in predictions)

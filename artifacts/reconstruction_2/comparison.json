@@ -1,0 +1,917 @@
+{
+  "mode": "LLM disabled; original v1 dataset unchanged; fixed executes all tools",
+  "summary": {
+    "dev": {
+      "faults": 21,
+      "before_hit1": 21,
+      "fallback_hit1": 6,
+      "fallback_hit3": 6,
+      "fixed_hit1": 21,
+      "fixed_hit3": 21
+    },
+    "test": {
+      "faults": 10,
+      "before_hit1": 10,
+      "fallback_hit1": 2,
+      "fallback_hit3": 2,
+      "fixed_hit1": 10,
+      "fixed_hit3": 10
+    }
+  },
+  "cases": [
+    {
+      "case_id": "db-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "db_replication_lag",
+      "before_top_k": [
+        "db_replication_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_replication_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "db-dev-02",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "db_slow_query",
+      "before_top_k": [
+        "db_slow_query"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_slow_query"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "db-dev-03",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "db_connection_exhausted",
+      "before_top_k": [
+        "db_connection_exhausted"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_connection_exhausted"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "db-dev-04",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "db_replication_lag",
+      "before_top_k": [
+        "db_replication_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_replication_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "redis_memory_pressure",
+      "before_top_k": [
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-dev-02",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "redis_low_hit_rate",
+      "before_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-dev-03",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "redis_memory_pressure",
+      "before_top_k": [
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-dev-04",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "redis_low_hit_rate",
+      "before_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-dev-02",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-dev-03",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-dev-04",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "rpc-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "rpc_timeout",
+      "before_top_k": [
+        "rpc_timeout"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "rpc_timeout"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "rpc-dev-02",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "rpc_error_rate",
+      "before_top_k": [
+        "rpc_error_rate"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "rpc_error_rate"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "rpc-dev-03",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "rpc_timeout",
+      "before_top_k": [
+        "rpc_timeout"
+      ],
+      "fallback_top_k": [
+        "rpc_timeout"
+      ],
+      "fixed_top_k": [
+        "rpc_timeout"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "rpc.metrics",
+        "logs.query",
+        "topology.query"
+      ],
+      "invoked_experts": [
+        "rpc"
+      ]
+    },
+    {
+      "case_id": "rpc-dev-04",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "rpc_error_rate",
+      "before_top_k": [
+        "rpc_error_rate"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "rpc_error_rate"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "bad_deployment",
+      "before_top_k": [
+        "bad_deployment"
+      ],
+      "fallback_top_k": [
+        "bad_deployment"
+      ],
+      "fixed_top_k": [
+        "bad_deployment"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-dev-02",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "resource_saturation",
+      "before_top_k": [
+        "resource_saturation"
+      ],
+      "fallback_top_k": [
+        "resource_saturation"
+      ],
+      "fixed_top_k": [
+        "resource_saturation"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-dev-03",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "oom_restart",
+      "before_top_k": [
+        "oom_restart"
+      ],
+      "fallback_top_k": [
+        "oom_restart"
+      ],
+      "fixed_top_k": [
+        "oom_restart"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-dev-04",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "resource_saturation",
+      "before_top_k": [
+        "resource_saturation"
+      ],
+      "fallback_top_k": [
+        "resource_saturation"
+      ],
+      "fixed_top_k": [
+        "resource_saturation"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-dev-01",
+      "split": "dev",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-dev-02",
+      "split": "dev",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-dev-03",
+      "split": "dev",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-dev-04",
+      "split": "dev",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "adaptive-db-dev-01",
+      "split": "dev",
+      "is_fault": true,
+      "expected": "db_replication_lag",
+      "before_top_k": [
+        "db_replication_lag",
+        "db_connection_exhausted",
+        "db_slow_query"
+      ],
+      "fallback_top_k": [
+        "db_replication_lag",
+        "db_connection_exhausted",
+        "db_slow_query"
+      ],
+      "fixed_top_k": [
+        "db_replication_lag",
+        "db_connection_exhausted",
+        "db_slow_query"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "db.replication",
+        "db.slowlog",
+        "db.connections"
+      ],
+      "invoked_experts": [
+        "db"
+      ]
+    },
+    {
+      "case_id": "db-test-01",
+      "split": "test",
+      "is_fault": true,
+      "expected": "db_slow_query",
+      "before_top_k": [
+        "db_slow_query"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_slow_query"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "db-test-02",
+      "split": "test",
+      "is_fault": true,
+      "expected": "db_connection_exhausted",
+      "before_top_k": [
+        "db_connection_exhausted"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "db_connection_exhausted"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-test-01",
+      "split": "test",
+      "is_fault": true,
+      "expected": "redis_memory_pressure",
+      "before_top_k": [
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "redis-test-02",
+      "split": "test",
+      "is_fault": true,
+      "expected": "redis_low_hit_rate",
+      "before_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-test-01",
+      "split": "test",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "kafka-test-02",
+      "split": "test",
+      "is_fault": true,
+      "expected": "kafka_consumer_lag",
+      "before_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "kafka_consumer_lag"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "rpc-test-01",
+      "split": "test",
+      "is_fault": true,
+      "expected": "rpc_timeout",
+      "before_top_k": [
+        "rpc_timeout"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "rpc_timeout"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "rpc-test-02",
+      "split": "test",
+      "is_fault": true,
+      "expected": "rpc_error_rate",
+      "before_top_k": [
+        "rpc_error_rate"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "rpc_error_rate"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-test-01",
+      "split": "test",
+      "is_fault": true,
+      "expected": "bad_deployment",
+      "before_top_k": [
+        "bad_deployment"
+      ],
+      "fallback_top_k": [
+        "bad_deployment"
+      ],
+      "fixed_top_k": [
+        "bad_deployment"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "platform-test-02",
+      "split": "test",
+      "is_fault": true,
+      "expected": "oom_restart",
+      "before_top_k": [
+        "oom_restart"
+      ],
+      "fallback_top_k": [
+        "oom_restart"
+      ],
+      "fixed_top_k": [
+        "oom_restart"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-test-01",
+      "split": "test",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "logs.query",
+        "traces.query",
+        "changes.query",
+        "topology.query"
+      ],
+      "invoked_experts": []
+    },
+    {
+      "case_id": "normal-test-02",
+      "split": "test",
+      "is_fault": false,
+      "expected": "no_fault",
+      "before_top_k": [
+        "no_fault"
+      ],
+      "fallback_top_k": [
+        "no_fault"
+      ],
+      "fixed_top_k": [
+        "no_fault"
+      ],
+      "executed_tools": [
+        "metrics.query",
+        "traces.query",
+        "changes.query",
+        "logs.query",
+        "topology.query",
+        "alerts.query"
+      ],
+      "invoked_experts": []
+    }
+  ]
+}

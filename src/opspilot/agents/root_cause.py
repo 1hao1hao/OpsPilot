@@ -67,7 +67,7 @@ class RootCauseAgent:
                     rank=rank,
                     root_cause_type=cause,
                     summary=SUMMARIES[cause],
-                    confidence=min(0.5 + scores[cause] / 3, 0.98),
+                    confidence=max(0.0, min(0.5 + scores[cause] / 3, 0.98)),
                     evidence_ids=sorted(set(ids[cause])),
                 )
                 for rank, cause in enumerate(ordered, start=1)

@@ -5,8 +5,10 @@ from __future__ import annotations
 import time
 import uuid
 
+from . import dependency_trace
 
-def test_persistent_run_completes_through_independent_worker(agent_client):
+
+def test_persistent_run_completes_through_worker(agent_client):
     request_id = f"compose-smoke-{uuid.uuid4().hex}"
     payload = {
         "request_id": request_id,
@@ -16,7 +18,7 @@ def test_persistent_run_completes_through_independent_worker(agent_client):
             "alert_type": "timeout",
             "severity": "P1",
             "timestamp": "2026-08-12T00:00:00Z",
-            "signals": {"db": {"replication_lag_seconds": 20}},
+            "signals": {"db": {"replication_lag_seconds": 20}, "trace": dependency_trace("mysql")},
         },
     }
     accepted = agent_client.post("/api/v1/runs", json=payload)

@@ -9,6 +9,7 @@ import platform
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+from time import perf_counter
 
 import yaml
 
@@ -77,7 +78,8 @@ async def run_concurrency_benchmark(config_path: str | Path) -> Path:
         modes = ("sequential", "parallel") if repeat % 2 else ("parallel", "sequential")
         for case in cases:
             for mode in modes:
-                report = await workflows[mode].analyze(
+                started = perf_counter()
+                outcome = await workflows[mode].observe(
                     case.alert,
                     trace_id=f"concurrency-{mode}-{case.case_id}-{repeat}",
                 )
@@ -86,10 +88,10 @@ async def run_concurrency_benchmark(config_path: str | Path) -> Path:
                         "case_id": case.case_id,
                         "repeat": repeat,
                         "execution_mode": mode,
-                        "latency_ms": round(report.latency_ms, 3),
-                        "tool_attempted": len(report.tool_executions),
+                        "latency_ms": round((perf_counter()-started)*1000, 3),
+                        "tool_attempted": len(outcome.tool_results),
                         "tool_succeeded": sum(
-                            execution.status == ToolStatus.SUCCESS for execution in report.tool_executions
+                            execution.status == ToolStatus.SUCCESS for execution in outcome.tool_results
                         ),
                     }
                 )

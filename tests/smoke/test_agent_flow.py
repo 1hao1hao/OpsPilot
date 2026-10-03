@@ -1,9 +1,11 @@
-"""HTTP smoke for the current persistent Run API and legacy adapter."""
+"""HTTP smoke for the persistent Run API."""
 
 from __future__ import annotations
 
 import time
 import uuid
+
+from . import dependency_trace
 
 
 def make_alert(alert_id: str) -> dict:
@@ -13,7 +15,7 @@ def make_alert(alert_id: str) -> dict:
         "alert_type": "timeout",
         "severity": "P1",
         "timestamp": "2026-08-12T00:00:00Z",
-        "signals": {"db": {"replication_lag_seconds": 18}},
+        "signals": {"db": {"replication_lag_seconds": 18}, "trace": dependency_trace("mysql")},
     }
 
 
@@ -44,12 +46,3 @@ def test_submit_status_and_result(agent_client):
 def test_missing_fields_returns_422(agent_client):
     response = agent_client.post("/api/v1/runs", json={"request_id": "invalid", "alert": {"alert_id": "bad"}})
     assert response.status_code == 422
-
-
-def test_legacy_adapter_uses_persistent_run(agent_client):
-    alert_id = f"legacy-smoke-{uuid.uuid4().hex}"
-    response = agent_client.post("/api/v1/analyze", json=make_alert(alert_id))
-    assert response.status_code == 202
-    run_id = response.json()["trace_id"]
-    assert wait_for_terminal(agent_client, run_id)["status"] == "SUCCEEDED"
-    assert agent_client.get(f"/api/v1/analyze/{run_id}/result").status_code == 200

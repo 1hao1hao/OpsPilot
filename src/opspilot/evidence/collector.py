@@ -11,10 +11,10 @@ from opspilot.models import (
     EvidenceSeverity,
     EvidenceSourceType,
     RootCauseType,
-    SemanticAnalysisResult,
     ToolResult,
     ToolStatus,
 )
+from opspilot.tracing import detect_span_anomalies
 
 
 def _evidence(
@@ -31,7 +31,7 @@ def _evidence(
     service: str | None = None,
     raw_ref: str | None = None,
 ) -> Evidence:
-    raw = f"{alert.alert_id}|{source_name}|{evidence_type}|{fact}"
+    raw = f"{alert.alert_id}|{source_name}|{service or alert.service_name}|{evidence_type}|{fact}"
     evidence_id = f"ev-{hashlib.sha256(raw.encode()).hexdigest()[:16]}"
     return Evidence(
         evidence_id=evidence_id,
@@ -52,7 +52,10 @@ def _evidence(
 def _number(data: dict[str, Any], name: str, default: float = 0.0) -> float:
     value = data.get(name, default)
     if isinstance(value, dict):
-        value = value.get("current", value.get("value", default))
+        points = value.get("data_points", [])
+        last = points[-1] if points else default
+        last = last.get("value", default) if isinstance(last, dict) else last
+        value = value.get("current", value.get("value", value.get("aggregation", {}).get("current", last)))
     try:
         return float(value)
     except (TypeError, ValueError):
@@ -69,102 +72,11 @@ def collect_evidence(alert: AlertEvent, results: list[ToolResult]) -> list[Evide
         if converter:
             source_group = f"tool:{result.tool_name}:{result.tool_call_id}"
             evidence.extend(
-                item.model_copy(update={"source_group": source_group})
+                item.model_copy(update={"source_group": source_group, "raw_ref": item.raw_ref or result.tool_call_id})
                 for item in converter(alert, observations, result.tool_name)
             )
     unique = {item.evidence_id: item for item in evidence}
     return sorted(unique.values(), key=lambda item: (-item.confidence, item.evidence_id))
-
-
-def collect_semantic_evidence(
-    alert: AlertEvent,
-    dimension_results: list[SemanticAnalysisResult],
-) -> list[Evidence]:
-    """Convert L1 semantic findings that cannot be represented by raw aggregates."""
-    cause_map = {
-        "recent_change": [RootCauseType.BAD_DEPLOYMENT],
-        "upstream_error_rate": [RootCauseType.RPC_ERROR_RATE],
-        "downstream_span_error": [RootCauseType.RPC_ERROR_RATE],
-        "downstream_span_slow": [RootCauseType.RPC_TIMEOUT],
-        "cpu_usage_high": [RootCauseType.RESOURCE_SATURATION],
-        "memory_usage_high": [RootCauseType.RESOURCE_SATURATION],
-        "oom_signature": [RootCauseType.OOM_RESTART],
-    }
-    evidence: list[Evidence] = []
-    for result in dimension_results:
-        for finding in result.findings:
-            supports = cause_map.get(finding.finding_type, [])
-            if finding.dimension == "downstream":
-                dependency = f"{finding.service} {finding.data.get('path', '')}".lower()
-                if any(token in dependency for token in ("mysql", "postgres", "database", "db")):
-                    supports = [
-                        RootCauseType.DB_REPLICATION_LAG,
-                        RootCauseType.DB_SLOW_QUERY,
-                        RootCauseType.DB_CONNECTION_EXHAUSTED,
-                    ]
-                elif "redis" in dependency:
-                    supports = [RootCauseType.REDIS_MEMORY_PRESSURE, RootCauseType.REDIS_LOW_HIT_RATE]
-                elif any(token in dependency for token in ("kafka", "broker")):
-                    supports = [RootCauseType.KAFKA_CONSUMER_LAG]
-            if not supports:
-                continue
-            raw_ref = None
-            if finding.data.get("trace_id") and finding.data.get("span_id"):
-                raw_ref = f"trace:{finding.data['trace_id']}/span:{finding.data['span_id']}"
-            evidence.append(
-                _evidence(
-                    alert=alert,
-                    source_name=finding.dimension,
-                    source_group=(finding.source_groups[0] if finding.source_groups else ""),
-                    evidence_type=f"{finding.dimension}.{finding.finding_type}",
-                    source_type=EvidenceSourceType.TRACE if finding.dimension == "downstream" else EvidenceSourceType.RULE,
-                    fact=finding.summary,
-                    severity=finding.severity,
-                    confidence=finding.confidence,
-                    supports=supports,
-                    service=finding.service,
-                    raw_ref=raw_ref,
-                )
-            )
-    return evidence
-
-
-def collect_expert_evidence(
-    alert: AlertEvent,
-    expert_results: list[SemanticAnalysisResult],
-) -> list[Evidence]:
-    """Promote selected L2 Expert findings into the shared Evidence Pool."""
-    cause_map = {
-        "db_replication_lag": RootCauseType.DB_REPLICATION_LAG,
-        "db_slow_query": RootCauseType.DB_SLOW_QUERY,
-        "db_connection_exhausted": RootCauseType.DB_CONNECTION_EXHAUSTED,
-        "redis_memory_pressure": RootCauseType.REDIS_MEMORY_PRESSURE,
-        "redis_low_hit_rate": RootCauseType.REDIS_LOW_HIT_RATE,
-        "kafka_consumer_lag": RootCauseType.KAFKA_CONSUMER_LAG,
-        "rpc_timeout": RootCauseType.RPC_TIMEOUT,
-        "rpc_error_rate": RootCauseType.RPC_ERROR_RATE,
-    }
-    evidence: list[Evidence] = []
-    for result in expert_results:
-        for finding in result.findings:
-            cause = cause_map.get(finding.finding_type)
-            if cause is None:
-                continue
-            evidence.append(
-                _evidence(
-                    alert=alert,
-                    source_name=result.name,
-                    source_group=(finding.source_groups[0] if finding.source_groups else ""),
-                    evidence_type=f"expert.{finding.finding_type}",
-                    source_type=EvidenceSourceType.RULE,
-                    fact=finding.summary,
-                    severity=finding.severity,
-                    confidence=finding.confidence,
-                    supports=[cause],
-                    service=finding.service,
-                )
-            )
-    return evidence
 
 
 def _db(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
@@ -225,6 +137,8 @@ def _metrics(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evide
     items: list[Evidence] = []
     cpu = _number(data, "cpu_usage")
     memory = _number(data, "memory_usage")
+    cpu = cpu / 100 if cpu > 1 else cpu
+    memory = memory / 100 if memory > 1 else memory
     if cpu >= 0.85 or memory >= 0.85:
         items.append(_evidence(alert=alert, source_name=source, evidence_type="metric.resource_saturation", source_type=EvidenceSourceType.METRIC, fact=f"Resource usage cpu={cpu:.1%}, memory={memory:.1%}", severity=EvidenceSeverity.CRITICAL if max(cpu, memory) >= 0.95 else EvidenceSeverity.WARNING, confidence=0.9, supports=[RootCauseType.RESOURCE_SATURATION]))
     return items
@@ -241,9 +155,34 @@ def _logs(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence
 def _changes(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
     count = _number(data, "high_risk_count")
     recent = data.get("recent_deployment", False)
-    if not recent and count < 1:
+    if not recent and count < 1 and not data.get("changes"):
         return []
     return [_evidence(alert=alert, source_name=source, evidence_type="change.recent_deployment", source_type=EvidenceSourceType.CHANGE, fact="A recent high-risk deployment overlaps the incident window", severity=EvidenceSeverity.WARNING, confidence=0.85, supports=[RootCauseType.BAD_DEPLOYMENT])]
+
+
+def _traces(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
+    items = _rpc(alert, data, source)
+    for anomaly in detect_span_anomalies(data):
+        path = "/".join(anomaly.path)
+        dependency = f"{anomaly.service} {path}".lower()
+        supports = [RootCauseType.RPC_ERROR_RATE if anomaly.is_error else RootCauseType.RPC_TIMEOUT]
+        if any(token in dependency for token in ("mysql", "postgres", "database", "db")):
+            supports = [RootCauseType.DB_REPLICATION_LAG, RootCauseType.DB_SLOW_QUERY,
+                        RootCauseType.DB_CONNECTION_EXHAUSTED]
+        elif "redis" in dependency:
+            supports = [RootCauseType.REDIS_MEMORY_PRESSURE, RootCauseType.REDIS_LOW_HIT_RATE]
+        elif any(token in dependency for token in ("kafka", "broker")):
+            supports = [RootCauseType.KAFKA_CONSUMER_LAG]
+        items.append(_evidence(
+            alert=alert, source_name=source,
+            evidence_type="trace.span_error" if anomaly.is_error else "trace.span_slow",
+            source_type=EvidenceSourceType.TRACE,
+            fact=f"Trace {anomaly.trace_id} path {path}: status={anomaly.status}, duration={anomaly.duration_ms:.1f}ms",
+            severity=EvidenceSeverity.CRITICAL if anomaly.is_error else EvidenceSeverity.WARNING,
+            confidence=0.9, supports=supports, service=anomaly.service,
+            raw_ref=f"trace:{anomaly.trace_id}/span:{anomaly.span_id}",
+        ))
+    return items
 
 
 def _empty(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
@@ -254,12 +193,8 @@ _CONVERTERS = {
     "metrics.query": _metrics,
     "logs.query": _logs,
     "changes.query": _changes,
-    "traces.query": _rpc,
+    "traces.query": _traces,
     "topology.query": _empty,
-    "db.inspect": _db,
-    "redis.inspect": _redis,
-    "kafka.inspect": _kafka,
-    "rpc.inspect": _rpc,
     "db.replication": _db,
     "db.slowlog": _db,
     "db.connections": _db,

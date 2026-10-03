@@ -78,6 +78,7 @@ def create_mock_router() -> APIRouter:
             return JSONResponse(status_code=404, content={"message": f"Scenario '{name}' not found"})
 
         import asyncio
+        import uuid
 
         import httpx
 
@@ -95,36 +96,36 @@ def create_mock_router() -> APIRouter:
 
         try:
             async with httpx.AsyncClient(timeout=settings.analysis_timeout) as client:
-                resp = await client.post(f"{base_url}/api/v1/analyze", json=alert)
+                resp = await client.post(f"{base_url}/api/v1/runs", json={"request_id": f"scenario-{uuid.uuid4().hex}", "alert": alert})
                 resp.raise_for_status()
                 submit_result = resp.json()
-                trace_id = submit_result["trace_id"]
+                trace_id = submit_result["run_id"]
 
                 # 4. 轮询等待分析完成
                 # 轮询超时设为 analysis_timeout 的 1.5 倍，留出缓冲避免慢速环境 false negative
                 max_wait = int(settings.analysis_timeout * 1.5)
                 waited = 0
                 poll_interval = 2
-                final_status = "running"
+                final_status = "RUNNING"
                 while waited < max_wait:
                     await asyncio.sleep(poll_interval)
                     waited += poll_interval
-                    sresp = await client.get(f"{base_url}/api/v1/analyze/{trace_id}/status")
+                    sresp = await client.get(f"{base_url}/api/v1/runs/{trace_id}")
                     if sresp.status_code == 200:
                         sdata = sresp.json()
-                        final_status = sdata.get("status", "running")
-                        if final_status in ("completed", "failed"):
+                        final_status = sdata.get("status", "RUNNING")
+                        if final_status in ("SUCCEEDED", "FAILED", "CANCELLED"):
                             break
 
                 # 轮询超时后额外等待并重试一次，避免慢速环境 false negative
-                if final_status == "running":
+                if final_status not in ("SUCCEEDED", "FAILED", "CANCELLED"):
                     await asyncio.sleep(poll_interval * 3)
-                    sresp = await client.get(f"{base_url}/api/v1/analyze/{trace_id}/status")
+                    sresp = await client.get(f"{base_url}/api/v1/runs/{trace_id}")
                     if sresp.status_code == 200:
-                        final_status = sresp.json().get("status", "running")
+                        final_status = sresp.json().get("status", "RUNNING")
 
                 # 5. 获取分析结果
-                if final_status == "running":
+                if final_status not in ("SUCCEEDED", "FAILED", "CANCELLED"):
                     # 分析仍在进行中，返回 pending 而非 error
                     return JSONResponse(
                         status_code=202,
@@ -135,7 +136,7 @@ def create_mock_router() -> APIRouter:
                             "message": "Analysis still running after timeout, please retry later",
                         },
                     )
-                rresp = await client.get(f"{base_url}/api/v1/analyze/{trace_id}/result")
+                rresp = await client.get(f"{base_url}/api/v1/runs/{trace_id}/result")
                 if rresp.status_code != 200:
                     return JSONResponse(
                         status_code=500,
@@ -158,13 +159,9 @@ def create_mock_router() -> APIRouter:
             )
 
         # 6. 对比预期根因
-        root_cause = result_data.get("root_cause")
-        actual_conclusion = ""
-        actual_confidence = 0.0
-        if root_cause and isinstance(root_cause, dict):
-            best = root_cause.get("best_candidate") or {}
-            actual_conclusion = best.get("root_cause", "")
-            actual_confidence = best.get("confidence", 0.0)
+        best = (result_data.get("report") or {}).get("primary_root_cause") or {}
+        actual_conclusion = best.get("summary", "")
+        actual_confidence = best.get("confidence", 0.0)
 
         expected = scenario["expected_root_cause"]
         expected_min = scenario["expected_confidence_min"]

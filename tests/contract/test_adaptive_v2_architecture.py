@@ -5,14 +5,12 @@ from datetime import UTC, datetime
 
 import pytest
 
-from opspilot.agents import CoordinatorAgent, RootCauseAgent, analyze_experts
-from opspilot.evidence import collect_evidence, collect_expert_evidence
+from opspilot.agents import CoordinatorAgent, RootCauseAgent
+from opspilot.evidence import collect_evidence
 from opspilot.graph import OpsPilotWorkflow
-from opspilot.investigation.engine import AdaptiveInvestigator
 from opspilot.investigation.planner import ActionValidator, EvidenceGate, LLMAdaptivePlanner
 from opspilot.models import (
     AlertEvent,
-    AnalysisPlan,
     Evidence,
     EvidenceSeverity,
     EvidenceSourceType,
@@ -42,8 +40,6 @@ def planner_kwargs(item: AlertEvent) -> dict:
     return {
         "alert": item,
         "round_number": 2,
-        "dimension_results": [],
-        "expert_results": [],
         "evidence": [],
         "candidates": [],
         "executed_tools": ["metrics.query"],
@@ -118,13 +114,12 @@ def test_derived_evidence_from_one_tool_result_counts_as_one_source():
         data={"observations": {"replication_lag_seconds": 20}},
         latency_ms=1,
     )
-    expert_results = analyze_experts(item, [result], domains=["db"])
-    evidence = collect_evidence(item, [result]) + collect_expert_evidence(item, expert_results)
+    evidence = collect_evidence(item, [result, result])
     candidates, _ = RootCauseAgent().diagnose(item, evidence)
     decision = EvidenceGate(confidence=0.7, margin=0.1, min_sources=2).evaluate(candidates, evidence)
 
     supporting = [entry for entry in evidence if RootCauseType.DB_REPLICATION_LAG in entry.supports]
-    assert len(supporting) >= 2
+    assert len(supporting) == 1
     assert len({entry.source_group for entry in supporting}) == 1
     assert decision.independent_source_count == 1
     assert decision.sufficient is False
@@ -180,7 +175,7 @@ async def test_each_gate_sees_algorithm_evidence_and_final_report_does_not_rerun
     report = await workflow.analyze(item)
 
     assert seen_types
-    assert all(any(name.startswith("algorithm.") for name in types) for types in seen_types)
+    assert all(any(name.startswith("anomaly.") for name in types) for types in seen_types)
     assert workflow.investigator.analysis_engine.analysis_count == report.investigation.rounds
     assert seen_types[-1] == {entry.evidence_type for entry in report.evidence}
 
@@ -189,43 +184,3 @@ def test_coordinator_seed_contains_general_tools_only():
     registry = build_default_registry()
     plan = CoordinatorAgent(registry).plan(alert())
     assert {step.tool_name for step in plan.steps} <= set(registry.general_names())
-
-
-@pytest.mark.parametrize(
-    ("alert_type", "tool_name", "expected_dimension"),
-    [
-        ("timeout", "metrics.query", "upstream"),
-        ("error_rate", "metrics.query", "upstream"),
-        ("resource", "metrics.query", "cluster"),
-        ("custom", "metrics.query", "cluster"),
-        ("timeout", "logs.query", "errorlog"),
-        ("timeout", "changes.query", "change"),
-        ("timeout", "traces.query", "downstream"),
-        ("timeout", "topology.query", "upstream"),
-        ("timeout", "alerts.query", "problem"),
-    ],
-)
-def test_dynamic_analysis_plan_maps_every_general_tool(
-    alert_type: str,
-    tool_name: str,
-    expected_dimension: str,
-):
-    item = AlertEvent.model_validate({**alert().model_dump(), "alert_type": alert_type})
-    plan = AdaptiveInvestigator._analysis_plan(item, AnalysisPlan(steps=[]), [tool_name])
-
-    assert [(dimension.dimension, dimension.tools) for dimension in plan.dimensions] == [
-        (expected_dimension, [tool_name])
-    ]
-
-
-def test_dynamic_analysis_plan_merges_tools_that_share_upstream_dimension():
-    item = alert()
-    seed = CoordinatorAgent(build_default_registry()).plan(item)
-    plan = AdaptiveInvestigator._analysis_plan(
-        item,
-        seed,
-        ["metrics.query", "traces.query", "changes.query", "topology.query"],
-    )
-
-    upstream = next(dimension for dimension in plan.dimensions if dimension.dimension == "upstream")
-    assert upstream.tools == ["metrics.query", "topology.query"]
