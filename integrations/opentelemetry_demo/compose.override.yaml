@@ -1,0 +1,71 @@
+# Requires Docker Compose >= 2.24.4 (!override).
+services:
+  ad:
+    ports: !override []
+  cart:
+    ports: !override []
+  checkout:
+    deploy:
+      resources:
+        limits:
+          memory: ${OTEL_DEMO_CHECKOUT_MEMORY:-20M}
+    environment:
+      GOMEMLIMIT: ${OTEL_DEMO_CHECKOUT_GOMEMLIMIT:-16MiB}
+      GOMAXPROCS: ${OTEL_DEMO_CHECKOUT_GOMAXPROCS:-2}
+    ports: !override []
+  currency:
+    ports: !override []
+  email:
+    ports: !override []
+  frontend:
+    ports: !override []
+  frontend-proxy:
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_FRONTEND_PORT:-18080}:8080"
+  image-provider:
+    ports: !override []
+  load-generator:
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_LOCUST_PORT:-18089}:8089"
+  payment:
+    ports: !override []
+  product-catalog:
+    ports: !override []
+  quote:
+    ports: !override []
+  recommendation:
+    ports: !override []
+  shipping:
+    ports: !override []
+  flagd:
+    volumes: !override
+      - "${OTEL_DEMO_FLAGD_DIR:-./src/flagd}:/etc/flagd"
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_FLAGD_PORT:-18013}:8013"
+      - "127.0.0.1:${OTEL_DEMO_FLAGD_HEALTH_PORT:-18014}:8014"
+  flagd-ui:
+    volumes: !override
+      - "${OTEL_DEMO_FLAGD_DIR:-./src/flagd}:/app/data"
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_FLAGD_UI_PORT:-14000}:4000"
+  telemetry-docs:
+    ports: !override []
+  astronomy-db:
+    ports: !override []
+  valkey-cart:
+    ports: !override []
+  otel-collector:
+    ports: !override []
+  jaeger:
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_JAEGER_PORT:-16686}:16686"
+  grafana:
+    environment:
+      GOMAXPROCS: ${OTEL_DEMO_GRAFANA_GOMAXPROCS:-2}
+    ports: !override []
+  prometheus:
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_PROMETHEUS_PORT:-19090}:9090"
+  opensearch:
+    ports: !override
+      - "127.0.0.1:${OTEL_DEMO_OPENSEARCH_PORT:-19200}:9200"

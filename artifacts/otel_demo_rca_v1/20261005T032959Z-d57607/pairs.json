@@ -1,0 +1,115 @@
+[
+  {
+    "scenario_id": "normal",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": true,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 4,
+      "expert_calls": 1,
+      "investigation_rounds": 2,
+      "latency_ms": 11574.956,
+      "expected": "no_fault",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 343.15599999999995
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8614.498,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 314.3589999999999
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 10045.571,
+      "expected": "no_fault",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 314.34299999999985
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\compute\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 15328.679,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": false,
+    "duration_seconds": 878.6880000000001
+  }
+]

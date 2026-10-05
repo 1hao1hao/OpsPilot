@@ -103,7 +103,7 @@ v1 原始数据集保持不变，共 25 个 dev、12 个 frozen-test 样本。�
 | 当前 Evidence + 固定工具顺序 fallback | 6/21 | 2/10 |
 | 当前固定执行全部工具，使用同一 Evidence + Ranker | 21/21 | 10/10 |
 
-许多旧样本只有领域后端快照，没有 L1 领域线索。删掉语义 fallback 后，未启用 LLM 就不会猜测这些领域。**这是真实的调查覆盖率下降，不能用排名正确率代替完整自适应诊断准确率。** 当前未执行付费真实 LLM 评测；Planner 的成功、非法输出、异常和 fallback 边界由可控响应测试覆盖。
+许多旧样本只有领域后端快照，没有 L1 领域线索。删掉语义 fallback 后，未启用 LLM 就不会猜测这些领域。**这是真实的调查覆盖率下降，不能用排名正确率代替完整自适应诊断准确率。** 旧 v1 mock 样本尚未执行付费真实 LLM 评测；Planner 的成功、非法输出、异常和 fallback 边界由可控响应测试覆盖。
 
 [逐样本对照](artifacts/reconstruction_2/comparison.json) 保留重构前结果、当前 fallback 与完整观测 Top-K。CI 分别检查完整观测的确定性排名、合法动作/预算和 Runtime 可靠性；自适应覆盖率原样报告，不再使用已经移除的语义 fallback 的全命中门槛。
 
@@ -134,3 +134,27 @@ src/opspilot/
 └── evaluation/      # 数据集、对照评测、可靠性验证
 src/deeprca/mock_env/ # 独立 Mock 服务；旧诊断实现已删除
 ```
+
+## OpenTelemetry Astronomy Shop
+
+可通过 `OPSPILOT_OBSERVATION_BACKEND=otel_demo` 接入独立部署的 Prometheus、Jaeger 和 OpenSearch。默认仍使用 Mock，核心 RCA 与 Runtime 不变。固定版本、启动脚本、backend URL、工具映射、telemetry gap 和验证说明见 [集成指南](integrations/opentelemetry_demo/README.md)。
+
+真实 RCA Benchmark 使用 OpenTelemetry 官方 Astronomy Shop 近真实微服务环境、真实 Locust 和 feature-flag 注入，固定六个故障 + Normal；OpsPilot 没有企业生产数据。版本化场景、Ground Truth 隔离、smoke/release 运行与工件说明见 [Benchmark 指南](benchmarks/datasets/otel_demo/v1/README.md)。
+初步实测、逐场景评分与失败原因见 [Benchmark 报告](reports/otel_demo_benchmark.md)。
+
+2026-10-04 早期计划复查：本地全量测试 **216 passed / 4 skipped**；[重构验收与新 dev 对照](artifacts/reconstruction_2/recheck_20261004/acceptance.json) 明确保留简化 fallback 的覆盖率限制。[早期 Telemetry 检查](artifacts/otel_demo/validation.json) 保留当时未执行 Docker/live discovery 的状态；后续真实部署、故障 smoke 和一次 RCA 已通过，当前结果见 [live 验收报告](reports/otel_demo_live_smoke.md)。
+
+## 官方 Demo 正式消融（2026-10-05）
+
+近真实微服务环境中的 7 场景 × 3 repeats × 3 modes，共 63 次实际 RCA、21 个完整生命周期，18 次故障出现及恢复确认。Full 与 No-L2 使用当前配置的真实 DeepSeek Planner，逐次 LLM/fallback 单独记录；不代表企业生产数据。
+
+| 模式 | Fault Top1 | Fault Top3 | Normal | Avg Tool | Avg Expert | P50 / P95 ms |
+| --- | --- | --- | --- | --- | --- | --- |
+| full_adaptive | 10/18 | 12/18 | 2/3 | 6.10 | 1.00 | 17038.33 / 21673.26 |
+| fixed_full | 10/18 | 11/18 | 0/3 | 13.00 | 0.00 | 27408.37 / 28744.40 |
+| adaptive_no_l2 | 10/18 | 12/18 | 2/3 | 5.71 | 0.00 | 13809.91 / 14738.43 |
+
+Full 相对 Fixed 的工具调用减少 53.11%；准确率、延迟和 L2 收益须按结果分别解读，不把调用数减少写成全面性能提升。Fixed 不调用 LLM；模型现金成本未估算。Knowledge Tool Decision：**INCONCLUSIVE**，未接入 EvalRAG 或 Knowledge Tool。
+
+[完整报告](reports/otel_demo_rca_v1.md) · [复现配置与步骤](benchmarks/datasets/otel_demo/v1/EXPERIMENT.md) · [真实逐次结果](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/records.json) · [独立验收](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/independent_audit.json) · [失败分析](artifacts/failure_analysis.md) · [Knowledge 决策](artifacts/knowledge_tool_decision.md)。
+本次最终验证：273 passed / 4 skipped；Ruff 通过。旧 mock benchmark 的 6/21 覆盖率结果仍单独保留。

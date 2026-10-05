@@ -1,0 +1,1035 @@
+{
+  "wrong_top1_cases": 7,
+  "primary_counts": {
+    "E": 3,
+    "unknown": 2,
+    "G": 2
+  },
+  "label_counts": {
+    "E": 3,
+    "unknown": 2,
+    "G": 2
+  },
+  "failures": [
+    {
+      "scenario_id": "normal",
+      "repetition": 1,
+      "mode": "full_adaptive",
+      "primary_observed_condition": "E",
+      "labels": [
+        "E"
+      ],
+      "facts": [
+        {
+          "label": "E",
+          "fact": {
+            "accepted_top1": "rpc_timeout",
+            "expected": "no_fault"
+          },
+          "artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\full_adaptive\\rca\\events.json"
+        }
+      ],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "rpc.timeout",
+          "fact": "RPC timeout rate=0.0%, latency ratio=3.3x",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp99: current=3498.124999999998, historical baselines={'last_week': None, 'yesterday': 1917.3125000000011}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\full_adaptive"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 1,
+      "mode": "fixed_full",
+      "primary_observed_condition": "E",
+      "labels": [
+        "E"
+      ],
+      "facts": [
+        {
+          "label": "E",
+          "fact": {
+            "accepted_top1": "rpc_timeout",
+            "expected": "no_fault"
+          },
+          "artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\fixed_full\\rca\\events.json"
+        }
+      ],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "rpc_timeout",
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2082.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2084.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1711.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2083.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1894.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2009.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy: status=UNSET, duration=1898.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "rpc.timeout",
+          "fact": "RPC timeout rate=0.0%, latency ratio=3.3x",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy: status=UNSET, duration=2033.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1895.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1713.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1711.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1557.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1558.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy: status=UNSET, duration=2009.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1894.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1644.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1113.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1897.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1409.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1641.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1812.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1643.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1893.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy: status=UNSET, duration=2032.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1641.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1711.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1642.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1813.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1710.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1812.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy: status=UNSET, duration=1115.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1111.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1900.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/product-catalog: status=UNSET, duration=1294.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2008.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1112.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1541.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1898.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2032.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1639.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1651.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy: status=UNSET, duration=2085.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy: status=UNSET, duration=2085.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2031.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy: status=UNSET, duration=1114.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2030.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1711.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2008.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1815.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy: status=UNSET, duration=1898.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1638.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2005.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1110.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1897.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy: status=UNSET, duration=2009.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "redis.hit_rate",
+          "fact": "Redis hit rate is 35.3%",
+          "supports": [
+            "redis_low_hit_rate",
+            "redis_memory_pressure"
+          ]
+        },
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp99: current=3498.124999999998, historical baselines={'last_week': None, 'yesterday': 1917.3125000000011}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\fixed_full"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 1,
+      "mode": "adaptive_no_l2",
+      "primary_observed_condition": "E",
+      "labels": [
+        "E"
+      ],
+      "facts": [
+        {
+          "label": "E",
+          "fact": {
+            "accepted_top1": "rpc_timeout",
+            "expected": "no_fault"
+          },
+          "artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\adaptive_no_l2\\rca\\events.json"
+        }
+      ],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2082.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2084.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1711.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2083.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1894.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2009.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy: status=UNSET, duration=1898.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy: status=UNSET, duration=2033.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1895.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1713.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1711.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1557.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1558.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy: status=UNSET, duration=2009.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1894.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1644.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1113.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1897.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1409.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1641.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1812.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1643.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1893.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy: status=UNSET, duration=2032.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1641.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1711.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy: status=UNSET, duration=1642.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1813.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1710.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1812.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy: status=UNSET, duration=1115.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1111.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1900.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/product-catalog: status=UNSET, duration=1294.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2008.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1112.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1541.1ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1898.0ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2032.3ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1639.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator: status=UNSET, duration=1651.5ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy: status=UNSET, duration=2085.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy: status=UNSET, duration=2085.2ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2031.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy: status=UNSET, duration=1114.6ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2030.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1711.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2008.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 3ca22cecbce7c8b95adcfd31ba046571 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1815.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 137c17752309df8dd16b97ce854788a4 path frontend-web/frontend-proxy: status=UNSET, duration=1898.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace 5aad6ce376a1d486275f006ea7c52528 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1638.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=2005.7ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace a120a2296f12904407bf9f89c6822163 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1110.9ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace ec77fd0480c61e0c6e990934c4f0ba39 path frontend-web/frontend-proxy/frontend/recommendation: status=UNSET, duration=1897.4ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "trace.span_slow",
+          "fact": "Trace fea1dd849efae70a15ecc25be596b917 path frontend-web/frontend-proxy: status=UNSET, duration=2009.8ms",
+          "supports": [
+            "rpc_timeout"
+          ]
+        },
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp99: current=3498.124999999998, historical baselines={'last_week': None, 'yesterday': 1917.3125000000011}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-01\\modes\\adaptive_no_l2"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 2,
+      "mode": "fixed_full",
+      "primary_observed_condition": "unknown",
+      "labels": [
+        "unknown"
+      ],
+      "facts": [],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "redis.hit_rate",
+          "fact": "Redis hit rate is 21.6%",
+          "supports": [
+            "redis_low_hit_rate",
+            "redis_memory_pressure"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-02\\modes\\fixed_full"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 3,
+      "mode": "adaptive_no_l2",
+      "primary_observed_condition": "G",
+      "labels": [
+        "G"
+      ],
+      "facts": [
+        {
+          "label": "G",
+          "fact": "The final gate decision explicitly records exhausted budget",
+          "artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03\\modes\\adaptive_no_l2\\rca\\events.json"
+        }
+      ],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp95: current=313.99999999999943, historical baselines={'last_week': None, 'yesterday': 583.1463068181793}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03\\modes\\adaptive_no_l2"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 3,
+      "mode": "full_adaptive",
+      "primary_observed_condition": "G",
+      "labels": [
+        "G"
+      ],
+      "facts": [
+        {
+          "label": "G",
+          "fact": "The final gate decision explicitly records exhausted budget",
+          "artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03\\modes\\full_adaptive\\rca\\events.json"
+        }
+      ],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp95: current=313.99999999999943, historical baselines={'last_week': None, 'yesterday': 583.1463068181793}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03\\modes\\full_adaptive"
+    },
+    {
+      "scenario_id": "normal",
+      "repetition": 3,
+      "mode": "fixed_full",
+      "primary_observed_condition": "unknown",
+      "labels": [
+        "unknown"
+      ],
+      "facts": [],
+      "causal_diagnosis": "unknown; labels are artifact-backed conditions, not proof of a sole cause",
+      "predicted": [
+        "redis_low_hit_rate",
+        "redis_memory_pressure",
+        "rpc_timeout"
+      ],
+      "expected": "no_fault",
+      "evidence": [
+        {
+          "evidence_type": "redis.hit_rate",
+          "fact": "Redis hit rate is 32.3%",
+          "supports": [
+            "redis_low_hit_rate",
+            "redis_memory_pressure"
+          ]
+        },
+        {
+          "evidence_type": "anomaly.historical_baseline",
+          "fact": "tp95: current=313.99999999999943, historical baselines={'last_week': None, 'yesterday': 583.1463068181793}",
+          "supports": [
+            "rpc_timeout"
+          ]
+        }
+      ],
+      "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T032959Z-d57607\\normal\\repeat-03\\modes\\fixed_full"
+    }
+  ]
+}

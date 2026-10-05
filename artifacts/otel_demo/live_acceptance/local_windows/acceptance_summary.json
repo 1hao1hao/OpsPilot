@@ -1,0 +1,77 @@
+{
+  "LIVE_INTEGRATION": "PASS",
+  "request_counts": [
+    58696.0,
+    62310.0
+  ],
+  "log_counts": [
+    12370,
+    14106
+  ],
+  "latest_log_timestamps": [
+    "2026-10-04T13:37:40.882024323Z",
+    "2026-10-04T13:38:50.364475961Z"
+  ],
+  "latest_trace_start_seconds": [
+    1791121038.198,
+    1791121107.929443
+  ],
+  "cpu_jvm_ratio": {
+    "baseline": 0.000304528098573403,
+    "fault": 0.1397415984595964,
+    "recovery": 0.0001062266522670538
+  },
+  "normal_tools": {
+    "alerts.query": "EMPTY_BY_DESIGN",
+    "changes.query": "EMPTY_BY_DESIGN",
+    "db.connections": "PASS",
+    "db.replication": "EMPTY_BY_DESIGN",
+    "db.slowlog": "EMPTY_BY_DESIGN",
+    "kafka.lag": "PASS",
+    "logs.query": "PASS",
+    "metrics.query": "PASS",
+    "redis.hotkeys": "PASS",
+    "redis.memory": "PASS",
+    "rpc.metrics": "PASS",
+    "topology.query": "EMPTY_BY_DESIGN",
+    "traces.query": "PASS"
+  },
+  "services": [
+    "accounting",
+    "ad",
+    "astronomy-db",
+    "cart",
+    "checkout",
+    "currency",
+    "email",
+    "flagd",
+    "flagd-ui",
+    "fraud-detection",
+    "frontend",
+    "frontend-proxy",
+    "grafana",
+    "image-provider",
+    "jaeger",
+    "kafka",
+    "load-generator",
+    "opamp-server",
+    "opensearch",
+    "otel-collector",
+    "payment",
+    "product-catalog",
+    "prometheus",
+    "quote",
+    "recommendation",
+    "shipping",
+    "telemetry-docs",
+    "valkey-cart"
+  ],
+  "rca_completed": true,
+  "evidence_count": 7,
+  "gate_sufficient": false,
+  "gate_budget_exhausted": true,
+  "faults_off": true,
+  "offline_tests": "221 passed, 4 skipped",
+  "live_tests": "1 passed",
+  "time": "2026-10-04T21:51:58.955770+08:00"
+}

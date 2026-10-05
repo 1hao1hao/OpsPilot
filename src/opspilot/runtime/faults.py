@@ -64,6 +64,7 @@ def build_worker_registry(settings: RuntimeSettings):
             )
     return build_default_registry(
         provider=provider,
+        settings=settings,
         timeout_seconds=settings.tool_timeout_seconds,
         max_attempts=settings.tool_max_attempts,
     )

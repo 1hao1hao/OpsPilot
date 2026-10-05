@@ -116,3 +116,15 @@ chat_uploads/
 # Node.js 依赖与临时工作目录
 node_modules/
 md-to-pdf-work/
+# External pinned telemetry demo (never vendor upstream)
+.external/
+
+# Live experiments retain full raw telemetry locally; commit compact audits explicitly.
+artifacts/otel_demo_rca_v1/
+artifacts/otel_demo_rca_v1_preflight/
+artifacts/otel_demo_benchmark/
+artifacts/otel_demo/live_acceptance/
+artifacts/otel_demo/live_acceptance_failed/
+artifacts/otel_demo/discovery/
+artifacts/otel_demo/*/
+artifacts/otel_demo*.txt

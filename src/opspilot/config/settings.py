@@ -1,6 +1,8 @@
 """Environment-backed settings shared by the API and worker processes."""
 
-from pydantic import Field
+from typing import Literal
+
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -31,3 +33,26 @@ class RuntimeSettings(BaseSettings):
     llm_model: str = "deepseek-v4-flash"
     llm_base_url: str = "https://api.deepseek.com"
     llm_timeout_seconds: float = Field(default=30.0, gt=0)
+
+    observation_backend: Literal["mock", "otel_demo"] = "mock"
+    prometheus_url: str = ""
+    jaeger_url: str = ""
+    opensearch_url: str = ""
+    opensearch_index: str = "otel-logs-*"
+    telemetry_timeout_seconds: float = Field(default=5, gt=0)
+    telemetry_window_before_seconds: int = Field(default=900, ge=60, le=86400)
+    telemetry_window_after_seconds: int = Field(default=60, ge=1, le=3600)
+    telemetry_step_seconds: int = Field(default=15, ge=1)
+    telemetry_log_limit: int = Field(default=50, ge=1, le=200)
+    telemetry_trace_limit: int = Field(default=50, ge=1, le=200)
+
+    @model_validator(mode="after")
+    def live_backends_required(self):
+        if self.observation_backend == "otel_demo":
+            for name in ("prometheus_url", "jaeger_url", "opensearch_url"):
+                if not getattr(self, name).startswith(("http://", "https://")):
+                    raise ValueError(f"{name} must be an explicit HTTP(S) URL for otel_demo")
+            if "tool_timeout_seconds" not in self.model_fields_set:
+                # Discovery + range queries need a network budget; preserve explicit user limits.
+                self.tool_timeout_seconds = 30.0
+        return self

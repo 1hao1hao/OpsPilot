@@ -1,0 +1,118 @@
+{
+  "client_timezone": "Asia/Shanghai",
+  "reported_at": "2026-10-05T15:34:35.878601+08:00",
+  "requested_repeats": 3,
+  "actual_complete_diagnoses": 63,
+  "actual_saved_diagnoses": 63,
+  "lifecycle_attempts": 22,
+  "complete_lifecycles": 21,
+  "observable_fault_lifecycles": 18,
+  "repeat_matrix": [
+    {
+      "scenario_id": "normal",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "normal",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "normal",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "compute",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "compute",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "compute",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "payment-errors",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "payment-errors",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "payment-errors",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "dependency-unavailable",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "dependency-unavailable",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "dependency-unavailable",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "database-latency",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "database-latency",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "database-latency",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "memory-growth",
+      "mode": "full_adaptive",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "memory-growth",
+      "mode": "fixed_full",
+      "actual_repeats": 3
+    },
+    {
+      "scenario_id": "memory-growth",
+      "mode": "adaptive_no_l2",
+      "actual_repeats": 3
+    }
+  ],
+  "report_helper_sha256": "6d21d2bad1b83bed538ad5a1b4cef5e127ec2f0bf6a16151e0b2d88f2f6c9726"
+}

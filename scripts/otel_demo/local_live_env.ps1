@@ -1,0 +1,15 @@
+$projectRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$env:Path = (Join-Path $projectRoot '.venv\Scripts') + ';C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\Docker\Docker\resources\bin;' + $env:Path
+$env:PYTHON = (Join-Path $projectRoot '.venv\Scripts\python.exe').Replace('\', '/')
+$env:OTEL_DEMO_FLAGD_DIR = (Join-Path $projectRoot '.external\opspilot-flags').Replace('\', '/')
+$env:COMPOSE_PARALLEL_LIMIT = '2'
+$env:OTEL_DEMO_CHECKOUT_MEMORY = '128M'
+$env:OTEL_DEMO_CHECKOUT_GOMEMLIMIT = '96MiB'
+$env:OTEL_DEMO_CHECKOUT_GOMAXPROCS = '2'
+$env:OPSPILOT_OBSERVATION_BACKEND = 'otel_demo'
+$env:OPSPILOT_PROMETHEUS_URL = 'http://127.0.0.1:19090'
+$env:OPSPILOT_JAEGER_URL = 'http://127.0.0.1:16686/jaeger/ui'
+$env:OPSPILOT_OPENSEARCH_URL = 'http://127.0.0.1:19200'
+$env:OPSPILOT_TOOL_TIMEOUT_SECONDS = '30'
+$env:OPSPILOT_TELEMETRY_TIMEOUT_SECONDS = '10'
+$env:OPSPILOT_LLM_ENABLED = 'false'

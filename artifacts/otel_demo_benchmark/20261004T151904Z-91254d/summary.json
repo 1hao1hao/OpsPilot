@@ -1,0 +1,380 @@
+{
+  "overall": {
+    "attempts": 9,
+    "scored": 9,
+    "completed": 9,
+    "fault_observation_confirmed": 6,
+    "fault_observation_gap": 0,
+    "top1": {
+      "numerator": 3,
+      "denominator": 6,
+      "rate": 0.5
+    },
+    "top3": {
+      "numerator": 4,
+      "denominator": 6,
+      "rate": 0.6666666666666666
+    },
+    "verified_fault_top1": {
+      "numerator": 3,
+      "denominator": 6,
+      "rate": 0.5
+    },
+    "verified_fault_top3": {
+      "numerator": 4,
+      "denominator": 6,
+      "rate": 0.6666666666666666
+    },
+    "no_fault_accuracy": {
+      "numerator": 1,
+      "denominator": 3,
+      "rate": 0.3333333333333333
+    },
+    "gate_pass_rate": {
+      "numerator": 2,
+      "denominator": 9,
+      "rate": 0.2222222222222222
+    },
+    "budget_exhausted_rate": {
+      "numerator": 7,
+      "denominator": 9,
+      "rate": 0.7777777777777778
+    },
+    "degraded_run_rate": {
+      "numerator": 0,
+      "denominator": 9,
+      "rate": 0.0
+    }
+  },
+  "by_scenario": {
+    "normal": {
+      "attempts": 3,
+      "scored": 3,
+      "completed": 3,
+      "fault_observation_confirmed": 0,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "top3": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "verified_fault_top1": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "verified_fault_top3": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "no_fault_accuracy": {
+        "numerator": 1,
+        "denominator": 3,
+        "rate": 0.3333333333333333
+      },
+      "gate_pass_rate": {
+        "numerator": 1,
+        "denominator": 3,
+        "rate": 0.3333333333333333
+      },
+      "budget_exhausted_rate": {
+        "numerator": 2,
+        "denominator": 3,
+        "rate": 0.6666666666666666
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      }
+    },
+    "compute": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    },
+    "payment-errors": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    },
+    "dependency-unavailable": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top1": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    },
+    "messaging-backlog": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "top3": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "verified_fault_top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "verified_fault_top3": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    },
+    "database-latency": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "top3": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "verified_fault_top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "verified_fault_top3": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    },
+    "memory-growth": {
+      "attempts": 1,
+      "scored": 1,
+      "completed": 1,
+      "fault_observation_confirmed": 1,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "verified_fault_top1": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "verified_fault_top3": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "no_fault_accuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "gate_pass_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0.0
+      }
+    }
+  }
+}

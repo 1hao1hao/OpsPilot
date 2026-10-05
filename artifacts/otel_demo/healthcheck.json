@@ -1,0 +1,35 @@
+{
+  "frontend": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:18080/"
+  },
+  "load-generator": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:18089/stats/requests"
+  },
+  "prometheus": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:19090/api/v1/query?query=up"
+  },
+  "jaeger": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:16686/jaeger/ui/api/v3/services"
+  },
+  "opensearch": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:19200/_cluster/health"
+  },
+  "flagd": {
+    "status": "PASS",
+    "url": "http://127.0.0.1:18014/readyz"
+  },
+  "kafka": {
+    "status": "PASS"
+  },
+  "astronomy-db": {
+    "status": "PASS"
+  },
+  "valkey-cart": {
+    "status": "PASS"
+  }
+}

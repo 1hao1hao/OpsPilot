@@ -1,0 +1,17 @@
+{
+  "decision": "INCONCLUSIVE",
+  "reason": "尚无经核验的历史 incident/runbook 证明增量区分信息；本轮还存在工具选择、排名、Gate、预算、采样/窗口或 taxonomy 限制，不能从错例直接推断需要 RAG。",
+  "conditions": {
+    "multiple_real_failures": true,
+    "telemetry_complete_for_every_failure": "inspect per-case telemetry artifacts; not presumed",
+    "live_evidence_proven_unable_to_disambiguate": "unverified",
+    "verified_external_discriminating_knowledge": false,
+    "simple_pipeline_bugs_ruled_out": false
+  },
+  "implementation": "No EvalRAG or Knowledge Tool integration",
+  "external_knowledge_candidates": [
+    "DB 锁等待 runbook 与独立历史 incident 的锁/SQL 区分模式",
+    "consumer group/service dependency 文档"
+  ],
+  "verification_plan": "先修复并冻结 telemetry/window/tool selection/ranking 问题，再核验独立脱敏知识文档；若五项标准满足，单独做 Without/With Knowledge，比较 Top1/Top3、Tool Cost、Latency，知识不能直接决定 RootCause。"
+}

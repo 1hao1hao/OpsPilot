@@ -1,0 +1,15 @@
+{
+  "requested": {
+    "user_count": 5,
+    "spawn_rate": 1
+  },
+  "container_env": {
+    "LOCUST_HTTP_USER_WEIGHT": "9",
+    "LOCUST_USERS": "5",
+    "LOCUST_BROWSER_TRAFFIC_ENABLED": "true",
+    "LOCUST_HEADLESS": "false",
+    "LOCUST_BROWSER_USER_WEIGHT": "1",
+    "LOCUST_HOST": "http://frontend-proxy:8080",
+    "LOCUST_AUTOSTART": "true"
+  }
+}

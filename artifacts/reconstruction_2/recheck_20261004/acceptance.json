@@ -1,0 +1,65 @@
+{
+  "reviewed_on": "2026-10-04 Asia/Shanghai",
+  "reviewed_base": "fcc74f5c857d7a52f702a542f43b4ce3bb646c06",
+  "architecture_status": "PASS: already implemented in reviewed base; no RCA or Runtime rewrite needed",
+  "legacy_implementation_scan": "No deprecated Analyze routes/models or semantic rule pipeline references in src; only negative regression assertions remain in tests",
+  "shared_engine": "AdaptiveInvestigator; shared report factory investigation/report.py; workflow is an offline wrapper",
+  "fallback": "Evidence supports -> uninvoked expert, otherwise fixed unused general-tool order, otherwise None",
+  "report": "DiagnosisReport 2.0; InvestigationTrace nested; tool execution detail through events",
+  "tests": {
+    "passed": 216,
+    "skipped": 4,
+    "warning": "Existing Starlette httpx deprecation"
+  },
+  "evaluations": [
+    {
+      "artifact": "artifacts/reconstruction_2/recheck_20261004/20261004T034142Z-opspilot_fixed_planner-dev",
+      "cases": 25,
+      "hit_at_1": {
+        "value": 1.0,
+        "numerator": 21,
+        "denominator": 21
+      },
+      "hit_at_3": {
+        "value": 1.0,
+        "numerator": 21,
+        "denominator": 21
+      },
+      "e2e_success_rate": {
+        "value": 1.0,
+        "numerator": 25,
+        "denominator": 25
+      },
+      "external_api_calls": 0
+    },
+    {
+      "artifact": "artifacts/reconstruction_2/recheck_20261004/20261004T034158Z-opspilot_full_adaptive-dev",
+      "cases": 25,
+      "hit_at_1": {
+        "value": 0.285714,
+        "numerator": 6,
+        "denominator": 21
+      },
+      "hit_at_3": {
+        "value": 0.285714,
+        "numerator": 6,
+        "denominator": 21
+      },
+      "e2e_success_rate": {
+        "value": 1.0,
+        "numerator": 25,
+        "denominator": 25
+      },
+      "external_api_calls": 0
+    }
+  ],
+  "quality_acceptance": "NOT MET for original adaptive end-to-end no-degradation criterion. LLM-disabled fallback still reaches 6/21 dev fault Hit@1 versus 21/21 with full observations. Ranking itself passes unchanged observations. This is an existing documented limitation, not a regression introduced by telemetry integration.",
+  "constraint": "Did not reintroduce keyword/default domain guessing, alter frozen samples, change ranking/gate, or run paid LLM/fault experiments.",
+  "external_validation": "SKIPPED: Docker unavailable; no configured real PostgreSQL/Redis URLs",
+  "remaining_debt": [
+    "Original snapshots often lack general-tool domain clues; simple fallback cannot infer unseen domain data.",
+    "Historical evaluation aliases share one current implementation.",
+    "Mock service remains under deeprca/mock_env because it is actively used."
+  ],
+  "next_task": "Validate pinned Astronomy Shop on a Docker-capable host; inspect actual discovery and telemetry gaps before fault benchmarks."
+}

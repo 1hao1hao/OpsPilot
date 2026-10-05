@@ -1,0 +1,182 @@
+{
+  "scores_unchanged": true,
+  "wrong_top1_cases": 29,
+  "source_and_configuration_unchanged": true,
+  "causal_diagnosis_remains_unknown": true,
+  "primary_counts": {
+    "G": 8,
+    "unknown": 3,
+    "C": 3,
+    "F": 6,
+    "D": 9
+  },
+  "updates": [
+    {
+      "scenario_id": "messaging-backlog",
+      "repetition": 1,
+      "mode": "fixed_full",
+      "label": "C",
+      "fact": {
+        "observed_consumer_lag": 707.0,
+        "frozen_evidence_threshold": 1000,
+        "condition": "numeric backlog sampled; frozen converter suppresses expected evidence below threshold",
+        "rule_artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T041333Z-9b9d16\\source\\src\\opspilot\\evidence\\collector.py"
+      }
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "repetition": 2,
+      "mode": "fixed_full",
+      "label": "C",
+      "fact": {
+        "observed_consumer_lag": 808.0,
+        "frozen_evidence_threshold": 1000,
+        "condition": "numeric backlog sampled; frozen converter suppresses expected evidence below threshold",
+        "rule_artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T041333Z-9b9d16\\source\\src\\opspilot\\evidence\\collector.py"
+      }
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "repetition": 3,
+      "mode": "fixed_full",
+      "label": "C",
+      "fact": {
+        "observed_consumer_lag": 606.0,
+        "frozen_evidence_threshold": 1000,
+        "condition": "numeric backlog sampled; frozen converter suppresses expected evidence below threshold",
+        "rule_artifact": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261005T041333Z-9b9d16\\source\\src\\opspilot\\evidence\\collector.py"
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 1,
+      "mode": "full_adaptive",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": false
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 1,
+      "mode": "fixed_full",
+      "label": "D",
+      "fact": {
+        "expected_supporting_evidence_exists_but_top1_differs": "db_slow_query",
+        "supporting_evidence_ids": [
+          "ev-9f9dabc8a0b7e5a4"
+        ],
+        "certainty": "observed ranking condition; not proof that ranking is the sole cause"
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 1,
+      "mode": "adaptive_no_l2",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": true
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 2,
+      "mode": "fixed_full",
+      "label": "D",
+      "fact": {
+        "expected_supporting_evidence_exists_but_top1_differs": "db_slow_query",
+        "supporting_evidence_ids": [
+          "ev-5fb2af336861d325"
+        ],
+        "certainty": "observed ranking condition; not proof that ranking is the sole cause"
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 2,
+      "mode": "adaptive_no_l2",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": true
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 2,
+      "mode": "full_adaptive",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": false
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 3,
+      "mode": "adaptive_no_l2",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": true
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 3,
+      "mode": "full_adaptive",
+      "label": "F",
+      "fact": {
+        "uncollected_source_with_actual_expected_supporting_evidence": [
+          "db.slowlog"
+        ],
+        "certainty": "omitted observation, not proof of an illegal planner action or guaranteed correction",
+        "no_l2_budget_constraint": false
+      }
+    },
+    {
+      "scenario_id": "database-latency",
+      "repetition": 3,
+      "mode": "fixed_full",
+      "label": "D",
+      "fact": {
+        "expected_supporting_evidence_exists_but_top1_differs": "db_slow_query",
+        "supporting_evidence_ids": [
+          "ev-78b86b79d94b4e8f"
+        ],
+        "certainty": "observed ranking condition; not proof that ranking is the sole cause"
+      }
+    },
+    {
+      "scenario_id": "memory-growth",
+      "repetition": 1,
+      "mode": "fixed_full",
+      "label": "D",
+      "fact": {
+        "expected_supporting_evidence_exists_but_top1_differs": "resource_saturation",
+        "supporting_evidence_ids": [
+          "ev-9bae95b0fb294a43"
+        ],
+        "certainty": "observed ranking condition; not proof that ranking is the sole cause"
+      }
+    }
+  ],
+  "analysis_helper_sha256": "b44d8834a12d0c62304bcabfe38b326b72da199546901f7b7841693856976b43"
+}

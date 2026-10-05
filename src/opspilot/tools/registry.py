@@ -9,6 +9,7 @@ from typing import Any, Literal
 import httpx
 from pydantic import BaseModel, ConfigDict, Field
 
+from opspilot.config import RuntimeSettings
 from opspilot.models import AlertEvent
 from opspilot.tools.errors import UnknownToolError
 
@@ -115,6 +116,10 @@ class ObservationProvider:
             return alert.signals.get(signal_key, {})
         return await self._read_mock_http(signal_key, alert)
 
+    async def read_tool(self, tool_name: str, alert: AlertEvent) -> dict[str, Any]:
+        source = await self.read(DOMAIN_TOOL_SOURCES[tool_name], alert)
+        return {field: source[field] for field in DOMAIN_TOOL_FIELDS[tool_name] if field in source}
+
     async def _read_mock_http(self, signal_key: str, alert: AlertEvent) -> dict[str, Any]:
         service = alert.service_name
         if signal_key in {"metric", "rpc"}:
@@ -171,10 +176,19 @@ class ObservationProvider:
 def build_default_registry(
     *,
     provider: ObservationProvider | None = None,
-    timeout_seconds: float = 2.0,
+    timeout_seconds: float | None = None,
     max_attempts: int = 1,
+    settings: RuntimeSettings | None = None,
 ) -> ToolRegistry:
-    provider = provider or ObservationProvider()
+    if provider is None:
+        settings = settings or RuntimeSettings()
+        if settings.observation_backend == "otel_demo":
+            from opspilot.observations.provider import OpenTelemetryDemoProvider
+            provider = OpenTelemetryDemoProvider(settings)
+        else:
+            provider = ObservationProvider(settings.mock_base_url)
+    if timeout_seconds is None:
+        timeout_seconds = settings.tool_timeout_seconds if settings and settings.observation_backend == "otel_demo" else 2.0
     registry = ToolRegistry()
 
     for tool_name, signal_key in TOOL_SIGNAL_KEYS.items():
@@ -200,9 +214,14 @@ def build_default_registry(
             name: str = tool_name,
             key: str = signal_key,
         ) -> ObservationOutput:
-            source = await provider.read(key, payload.alert)
-            fields = DOMAIN_TOOL_FIELDS[name]
-            return ObservationOutput(observations={field: source[field] for field in fields if field in source})
+            tool_reader = getattr(provider, "read_tool", None)
+            if tool_reader is not None:
+                observations = await tool_reader(name, payload.alert)
+            else:
+                # Existing injected/snapshot providers only need the original read contract.
+                source = await provider.read(key, payload.alert)
+                observations = {field: source[field] for field in DOMAIN_TOOL_FIELDS[name] if field in source}
+            return ObservationOutput(observations=observations)
 
         registry.register(
             ToolDefinition(
