@@ -1,0 +1,30 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; query logs to measure observed dependencies and confirm whether the product-catalog latency is caused by a DB slow query or an RPC timeout.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "The strongest evidence is a trace.db_slow span (28366.5ms) on the product-catalog path supporting db_slow_query, while the timeout alert and rpc_timeout hint are not yet proven; a DB expert can measure the observed database dependency to confirm or rule out a slow query as the root cause.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-5f871db2e006b39f",
+    "evidence_type": "kafka.consumer_lag",
+    "source_type": "metric",
+    "source_name": "kafka.lag",
+    "source_group": "tool:kafka.lag:aaf91e3c3270450e84a5a1ecfb2fedc6",
+    "service": "checkout",
+    "observed_at": "2026-10-07T15:54:28.321545Z",
+    "fact": "Kafka consumer lag is 909; temporal change={'baseline': 0.0, 'recent': 606.0, 'delta': 606.0, 'noise': 0.0}",
+    "severity": "warning",
+    "confidence": 0.9,
+    "supports": [
+      "kafka_consumer_lag"
+    ],
+    "contradicts": [],
+    "raw_ref": "aaf91e3c3270450e84a5a1ecfb2fedc6"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-2b07a34754bb6d04",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:5ebca49f80af457e9d94c92536d41383",
+    "service": "checkout",
+    "observed_at": "2026-10-07T15:54:28.321545Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "5ebca49f80af457e9d94c92536d41383"
+  }
+]

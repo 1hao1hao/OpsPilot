@@ -1,0 +1,122 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed downstream dependency and error propagation for checkout's failing requests.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The alert is about checkout failing to complete requests to a downstream service; topology can identify the actual downstream dependency and its relationship to checkout, which is needed to distinguish db_slow_query from rpc_error_rate/rpc_timeout rather than relying on generic slow-span hints.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "The strongest evidence is a slow database span on the product-catalog path (trace.db_slow, 1252.9ms) supporting db_slow_query, and the provisional top root cause is db_slow_query at 0.95 confidence; a db expert can measure the observed database dependency rather than repeatedly collecting generic symptoms.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "db.slowlog",
+      "reason": "db Expert drill-down: The strongest evidence is a slow database span on the product-catalog path (trace.db_slow, 1252.9ms) supporting db_slow_query, and the provisional top root cause is db_slow_query at 0.95 confidence; a db expert can measure the observed database dependency rather than repeatedly collecting generic symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.670, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.67,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.227, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.227, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "topology.query",
+    "db.slowlog"
+  ],
+  "invoked_experts": [
+    "db"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 1,
+  "duplicate_actions": 0
+}

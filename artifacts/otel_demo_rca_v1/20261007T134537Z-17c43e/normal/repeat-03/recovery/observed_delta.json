@@ -1,0 +1,71 @@
+{
+  "db.connections.max_connections": {
+    "baseline": 100.0,
+    "fault": 100.0
+  },
+  "kafka.lag.consumer_lag": {
+    "baseline": 0.0,
+    "fault": 0.0,
+    "delta": 0.0
+  },
+  "metrics.query.qps": {
+    "baseline": 14.234045035585114,
+    "fault": 15.684117539210293,
+    "delta": 1.4500725036251794
+  },
+  "metrics.query.error_rate": {
+    "baseline": 0.0,
+    "fault": 0.0,
+    "delta": 0.0
+  },
+  "metrics.query.tp95": {
+    "baseline": 3147.5000000000045,
+    "fault": 673.7499999999982,
+    "delta": -2473.7500000000064
+  },
+  "metrics.query.tp99": {
+    "baseline": 8638.461538461552,
+    "fault": 1768.1428571428555,
+    "delta": -6870.318681318697
+  },
+  "metrics.query.cpu_usage": {
+    "baseline": 0.051283056983419006,
+    "fault": 0.052360827216544344,
+    "delta": 0.0010777702331253372
+  },
+  "metrics.query.memory_usage": {
+    "baseline": 0.78503125,
+    "fault": 0.783625,
+    "delta": -0.0014062499999999423
+  },
+  "redis.hotkeys.hit_rate_percent": {
+    "baseline": 35.40372670807453,
+    "fault": 37.19512195121951,
+    "delta": 1.7913952431449829
+  },
+  "redis.memory.used_memory": {
+    "baseline": 1335680.0,
+    "fault": 1352320.0,
+    "delta": 16640.0
+  },
+  "rpc.metrics.timeout_rate": {
+    "baseline": null,
+    "fault": 0.0
+  },
+  "rpc.metrics.error_rate": {
+    "baseline": null,
+    "fault": 0.0
+  },
+  "rpc.metrics.latency_ms": {
+    "baseline": null,
+    "fault": 311.57957485714286
+  },
+  "rpc.metrics.baseline_latency_ms": {
+    "baseline": null,
+    "fault": 69.92042666666667
+  },
+  "rpc.metrics.call_volume": {
+    "baseline": null,
+    "fault": 7
+  }
+}

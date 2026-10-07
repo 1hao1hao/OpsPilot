@@ -1,0 +1,3153 @@
+{
+  "alerts.query": {},
+  "changes.query": {},
+  "db.connections": {
+    "max_connections": 100.0
+  },
+  "db.replication": {},
+  "db.slowlog": {},
+  "kafka.lag": {
+    "consumer_lag": {
+      "current": 2.0,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 2.0
+        }
+      ],
+      "baseline_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0
+      ],
+      "time_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.0
+      ],
+      "reference_series": [
+        0.0,
+        0.0
+      ],
+      "recent_series": [
+        0.0,
+        0.0,
+        0.0,
+        2.0
+      ],
+      "temporal_context": true,
+      "baseline": 0.2857142857142857,
+      "query": "sum(kafka_consumer_group_lag_sum_ratio{})"
+    }
+  },
+  "logs.query": {
+    "logs": [
+      {
+        "timestamp": "2026-10-07T15:03:00.465648117Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "payment went through"
+      },
+      {
+        "timestamp": "2026-10-07T15:03:00.465710808Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "order placed"
+      },
+      {
+        "timestamp": "2026-10-07T15:03:00.465722925Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "order confirmation email sent"
+      },
+      {
+        "timestamp": "2026-10-07T15:03:00.465750854Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "sending to postProcessor"
+      },
+      {
+        "timestamp": "2026-10-07T15:03:00.465769967Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "Successful to write message. offset: 0, duration: 155.965µs"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:59.323712563Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "[PlaceOrder]"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:37.459584508Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "payment went through"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:37.459694898Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "order placed"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:37.459711867Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "order confirmation email sent"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:37.459753188Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "sending to postProcessor"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:37.45977498Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "Successful to write message. offset: 0, duration: 186.121µs"
+      },
+      {
+        "timestamp": "2026-10-07T15:02:36.459564919Z",
+        "service": "checkout",
+        "severity": "INFO",
+        "message": "[PlaceOrder]"
+      }
+    ]
+  },
+  "metrics.query": {
+    "qps": {
+      "current": 0.01666750004166875,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 0.01666722224074136
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 0.01666722224074136
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 0.0333350000833375
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 0.0333350000833375
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 0.0333350000833375
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 0.0333350000833375
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 0.01666750004166875
+        }
+      ],
+      "baseline_series": [
+        0.01666722224074136,
+        0.01666722224074136,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.01666750004166875
+      ],
+      "time_series": [
+        0.01666722224074136,
+        0.01666722224074136,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.01666750004166875
+      ],
+      "reference_series": [
+        0.01666722224074136,
+        0.01666722224074136
+      ],
+      "recent_series": [
+        0.0333350000833375,
+        0.0333350000833375,
+        0.0333350000833375,
+        0.01666750004166875
+      ],
+      "temporal_context": true,
+      "baseline": 0.026191706408071638,
+      "query": "sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m]))"
+    },
+    "error_rate": {
+      "current": 0.0,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 0.0
+        }
+      ],
+      "baseline_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "time_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_series": [
+        0.0,
+        0.0
+      ],
+      "recent_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temporal_context": true,
+      "baseline": 0.0,
+      "query": "100 * sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",status_code=\"STATUS_CODE_ERROR\",service_name=\"checkout\"}[2m])) / sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m]))"
+    },
+    "tp95": {
+      "current": 780.0,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 390.0
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 390.0
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 760.0
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 760.0
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 760.0
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 760.0
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 780.0
+        }
+      ],
+      "baseline_series": [
+        390.0,
+        390.0,
+        760.0,
+        760.0,
+        760.0,
+        760.0,
+        780.0
+      ],
+      "time_series": [
+        390.0,
+        390.0,
+        760.0,
+        760.0,
+        760.0,
+        760.0,
+        780.0
+      ],
+      "reference_series": [
+        390.0,
+        390.0
+      ],
+      "recent_series": [
+        760.0,
+        760.0,
+        760.0,
+        780.0
+      ],
+      "temporal_context": true,
+      "baseline": 657.1428571428571,
+      "query": "1 * histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m])))"
+    },
+    "tp99": {
+      "current": 796.0,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 398.0
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 398.0
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 791.9999999999999
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 791.9999999999999
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 791.9999999999999
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 791.9999999999999
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 796.0
+        }
+      ],
+      "baseline_series": [
+        398.0,
+        398.0,
+        791.9999999999999,
+        791.9999999999999,
+        791.9999999999999,
+        791.9999999999999,
+        796.0
+      ],
+      "time_series": [
+        398.0,
+        398.0,
+        791.9999999999999,
+        791.9999999999999,
+        791.9999999999999,
+        791.9999999999999,
+        796.0
+      ],
+      "reference_series": [
+        398.0,
+        398.0
+      ],
+      "recent_series": [
+        791.9999999999999,
+        791.9999999999999,
+        791.9999999999999,
+        796.0
+      ],
+      "temporal_context": true,
+      "baseline": 680.0,
+      "query": "1 * histogram_quantile(0.99, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m])))"
+    },
+    "cpu_usage": {
+      "current": 0.005194611676700603,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 0.005145265810632425
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 0.004888115524620985
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 0.005352901174070445
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 0.004869994799791992
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 0.00488923335400124
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 0.005016840336806736
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 0.005194611676700603
+        }
+      ],
+      "baseline_series": [
+        0.005145265810632425,
+        0.004888115524620985,
+        0.005352901174070445,
+        0.004869994799791992,
+        0.00488923335400124,
+        0.005016840336806736,
+        0.005194611676700603
+      ],
+      "time_series": [
+        0.005145265810632425,
+        0.004888115524620985,
+        0.005352901174070445,
+        0.004869994799791992,
+        0.00488923335400124,
+        0.005016840336806736,
+        0.005194611676700603
+      ],
+      "reference_series": [
+        0.005145265810632425,
+        0.004888115524620985
+      ],
+      "recent_series": [
+        0.004869994799791992,
+        0.00488923335400124,
+        0.005016840336806736,
+        0.005194611676700603
+      ],
+      "temporal_context": true,
+      "baseline": 0.005050994668089204,
+      "query": "clamp_max(max(rate(container_cpu_usage_nanoseconds_total{container_name=\"checkout\"}[1m])) / 1000000000, 1)"
+    },
+    "memory_usage": {
+      "current": 0.089935302734375,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 0.08758544921875
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 0.08758544921875
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 0.08758544921875
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 0.08758544921875
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 0.087554931640625
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 0.087615966796875
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 0.089935302734375
+        }
+      ],
+      "baseline_series": [
+        0.08758544921875,
+        0.08758544921875,
+        0.08758544921875,
+        0.08758544921875,
+        0.087554931640625,
+        0.087615966796875,
+        0.089935302734375
+      ],
+      "time_series": [
+        0.08758544921875,
+        0.08758544921875,
+        0.08758544921875,
+        0.08758544921875,
+        0.087554931640625,
+        0.087615966796875,
+        0.089935302734375
+      ],
+      "reference_series": [
+        0.08758544921875,
+        0.08758544921875
+      ],
+      "recent_series": [
+        0.08758544921875,
+        0.087554931640625,
+        0.087615966796875,
+        0.089935302734375
+      ],
+      "temporal_context": true,
+      "baseline": 0.087921142578125,
+      "query": "max(container_memory_percent_ratio{container_name=\"checkout\"}) / 100"
+    }
+  },
+  "redis.hotkeys": {
+    "hit_rate_percent": {
+      "current": 27.142857142857142,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 25.984251968503937
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 25.196850393700785
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 25.78125
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 25.0
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 24.615384615384613
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 25.37313432835821
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 27.142857142857142
+        }
+      ],
+      "baseline_series": [
+        25.984251968503937,
+        25.196850393700785,
+        25.78125,
+        25.0,
+        24.615384615384613,
+        25.37313432835821,
+        27.142857142857142
+      ],
+      "time_series": [
+        25.984251968503937,
+        25.196850393700785,
+        25.78125,
+        25.0,
+        24.615384615384613,
+        25.37313432835821,
+        27.142857142857142
+      ],
+      "reference_series": [
+        25.984251968503937,
+        25.196850393700785
+      ],
+      "recent_series": [
+        25.0,
+        24.615384615384613,
+        25.37313432835821,
+        27.142857142857142
+      ],
+      "temporal_context": true,
+      "baseline": 25.58481834982924,
+      "query": "100 * sum(rate(redis_keyspace_hits_total{}[2m])) / (sum(rate(redis_keyspace_hits_total{}[2m])) + sum(rate(redis_keyspace_misses_total{}[2m])))"
+    }
+  },
+  "redis.memory": {
+    "used_memory": {
+      "current": 1436344.0,
+      "data_points": [
+        {
+          "timestamp": 1791385300.653,
+          "value": 1437592.0
+        },
+        {
+          "timestamp": 1791385315.653,
+          "value": 1437752.0
+        },
+        {
+          "timestamp": 1791385330.653,
+          "value": 1437912.0
+        },
+        {
+          "timestamp": 1791385345.653,
+          "value": 1437400.0
+        },
+        {
+          "timestamp": 1791385360.653,
+          "value": 1436984.0
+        },
+        {
+          "timestamp": 1791385375.653,
+          "value": 1436824.0
+        },
+        {
+          "timestamp": 1791385390.653,
+          "value": 1436344.0
+        }
+      ],
+      "baseline_series": [
+        1437592.0,
+        1437752.0,
+        1437912.0,
+        1437400.0,
+        1436984.0,
+        1436824.0,
+        1436344.0
+      ],
+      "time_series": [
+        1437592.0,
+        1437752.0,
+        1437912.0,
+        1437400.0,
+        1436984.0,
+        1436824.0,
+        1436344.0
+      ],
+      "reference_series": [
+        1437592.0,
+        1437752.0
+      ],
+      "recent_series": [
+        1437400.0,
+        1436984.0,
+        1436824.0,
+        1436344.0
+      ],
+      "temporal_context": true,
+      "baseline": 1437258.2857142857,
+      "query": "sum(redis_memory_used_bytes{})"
+    }
+  },
+  "rpc.metrics": {},
+  "topology.query": {},
+  "traces.query": {
+    "traces": [
+      {
+        "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+        "spans": [
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "8d38fdcdff5fa32b",
+            "parent_span_id": "0fc069caad6d18a4",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 88.421888,
+            "status": "UNSET",
+            "start_time": 1791385379.0350864,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "24e6541acfc8cf2b",
+            "parent_span_id": "0fc069caad6d18a4",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 6.790656,
+            "status": "UNSET",
+            "start_time": 1791385379.1240141,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "0fc069caad6d18a4",
+            "parent_span_id": "7b182ef7c726ec39",
+            "service": "load-generator",
+            "operation": "user_add_to_cart",
+            "duration_ms": 96.364032,
+            "status": "UNSET",
+            "start_time": 1791385379.0345645,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5d9c903e36d13f3d",
+            "parent_span_id": "1dd22e2035090a16",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 0.854272,
+            "status": "UNSET",
+            "start_time": 1791385379.1344545,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "e59cbd00130bd693",
+            "parent_span_id": "1dd22e2035090a16",
+            "service": "checkout",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 151.477504,
+            "status": "UNSET",
+            "start_time": 1791385379.1353602,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "2aabfc5b21bdbfc5",
+            "parent_span_id": "1dd22e2035090a16",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 1.123072,
+            "status": "UNSET",
+            "start_time": 1791385379.2869432,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5d8a9bcfdceb3d69",
+            "parent_span_id": "1dd22e2035090a16",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 1.112576,
+            "status": "UNSET",
+            "start_time": 1791385379.4289715,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b6858cd59300bebf",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 3.69152,
+            "status": "UNSET",
+            "start_time": 1791385379.4301662,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "e204d824a3d6d4fc",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/EmptyCart",
+            "duration_ms": 76.258304,
+            "status": "UNSET",
+            "start_time": 1791385379.4350271,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "9655d5e9c1e53a36",
+            "parent_span_id": "635a8bcbf20fd595",
+            "service": "checkout",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 397.097728,
+            "status": "UNSET",
+            "start_time": 1791385379.1342847,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "8c10ec10591f8451",
+            "parent_span_id": "1dd22e2035090a16",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 140.686336,
+            "status": "UNSET",
+            "start_time": 1791385379.2882075,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "7f34644fc5864942",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 0.87552,
+            "status": "UNSET",
+            "start_time": 1791385379.4341104,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "81fd848807ea06c1",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 19.544576,
+            "status": "UNSET",
+            "start_time": 1791385379.5114682,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "1dd22e2035090a16",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "prepareOrderItemsAndShippingQuoteFromCart",
+            "duration_ms": 295.686656,
+            "status": "UNSET",
+            "start_time": 1791385379.1344357,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "edde827bc48c35e8",
+            "parent_span_id": "9655d5e9c1e53a36",
+            "service": "checkout",
+            "operation": "publish orders",
+            "duration_ms": 0.205056,
+            "status": "UNSET",
+            "start_time": 1791385379.5311456,
+            "span_kind": "producer",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5948eb43ef772fe1",
+            "parent_span_id": "5e42b09107f747b0",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 86.356992,
+            "status": "UNSET",
+            "start_time": 1791385379.035718,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5e42b09107f747b0",
+            "parent_span_id": "8d38fdcdff5fa32b",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 86.58176,
+            "status": "UNSET",
+            "start_time": 1791385379.035557,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "2cf47f0d39d41617",
+            "parent_span_id": "83d99d3850d7ae65",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 5.06112,
+            "status": "UNSET",
+            "start_time": 1791385379.1247628,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "83d99d3850d7ae65",
+            "parent_span_id": "24e6541acfc8cf2b",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 5.266944,
+            "status": "UNSET",
+            "start_time": 1791385379.1246111,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "a8d1696fbc796ec6",
+            "parent_span_id": "871f29df59f7ccac",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1835.204096,
+            "status": "UNSET",
+            "start_time": 1791385379.132191,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "7ba57f96b7e65ca8",
+            "parent_span_id": "277a3b850479db9d",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 2.423552,
+            "status": "UNSET",
+            "start_time": 1791385379.117107,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "4ab2e356d598a32e",
+            "parent_span_id": "48a5c017d9c150b9",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 8.153088,
+            "status": "UNSET",
+            "start_time": 1791385379.2748153,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "277a3b850479db9d",
+            "parent_span_id": "53019d10c389809b",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 33.250048,
+            "status": "UNSET",
+            "start_time": 1791385379.0877206,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "48a5c017d9c150b9",
+            "parent_span_id": "e59cbd00130bd693",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 19.556096,
+            "status": "UNSET",
+            "start_time": 1791385379.2667782,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "3a59e8198f9de05e",
+            "parent_span_id": "a934958bb1238167",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 0.8896,
+            "status": "UNSET",
+            "start_time": 1791385379.127125,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "f552baed62881707",
+            "parent_span_id": "e745b3feee6b1b70",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.410112,
+            "status": "UNSET",
+            "start_time": 1791385379.1286826,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "494032256afde1e9",
+            "parent_span_id": "5d9c903e36d13f3d",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.408576,
+            "status": "UNSET",
+            "start_time": 1791385379.134768,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "c116c1913896a390",
+            "parent_span_id": "e204d824a3d6d4fc",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/EmptyCart",
+            "duration_ms": 75.514624,
+            "status": "UNSET",
+            "start_time": 1791385379.4354987,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "aab601e34e3791b3",
+            "parent_span_id": "1b5702a49b6b607c",
+            "service": "cart",
+            "operation": "POST",
+            "duration_ms": 69.932288,
+            "status": "UNSET",
+            "start_time": 1791385379.435713,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "25f544395c640ba2",
+            "parent_span_id": "c116c1913896a390",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.992,
+            "status": "UNSET",
+            "start_time": 1791385379.5097432,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b17e5051c33a54ca",
+            "parent_span_id": "c116c1913896a390",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.176896,
+            "status": "UNSET",
+            "start_time": 1791385379.5107563,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "7ebe5a917b6684d8",
+            "parent_span_id": "494032256afde1e9",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.246272,
+            "status": "UNSET",
+            "start_time": 1791385379.1348588,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "6f4b196329df9787",
+            "parent_span_id": "f552baed62881707",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.233472,
+            "status": "UNSET",
+            "start_time": 1791385379.1287756,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "66c953ecfff2e1ba",
+            "parent_span_id": "3a59e8198f9de05e",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.325632,
+            "status": "UNSET",
+            "start_time": 1791385379.1272275,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "f0d780b9c08d2fb9",
+            "parent_span_id": "3a59e8198f9de05e",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.187904,
+            "status": "UNSET",
+            "start_time": 1791385379.1275778,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "c9c9ee11db953cf1",
+            "parent_span_id": "3a59e8198f9de05e",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.167936,
+            "status": "UNSET",
+            "start_time": 1791385379.127781,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "871f29df59f7ccac",
+            "parent_span_id": "5c3ba91565c88cd7",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 1835.654912,
+            "status": "UNSET",
+            "start_time": 1791385379.1319602,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "53019d10c389809b",
+            "parent_span_id": "0602fab5dd3904d0",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 84.449024,
+            "status": "UNSET",
+            "start_time": 1791385379.037,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "a934958bb1238167",
+            "parent_span_id": "c74d5f84abf32ee0",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 1.99424,
+            "status": "UNSET",
+            "start_time": 1791385379.1260002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "e745b3feee6b1b70",
+            "parent_span_id": "c74d5f84abf32ee0",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 1.000448,
+            "status": "UNSET",
+            "start_time": 1791385379.128,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "635a8bcbf20fd595",
+            "parent_span_id": "dd32e6095bd82574",
+            "service": "frontend",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 398.311168,
+            "status": "UNSET",
+            "start_time": 1791385379.133,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5aa63523a5683147",
+            "parent_span_id": "dd32e6095bd82574",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1434.557952,
+            "status": "UNSET",
+            "start_time": 1791385379.532,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "0602fab5dd3904d0",
+            "parent_span_id": "effbed84b328f5e0",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 84.947968,
+            "status": "UNSET",
+            "start_time": 1791385379.037,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "effbed84b328f5e0",
+            "parent_span_id": "817f18e5ac808b5a",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 85.584128,
+            "status": "UNSET",
+            "start_time": 1791385379.036,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "c74d5f84abf32ee0",
+            "parent_span_id": "19eff2b81ce96f63",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 3.674368,
+            "status": "UNSET",
+            "start_time": 1791385379.1260002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "19eff2b81ce96f63",
+            "parent_span_id": "f17861e1b4b352bc",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 4.306688,
+            "status": "UNSET",
+            "start_time": 1791385379.125,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "dd32e6095bd82574",
+            "parent_span_id": "e57771af3cd277c2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/checkout",
+            "duration_ms": 1833.682688,
+            "status": "UNSET",
+            "start_time": 1791385379.133,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "e57771af3cd277c2",
+            "parent_span_id": "0a6d2e0638edffb9",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 1834.18496,
+            "status": "UNSET",
+            "start_time": 1791385379.133,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "817f18e5ac808b5a",
+            "parent_span_id": "5948eb43ef772fe1",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 85.967616,
+            "status": "UNSET",
+            "start_time": 1791385379.036,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "f17861e1b4b352bc",
+            "parent_span_id": "2cf47f0d39d41617",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 4.659712,
+            "status": "UNSET",
+            "start_time": 1791385379.125,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "0a6d2e0638edffb9",
+            "parent_span_id": "a8d1696fbc796ec6",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 1834.562816,
+            "status": "UNSET",
+            "start_time": 1791385379.132,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "043962d2a1f0936c",
+            "parent_span_id": "33f1b54eef601f44",
+            "service": "quote",
+            "operation": "calculate-quote",
+            "duration_ms": 0.446464,
+            "status": "UNSET",
+            "start_time": 1791385379.6806176,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "33f1b54eef601f44",
+            "parent_span_id": "f0525afbe9ac68a7",
+            "service": "quote",
+            "operation": "{closure}",
+            "duration_ms": 17.412608,
+            "status": "UNSET",
+            "start_time": 1791385379.673374,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "f0525afbe9ac68a7",
+            "parent_span_id": "a67a4980b084aa6e",
+            "service": "quote",
+            "operation": "POST /getquote",
+            "duration_ms": 28.703744,
+            "status": "UNSET",
+            "start_time": 1791385379.662538,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b18edb35f852c7bc",
+            "parent_span_id": "b84bda0556aeda51",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.062464,
+            "status": "UNSET",
+            "start_time": 1791385379.5296943,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b84bda0556aeda51",
+            "parent_span_id": "ca92917271f4da8c",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.218368,
+            "status": "UNSET",
+            "start_time": 1791385379.5295477,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "ca92917271f4da8c",
+            "parent_span_id": "c4a498370d7ae8da",
+            "service": "email",
+            "operation": "send_email",
+            "duration_ms": 17.721088,
+            "status": "UNSET",
+            "start_time": 1791385379.5129135,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "c4a498370d7ae8da",
+            "parent_span_id": "81fd848807ea06c1",
+            "service": "email",
+            "operation": "POST /send_order_confirmation",
+            "duration_ms": 18.740992,
+            "status": "UNSET",
+            "start_time": 1791385379.5121093,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "a67a4980b084aa6e",
+            "parent_span_id": "4a2472512d93bfea",
+            "service": "shipping",
+            "operation": "POST",
+            "duration_ms": 138.404864,
+            "status": "UNSET",
+            "start_time": 1791385379.2898285,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "4a2472512d93bfea",
+            "parent_span_id": "8c10ec10591f8451",
+            "service": "shipping",
+            "operation": "POST /get-quote",
+            "duration_ms": 138.816512,
+            "status": "UNSET",
+            "start_time": 1791385379.2896543,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "a10d66a083eed453",
+            "parent_span_id": "7f34644fc5864942",
+            "service": "shipping",
+            "operation": "POST /ship-order",
+            "duration_ms": 0.16384,
+            "status": "UNSET",
+            "start_time": 1791385379.434599,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "1069fe5f9ef5ef28",
+            "parent_span_id": "2aabfc5b21bdbfc5",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.073984,
+            "status": "OK",
+            "start_time": 1791385379.2877195,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "058111d078e400eb",
+            "parent_span_id": "5d8a9bcfdceb3d69",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.05504,
+            "status": "OK",
+            "start_time": 1791385379.4297726,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b5408c01ff876664",
+            "parent_span_id": "cd3001287898ea04",
+            "service": "payment",
+            "operation": "charge",
+            "duration_ms": 0.80384,
+            "status": "UNSET",
+            "start_time": 1791385379.432,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "cd3001287898ea04",
+            "parent_span_id": "b6858cd59300bebf",
+            "service": "payment",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 1.68448,
+            "status": "UNSET",
+            "start_time": 1791385379.431,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "5c3ba91565c88cd7",
+            "parent_span_id": "7b182ef7c726ec39",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 1837.048064,
+            "status": "UNSET",
+            "start_time": 1791385379.1313648,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "7b182ef7c726ec39",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_checkout_single",
+            "duration_ms": 1934.20032,
+            "status": "UNSET",
+            "start_time": 1791385379.0344899,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "f7f699b27d304407",
+            "parent_span_id": "b6842db4f47ebd3c",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 198.907904,
+            "status": "UNSET",
+            "start_time": 1791385380.5345263,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "14db903a8dcfe611f961b8c5a540203d",
+            "span_id": "b6842db4f47ebd3c",
+            "parent_span_id": "5aa63523a5683147",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1131.388928,
+            "status": "UNSET",
+            "start_time": 1791385379.830046,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+        "spans": [
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "78393273e64c320b",
+            "parent_span_id": "3ff6d53871172790",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1810.221824,
+            "status": "UNSET",
+            "start_time": 1791385351.556729,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3ff6d53871172790",
+            "parent_span_id": "f2b93dcf797f45d4",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1810.459904,
+            "status": "UNSET",
+            "start_time": 1791385351.556554,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "67ee10f58a9341fa",
+            "parent_span_id": "a8a6ef98ef3945c4",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.355072,
+            "status": "UNSET",
+            "start_time": 1791385353.370684,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "a8a6ef98ef3945c4",
+            "parent_span_id": "8df94cd0773487e3",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 8.626944,
+            "status": "UNSET",
+            "start_time": 1791385353.370494,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "ce62362182bd8206",
+            "parent_span_id": "f3c3f351c558e988",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 108.043008,
+            "status": "UNSET",
+            "start_time": 1791385353.382389,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f3c3f351c558e988",
+            "parent_span_id": "3bd723cb56ab4769",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 108.323072,
+            "status": "UNSET",
+            "start_time": 1791385353.382157,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "11a04f65042af508",
+            "parent_span_id": "19e6f8243eade5b0",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.057088,
+            "status": "UNSET",
+            "start_time": 1791385353.492426,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "55c8dad3b0072552",
+            "parent_span_id": "a6cab026401261e7",
+            "service": "load-generator",
+            "operation": "user_add_to_cart",
+            "duration_ms": 1825.244416,
+            "status": "UNSET",
+            "start_time": 1791385351.555537,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5dfc6e8075b2c597",
+            "parent_span_id": "a6cab026401261e7",
+            "service": "load-generator",
+            "operation": "user_add_to_cart",
+            "duration_ms": 121.298688,
+            "status": "UNSET",
+            "start_time": 1791385353.3809047,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f2b93dcf797f45d4",
+            "parent_span_id": "55c8dad3b0072552",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 1812.684288,
+            "status": "UNSET",
+            "start_time": 1791385351.556168,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "8df94cd0773487e3",
+            "parent_span_id": "55c8dad3b0072552",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 10.802688,
+            "status": "UNSET",
+            "start_time": 1791385353.3698459,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3bd723cb56ab4769",
+            "parent_span_id": "5dfc6e8075b2c597",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 109.796096,
+            "status": "UNSET",
+            "start_time": 1791385353.3814988,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "8452c9e496ecea0e",
+            "parent_span_id": "5dfc6e8075b2c597",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 10.260736,
+            "status": "UNSET",
+            "start_time": 1791385353.4918342,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "dd164a3e38fa42d3",
+            "parent_span_id": "4e71627e8c5f44ad",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1808.478464,
+            "status": "UNSET",
+            "start_time": 1791385351.557,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c4bcf31a65b07dea",
+            "parent_span_id": "1da0339c5416a10e",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 4.026368,
+            "status": "UNSET",
+            "start_time": 1791385353.372,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c215a8c61d005175",
+            "parent_span_id": "1da0339c5416a10e",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 1.569024,
+            "status": "UNSET",
+            "start_time": 1791385353.376,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "ee3c5ca2336b00de",
+            "parent_span_id": "0d335c6fb20cffbe",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 105.827328,
+            "status": "UNSET",
+            "start_time": 1791385353.384,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "07a4826b5767c57a",
+            "parent_span_id": "dff506ebedfb084d",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 4.232704,
+            "status": "UNSET",
+            "start_time": 1791385353.493,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "dd72e11bac4ede4c",
+            "parent_span_id": "dff506ebedfb084d",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 1.72928,
+            "status": "UNSET",
+            "start_time": 1791385353.498,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "4e71627e8c5f44ad",
+            "parent_span_id": "e58d0dcd94a7ebcb",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 1809.125376,
+            "status": "UNSET",
+            "start_time": 1791385351.557,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "e58d0dcd94a7ebcb",
+            "parent_span_id": "97bafee294c85d1d",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 1809.507584,
+            "status": "UNSET",
+            "start_time": 1791385351.557,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "1da0339c5416a10e",
+            "parent_span_id": "1d1e6711cedc1bac",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 6.480384,
+            "status": "UNSET",
+            "start_time": 1791385353.372,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "1d1e6711cedc1bac",
+            "parent_span_id": "904fe36205e052b0",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 7.153152,
+            "status": "UNSET",
+            "start_time": 1791385353.371,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "0d335c6fb20cffbe",
+            "parent_span_id": "5aba73d2601e7c12",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 106.354432,
+            "status": "UNSET",
+            "start_time": 1791385353.3830001,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5aba73d2601e7c12",
+            "parent_span_id": "807c32be33e4cd5d",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 107.018752,
+            "status": "UNSET",
+            "start_time": 1791385353.3830001,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "dff506ebedfb084d",
+            "parent_span_id": "bed26a9d14fe56f2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 6.744064,
+            "status": "UNSET",
+            "start_time": 1791385353.493,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "bed26a9d14fe56f2",
+            "parent_span_id": "232ba274d32dd2e6",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 7.403264,
+            "status": "UNSET",
+            "start_time": 1791385353.493,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "97bafee294c85d1d",
+            "parent_span_id": "78393273e64c320b",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 1809.752832,
+            "status": "UNSET",
+            "start_time": 1791385351.557,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "904fe36205e052b0",
+            "parent_span_id": "67ee10f58a9341fa",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 7.716352,
+            "status": "UNSET",
+            "start_time": 1791385353.371,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "807c32be33e4cd5d",
+            "parent_span_id": "ce62362182bd8206",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 107.466752,
+            "status": "UNSET",
+            "start_time": 1791385353.3820002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "232ba274d32dd2e6",
+            "parent_span_id": "11a04f65042af508",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 7.751168,
+            "status": "UNSET",
+            "start_time": 1791385353.492,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "19e6f8243eade5b0",
+            "parent_span_id": "8452c9e496ecea0e",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 8.54784,
+            "status": "UNSET",
+            "start_time": 1791385353.492268,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "a7f7754adf74c219",
+            "parent_span_id": "dd164a3e38fa42d3",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 703.965184,
+            "status": "UNSET",
+            "start_time": 1791385352.6534898,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "bb2f92534f50a566",
+            "parent_span_id": "ee3c5ca2336b00de",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 51.597056,
+            "status": "UNSET",
+            "start_time": 1791385353.439297,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f69d09f91d157e06",
+            "parent_span_id": "a7f7754adf74c219",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 36.598528,
+            "status": "UNSET",
+            "start_time": 1791385353.0217073,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "45a240fd4f3f4a09",
+            "parent_span_id": "bb2f92534f50a566",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.152832,
+            "status": "UNSET",
+            "start_time": 1791385353.4513154,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "9381b98766d38ca9",
+            "parent_span_id": "5d3bc53fd5197468",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 239.27168,
+            "status": "UNSET",
+            "start_time": 1791385355.3180504,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c4e9ac55d13747f7",
+            "parent_span_id": "c4bcf31a65b07dea",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 2.662656,
+            "status": "UNSET",
+            "start_time": 1791385353.3736289,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "9422e1f0ec0fca05",
+            "parent_span_id": "c215a8c61d005175",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.508672,
+            "status": "UNSET",
+            "start_time": 1791385353.3774004,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "97562a7d5d79edef",
+            "parent_span_id": "07a4826b5767c57a",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 2.569984,
+            "status": "UNSET",
+            "start_time": 1791385353.4948733,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c584138f1053f085",
+            "parent_span_id": "dd72e11bac4ede4c",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.386304,
+            "status": "UNSET",
+            "start_time": 1791385353.4990451,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "0bff7e8733ff2699",
+            "parent_span_id": "150cbdbf1ce8e81e",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 0.905984,
+            "status": "UNSET",
+            "start_time": 1791385356.006955,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f813e1ff6995b64d",
+            "parent_span_id": "68d2bec24922787a",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.269312,
+            "status": "UNSET",
+            "start_time": 1791385356.0086288,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "d760eeb09e8e523c",
+            "parent_span_id": "f643343327db3554",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.33792,
+            "status": "UNSET",
+            "start_time": 1791385356.0134273,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "1db2caef5da2adcd",
+            "parent_span_id": "5d986b5ccdfddf6d",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/EmptyCart",
+            "duration_ms": 15.65696,
+            "status": "UNSET",
+            "start_time": 1791385356.555039,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "103875b32942f41b",
+            "parent_span_id": "4eda4fa97073e353",
+            "service": "cart",
+            "operation": "POST",
+            "duration_ms": 14.708224,
+            "status": "UNSET",
+            "start_time": 1791385356.5552187,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5eb40fcf9c543fd4",
+            "parent_span_id": "f38f47f03d1d3c2e",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 2498.245888,
+            "status": "UNSET",
+            "start_time": 1791385353.504267,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f38f47f03d1d3c2e",
+            "parent_span_id": "44ca427b8bdf1e74",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 2498.46912,
+            "status": "UNSET",
+            "start_time": 1791385353.504095,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3c0a1127ba585c49",
+            "parent_span_id": "83896e03202bb337",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.843008,
+            "status": "UNSET",
+            "start_time": 1791385356.0046122,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "83896e03202bb337",
+            "parent_span_id": "2d3b046a05ea3114",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 5.04704,
+            "status": "UNSET",
+            "start_time": 1791385356.00444,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "0fe4fb17837d189e",
+            "parent_span_id": "b967d52094077d8e",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 723.527936,
+            "status": "UNSET",
+            "start_time": 1791385356.01138,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "b967d52094077d8e",
+            "parent_span_id": "6661358921a106ed",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 723.887104,
+            "status": "UNSET",
+            "start_time": 1791385356.0112698,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c41ab1bb701640e5",
+            "parent_span_id": "d95cfb85f01892e2",
+            "service": "quote",
+            "operation": "calculate-quote",
+            "duration_ms": 1.331712,
+            "status": "UNSET",
+            "start_time": 1791385356.7612731,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "d95cfb85f01892e2",
+            "parent_span_id": "7e68bc971d60f897",
+            "service": "quote",
+            "operation": "{closure}",
+            "duration_ms": 57.186048,
+            "status": "UNSET",
+            "start_time": 1791385356.742673,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "7e68bc971d60f897",
+            "parent_span_id": "a4be0bb11c58f058",
+            "service": "quote",
+            "operation": "POST /getquote",
+            "duration_ms": 142.564096,
+            "status": "UNSET",
+            "start_time": 1791385356.6604693,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "7eb59c5709c98990",
+            "parent_span_id": "58bf27e4f602aa32",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.06528,
+            "status": "UNSET",
+            "start_time": 1791385356.597808,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "58bf27e4f602aa32",
+            "parent_span_id": "d7025e3b4d196829",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.21248,
+            "status": "UNSET",
+            "start_time": 1791385356.5976706,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "d7025e3b4d196829",
+            "parent_span_id": "76e62ae8ced7c4bc",
+            "service": "email",
+            "operation": "send_email",
+            "duration_ms": 26.391296,
+            "status": "UNSET",
+            "start_time": 1791385356.5724044,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "76e62ae8ced7c4bc",
+            "parent_span_id": "ba8ad682cd992a03",
+            "service": "email",
+            "operation": "POST /send_order_confirmation",
+            "duration_ms": 26.957568,
+            "status": "UNSET",
+            "start_time": 1791385356.5721374,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "a4be0bb11c58f058",
+            "parent_span_id": "e95e1395088f0bc9",
+            "service": "shipping",
+            "operation": "POST",
+            "duration_ms": 260.481024,
+            "status": "UNSET",
+            "start_time": 1791385356.2883751,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "e95e1395088f0bc9",
+            "parent_span_id": "da008789b1b742c8",
+            "service": "shipping",
+            "operation": "POST /get-quote",
+            "duration_ms": 260.698112,
+            "status": "UNSET",
+            "start_time": 1791385356.2882986,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "da5e10de7dcd05a1",
+            "parent_span_id": "49c6360fca5ea653",
+            "service": "shipping",
+            "operation": "POST /ship-order",
+            "duration_ms": 0.062464,
+            "status": "UNSET",
+            "start_time": 1791385356.5545387,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3ddd1f6d25366119",
+            "parent_span_id": "116e0e6c7d1877ee",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.07168,
+            "status": "OK",
+            "start_time": 1791385356.282568,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "1cedac6f6d7b6059",
+            "parent_span_id": "e2cff99aeb971d5f",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.030208,
+            "status": "OK",
+            "start_time": 1791385356.2871573,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "4d6f8ae9de30a714",
+            "parent_span_id": "aeb8ee88353972c6",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.024832,
+            "status": "OK",
+            "start_time": 1791385356.5496154,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "44ca427b8bdf1e74",
+            "parent_span_id": "c9d1292bcc3a37f6",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 2499.96032,
+            "status": "UNSET",
+            "start_time": 1791385353.5034027,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "2d3b046a05ea3114",
+            "parent_span_id": "c9d1292bcc3a37f6",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 6.372864,
+            "status": "UNSET",
+            "start_time": 1791385356.003843,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "6661358921a106ed",
+            "parent_span_id": "a6cab026401261e7",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 725.166848,
+            "status": "UNSET",
+            "start_time": 1791385356.0108821,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c9d1292bcc3a37f6",
+            "parent_span_id": "a6cab026401261e7",
+            "service": "load-generator",
+            "operation": "user_add_to_cart",
+            "duration_ms": 2508.05504,
+            "status": "UNSET",
+            "start_time": 1791385353.5023267,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "a6cab026401261e7",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_checkout_multi",
+            "duration_ms": 5180.89088,
+            "status": "UNSET",
+            "start_time": 1791385351.55545,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f643343327db3554",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 0.838144,
+            "status": "UNSET",
+            "start_time": 1791385356.013049,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c62a225a25f7bce3",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 267.545344,
+            "status": "UNSET",
+            "start_time": 1791385356.0139341,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "116e0e6c7d1877ee",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 1.217536,
+            "status": "UNSET",
+            "start_time": 1791385356.281645,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f8d2a62dbb083cde",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 3.803136,
+            "status": "UNSET",
+            "start_time": 1791385356.282915,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "e2cff99aeb971d5f",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.565248,
+            "status": "UNSET",
+            "start_time": 1791385356.2867658,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "aeb8ee88353972c6",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.505088,
+            "status": "UNSET",
+            "start_time": 1791385356.5492866,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "32cb36fc636e938b",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 4.406528,
+            "status": "UNSET",
+            "start_time": 1791385356.549839,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5d986b5ccdfddf6d",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/EmptyCart",
+            "duration_ms": 16.12288,
+            "status": "UNSET",
+            "start_time": 1791385356.5547385,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "341116f7688acfdc",
+            "parent_span_id": "983173fb4782b3db",
+            "service": "checkout",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 586.719744,
+            "status": "UNSET",
+            "start_time": 1791385356.0129516,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "da008789b1b742c8",
+            "parent_span_id": "c9cab22a3d3a8a37",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 261.850624,
+            "status": "UNSET",
+            "start_time": 1791385356.287395,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "49c6360fca5ea653",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 0.369408,
+            "status": "UNSET",
+            "start_time": 1791385356.5543404,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "ba8ad682cd992a03",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 28.296192,
+            "status": "UNSET",
+            "start_time": 1791385356.5709867,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c9cab22a3d3a8a37",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "prepareOrderItemsAndShippingQuoteFromCart",
+            "duration_ms": 536.769792,
+            "status": "UNSET",
+            "start_time": 1791385356.0130384,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "780eb1bcd59e80a6",
+            "parent_span_id": "341116f7688acfdc",
+            "service": "checkout",
+            "operation": "publish orders",
+            "duration_ms": 0.251136,
+            "status": "UNSET",
+            "start_time": 1791385356.599379,
+            "span_kind": "producer",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "8b21d5f4548404e7",
+            "parent_span_id": "5eb40fcf9c543fd4",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 2497.73568,
+            "status": "UNSET",
+            "start_time": 1791385353.504,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "00f532ded6c17ebc",
+            "parent_span_id": "3c0a1127ba585c49",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 4.171264,
+            "status": "UNSET",
+            "start_time": 1791385356.0049999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5b3ef6f551cdc887",
+            "parent_span_id": "0fe4fb17837d189e",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 723.168256,
+            "status": "UNSET",
+            "start_time": 1791385356.0110002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "b89267e24866cb5d",
+            "parent_span_id": "17df45905e14583a",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 2496.419328,
+            "status": "UNSET",
+            "start_time": 1791385353.5059998,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "17df45905e14583a",
+            "parent_span_id": "8b21d5f4548404e7",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 2497.140224,
+            "status": "UNSET",
+            "start_time": 1791385353.5049999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "cc27633906a18664",
+            "parent_span_id": "a8457efcf88dcd0c",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 3.393536,
+            "status": "UNSET",
+            "start_time": 1791385356.0049999,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "a8457efcf88dcd0c",
+            "parent_span_id": "00f532ded6c17ebc",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 3.907328,
+            "status": "UNSET",
+            "start_time": 1791385356.0049999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "57dfe2673270685a",
+            "parent_span_id": "2cd52a4c48b3b46b",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/checkout",
+            "duration_ms": 722.156032,
+            "status": "UNSET",
+            "start_time": 1791385356.012,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "2cd52a4c48b3b46b",
+            "parent_span_id": "5b3ef6f551cdc887",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 722.766848,
+            "status": "UNSET",
+            "start_time": 1791385356.0110002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "67b2612eea35e38b",
+            "parent_span_id": "b89267e24866cb5d",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 2495.904,
+            "status": "UNSET",
+            "start_time": 1791385353.5059998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "150cbdbf1ce8e81e",
+            "parent_span_id": "cc27633906a18664",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 2.1056,
+            "status": "UNSET",
+            "start_time": 1791385356.006,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "68d2bec24922787a",
+            "parent_span_id": "cc27633906a18664",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 0.860672,
+            "status": "UNSET",
+            "start_time": 1791385356.008,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "983173fb4782b3db",
+            "parent_span_id": "57dfe2673270685a",
+            "service": "frontend",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 588.206592,
+            "status": "UNSET",
+            "start_time": 1791385356.012,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "d7b32686e20b932c",
+            "parent_span_id": "57dfe2673270685a",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 133.131776,
+            "status": "UNSET",
+            "start_time": 1791385356.6,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "d48749c247f534e2",
+            "parent_span_id": "57dfe2673270685a",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 133.008384,
+            "status": "UNSET",
+            "start_time": 1791385356.6,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5d3bc53fd5197468",
+            "parent_span_id": "67b2612eea35e38b",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1571.360256,
+            "status": "UNSET",
+            "start_time": 1791385354.2725914,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "7cd866942ebac00f",
+            "parent_span_id": "c62a225a25f7bce3",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 8.796928,
+            "status": "UNSET",
+            "start_time": 1791385356.2719908,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "055e291ee4bb50df",
+            "parent_span_id": "f8d2a62dbb083cde",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1.712384,
+            "status": "UNSET",
+            "start_time": 1791385356.2848253,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "87e11183d743efea",
+            "parent_span_id": "d7b32686e20b932c",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 25.244416,
+            "status": "UNSET",
+            "start_time": 1791385356.7074215,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "0cf891579c1b93b7",
+            "parent_span_id": "d48749c247f534e2",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 25.7216,
+            "status": "UNSET",
+            "start_time": 1791385356.7074206,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "f12e4e8e78be4881",
+            "parent_span_id": "7cd866942ebac00f",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 5.732352,
+            "status": "UNSET",
+            "start_time": 1791385356.274864,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "362bf4c7df4697a1",
+            "parent_span_id": "055e291ee4bb50df",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 1.085184,
+            "status": "UNSET",
+            "start_time": 1791385356.284954,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "538979172139340c",
+            "parent_span_id": "87e11183d743efea",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 8.199168,
+            "status": "UNSET",
+            "start_time": 1791385356.7191923,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "ce1707334448187e",
+            "parent_span_id": "0cf891579c1b93b7",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.379392,
+            "status": "UNSET",
+            "start_time": 1791385356.7265377,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "834edff1eea8e2f6",
+            "parent_span_id": "6d5d1c2e16cd9aab",
+            "service": "payment",
+            "operation": "charge",
+            "duration_ms": 2.687488,
+            "status": "UNSET",
+            "start_time": 1791385356.5500002,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "6d5d1c2e16cd9aab",
+            "parent_span_id": "32cb36fc636e938b",
+            "service": "payment",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 3.008512,
+            "status": "UNSET",
+            "start_time": 1791385356.5500002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "934183e03fc03606",
+            "parent_span_id": "c584138f1053f085",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.197888,
+            "status": "UNSET",
+            "start_time": 1791385353.4991274,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "4c9f11482931db9b",
+            "parent_span_id": "9422e1f0ec0fca05",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.256,
+            "status": "UNSET",
+            "start_time": 1791385353.3775227,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "4f31be08a7c984f2",
+            "parent_span_id": "f813e1ff6995b64d",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.118528,
+            "status": "UNSET",
+            "start_time": 1791385356.0087335,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3a26af293dbb9885",
+            "parent_span_id": "1db2caef5da2adcd",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.198912,
+            "status": "UNSET",
+            "start_time": 1791385356.5703301,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "2a3fcaf4aeb7c2a5",
+            "parent_span_id": "1db2caef5da2adcd",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.099584,
+            "status": "UNSET",
+            "start_time": 1791385356.5705478,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "56600eedc36026f2",
+            "parent_span_id": "0bff7e8733ff2699",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.329472,
+            "status": "UNSET",
+            "start_time": 1791385356.0071356,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "5420f1678842eadc",
+            "parent_span_id": "0bff7e8733ff2699",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.143104,
+            "status": "UNSET",
+            "start_time": 1791385356.0075,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "4430005c24c0564d",
+            "parent_span_id": "0bff7e8733ff2699",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.082944,
+            "status": "UNSET",
+            "start_time": 1791385356.0076556,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "3f3247d53eb5d8cc",
+            "parent_span_id": "97562a7d5d79edef",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 1.894656,
+            "status": "UNSET",
+            "start_time": 1791385353.4950044,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "e13cce76aad6e492",
+            "parent_span_id": "97562a7d5d79edef",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.157696,
+            "status": "UNSET",
+            "start_time": 1791385353.4969292,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "c83db98610f9c5e6",
+            "parent_span_id": "97562a7d5d79edef",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.233216,
+            "status": "UNSET",
+            "start_time": 1791385353.497091,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "93f19c1738bdadb6",
+            "parent_span_id": "c4e9ac55d13747f7",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.343552,
+            "status": "UNSET",
+            "start_time": 1791385353.373789,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "be131577e84327e1",
+            "parent_span_id": "c4e9ac55d13747f7",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.173824,
+            "status": "UNSET",
+            "start_time": 1791385353.3741632,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "cf1baa3019b7c947",
+            "parent_span_id": "c4e9ac55d13747f7",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 1.87904,
+            "status": "UNSET",
+            "start_time": 1791385353.3743503,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "b6132773e904bf9999804c0bce3e0d82",
+            "span_id": "7c16e08f8261dbd8",
+            "parent_span_id": "d760eeb09e8e523c",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.211712,
+            "status": "UNSET",
+            "start_time": 1791385356.0135162,
+            "span_kind": "client",
+            "db_system": "redis"
+          }
+        ]
+      }
+    ]
+  }
+}

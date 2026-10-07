@@ -1,0 +1,36 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-f30e5cf926f89017",
+    "evidence_type": "metric.resource_growth",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-bbef4e67f257c55fff34",
+    "service": "email",
+    "observed_at": "2026-10-07T16:30:16.844425Z",
+    "fact": "memory_usage: sustained resource increase {'baseline': 0.4741796875, 'recent': 0.55642578125, 'delta': 0.08224609374999997, 'noise': 0.0021093749999999967}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-bbef4e67f257c55fff34"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-bcf833d14026097c",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:tool-2a4f6e1475671327748a",
+    "service": "email",
+    "observed_at": "2026-10-07T16:30:16.844425Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "tool-2a4f6e1475671327748a"
+  }
+]

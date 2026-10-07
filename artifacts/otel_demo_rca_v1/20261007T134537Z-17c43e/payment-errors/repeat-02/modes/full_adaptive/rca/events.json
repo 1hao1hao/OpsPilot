@@ -1,0 +1,122 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Error-rate alert with an ERROR trace span and a 100% error-rate baseline shift points to an RPC-layer fault; the rpc expert can validate the rpc_error_rate hypothesis against observed dependency behavior.",
+      "round": 2,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: Error-rate alert with an ERROR trace span and a 100% error-rate baseline shift points to an RPC-layer fault; the rpc expert can validate the rpc_error_rate hypothesis against observed dependency behavior.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The observed messaging dependency hint ('publish orders') and the ERROR trace spanning frontend-proxy/frontend suggest a downstream dependency fault; topology.query will map the checkout service's dependencies to identify which downstream component to investigate next.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "The observed messaging dependency hint ('publish orders') and the ERROR trace spanning frontend-proxy/frontend suggest a downstream dependency fault; changes.query will reveal recent changes to the checkout service or its dependencies that could explain the error-rate increase.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.765, margin=0.765, independent_sources=3",
+      "top1_confidence": 0.765,
+      "score_margin": 0.765,
+      "independent_source_count": 3,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.765, margin=0.765, independent_sources=3",
+      "top1_confidence": 0.765,
+      "score_margin": 0.765,
+      "independent_source_count": 3,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.765,
+      "score_margin": 0.765,
+      "independent_source_count": 3,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "rpc.metrics",
+    "topology.query",
+    "changes.query"
+  ],
+  "invoked_experts": [
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 1,
+  "duplicate_actions": 0
+}

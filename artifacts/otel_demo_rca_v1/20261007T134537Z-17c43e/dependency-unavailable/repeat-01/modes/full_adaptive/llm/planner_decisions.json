@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed downstream dependency and error propagation for checkout's failing requests.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The alert is about checkout failing to complete requests to a downstream service; topology can identify the actual downstream dependency and its relationship to checkout, which is needed to distinguish db_slow_query from rpc_error_rate/rpc_timeout rather than relying on generic slow-span hints.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "The strongest evidence is a slow database span on the product-catalog path (trace.db_slow, 1252.9ms) supporting db_slow_query, and the provisional top root cause is db_slow_query at 0.95 confidence; a db expert can measure the observed database dependency rather than repeatedly collecting generic symptoms.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

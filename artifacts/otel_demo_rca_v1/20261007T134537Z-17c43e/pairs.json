@@ -1,0 +1,599 @@
+[
+  {
+    "scenario_id": "normal",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 15503.261,
+      "expected": "no_fault",
+      "predicted": [
+        "db_slow_query"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 377.3910000000001
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12963.029,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 372.7340000000004
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12861.323,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "duration_seconds": 377.125
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13567.220000000001,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 555.625
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12241.604000000001,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 551.3900000000003
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12831.687,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 551.0160000000005
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17162.978,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 603.3910000000005
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 19116.785,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 564.4529999999995
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17175.041,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 607.25
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 15536.909,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 557.7970000000005
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17636.018,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 608.3909999999996
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 16942.974,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 563.75
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17074.992000000002,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 565.3280000000013
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17782.915,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 572.2819999999992
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17849.438,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 571.2810000000009
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 1,
+      "investigation_rounds": 3,
+      "latency_ms": 8879.422,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 499.96900000000096
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 9551.496000000001,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 558.5
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 9086.297999999999,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "resource_saturation",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 529.2350000000006
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 1,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8925.471,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 508.625
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 2,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8680.36,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 510.04699999999866
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 3,
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03",
+    "status": "completed",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8253.176,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "duration_seconds": 506.4369999999999
+  }
+]

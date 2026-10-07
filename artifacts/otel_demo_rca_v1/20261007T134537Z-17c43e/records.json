@@ -1,0 +1,2802 @@
+[
+  {
+    "scenario_id": "normal",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 15503.261,
+      "expected": "no_fault",
+      "predicted": [
+        "db_slow_query"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1707,
+        "completion_tokens": 164,
+        "total_tokens": 1871
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 25283.4,
+      "expected": "no_fault",
+      "predicted": [
+        "db_slow_query"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12922.380000000001,
+      "expected": "no_fault",
+      "predicted": [
+        "db_slow_query"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1645,
+        "completion_tokens": 161,
+        "total_tokens": 1806
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-01"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 25497.439,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13484.052,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1430,
+        "completion_tokens": 162,
+        "total_tokens": 1592
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12963.029,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1472,
+        "completion_tokens": 161,
+        "total_tokens": 1633
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-02"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13669.248,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 146,
+        "total_tokens": 1587
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": true,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12861.323,
+      "expected": "no_fault",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1481,
+        "completion_tokens": 162,
+        "total_tokens": 1643
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03"
+  },
+  {
+    "scenario_id": "normal",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": false,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 27104.019999999997,
+      "expected": "no_fault",
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": null,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": null,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\normal\\repeat-03"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13567.220000000001,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2061,
+        "completion_tokens": 181,
+        "total_tokens": 2242
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 24851.713,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13595.297,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2017,
+        "completion_tokens": 201,
+        "total_tokens": 2218
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-01"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 24811.849,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12699.654,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2061,
+        "completion_tokens": 200,
+        "total_tokens": 2261
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12241.604000000001,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2034,
+        "completion_tokens": 167,
+        "total_tokens": 2201
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-02"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13068.41,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2028,
+        "completion_tokens": 184,
+        "total_tokens": 2212
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 12831.687,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2084,
+        "completion_tokens": 178,
+        "total_tokens": 2262
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03"
+  },
+  {
+    "scenario_id": "compute",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 24504.837,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\compute\\repeat-03"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17162.978,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2945,
+        "completion_tokens": 263,
+        "total_tokens": 3208
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 25507.016,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13733.401,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2850,
+        "completion_tokens": 244,
+        "total_tokens": 3094
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-01"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 26583.909,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 14039.026,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2428,
+        "completion_tokens": 225,
+        "total_tokens": 2653
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 19116.785,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2731,
+        "completion_tokens": 201,
+        "total_tokens": 2932
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-02"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 14853.071,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2985,
+        "completion_tokens": 264,
+        "total_tokens": 3249
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17175.041,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 3200,
+        "completion_tokens": 249,
+        "total_tokens": 3449
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03"
+  },
+  {
+    "scenario_id": "payment-errors",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 27186.797,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\payment-errors\\repeat-03"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 15536.909,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2981,
+        "completion_tokens": 216,
+        "total_tokens": 3197
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 25884.716999999997,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13127.24,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "db_slow_query",
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2990,
+        "completion_tokens": 223,
+        "total_tokens": 3213
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-01"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 28380.032,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13250.257,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1808,
+        "completion_tokens": 163,
+        "total_tokens": 1971
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17636.018,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2303,
+        "completion_tokens": 193,
+        "total_tokens": 2496
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-02"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 14360.605,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2423,
+        "completion_tokens": 160,
+        "total_tokens": 2583
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 16942.974,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2462,
+        "completion_tokens": 173,
+        "total_tokens": 2635
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03"
+  },
+  {
+    "scenario_id": "dependency-unavailable",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 26290.781,
+      "expected": "rpc_error_rate",
+      "predicted": [
+        "rpc_error_rate",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\dependency-unavailable\\repeat-03"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17074.992000000002,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1635,
+        "completion_tokens": 157,
+        "total_tokens": 1792
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 26604.495,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag",
+        "redis_low_hit_rate"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 13914.315,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1596,
+        "completion_tokens": 149,
+        "total_tokens": 1745
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-01"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 28692.772999999997,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 15276.832,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1416,
+        "completion_tokens": 161,
+        "total_tokens": 1577
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17782.915,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1451,
+        "completion_tokens": 181,
+        "total_tokens": 1632
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-02"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": false,
+      "top3": false,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 15120.768,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "no_fault"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1405,
+        "completion_tokens": 149,
+        "total_tokens": 1554
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 17849.438,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1455,
+        "completion_tokens": 174,
+        "total_tokens": 1629
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03"
+  },
+  {
+    "scenario_id": "messaging-backlog",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 28088.215,
+      "expected": "kafka_consumer_lag",
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\messaging-backlog\\repeat-03"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 1,
+      "investigation_rounds": 3,
+      "latency_ms": 8879.422,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 2,
+      "api_successes": 2,
+      "api_failures": 0,
+      "planner_successes": 2,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 2,
+      "tokens": {
+        "prompt_tokens": 1841,
+        "completion_tokens": 149,
+        "total_tokens": 1990
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 13693.001,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 7917.338,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2809,
+        "completion_tokens": 161,
+        "total_tokens": 2970
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-01"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 13776.942000000001,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8309.376,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2849,
+        "completion_tokens": 220,
+        "total_tokens": 3069
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": true,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 9551.496000000001,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2857,
+        "completion_tokens": 207,
+        "total_tokens": 3064
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-02"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8903.593,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "resource_saturation",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2790,
+        "completion_tokens": 194,
+        "total_tokens": 2984
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 6,
+      "expert_calls": 1,
+      "investigation_rounds": 4,
+      "latency_ms": 9086.297999999999,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "resource_saturation",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 3010,
+        "completion_tokens": 191,
+        "total_tokens": 3201
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03"
+  },
+  {
+    "scenario_id": "database-latency",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 14343.203000000001,
+      "expected": "db_slow_query",
+      "predicted": [
+        "db_slow_query",
+        "resource_saturation",
+        "rpc_timeout"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\database-latency\\repeat-03"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 1,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8925.471,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1689,
+        "completion_tokens": 153,
+        "total_tokens": 1842
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 1,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 14345.787,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 1,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8351.143,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1648,
+        "completion_tokens": 145,
+        "total_tokens": 1793
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-01"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 2,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 14819.518,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 2,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8747.94,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1760,
+        "completion_tokens": 161,
+        "total_tokens": 1921
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 2,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8680.36,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 2011,
+        "completion_tokens": 183,
+        "total_tokens": 2194
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-02"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 3,
+    "mode": "adaptive_no_l2",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03\\modes\\adaptive_no_l2",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8584.229000000001,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1641,
+        "completion_tokens": 138,
+        "total_tokens": 1779
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 3,
+    "mode": "full_adaptive",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03\\modes\\full_adaptive",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": true,
+      "degraded": false,
+      "tool_calls": 5,
+      "expert_calls": 0,
+      "investigation_rounds": 4,
+      "latency_ms": 8253.176,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 3,
+      "api_successes": 3,
+      "api_failures": 0,
+      "planner_successes": 3,
+      "planner_fallbacks": 0,
+      "llm_used": true,
+      "fallback_occurred": false,
+      "usage_available_calls": 3,
+      "tokens": {
+        "prompt_tokens": 1697,
+        "completion_tokens": 147,
+        "total_tokens": 1844
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03"
+  },
+  {
+    "scenario_id": "memory-growth",
+    "repetition": 3,
+    "mode": "fixed_full",
+    "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03\\modes\\fixed_full",
+    "score": {
+      "top1": true,
+      "top3": true,
+      "normal_correct": null,
+      "gate_pass": false,
+      "budget_exhausted": false,
+      "degraded": false,
+      "tool_calls": 13,
+      "expert_calls": 0,
+      "investigation_rounds": 1,
+      "latency_ms": 14239.342,
+      "expected": "resource_saturation",
+      "predicted": [
+        "resource_saturation"
+      ],
+      "category_only": true
+    },
+    "llm": {
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "llm_used": false,
+      "fallback_occurred": false,
+      "usage_available_calls": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "status": "completed",
+    "fault_observed": true,
+    "recovery_health": true,
+    "recovery_queries_success": true,
+    "symptom_recovery_confirmed": true,
+    "lifecycle_path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261007T134537Z-17c43e\\memory-growth\\repeat-03"
+  }
+]

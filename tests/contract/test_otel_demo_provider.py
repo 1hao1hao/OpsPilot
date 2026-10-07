@@ -275,7 +275,12 @@ async def test_domain_metric_mapping_and_evidence(tool, names, value, expected):
 
     result = await execute(provider(handler), tool)
     assert result.status == ToolStatus.SUCCESS
-    assert any(e.evidence_type == expected for e in collect_evidence(alert(), [result]))
+    evidence = collect_evidence(alert(), [result])
+    if tool in {"kafka.lag", "redis.hotkeys"}:
+        # One sample has no baseline and cannot demonstrate a temporal anomaly.
+        assert evidence == []
+    else:
+        assert any(e.evidence_type == expected for e in evidence)
 
 
 async def test_db_slow_spans_are_observed_counts_and_connections_not_invented():
@@ -329,7 +334,7 @@ async def test_redis_used_bytes_never_treated_as_percentage():
         return httpx.Response(200, json={"status": "success", "data": data})
 
     result = await execute(provider(handler), "redis.memory")
-    assert result.data["observations"] == {"used_memory": 900000}
+    assert result.data["observations"]["used_memory"]["current"] == 900000
     assert collect_evidence(alert(), [result]) == []
 
 
@@ -490,4 +495,5 @@ async def test_all_l1_metric_queries_use_discovered_names_and_keep_history():
     assert any(q.startswith("100 * sum(rate(") and 'status_code="STATUS_CODE_ERROR"' in q for q in queries)
     from opspilot.rca.anomaly import AnomalyDetector
 
-    assert AnomalyDetector().detect(alert(), [result])
+    # Two points retain history but cannot establish a sustained anomaly.
+    assert AnomalyDetector().detect(alert(), [result]) == []

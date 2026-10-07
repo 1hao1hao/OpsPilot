@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; measure observed dependencies via traces to identify where latency originates.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; measure the observed dependency path for frontend/product-catalog to identify where latency originates.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace evidence shows a slow db span on frontend/product-catalog (1392.2ms) supporting db_slow_query; invoke db expert to measure the observed database dependency rather than collect more generic symptoms.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

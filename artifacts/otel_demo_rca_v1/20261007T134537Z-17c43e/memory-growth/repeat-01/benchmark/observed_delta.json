@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-07T16:27:13.996107+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.03333444448148272,
+      "fault": 0.05000333355557038,
+      "delta": 0.01666888907408766
+    },
+    "metrics.query.tp95": {
+      "baseline": 190.0,
+      "fault": 185.0,
+      "delta": -5.0
+    },
+    "metrics.query.tp99": {
+      "baseline": 198.0,
+      "fault": 197.0,
+      "delta": -1.0
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.013586183447337894,
+      "fault": 0.014134108046482791,
+      "delta": 0.0005479245991448969
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.4762890625,
+      "fault": 0.559921875,
+      "delta": 0.08363281249999999
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 28.965517241379306,
+      "fault": 35.91549295774647,
+      "delta": 6.949975716367167
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1426568.0,
+      "fault": 1426424.0,
+      "delta": -144.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 16,
+      "first": 0.05000333355557038,
+      "last": 0.05000333355557038,
+      "slope_per_second": 0.00020915468406679932
+    },
+    "tp95": {
+      "samples": 16,
+      "first": 92.5,
+      "last": 185.0,
+      "slope_per_second": 0.13877450980392156
+    },
+    "tp99": {
+      "samples": 16,
+      "first": 98.5,
+      "last": 197.0,
+      "slope_per_second": 0.14540196078431372
+    },
+    "cpu_usage": {
+      "samples": 16,
+      "first": 0.01309252185043701,
+      "last": 0.014134108046482791,
+      "slope_per_second": 5.000012062041289e-06
+    },
+    "memory_usage": {
+      "samples": 16,
+      "first": 0.487734375,
+      "last": 0.559921875,
+      "slope_per_second": 0.0003508463541666666
+    }
+  },
+  "fault_observed": true
+}

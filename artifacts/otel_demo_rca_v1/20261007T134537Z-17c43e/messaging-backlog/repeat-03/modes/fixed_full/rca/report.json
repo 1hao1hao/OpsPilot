@@ -1,0 +1,212 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "739664b0d9c24839878e94cba8264da0",
+  "alert_id": "alert-6a6d4d905fac4ee6bf600329053188ca",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "kafka_consumer_lag",
+      "summary": "Kafka consumer lag is delaying message processing",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-5f871db2e006b39f"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "kafka_consumer_lag",
+    "summary": "Kafka consumer lag is delaying message processing",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-5f871db2e006b39f"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5f871db2e006b39f",
+      "evidence_type": "kafka.consumer_lag",
+      "source_type": "metric",
+      "source_name": "kafka.lag",
+      "source_group": "tool:kafka.lag:aaf91e3c3270450e84a5a1ecfb2fedc6",
+      "service": "checkout",
+      "observed_at": "2026-10-07T15:54:28.321545Z",
+      "fact": "Kafka consumer lag is 909; temporal change={'baseline': 0.0, 'recent': 606.0, 'delta': 606.0, 'noise': 0.0}",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [
+        "kafka_consumer_lag"
+      ],
+      "contradicts": [],
+      "raw_ref": "aaf91e3c3270450e84a5a1ecfb2fedc6"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2b07a34754bb6d04",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:5ebca49f80af457e9d94c92536d41383",
+      "service": "checkout",
+      "observed_at": "2026-10-07T15:54:28.321545Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "5ebca49f80af457e9d94c92536d41383"
+    }
+  ],
+  "investigation": {
+    "rounds": 1,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.connections",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.replication",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.slowlog",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.hotkeys",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.memory",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      }
+    ],
+    "executed_tools": [
+      "alerts.query",
+      "changes.query",
+      "db.connections",
+      "db.replication",
+      "db.slowlog",
+      "kafka.lag",
+      "logs.query",
+      "metrics.query",
+      "redis.hotkeys",
+      "redis.memory",
+      "rpc.metrics",
+      "topology.query",
+      "traces.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "Frozen full tool list completed",
+    "tool_budget_used": 13,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": false,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Kafka consumer lag is delaying message processing; supported by 1 evidence item(s).",
+  "recommended_actions": [
+    "Inspect consumer health and lag by partition"
+  ],
+  "started_at": "2026-10-07T15:56:31.280551Z",
+  "finished_at": "2026-10-07T15:56:59.368766Z",
+  "latency_ms": 28088.215
+}

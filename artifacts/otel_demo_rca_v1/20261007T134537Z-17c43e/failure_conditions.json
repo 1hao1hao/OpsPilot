@@ -1,0 +1,337 @@
+[
+  {
+    "scenario": "normal",
+    "repeat": 1,
+    "mode": "full_adaptive",
+    "expected": "no_fault",
+    "predicted": [
+      "db_slow_query"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 31,
+      "slow_database_spans": 4,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1392.227584,
+          "seconds_relative_to_alert": 54.474408864974976
+        },
+        {
+          "duration_ms": 1127.881216,
+          "seconds_relative_to_alert": 53.283973932266235
+        },
+        {
+          "duration_ms": 2216.690688,
+          "seconds_relative_to_alert": 53.28312635421753
+        },
+        {
+          "duration_ms": 1332.175872,
+          "seconds_relative_to_alert": 56.14435625076294
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "normal",
+    "repeat": 1,
+    "mode": "fixed_full",
+    "expected": "no_fault",
+    "predicted": [
+      "db_slow_query"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 31,
+      "slow_database_spans": 4,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1392.227584,
+          "seconds_relative_to_alert": 54.474408864974976
+        },
+        {
+          "duration_ms": 1127.881216,
+          "seconds_relative_to_alert": 53.283973932266235
+        },
+        {
+          "duration_ms": 2216.690688,
+          "seconds_relative_to_alert": 53.28312635421753
+        },
+        {
+          "duration_ms": 1332.175872,
+          "seconds_relative_to_alert": 56.14435625076294
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "normal",
+    "repeat": 1,
+    "mode": "adaptive_no_l2",
+    "expected": "no_fault",
+    "predicted": [
+      "db_slow_query"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 31,
+      "slow_database_spans": 4,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1392.227584,
+          "seconds_relative_to_alert": 54.474408864974976
+        },
+        {
+          "duration_ms": 1127.881216,
+          "seconds_relative_to_alert": 53.283973932266235
+        },
+        {
+          "duration_ms": 2216.690688,
+          "seconds_relative_to_alert": 53.28312635421753
+        },
+        {
+          "duration_ms": 1332.175872,
+          "seconds_relative_to_alert": 56.14435625076294
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "normal",
+    "repeat": 3,
+    "mode": "fixed_full",
+    "expected": "no_fault",
+    "predicted": [
+      "rpc_timeout"
+    ],
+    "conditions": [],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 21,
+      "slow_database_spans": 0,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": []
+    }
+  },
+  {
+    "scenario": "payment-errors",
+    "repeat": 1,
+    "mode": "full_adaptive",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 49,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 56,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1487.985664,
+          "seconds_relative_to_alert": -181.45511102676392
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "payment-errors",
+    "repeat": 1,
+    "mode": "fixed_full",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 49,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 56,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1487.985664,
+          "seconds_relative_to_alert": -181.45511102676392
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "payment-errors",
+    "repeat": 1,
+    "mode": "adaptive_no_l2",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 49,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 56,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1487.985664,
+          "seconds_relative_to_alert": -181.45511102676392
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "dependency-unavailable",
+    "repeat": 1,
+    "mode": "full_adaptive",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate",
+      "rpc_timeout"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 48,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 90,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1252.922368,
+          "seconds_relative_to_alert": -59.77710509300232
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "dependency-unavailable",
+    "repeat": 1,
+    "mode": "fixed_full",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate",
+      "rpc_timeout"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 48,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 90,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1252.922368,
+          "seconds_relative_to_alert": -59.77710509300232
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "dependency-unavailable",
+    "repeat": 1,
+    "mode": "adaptive_no_l2",
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "db_slow_query",
+      "rpc_error_rate",
+      "rpc_timeout"
+    ],
+    "conditions": [
+      "Typed slow DB spans use an absolute 1s duration threshold; their evidence lacks baseline-change/prevalence validation and receives direct-evidence priority"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 48,
+      "slow_database_spans": 1,
+      "error_or_timeout_spans": 90,
+      "slow_database_samples": [
+        {
+          "duration_ms": 1252.922368,
+          "seconds_relative_to_alert": -59.77710509300232
+        }
+      ]
+    }
+  },
+  {
+    "scenario": "messaging-backlog",
+    "repeat": 1,
+    "mode": "adaptive_no_l2",
+    "expected": "kafka_consumer_lag",
+    "predicted": [
+      "no_fault"
+    ],
+    "conditions": [
+      "No-L2 deliberately excludes the domain lag measurement"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 87,
+      "slow_database_spans": 0,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": []
+    }
+  },
+  {
+    "scenario": "messaging-backlog",
+    "repeat": 2,
+    "mode": "adaptive_no_l2",
+    "expected": "kafka_consumer_lag",
+    "predicted": [
+      "no_fault"
+    ],
+    "conditions": [
+      "No-L2 deliberately excludes the domain lag measurement"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 94,
+      "slow_database_spans": 0,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": []
+    }
+  },
+  {
+    "scenario": "messaging-backlog",
+    "repeat": 3,
+    "mode": "adaptive_no_l2",
+    "expected": "kafka_consumer_lag",
+    "predicted": [
+      "no_fault"
+    ],
+    "conditions": [
+      "No-L2 deliberately excludes the domain lag measurement"
+    ],
+    "note": "Measured conditions only; no counterfactual reranking, new formal scores or rule iteration",
+    "trace_measurements": {
+      "database_spans": 82,
+      "slow_database_spans": 0,
+      "error_or_timeout_spans": 0,
+      "slow_database_samples": []
+    }
+  }
+]

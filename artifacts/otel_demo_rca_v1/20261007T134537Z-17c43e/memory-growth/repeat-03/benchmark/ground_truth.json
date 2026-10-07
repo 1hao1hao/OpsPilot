@@ -1,0 +1,6 @@
+{
+  "root_cause_type": "resource_saturation",
+  "root_service": "email",
+  "mechanism": "larger retained email deliveries create a rising memory footprint",
+  "taxonomy_note": "Memory growth is a resource symptom; do not claim OOM unless independently observed."
+}

@@ -2,3 +2,4 @@
 # Preserve its original bytes when Git stores or checks out the artifacts.
 artifacts/otel_demo_rca_v1/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 artifacts/otel_demo_benchmark/**/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+artifacts/otel_demo_rca_v1/**/source/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol

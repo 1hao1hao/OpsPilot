@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Memory growth is sustained across intervals; checking recent changes can reveal deployments or config changes that could explain the resource increase.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Memory growth is sustained across intervals; inspecting topology can reveal which downstream dependencies the email service interacts with, helping determine whether the resource increase is driven by dependency behavior rather than generic symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Memory growth is sustained across intervals; traces can reveal whether the email service's observed resource increase correlates with specific downstream dependency spans or latency patterns, distinguishing dependency-driven behavior from generic resource saturation.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

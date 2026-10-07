@@ -50,7 +50,7 @@ async def test_online_workflow_runs_seed_gate_l3_and_full_span_path_analysis():
     assert trace_evidence.service == "redis"
     assert "order-service/payment-service/redis" in trace_evidence.fact
     assert trace_evidence.raw_ref == "trace:trace-semantic/span:redis"
-    assert report.primary_root_cause.root_cause_type == RootCauseType.RPC_TIMEOUT
+    assert report.primary_root_cause.root_cause_type == RootCauseType.RESOURCE_SATURATION
     assert report.investigation.rounds <= 4
     assert report.investigation.gate_decisions[0].sufficient is False
 
@@ -142,6 +142,6 @@ async def test_optional_llm_explains_but_cannot_change_deterministic_candidate()
     )
     report = await workflow.analyze(rich_alert())
 
-    assert report.primary_root_cause.root_cause_type == RootCauseType.RPC_TIMEOUT
+    assert report.primary_root_cause.root_cause_type == RootCauseType.RESOURCE_SATURATION
     assert report.llm_used is True
-    assert report.decision_rationale == "LLM explanation constrained to rpc_timeout"
+    assert report.decision_rationale == "LLM explanation constrained to resource_saturation"

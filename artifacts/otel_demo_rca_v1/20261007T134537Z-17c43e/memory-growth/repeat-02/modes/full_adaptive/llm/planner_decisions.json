@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Memory growth is observed but the dependency causing it is unknown; traces can reveal which downstream dependency (db, redis, kafka, rpc) correlates with the resource growth.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Memory growth is observed but the dependency responsible is unknown; topology can identify which downstream dependency (db, redis, kafka, rpc) is connected to the email service so the next measurement targets the observed dependency rather than collecting generic symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Memory growth is observed but the dependency responsible is unknown; changes.query can reveal recent deployments or config changes to the email service or its dependencies that correlate with the sustained resource increase.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

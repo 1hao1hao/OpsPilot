@@ -1,0 +1,66 @@
+{
+  "call": 1,
+  "started_at": "2026-10-07T16:32:04.080881+00:00",
+  "request": {
+    "model": "deepseek-v4-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You control an RCA investigation. Return exactly action, target, reason. action is inspect_tool or invoke_expert. Select only from allowed_actions. Prefer measurements of observed dependencies to repeatedly collecting generic symptoms. Slow spans and dependency hints alone do not prove timeouts or domain faults. Never finalize and never infer facts not present in the input.\nReturn the result as a JSON object."
+      },
+      {
+        "role": "user",
+        "content": "{\"alert\": {\"service_name\": \"email\", \"alert_type\": \"resource\", \"severity\": \"P2\", \"description\": \"Service memory footprint increased across successive request intervals\", \"labels\": {}}, \"evidence\": [{\"type\": \"metric.resource_growth\", \"fact\": \"memory_usage: sustained resource increase {'baseline': 0.4741796875, 'recent': 0.55642578125, 'delta': 0.08224609374999997, 'noise': 0.0021093749999999967}\", \"confidence\": 0.85, \"source_group\": \"tool:metrics.query:tool-5d670714279c85d16657\", \"supports\": [\"resource_saturation\"]}], \"provisional_top_k\": [{\"root_cause_type\": \"resource_saturation\", \"confidence\": 0.925}], \"executed_tools\": [\"metrics.query\", \"logs.query\"], \"invoked_experts\": [], \"action_history\": [{\"action\": \"inspect_tool\", \"target\": \"metrics.query\", \"reason\": \"Round 1 low-cost seed observation for resource\"}, {\"action\": \"inspect_tool\", \"target\": \"logs.query\", \"reason\": \"Round 1 low-cost seed observation for resource\"}], \"remaining_budget\": {\"rounds\": 3, \"tools\": 6, \"experts\": 0}, \"allowed_actions\": {\"inspect_tool\": [\"alerts.query\", \"changes.query\", \"topology.query\", \"traces.query\"], \"invoke_expert\": []}}"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 500
+  },
+  "api_success": true,
+  "response": {
+    "id": "fb3e911d-f0fd-4ec5-bcd2-0bbb835f5a0a",
+    "object": "chat.completion",
+    "created": 1791390722,
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"inspect_tool\", \"target\": \"traces.query\", \"reason\": \"Memory growth is observed but the dependency causing it is unproven; traces can reveal which downstream dependency correlates with the resource increase.\"}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 447,
+      "completion_tokens": 48,
+      "total_tokens": 495,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 447
+    },
+    "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669"
+  },
+  "usage": {
+    "prompt_tokens": 447,
+    "completion_tokens": 48,
+    "total_tokens": 495,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 447
+  },
+  "response_model": "deepseek-flash",
+  "latency_ms": 1509.166499999992
+}

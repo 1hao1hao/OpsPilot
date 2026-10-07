@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-07T16:35:43.008385+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.06666888896296543,
+      "fault": 0.05000333355557038,
+      "delta": -0.016665555407395047
+    },
+    "metrics.query.tp95": {
+      "baseline": 90.0,
+      "fault": 92.5,
+      "delta": 2.5
+    },
+    "metrics.query.tp99": {
+      "baseline": 97.99999999999997,
+      "fault": 98.5,
+      "delta": 0.5000000000000284
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.013075703028121125,
+      "fault": 0.013460658426337053,
+      "delta": 0.0003849553982159283
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.43078125,
+      "fault": 0.5612109375,
+      "delta": 0.13042968749999995
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 37.19512195121951,
+      "fault": 38.50574712643678,
+      "delta": 1.3106251752172682
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1428792.0,
+      "fault": 1430712.0,
+      "delta": 1920.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 16,
+      "first": 0.06666888896296544,
+      "last": 0.05000333355557038,
+      "slope_per_second": 0.0002761663415106442
+    },
+    "tp95": {
+      "samples": 16,
+      "first": 90.0,
+      "last": 92.5,
+      "slope_per_second": 0.3836764705882352
+    },
+    "tp99": {
+      "samples": 16,
+      "first": 97.99999999999997,
+      "last": 98.5,
+      "slope_per_second": 0.45320588235294107
+    },
+    "cpu_usage": {
+      "samples": 16,
+      "first": 0.013372762365741945,
+      "last": 0.013460658426337053,
+      "slope_per_second": 5.817253786488232e-06
+    },
+    "memory_usage": {
+      "samples": 16,
+      "first": 0.4471875,
+      "last": 0.5612109375,
+      "slope_per_second": 0.000553259037990196
+    }
+  },
+  "fault_observed": true
+}

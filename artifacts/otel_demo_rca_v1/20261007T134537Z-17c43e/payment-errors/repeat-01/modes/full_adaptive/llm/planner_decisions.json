@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace evidence shows a checkout error span and a separate slow product-catalog span with a slow DB child; topology is needed to determine whether checkout depends on product-catalog or the observed DB/messaging dependencies before attributing the error-rate alert to db_slow_query or rpc_error_rate.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Checkout error rate is 100% versus a 0.0 yesterday baseline, while the only slow/DB evidence is on a separate product-catalog trace; checking recent changes is a low-cost way to see whether a deployment or config change explains the checkout failures before attributing them to db_slow_query or rpc_error_rate.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Checkout error rate is 100% versus a 0.0 yesterday baseline, and the only checkout trace evidence is an ERROR span on the checkout RPC path; the slow/DB evidence is on a separate product-catalog trace, so an RPC expert is needed to assess the checkout request failures rather than attributing them to db_slow_query.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

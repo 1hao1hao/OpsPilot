@@ -1,0 +1,195 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "0e5dc9f3be414777894e754804c4a7ed",
+  "alert_id": "alert-6a6d4d905fac4ee6bf600329053188ca",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "kafka_consumer_lag",
+      "summary": "Kafka consumer lag is delaying message processing",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-5f871db2e006b39f"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "kafka_consumer_lag",
+    "summary": "Kafka consumer lag is delaying message processing",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-5f871db2e006b39f"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5f871db2e006b39f",
+      "evidence_type": "kafka.consumer_lag",
+      "source_type": "metric",
+      "source_name": "kafka.lag",
+      "source_group": "tool:kafka.lag:tool-4134775d4aad3b950862",
+      "service": "checkout",
+      "observed_at": "2026-10-07T15:54:28.321545Z",
+      "fact": "Kafka consumer lag is 909; temporal change={'baseline': 0.0, 'recent': 606.0, 'delta': 606.0, 'noise': 0.0}",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [
+        "kafka_consumer_lag"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-4134775d4aad3b950862"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2b07a34754bb6d04",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-75b52a8581d868f36aa2",
+      "service": "checkout",
+      "observed_at": "2026-10-07T15:54:28.321545Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-75b52a8581d868f36aa2"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; measuring observed dependencies via traces is needed to localize the delayed order processing.",
+        "round": 2,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Messaging dependency hint ('publish orders') is only a diagnostic hint, not fault evidence; topology is needed to map the checkout service's dependencies and localize where order processing is delayed.",
+        "round": 3,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "invoke_expert",
+        "target": "kafka",
+        "reason": "The only evidence is a messaging dependency hint ('publish orders') for the delayed checkout order processing; a Kafka expert is needed to measure and localize whether the messaging dependency is actually contributing to the delay.",
+        "round": 4,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "kafka Expert drill-down: The only evidence is a messaging dependency hint ('publish orders') for the delayed checkout order processing; a Kafka expert is needed to measure and localize whether the messaging dependency is actually contributing to the delay.",
+        "round": 4,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "topology.query",
+      "kafka.lag"
+    ],
+    "invoked_experts": [
+      "kafka"
+    ],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 1,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Kafka consumer lag is delaying message processing; supported by 1 evidence item(s).",
+  "recommended_actions": [
+    "Inspect consumer health and lag by partition"
+  ],
+  "started_at": "2026-10-07T15:56:13.356125Z",
+  "finished_at": "2026-10-07T15:56:31.205563Z",
+  "latency_ms": 17849.438
+}

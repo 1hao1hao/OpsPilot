@@ -1,0 +1,194 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "073acc162a5b460e8ab254aff80721a8",
+  "alert_id": "alert-f522aa4940df47a3b5ed163c756027c0",
+  "service_name": "email",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "resource_saturation",
+      "summary": "Service compute resources are saturated",
+      "confidence": 0.925,
+      "evidence_ids": [
+        "ev-63142e856f90ad1a",
+        "ev-df9c8fc179267e5c"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "resource_saturation",
+    "summary": "Service compute resources are saturated",
+    "confidence": 0.925,
+    "evidence_ids": [
+      "ev-63142e856f90ad1a",
+      "ev-df9c8fc179267e5c"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-63142e856f90ad1a",
+      "evidence_type": "metric.resource_growth",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-b4eb7d20656132985d47",
+      "service": "email",
+      "observed_at": "2026-10-07T16:38:46.472170Z",
+      "fact": "memory_usage: sustained resource increase {'baseline': 0.4229296875, 'recent': 0.56033203125, 'delta': 0.13740234375, 'noise': 0.003144531249999971}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-b4eb7d20656132985d47"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-df9c8fc179267e5c",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-b4eb7d20656132985d47",
+      "service": "email",
+      "observed_at": "2026-10-07T16:38:46.472170Z",
+      "fact": "memory_usage: current=0.5612109375, historical baselines={'last_week': None, 'yesterday': 0.4229296875}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-b4eb7d20656132985d47"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-403df1d08f63cd46",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-3d4d2c19d81dea32d5b0",
+      "service": "email",
+      "observed_at": "2026-10-07T16:38:46.472170Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-3d4d2c19d81dea32d5b0"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for resource",
+        "round": 1,
+        "arguments": {
+          "service_name": "email"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for resource",
+        "round": 1,
+        "arguments": {
+          "service_name": "email"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Memory growth is sustained across intervals; checking recent changes can reveal deployments or config changes that could explain the resource increase.",
+        "round": 2,
+        "arguments": {
+          "service_name": "email"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Memory growth is sustained across intervals; inspecting topology can reveal which downstream dependencies the email service interacts with, helping determine whether the resource increase is driven by dependency behavior rather than generic symptoms.",
+        "round": 3,
+        "arguments": {
+          "service_name": "email"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Memory growth is sustained across intervals; traces can reveal whether the email service's observed resource increase correlates with specific downstream dependency spans or latency patterns, distinguishing dependency-driven behavior from generic resource saturation.",
+        "round": 4,
+        "arguments": {
+          "service_name": "email"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.925, margin=0.925, independent_sources=1",
+        "top1_confidence": 0.925,
+        "score_margin": 0.925,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.925, margin=0.925, independent_sources=1",
+        "top1_confidence": 0.925,
+        "score_margin": 0.925,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.925, margin=0.925, independent_sources=1",
+        "top1_confidence": 0.925,
+        "score_margin": 0.925,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.925,
+        "score_margin": 0.925,
+        "independent_source_count": 1,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "topology.query",
+      "traces.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 5,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Service compute resources are saturated; supported by 2 evidence item(s).",
+  "recommended_actions": [
+    "Inspect service resource limits and recent workload changes"
+  ],
+  "started_at": "2026-10-07T16:40:21.056280Z",
+  "finished_at": "2026-10-07T16:40:29.804220Z",
+  "latency_ms": 8747.94
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "The db_slow_query hypothesis is supported by a slow trace span (12443.5ms) but no direct DB error or query-level evidence; querying logs for product-catalog around the timeout window can confirm or refute whether a slow database query is the actual dependency fault rather than a generic latency symptom.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The db_slow_query hypothesis is supported by a slow trace span but lacks direct dependency evidence; querying topology for product-catalog can reveal whether a database dependency exists and is the actual fault domain rather than a generic latency symptom.",
+      "round": 3,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "The db_slow_query hypothesis is supported by a slow trace span but lacks direct dependency fault evidence; querying alerts for product-catalog can confirm whether a database-related alert exists, distinguishing a domain fault from a generic latency symptom.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

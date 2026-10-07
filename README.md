@@ -158,3 +158,9 @@ Full 相对 Fixed 的工具调用减少 53.11%；准确率、延迟和 L2 收益
 
 [完整报告](reports/otel_demo_rca_v1.md) · [复现配置与步骤](benchmarks/datasets/otel_demo/v1/EXPERIMENT.md) · [真实逐次结果](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/records.json) · [独立验收](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/independent_audit.json) · [失败分析](artifacts/failure_analysis.md) · [Knowledge 决策](artifacts/knowledge_tool_decision.md)。
 本次最终验证：273 passed / 4 skipped；Ruff 通过。旧 mock benchmark 的 6/21 覆盖率结果仍单独保留。
+
+## RCA Accuracy Closure (2026-10-08)
+
+**ACCURACY_TARGET_NOT_MET** — fresh Full Fault Top1 16/18, Top3 18/18, Normal 2/3; 56.41% fewer tool calls than Fixed.
+
+[Formal report](reports/accuracy_closure.md) · [Development record](reports/accuracy_closure_development.md)

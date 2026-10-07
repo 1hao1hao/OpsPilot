@@ -1,0 +1,66 @@
+{
+  "call": 1,
+  "started_at": "2026-10-07T15:08:11.998992+00:00",
+  "request": {
+    "model": "deepseek-v4-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You control an RCA investigation. Return exactly action, target, reason. action is inspect_tool or invoke_expert. Select only from allowed_actions. Prefer measurements of observed dependencies to repeatedly collecting generic symptoms. Slow spans and dependency hints alone do not prove timeouts or domain faults. Never finalize and never infer facts not present in the input.\nReturn the result as a JSON object."
+      },
+      {
+        "role": "user",
+        "content": "{\"alert\": {\"service_name\": \"checkout\", \"alert_type\": \"custom\", \"severity\": \"P2\", \"description\": \"Checkout cannot complete requests to a downstream service\", \"labels\": {}}, \"evidence\": [{\"type\": \"anomaly.historical_baseline\", \"fact\": \"error_rate: current=100.0, historical baselines={'last_week': None, 'yesterday': 0.0}\", \"confidence\": 0.85, \"source_group\": \"tool:metrics.query:tool-4d8e020428e2b82d571a\", \"supports\": [\"rpc_error_rate\"]}, {\"type\": \"anomaly.historical_baseline\", \"fact\": \"tp99: current=9900.0, historical baselines={'last_week': None, 'yesterday': 791.9999999999999}\", \"confidence\": 0.85, \"source_group\": \"tool:metrics.query:tool-4d8e020428e2b82d571a\", \"supports\": [\"rpc_timeout\"]}, {\"type\": \"anomaly.volatility\", \"fact\": \"tp99: rolling baseline std=170.2341, recent std=2431.5954\", \"confidence\": 0.8, \"source_group\": \"tool:metrics.query:tool-4d8e020428e2b82d571a\", \"supports\": [\"rpc_timeout\"]}], \"provisional_top_k\": [{\"root_cause_type\": \"rpc_error_rate\", \"confidence\": 0.67}, {\"root_cause_type\": \"rpc_timeout\", \"confidence\": 0.67}], \"executed_tools\": [\"metrics.query\", \"logs.query\", \"changes.query\"], \"invoked_experts\": [], \"action_history\": [{\"action\": \"inspect_tool\", \"target\": \"metrics.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"logs.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"changes.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}], \"remaining_budget\": {\"rounds\": 3, \"tools\": 5, \"experts\": 2}, \"allowed_actions\": {\"inspect_tool\": [\"alerts.query\", \"topology.query\", \"traces.query\"], \"invoke_expert\": [\"db\", \"redis\", \"kafka\", \"rpc\"]}}"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 500
+  },
+  "api_success": true,
+  "response": {
+    "id": "414e800c-e4b3-49d3-acc2-88a5043de7ac",
+    "object": "chat.completion",
+    "created": 1791385691,
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"inspect_tool\", \"target\": \"traces.query\", \"reason\": \"Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed downstream dependency and error propagation for checkout's failing requests.\"}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 667,
+      "completion_tokens": 53,
+      "total_tokens": 720,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 667
+    },
+    "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669"
+  },
+  "usage": {
+    "prompt_tokens": 667,
+    "completion_tokens": 53,
+    "total_tokens": 720,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 667
+  },
+  "response_model": "deepseek-flash",
+  "latency_ms": 1847.0871999998053
+}

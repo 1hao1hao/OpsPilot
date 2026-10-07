@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-07T14:15:40.295556+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 1.0,
+      "delta": 1.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.3000150007500375,
+      "fault": 0.2000133342222815,
+      "delta": -0.100001666527756
+    },
+    "metrics.query.tp95": {
+      "baseline": 3.871428571428571,
+      "fault": 3.8499999999999996,
+      "delta": -0.021428571428571352
+    },
+    "metrics.query.tp99": {
+      "baseline": 3.974285714285714,
+      "fault": 3.9699999999999998,
+      "delta": -0.004285714285714448
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.010932495949756987,
+      "fault": 1.0,
+      "delta": 0.989067504050243
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.9265885416666667,
+      "fault": 0.9203125,
+      "delta": -0.006276041666666732
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 31.914893617021278,
+      "fault": 36.0,
+      "delta": 4.085106382978722
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1375520.0,
+      "fault": 1384288.0,
+      "delta": 8768.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 16,
+      "first": 0.3000150007500375,
+      "last": 0.2000133342222815,
+      "slope_per_second": -0.00016994183033769837
+    },
+    "tp95": {
+      "samples": 16,
+      "first": 3.871428571428571,
+      "last": 3.8499999999999996,
+      "slope_per_second": -0.22154901960784323
+    },
+    "tp99": {
+      "samples": 16,
+      "first": 3.974285714285714,
+      "last": 3.9699999999999998,
+      "slope_per_second": -0.2752117647058823
+    },
+    "cpu_usage": {
+      "samples": 16,
+      "first": 0.009113966838010282,
+      "last": 1.0,
+      "slope_per_second": 0.0027204770745545455
+    },
+    "memory_usage": {
+      "samples": 16,
+      "first": 0.9248177083333333,
+      "last": 0.9203125,
+      "slope_per_second": -3.107255923202629e-05
+    }
+  },
+  "fault_observed": true
+}

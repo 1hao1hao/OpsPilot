@@ -1,0 +1,3643 @@
+{
+  "alerts.query": {},
+  "changes.query": {},
+  "db.connections": {
+    "max_connections": 100.0
+  },
+  "db.replication": {},
+  "db.slowlog": {},
+  "kafka.lag": {
+    "consumer_lag": {
+      "current": 0.0,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 1.0
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 0.0
+        }
+      ],
+      "baseline_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "time_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "reference_series": [
+        0.0,
+        0.0
+      ],
+      "recent_series": [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "temporal_context": true,
+      "baseline": 0.16666666666666666,
+      "query": "sum(kafka_consumer_group_lag_sum_ratio{})"
+    }
+  },
+  "logs.query": {
+    "logs": [
+      {
+        "timestamp": "2026-10-07T14:05:55.505342103Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:50.503571922Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:42.496626503Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:34.395832719Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:34.395852807Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:25.580193541Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:25.580264009Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:21.503511758Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:16.575524142Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Non-targeted ad request received, preparing random response."
+      },
+      {
+        "timestamp": "2026-10-07T14:05:14.502206055Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:13.562952845Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [travel]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:08.550469882Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Non-targeted ad request received, preparing random response."
+      },
+      {
+        "timestamp": "2026-10-07T14:05:06.502890191Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:05:06.502913017Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:55.513727876Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [accessories]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:54.418376118Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:53.500491595Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:46.405983025Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:46.405991527Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:42.498903388Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:42.498972761Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:31.497710187Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      },
+      {
+        "timestamp": "2026-10-07T14:04:28.49878078Z",
+        "service": "ad",
+        "severity": "INFO",
+        "message": "Targeted ad request received for [binoculars]"
+      }
+    ]
+  },
+  "metrics.query": {
+    "qps": {
+      "current": 0.2666800006667,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 0.2333450005833625
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 0.2333450005833625
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 0.2333450005833625
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 0.2666800006667
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 0.2666800006667
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 0.2666800006667
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 0.2666800006667
+        }
+      ],
+      "baseline_series": [
+        0.2333450005833625,
+        0.2333450005833625,
+        0.2333450005833625,
+        0.2666800006667,
+        0.2666800006667,
+        0.2666800006667
+      ],
+      "time_series": [
+        0.2333450005833625,
+        0.2333450005833625,
+        0.2333450005833625,
+        0.2666800006667,
+        0.2666800006667,
+        0.2666800006667,
+        0.2666800006667
+      ],
+      "reference_series": [
+        0.2333450005833625,
+        0.2333450005833625
+      ],
+      "recent_series": [
+        0.2666800006667,
+        0.2666800006667,
+        0.2666800006667,
+        0.2666800006667
+      ],
+      "temporal_context": true,
+      "baseline": 0.2500125006250313,
+      "query": "sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"ad\"}[2m]))"
+    },
+    "tp95": {
+      "current": 5.6,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 5.3
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 5.3
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 5.3
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 5.6
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 5.6
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 5.6
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 5.6
+        }
+      ],
+      "baseline_series": [
+        5.3,
+        5.3,
+        5.3,
+        5.6,
+        5.6,
+        5.6
+      ],
+      "time_series": [
+        5.3,
+        5.3,
+        5.3,
+        5.6,
+        5.6,
+        5.6,
+        5.6
+      ],
+      "reference_series": [
+        5.3,
+        5.3
+      ],
+      "recent_series": [
+        5.6,
+        5.6,
+        5.6,
+        5.6
+      ],
+      "temporal_context": true,
+      "baseline": 5.449999999999999,
+      "query": "1 * histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"ad\"}[2m])))"
+    },
+    "tp99": {
+      "current": 5.919999999999999,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 5.859999999999999
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 5.859999999999999
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 5.859999999999999
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 5.919999999999999
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 5.919999999999999
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 5.919999999999999
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 5.919999999999999
+        }
+      ],
+      "baseline_series": [
+        5.859999999999999,
+        5.859999999999999,
+        5.859999999999999,
+        5.919999999999999,
+        5.919999999999999,
+        5.919999999999999
+      ],
+      "time_series": [
+        5.859999999999999,
+        5.859999999999999,
+        5.859999999999999,
+        5.919999999999999,
+        5.919999999999999,
+        5.919999999999999,
+        5.919999999999999
+      ],
+      "reference_series": [
+        5.859999999999999,
+        5.859999999999999
+      ],
+      "recent_series": [
+        5.919999999999999,
+        5.919999999999999,
+        5.919999999999999,
+        5.919999999999999
+      ],
+      "temporal_context": true,
+      "baseline": 5.89,
+      "query": "1 * histogram_quantile(0.99, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"ad\"}[2m])))"
+    },
+    "cpu_usage": {
+      "current": 0.010084823392935717,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 0.009078741574831496
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 0.008394491559324747
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 0.00854674
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 0.009053822152886115
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 0.009861457229144584
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 0.010011720703242195
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 0.010084823392935717
+        }
+      ],
+      "baseline_series": [
+        0.009078741574831496,
+        0.008394491559324747,
+        0.00854674,
+        0.009053822152886115,
+        0.009861457229144584,
+        0.010011720703242195
+      ],
+      "time_series": [
+        0.009078741574831496,
+        0.008394491559324747,
+        0.00854674,
+        0.009053822152886115,
+        0.009861457229144584,
+        0.010011720703242195,
+        0.010084823392935717
+      ],
+      "reference_series": [
+        0.009078741574831496,
+        0.008394491559324747
+      ],
+      "recent_series": [
+        0.009053822152886115,
+        0.009861457229144584,
+        0.010011720703242195,
+        0.010084823392935717
+      ],
+      "temporal_context": true,
+      "baseline": 0.009157828869904856,
+      "query": "clamp_max(max(rate(container_cpu_usage_nanoseconds_total{container_name=\"ad\"}[1m])) / 1000000000, 1)"
+    },
+    "memory_usage": {
+      "current": 0.9330859375,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 0.930078125
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 0.9298828125
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 0.9338671875
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 0.9322526041666667
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 0.933984375
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 0.9307682291666667
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 0.9330859375
+        }
+      ],
+      "baseline_series": [
+        0.930078125,
+        0.9298828125,
+        0.9338671875,
+        0.9322526041666667,
+        0.933984375,
+        0.9307682291666667
+      ],
+      "time_series": [
+        0.930078125,
+        0.9298828125,
+        0.9338671875,
+        0.9322526041666667,
+        0.933984375,
+        0.9307682291666667,
+        0.9330859375
+      ],
+      "reference_series": [
+        0.930078125,
+        0.9298828125
+      ],
+      "recent_series": [
+        0.9322526041666667,
+        0.933984375,
+        0.9307682291666667,
+        0.9330859375
+      ],
+      "temporal_context": true,
+      "baseline": 0.9318055555555556,
+      "query": "max(container_memory_percent_ratio{container_name=\"ad\"}) / 100"
+    }
+  },
+  "redis.hotkeys": {
+    "hit_rate_percent": {
+      "current": 37.5,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 35.294117647058826
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 31.159420289855074
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 32.16783216783217
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 33.80281690140845
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 32.3943661971831
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 37.01298701298701
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 37.5
+        }
+      ],
+      "baseline_series": [
+        35.294117647058826,
+        31.159420289855074,
+        32.16783216783217,
+        33.80281690140845,
+        32.3943661971831,
+        37.01298701298701
+      ],
+      "time_series": [
+        35.294117647058826,
+        31.159420289855074,
+        32.16783216783217,
+        33.80281690140845,
+        32.3943661971831,
+        37.01298701298701,
+        37.5
+      ],
+      "reference_series": [
+        35.294117647058826,
+        31.159420289855074
+      ],
+      "recent_series": [
+        33.80281690140845,
+        32.3943661971831,
+        37.01298701298701,
+        37.5
+      ],
+      "temporal_context": true,
+      "baseline": 33.638590036054104,
+      "query": "100 * sum(rate(redis_keyspace_hits_total{}[2m])) / (sum(rate(redis_keyspace_hits_total{}[2m])) + sum(rate(redis_keyspace_misses_total{}[2m])))"
+    }
+  },
+  "redis.memory": {
+    "used_memory": {
+      "current": 1356632.0,
+      "data_points": [
+        {
+          "timestamp": 1791381867.054,
+          "value": 1353144.0
+        },
+        {
+          "timestamp": 1791381882.054,
+          "value": 1353624.0
+        },
+        {
+          "timestamp": 1791381897.054,
+          "value": 1354200.0
+        },
+        {
+          "timestamp": 1791381912.054,
+          "value": 1354936.0
+        },
+        {
+          "timestamp": 1791381927.054,
+          "value": 1355384.0
+        },
+        {
+          "timestamp": 1791381942.054,
+          "value": 1356312.0
+        },
+        {
+          "timestamp": 1791381957.054,
+          "value": 1356632.0
+        }
+      ],
+      "baseline_series": [
+        1353144.0,
+        1353624.0,
+        1354200.0,
+        1354936.0,
+        1355384.0,
+        1356312.0
+      ],
+      "time_series": [
+        1353144.0,
+        1353624.0,
+        1354200.0,
+        1354936.0,
+        1355384.0,
+        1356312.0,
+        1356632.0
+      ],
+      "reference_series": [
+        1353144.0,
+        1353624.0
+      ],
+      "recent_series": [
+        1354936.0,
+        1355384.0,
+        1356312.0,
+        1356632.0
+      ],
+      "temporal_context": true,
+      "baseline": 1354600.0,
+      "query": "sum(redis_memory_used_bytes{})"
+    }
+  },
+  "rpc.metrics": {},
+  "topology.query": {},
+  "traces.query": {
+    "traces": [
+      {
+        "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+        "spans": [
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "20959fc927c1e526",
+            "parent_span_id": "1485595e3bf189e7",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 6.919168,
+            "status": "UNSET",
+            "start_time": 1791381955.281213,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "1485595e3bf189e7",
+            "parent_span_id": "68dabc22dcd749e8",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 7.108096,
+            "status": "UNSET",
+            "start_time": 1791381955.281116,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "68dabc22dcd749e8",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 27.000064,
+            "status": "UNSET",
+            "start_time": 1791381955.275,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "fc119471e189322f",
+            "parent_span_id": "cee6c9c30a430b52",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.424704,
+            "status": "UNSET",
+            "start_time": 1791381955.283,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "cee6c9c30a430b52",
+            "parent_span_id": "42f4e8e26d8c4e60",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 5.117696,
+            "status": "UNSET",
+            "start_time": 1791381955.283,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "42f4e8e26d8c4e60",
+            "parent_span_id": "2c89c12f1f5bbd86",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.473536,
+            "status": "UNSET",
+            "start_time": 1791381955.2819998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "2c89c12f1f5bbd86",
+            "parent_span_id": "20959fc927c1e526",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.696256,
+            "status": "UNSET",
+            "start_time": 1791381955.2819998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "f34ee0864b28369f",
+            "parent_span_id": "fc119471e189322f",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.422016,
+            "status": "UNSET",
+            "start_time": 1791381955.2847745,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "e0f32f02d11d1ed7d0c2710585051fca",
+            "span_id": "c5b770ddc147c161",
+            "parent_span_id": "f34ee0864b28369f",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.05376,
+            "status": "UNSET",
+            "start_time": 1791381955.2856956,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+        "spans": [
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "765018eaf6f26fcc",
+            "parent_span_id": "7937a8929c7e689c",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 9.334784,
+            "status": "UNSET",
+            "start_time": 1791381949.8898501,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "7937a8929c7e689c",
+            "parent_span_id": "8c5e3e76d0ebad57",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 9.922816,
+            "status": "UNSET",
+            "start_time": 1791381949.8895612,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "17d41ef901f6678c",
+            "parent_span_id": "765018eaf6f26fcc",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.621888,
+            "status": "UNSET",
+            "start_time": 1791381949.891,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "08fa8ae180731551",
+            "parent_span_id": "583ba6c22022c3e4",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.491712,
+            "status": "UNSET",
+            "start_time": 1791381949.893,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "583ba6c22022c3e4",
+            "parent_span_id": "b343b54a8a711c71",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.077696,
+            "status": "UNSET",
+            "start_time": 1791381949.893,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "b343b54a8a711c71",
+            "parent_span_id": "17d41ef901f6678c",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.05792,
+            "status": "UNSET",
+            "start_time": 1791381949.892,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "8c5e3e76d0ebad57",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 28.999936,
+            "status": "UNSET",
+            "start_time": 1791381949.875,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "85f0aa2a4983a787",
+            "parent_span_id": "08fa8ae180731551",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.546432,
+            "status": "UNSET",
+            "start_time": 1791381949.8962004,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ff365072352d3c459de47a69d02b3ff6",
+            "span_id": "9475ca51e1b2815f",
+            "parent_span_id": "85f0aa2a4983a787",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.201984,
+            "status": "UNSET",
+            "start_time": 1791381949.8974144,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+        "spans": [
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "903ecca7ad9a9bec",
+            "parent_span_id": "8c8c92e994be9aa5",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 10.678016,
+            "status": "UNSET",
+            "start_time": 1791381941.9281049,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "8c8c92e994be9aa5",
+            "parent_span_id": "198603c835b5e7cc",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 10.84416,
+            "status": "UNSET",
+            "start_time": 1791381941.928009,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "198603c835b5e7cc",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 28.999936,
+            "status": "UNSET",
+            "start_time": 1791381941.92,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "ec6fe7eb0feb785c",
+            "parent_span_id": "b8569fe144bf38ab",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 3.034112,
+            "status": "UNSET",
+            "start_time": 1791381941.934717,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "5c625cebf59fd63d",
+            "parent_span_id": "ec6fe7eb0feb785c",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.24704,
+            "status": "UNSET",
+            "start_time": 1791381941.9362657,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "b8569fe144bf38ab",
+            "parent_span_id": "e1bf21cca951ccd0",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 6.170368,
+            "status": "UNSET",
+            "start_time": 1791381941.932,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "e1bf21cca951ccd0",
+            "parent_span_id": "276090e120d04cd5",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.52672,
+            "status": "UNSET",
+            "start_time": 1791381941.932,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "276090e120d04cd5",
+            "parent_span_id": "3afd0cbb6d3947ff",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.083776,
+            "status": "UNSET",
+            "start_time": 1791381941.931,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6a7d835d388c00910d943ce9d1ca6ea6",
+            "span_id": "3afd0cbb6d3947ff",
+            "parent_span_id": "903ecca7ad9a9bec",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.364096,
+            "status": "UNSET",
+            "start_time": 1791381941.931,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+        "spans": [
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "6aaf29e78b43891b",
+            "parent_span_id": "921282e219b9f9cb",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 9.364992,
+            "status": "UNSET",
+            "start_time": 1791381933.579958,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "921282e219b9f9cb",
+            "parent_span_id": "ffd391649b309b0e",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 9.786112,
+            "status": "UNSET",
+            "start_time": 1791381933.5795898,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "ffd391649b309b0e",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 26.999808,
+            "status": "UNSET",
+            "start_time": 1791381933.5740001,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "1110fb1d0db02684",
+            "parent_span_id": "c11d49885ed3325a",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.70112,
+            "status": "UNSET",
+            "start_time": 1791381933.5830002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "c11d49885ed3325a",
+            "parent_span_id": "b7d9a8feb2e7b2f2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.134784,
+            "status": "UNSET",
+            "start_time": 1791381933.5830002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "b7d9a8feb2e7b2f2",
+            "parent_span_id": "b4ec7bdb7c005ae1",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.615232,
+            "status": "UNSET",
+            "start_time": 1791381933.5809999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "b4ec7bdb7c005ae1",
+            "parent_span_id": "6aaf29e78b43891b",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 8.315648,
+            "status": "UNSET",
+            "start_time": 1791381933.58,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "75bd59f1378035aa",
+            "parent_span_id": "1110fb1d0db02684",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.770176,
+            "status": "UNSET",
+            "start_time": 1791381933.5855331,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "03f00abdd9bd2cb6b7b3094617bb0f41",
+            "span_id": "267439d94553b552",
+            "parent_span_id": "75bd59f1378035aa",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.250624,
+            "status": "UNSET",
+            "start_time": 1791381933.5870864,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+        "spans": [
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "d91fdcdc5399cfdd",
+            "parent_span_id": "9eed385a1828fe2d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 10.264832,
+            "status": "UNSET",
+            "start_time": 1791381933.621103,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "b3755fa6ed476e3c",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 27.999744,
+            "status": "UNSET",
+            "start_time": 1791381933.614,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "9eed385a1828fe2d",
+            "parent_span_id": "b3755fa6ed476e3c",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 10.832896,
+            "status": "UNSET",
+            "start_time": 1791381933.6210072,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "276be58debfa4b77",
+            "parent_span_id": "96f4413d775a4e0a",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.358656,
+            "status": "UNSET",
+            "start_time": 1791381933.626,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "96f4413d775a4e0a",
+            "parent_span_id": "ecc6dfcae4e23dbb",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 5.18784,
+            "status": "UNSET",
+            "start_time": 1791381933.626,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "ecc6dfcae4e23dbb",
+            "parent_span_id": "dc2d13a5d5cf7016",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.645312,
+            "status": "UNSET",
+            "start_time": 1791381933.625,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "dc2d13a5d5cf7016",
+            "parent_span_id": "d91fdcdc5399cfdd",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.894912,
+            "status": "UNSET",
+            "start_time": 1791381933.625,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "73bcb7e0ac7900ed",
+            "parent_span_id": "276be58debfa4b77",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.436352,
+            "status": "UNSET",
+            "start_time": 1791381933.6276395,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99bf269ba6de92d32fbb4ce70a789983",
+            "span_id": "c202f0a90e9dc482",
+            "parent_span_id": "73bcb7e0ac7900ed",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.04224,
+            "status": "UNSET",
+            "start_time": 1791381933.6284204,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+        "spans": [
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "cd43f326b71208c6",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 29.999872,
+            "status": "UNSET",
+            "start_time": 1791381925.075,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "373f615337149f37",
+            "parent_span_id": "f1d67d3fa35455ce",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 15.22688,
+            "status": "UNSET",
+            "start_time": 1791381925.084172,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "f1d67d3fa35455ce",
+            "parent_span_id": "cd43f326b71208c6",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 15.34592,
+            "status": "UNSET",
+            "start_time": 1791381925.084085,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "55b3113613204b2a",
+            "parent_span_id": "1d783370d38ba136",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 8.169216,
+            "status": "UNSET",
+            "start_time": 1791381925.091,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "1d783370d38ba136",
+            "parent_span_id": "f0b5050055a3ca59",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.16736,
+            "status": "UNSET",
+            "start_time": 1791381925.09,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "f0b5050055a3ca59",
+            "parent_span_id": "373f615337149f37",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.895168,
+            "status": "UNSET",
+            "start_time": 1791381925.089,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "6b22b85b83a67bf7",
+            "parent_span_id": "55b3113613204b2a",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 7.579904,
+            "status": "UNSET",
+            "start_time": 1791381925.091,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "b6ae3bb60114d1c1",
+            "parent_span_id": "6b22b85b83a67bf7",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.40064,
+            "status": "UNSET",
+            "start_time": 1791381925.094701,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0354ca7bc3f0f01bb226a2d6963f352c",
+            "span_id": "d8e3273bc5571cc5",
+            "parent_span_id": "b6ae3bb60114d1c1",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.084736,
+            "status": "UNSET",
+            "start_time": 1791381925.0973537,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+        "spans": [
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "215f0919eedf87d7",
+            "parent_span_id": "48b93762932dfe02",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 6.35904,
+            "status": "UNSET",
+            "start_time": 1791381925.022111,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "48b93762932dfe02",
+            "parent_span_id": "8781ba16a6f5bdf7",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 6.793984,
+            "status": "UNSET",
+            "start_time": 1791381925.0217059,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "8781ba16a6f5bdf7",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 35.000064,
+            "status": "UNSET",
+            "start_time": 1791381925.0110002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "2f4850eec70ba407",
+            "parent_span_id": "b396d890eb8bd807",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 4.781056,
+            "status": "UNSET",
+            "start_time": 1791381925.023,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "b396d890eb8bd807",
+            "parent_span_id": "a0543e635bda2c89",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.3184,
+            "status": "UNSET",
+            "start_time": 1791381925.023,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "a0543e635bda2c89",
+            "parent_span_id": "215f0919eedf87d7",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.747968,
+            "status": "UNSET",
+            "start_time": 1791381925.022,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "9741f8fecd0f033a",
+            "parent_span_id": "2f4850eec70ba407",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.185088,
+            "status": "UNSET",
+            "start_time": 1791381925.023,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "e335e0bba209527b",
+            "parent_span_id": "9741f8fecd0f033a",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.682432,
+            "status": "UNSET",
+            "start_time": 1791381925.0260575,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6ee2936fb9bd6cb40d3229a197012687",
+            "span_id": "55707604f98ac6b1",
+            "parent_span_id": "e335e0bba209527b",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.046592,
+            "status": "UNSET",
+            "start_time": 1791381925.0269287,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+        "spans": [
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "cbf19d1b61e01b09",
+            "parent_span_id": "d66b19d6d3dcc6c2",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 13.959168,
+            "status": "UNSET",
+            "start_time": 1791381921.093895,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "d66b19d6d3dcc6c2",
+            "parent_span_id": "895a8d28c465d001",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 14.266112,
+            "status": "UNSET",
+            "start_time": 1791381921.093694,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "895a8d28c465d001",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 30.999808,
+            "status": "UNSET",
+            "start_time": 1791381921.0860002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "b660aee4db60ccf7",
+            "parent_span_id": "d2c1a10216e255a9",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 7.265792,
+            "status": "UNSET",
+            "start_time": 1791381921.099,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "d2c1a10216e255a9",
+            "parent_span_id": "4337007a10f2d7ad",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 8.553216,
+            "status": "UNSET",
+            "start_time": 1791381921.099,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "4337007a10f2d7ad",
+            "parent_span_id": "fb4442088555fd4a",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.115648,
+            "status": "UNSET",
+            "start_time": 1791381921.0979998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "fb4442088555fd4a",
+            "parent_span_id": "cbf19d1b61e01b09",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.472256,
+            "status": "UNSET",
+            "start_time": 1791381921.0979998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "f8c48e3b8f669ccc",
+            "parent_span_id": "b660aee4db60ccf7",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.310272,
+            "status": "UNSET",
+            "start_time": 1791381921.1016877,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "057b25def6d968e27f017e69e8aeeec3",
+            "span_id": "285c1e7cf3e3b749",
+            "parent_span_id": "f8c48e3b8f669ccc",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.358144,
+            "status": "UNSET",
+            "start_time": 1791381921.1031954,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "0f43e8494fbb20b415408f947799fde6",
+        "spans": [
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "2361f38be73b201a",
+            "parent_span_id": "24ec86b58943a929",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.60512,
+            "status": "UNSET",
+            "start_time": 1791381915.646581,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "24ec86b58943a929",
+            "parent_span_id": "aa0d9baf8d8a6903",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.860864,
+            "status": "UNSET",
+            "start_time": 1791381915.646369,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "2d905f4ba6d1cd98",
+            "parent_span_id": "276b43793f9b2b3d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 5.718016,
+            "status": "UNSET",
+            "start_time": 1791381915.649257,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "276b43793f9b2b3d",
+            "parent_span_id": "aa0d9baf8d8a6903",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 5.906176,
+            "status": "UNSET",
+            "start_time": 1791381915.649179,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "18a1d734720c83d5",
+            "parent_span_id": "02cb5c518029f1a6",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 4.873216,
+            "status": "UNSET",
+            "start_time": 1791381915.6499999,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "02cb5c518029f1a6",
+            "parent_span_id": "7bc0a13a51ef1834",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.572608,
+            "status": "UNSET",
+            "start_time": 1791381915.649,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "d6e4de80301666b3",
+            "parent_span_id": "2361f38be73b201a",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.86784,
+            "status": "UNSET",
+            "start_time": 1791381915.647,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "7bc0a13a51ef1834",
+            "parent_span_id": "2d905f4ba6d1cd98",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 5.926144,
+            "status": "UNSET",
+            "start_time": 1791381915.649,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "be7949a9dce99e21",
+            "parent_span_id": "18a1d734720c83d5",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.094208,
+            "status": "UNSET",
+            "start_time": 1791381915.6499999,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "c5eefb57e30c42ee",
+            "parent_span_id": "be7949a9dce99e21",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.390528,
+            "status": "UNSET",
+            "start_time": 1791381915.6515808,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "181f47fdd65a0ba3",
+            "parent_span_id": "c5eefb57e30c42ee",
+            "service": "ad",
+            "operation": "getRandomAds",
+            "duration_ms": 0.324608,
+            "status": "UNSET",
+            "start_time": 1791381915.652715,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "dfb65e45350592a8",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_get_ads",
+            "duration_ms": 13.659648,
+            "status": "UNSET",
+            "start_time": 1791381915.6434958,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "0f43e8494fbb20b415408f947799fde6",
+            "span_id": "aa0d9baf8d8a6903",
+            "parent_span_id": "dfb65e45350592a8",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 11.364608,
+            "status": "UNSET",
+            "start_time": 1791381915.6455135,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+        "spans": [
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "ecab1072888d87c8",
+            "parent_span_id": "7cd2ebc9dae7d991",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.24288,
+            "status": "UNSET",
+            "start_time": 1791381913.0165,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "8268e0e09ada060c",
+            "parent_span_id": "ecab1072888d87c8",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.078336,
+            "status": "UNSET",
+            "start_time": 1791381913.0169733,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "40a91ec086702d44",
+            "parent_span_id": "ca046b10febd9f54",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 0.924928,
+            "status": "UNSET",
+            "start_time": 1791381913.012875,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "ca046b10febd9f54",
+            "parent_span_id": "7b9c11431e5a191c",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.12896,
+            "status": "UNSET",
+            "start_time": 1791381913.012727,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "e3ea2cd9b8878f34",
+            "parent_span_id": "d1bfea42a5001948",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.484928,
+            "status": "UNSET",
+            "start_time": 1791381913.014644,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "d1bfea42a5001948",
+            "parent_span_id": "7b9c11431e5a191c",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.587072,
+            "status": "UNSET",
+            "start_time": 1791381913.0145721,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "7b9c11431e5a191c",
+            "parent_span_id": "a20a736ff65f296f",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 6.54336,
+            "status": "UNSET",
+            "start_time": 1791381913.0123086,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "a20a736ff65f296f",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_get_ads",
+            "duration_ms": 7.126528,
+            "status": "UNSET",
+            "start_time": 1791381913.0118248,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "f6c9b60f6e9eb29a",
+            "parent_span_id": "24040786d573b80c",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 2.65984,
+            "status": "UNSET",
+            "start_time": 1791381913.015,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "24040786d573b80c",
+            "parent_span_id": "10382526f76b4479",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.129344,
+            "status": "UNSET",
+            "start_time": 1791381913.015,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "58fe6f34dbdcd310",
+            "parent_span_id": "40a91ec086702d44",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.391168,
+            "status": "UNSET",
+            "start_time": 1791381913.013,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "10382526f76b4479",
+            "parent_span_id": "e3ea2cd9b8878f34",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.369216,
+            "status": "UNSET",
+            "start_time": 1791381913.0140002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fb3195215ef85983143093fb0fbd3c53",
+            "span_id": "7cd2ebc9dae7d991",
+            "parent_span_id": "f6c9b60f6e9eb29a",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.260992,
+            "status": "UNSET",
+            "start_time": 1791381913.015,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "5861f29a8ca2d7657677973c568e194e",
+        "spans": [
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "fed626e7c6d88e04",
+            "parent_span_id": "fb015aa58c3e5e95",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 12.50816,
+            "status": "UNSET",
+            "start_time": 1791381913.4275148,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "15da25899b3cd15b",
+            "parent_span_id": "23e911ec515edafd",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.564352,
+            "status": "UNSET",
+            "start_time": 1791381913.436625,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "7bd66dd81007cc28",
+            "parent_span_id": "15da25899b3cd15b",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.14336,
+            "status": "UNSET",
+            "start_time": 1791381913.4376252,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "fb015aa58c3e5e95",
+            "parent_span_id": "8e4d66041e59330f",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 12.891904,
+            "status": "UNSET",
+            "start_time": 1791381913.427414,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "8e4d66041e59330f",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 26.000128,
+            "status": "UNSET",
+            "start_time": 1791381913.42,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "d9df3bae0c28b0df",
+            "parent_span_id": "b4be027cba43722a",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 8.69888,
+            "status": "UNSET",
+            "start_time": 1791381913.431,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "b4be027cba43722a",
+            "parent_span_id": "913303981bf65ba7",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.510912,
+            "status": "UNSET",
+            "start_time": 1791381913.43,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "913303981bf65ba7",
+            "parent_span_id": "fed626e7c6d88e04",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.76384,
+            "status": "UNSET",
+            "start_time": 1791381913.43,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5861f29a8ca2d7657677973c568e194e",
+            "span_id": "23e911ec515edafd",
+            "parent_span_id": "d9df3bae0c28b0df",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 6.243072,
+            "status": "UNSET",
+            "start_time": 1791381913.4329998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+        "spans": [
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "d0b86108c51f0138",
+            "parent_span_id": "8ac20c1098fe504b",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.962752,
+            "status": "UNSET",
+            "start_time": 1791381907.5611284,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "d98c98b9122b0b28",
+            "parent_span_id": "d0b86108c51f0138",
+            "service": "ad",
+            "operation": "getRandomAds",
+            "duration_ms": 0.288,
+            "status": "UNSET",
+            "start_time": 1791381907.5619085,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "c9839aaf153cbb5d",
+            "parent_span_id": "66156a110801817d",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 8.0128,
+            "status": "UNSET",
+            "start_time": 1791381907.5566657,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "66156a110801817d",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_get_ads",
+            "duration_ms": 8.617728,
+            "status": "UNSET",
+            "start_time": 1791381907.556211,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "cbd5369ee5d783e4",
+            "parent_span_id": "3ff84170e5c95b95",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 0.836864,
+            "status": "UNSET",
+            "start_time": 1791381907.5572321,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "3ff84170e5c95b95",
+            "parent_span_id": "c9839aaf153cbb5d",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.015808,
+            "status": "UNSET",
+            "start_time": 1791381907.557081,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "7ba8a83084aa84d3",
+            "parent_span_id": "ac6df833bba0f609",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.442112,
+            "status": "UNSET",
+            "start_time": 1791381907.559157,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "ac6df833bba0f609",
+            "parent_span_id": "c9839aaf153cbb5d",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.551936,
+            "status": "UNSET",
+            "start_time": 1791381907.559097,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "8ac20c1098fe504b",
+            "parent_span_id": "55dccd0c3788edb1",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 3.199488,
+            "status": "UNSET",
+            "start_time": 1791381907.56,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "55dccd0c3788edb1",
+            "parent_span_id": "81ff015e520962e2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 3.654912,
+            "status": "UNSET",
+            "start_time": 1791381907.559,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "81ff015e520962e2",
+            "parent_span_id": "8c625bf3a2a3ecec",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 4.128,
+            "status": "UNSET",
+            "start_time": 1791381907.559,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "2d16b5335894cd8e",
+            "parent_span_id": "cbd5369ee5d783e4",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.482304,
+            "status": "UNSET",
+            "start_time": 1791381907.557,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5f1f44f283148094e139cbf0be33c3a0",
+            "span_id": "8c625bf3a2a3ecec",
+            "parent_span_id": "7ba8a83084aa84d3",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 4.323328,
+            "status": "UNSET",
+            "start_time": 1791381907.559,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+        "spans": [
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "86dcd026e3eb7134",
+            "parent_span_id": "103aee35c65f71cc",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 9.075968,
+            "status": "UNSET",
+            "start_time": 1791381906.221506,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "103aee35c65f71cc",
+            "parent_span_id": "c689146404cb2bf3",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 9.308928,
+            "status": "UNSET",
+            "start_time": 1791381906.221343,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "c689146404cb2bf3",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 27.000064,
+            "status": "UNSET",
+            "start_time": 1791381906.2129998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "9794f993be853537",
+            "parent_span_id": "55eeddfed7d3c4aa",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.579456,
+            "status": "UNSET",
+            "start_time": 1791381906.2261703,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "7a664a38ffa5ec29",
+            "parent_span_id": "9794f993be853537",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.06272,
+            "status": "UNSET",
+            "start_time": 1791381906.2273946,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "55eeddfed7d3c4aa",
+            "parent_span_id": "7dc656f2d71c1dd1",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.623296,
+            "status": "UNSET",
+            "start_time": 1791381906.224,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "7dc656f2d71c1dd1",
+            "parent_span_id": "46c59ebe427919f5",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.19136,
+            "status": "UNSET",
+            "start_time": 1791381906.224,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "46c59ebe427919f5",
+            "parent_span_id": "e7d5f8fbfe4c7ed2",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 6.877952,
+            "status": "UNSET",
+            "start_time": 1791381906.223,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "894a03e43d155e0816c2afb8c9cc74d2",
+            "span_id": "e7d5f8fbfe4c7ed2",
+            "parent_span_id": "86dcd026e3eb7134",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.161856,
+            "status": "UNSET",
+            "start_time": 1791381906.223,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+        "spans": [
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "ceedcbc3ec287631",
+            "parent_span_id": "445067376b6d2fee",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.497152,
+            "status": "UNSET",
+            "start_time": 1791381905.420062,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "445067376b6d2fee",
+            "parent_span_id": "2989957039982b28",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.928,
+            "status": "UNSET",
+            "start_time": 1791381905.4196842,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "d95e5b5bb3553c85",
+            "parent_span_id": "5c0c267828e0abab",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.974464,
+            "status": "UNSET",
+            "start_time": 1791381905.421,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "5c0c267828e0abab",
+            "parent_span_id": "c101b77ba105e62a",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 3.332864,
+            "status": "UNSET",
+            "start_time": 1791381905.421,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "c101b77ba105e62a",
+            "parent_span_id": "09a1e75f756bedb6",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.730688,
+            "status": "UNSET",
+            "start_time": 1791381905.42,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "09a1e75f756bedb6",
+            "parent_span_id": "ceedcbc3ec287631",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.994368,
+            "status": "UNSET",
+            "start_time": 1791381905.42,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "2989957039982b28",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 16.0,
+            "status": "UNSET",
+            "start_time": 1791381905.415,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "3c132ddca513834c",
+            "parent_span_id": "d95e5b5bb3553c85",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.931264,
+            "status": "UNSET",
+            "start_time": 1791381905.4221015,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5c4bff40b03cd1aaf93875799695beeb",
+            "span_id": "b101e064657d1499",
+            "parent_span_id": "3c132ddca513834c",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.170496,
+            "status": "UNSET",
+            "start_time": 1791381905.4231217,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+        "spans": [
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "c68a1c2a3e1799ec",
+            "parent_span_id": "59f89a0fba8117cd",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.506112,
+            "status": "UNSET",
+            "start_time": 1791381894.4,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "2024f1b1892e7f2e",
+            "parent_span_id": "ba6b7878bcb8394f",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.31264,
+            "status": "UNSET",
+            "start_time": 1791381894.402,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "04f5145dcee4ca4d",
+            "parent_span_id": "c684fcb0ecad45a9",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.537216,
+            "status": "UNSET",
+            "start_time": 1791381894.402,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "c684fcb0ecad45a9",
+            "parent_span_id": "60534b92fefee62f",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 2.813696,
+            "status": "UNSET",
+            "start_time": 1791381894.402,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "60534b92fefee62f",
+            "parent_span_id": "2024f1b1892e7f2e",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.165696,
+            "status": "UNSET",
+            "start_time": 1791381894.402,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "59f89a0fba8117cd",
+            "parent_span_id": "a41cc9da1b4b8b3b",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 0.978944,
+            "status": "UNSET",
+            "start_time": 1791381894.400023,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "a41cc9da1b4b8b3b",
+            "parent_span_id": "db770435b9bdaf6d",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.110016,
+            "status": "UNSET",
+            "start_time": 1791381894.399918,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "ba6b7878bcb8394f",
+            "parent_span_id": "059c261aa85a2b91",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.439872,
+            "status": "UNSET",
+            "start_time": 1791381894.401954,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "059c261aa85a2b91",
+            "parent_span_id": "db770435b9bdaf6d",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.524096,
+            "status": "UNSET",
+            "start_time": 1791381894.401889,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "5a6eedd478323a98",
+            "parent_span_id": "04f5145dcee4ca4d",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.528576,
+            "status": "UNSET",
+            "start_time": 1791381894.4035368,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "81504ce4ed60c4f6",
+            "parent_span_id": "5a6eedd478323a98",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.18048,
+            "status": "UNSET",
+            "start_time": 1791381894.4041588,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "db770435b9bdaf6d",
+            "parent_span_id": "be744a59a5527487",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 6.350848,
+            "status": "UNSET",
+            "start_time": 1791381894.3995204,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "399a6f3cbfe5a3ada993e8394784701d",
+            "span_id": "be744a59a5527487",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_get_ads",
+            "duration_ms": 6.87104,
+            "status": "UNSET",
+            "start_time": 1791381894.3990722,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+        "spans": [
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "21b429e119428877",
+            "parent_span_id": "63265a69b3b0115d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 10.146048,
+            "status": "UNSET",
+            "start_time": 1791381894.121504,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "63265a69b3b0115d",
+            "parent_span_id": "d263500573a5b699",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 10.51008,
+            "status": "UNSET",
+            "start_time": 1791381894.121192,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "d263500573a5b699",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 44.0,
+            "status": "UNSET",
+            "start_time": 1791381894.109,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "f5d9819675dac6f5",
+            "parent_span_id": "21b429e119428877",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.273088,
+            "status": "UNSET",
+            "start_time": 1791381894.122,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "067c01e0254b11f7",
+            "parent_span_id": "2eceeee4d8cebb98",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 6.67008,
+            "status": "UNSET",
+            "start_time": 1791381894.124,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "2eceeee4d8cebb98",
+            "parent_span_id": "668ab5cd3a3e7c52",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 7.748864,
+            "status": "UNSET",
+            "start_time": 1791381894.124,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "668ab5cd3a3e7c52",
+            "parent_span_id": "f5d9819675dac6f5",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 8.783104,
+            "status": "UNSET",
+            "start_time": 1791381894.1230001,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "634bf0a5ae3234e9",
+            "parent_span_id": "067c01e0254b11f7",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.19584,
+            "status": "UNSET",
+            "start_time": 1791381894.125989,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f46b04722cf902756e9fddb1db60cf19",
+            "span_id": "bbe3718ba4fa8ba1",
+            "parent_span_id": "634bf0a5ae3234e9",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.078592,
+            "status": "UNSET",
+            "start_time": 1791381894.1286664,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+        "spans": [
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "f55ce7735f07e5eb",
+            "parent_span_id": "8a35921e2beed4ce",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.576768,
+            "status": "UNSET",
+            "start_time": 1791381892.4259083,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "cdc6006c01dca26e",
+            "parent_span_id": "f55ce7735f07e5eb",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.366336,
+            "status": "UNSET",
+            "start_time": 1791381892.427947,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "3e00c5f3be6bd15b",
+            "parent_span_id": "32dc6a1ec94322a6",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 10.156288,
+            "status": "UNSET",
+            "start_time": 1791381892.421,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "8a35921e2beed4ce",
+            "parent_span_id": "43cb9c20c68e8690",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 8.807936,
+            "status": "UNSET",
+            "start_time": 1791381892.4220002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "43cb9c20c68e8690",
+            "parent_span_id": "9ef17a3dcd36bfdb",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 9.42208,
+            "status": "UNSET",
+            "start_time": 1791381892.4220002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "9ef17a3dcd36bfdb",
+            "parent_span_id": "3e00c5f3be6bd15b",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 9.933568,
+            "status": "UNSET",
+            "start_time": 1791381892.421,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "32dc6a1ec94322a6",
+            "parent_span_id": "cad4322981fec15f",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 13.277184,
+            "status": "UNSET",
+            "start_time": 1791381892.418216,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16cbc39c9a2b9cf17e722ac97dd637de",
+            "span_id": "cad4322981fec15f",
+            "parent_span_id": "1132a508036c3595",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 13.43104,
+            "status": "UNSET",
+            "start_time": 1791381892.418143,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+        "spans": [
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "040c710c44daf800",
+            "parent_span_id": "2aa749a3d0e1e188",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.710144,
+            "status": "UNSET",
+            "start_time": 1791381886.2645388,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "2aa749a3d0e1e188",
+            "parent_span_id": "9cf62d684cae6fe9",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 8.845824,
+            "status": "UNSET",
+            "start_time": 1791381886.264452,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "9cf62d684cae6fe9",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 38.999808,
+            "status": "UNSET",
+            "start_time": 1791381886.246,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "135cc71edb347ecf",
+            "parent_span_id": "88fdab9b5c139c49",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.880256,
+            "status": "UNSET",
+            "start_time": 1791381886.269095,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "e6129a2270ce083d",
+            "parent_span_id": "135cc71edb347ecf",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.06272,
+            "status": "UNSET",
+            "start_time": 1791381886.2705767,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "88fdab9b5c139c49",
+            "parent_span_id": "b53947c3f005f667",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.616384,
+            "status": "UNSET",
+            "start_time": 1791381886.267,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "b53947c3f005f667",
+            "parent_span_id": "22457a0a769888ed",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.034944,
+            "status": "UNSET",
+            "start_time": 1791381886.267,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "22457a0a769888ed",
+            "parent_span_id": "051db01b226a292c",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.028224,
+            "status": "UNSET",
+            "start_time": 1791381886.2659998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "37b65c46a95e301923a413442ca3ccc7",
+            "span_id": "051db01b226a292c",
+            "parent_span_id": "040c710c44daf800",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.669248,
+            "status": "UNSET",
+            "start_time": 1791381886.2649999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+        "spans": [
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "2fb4338374f1a461",
+            "parent_span_id": "0d6e01bb8de1dd59",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 5.374208,
+            "status": "UNSET",
+            "start_time": 1791381885.8441548,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "0d6e01bb8de1dd59",
+            "parent_span_id": "eb2e4f19b284da06",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 5.711872,
+            "status": "UNSET",
+            "start_time": 1791381885.843841,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "eb2e4f19b284da06",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 20.0,
+            "status": "UNSET",
+            "start_time": 1791381885.831,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "6829522d005b4c70",
+            "parent_span_id": "defefe73fa4b4d67",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 1.52448,
+            "status": "UNSET",
+            "start_time": 1791381885.8477154,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "16da6e7b34c4c92d",
+            "parent_span_id": "6829522d005b4c70",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.0768,
+            "status": "UNSET",
+            "start_time": 1791381885.8486059,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "defefe73fa4b4d67",
+            "parent_span_id": "703c86c49764c2f4",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.777088,
+            "status": "UNSET",
+            "start_time": 1791381885.8460002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "703c86c49764c2f4",
+            "parent_span_id": "8f6e42879d782eff",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 3.13856,
+            "status": "UNSET",
+            "start_time": 1791381885.8460002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "8f6e42879d782eff",
+            "parent_span_id": "a13d0a986d9e5353",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 3.740672,
+            "status": "UNSET",
+            "start_time": 1791381885.845,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ded3dd2ce7698ded6ae911f3e2a0e97b",
+            "span_id": "a13d0a986d9e5353",
+            "parent_span_id": "2fb4338374f1a461",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 4.138752,
+            "status": "UNSET",
+            "start_time": 1791381885.845,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+        "spans": [
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "810367c4d7e3ce18",
+            "parent_span_id": "67af884fb59188dc",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 9.113856,
+            "status": "UNSET",
+            "start_time": 1791381882.0153441,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "67af884fb59188dc",
+            "parent_span_id": "5c3506d93bfdc815",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 9.522176,
+            "status": "UNSET",
+            "start_time": 1791381882.015003,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "6152a7c83209a317",
+            "parent_span_id": "5de449e9d8827915",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.612224,
+            "status": "UNSET",
+            "start_time": 1791381882.017,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "5de449e9d8827915",
+            "parent_span_id": "a6d580670ff632c7",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.817216,
+            "status": "UNSET",
+            "start_time": 1791381882.016,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "a6d580670ff632c7",
+            "parent_span_id": "810367c4d7e3ce18",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 8.435968,
+            "status": "UNSET",
+            "start_time": 1791381882.016,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "4138f2244d3a267c",
+            "parent_span_id": "6152a7c83209a317",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.863168,
+            "status": "UNSET",
+            "start_time": 1791381882.018,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "5c3506d93bfdc815",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 42.000128,
+            "status": "UNSET",
+            "start_time": 1791381882.0089998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "522781f5123dac42",
+            "parent_span_id": "4138f2244d3a267c",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 3.19488,
+            "status": "UNSET",
+            "start_time": 1791381882.0200634,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50f55c0fc666e4458ce55723156ad4d7",
+            "span_id": "59a06d898abe4736",
+            "parent_span_id": "522781f5123dac42",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.255744,
+            "status": "UNSET",
+            "start_time": 1791381882.0216212,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "df6f8453c09da600e409f1584a5944d9",
+        "spans": [
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "8bf672b2aa726124",
+            "parent_span_id": "10dd0c85987ad79a",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 12.500224,
+            "status": "UNSET",
+            "start_time": 1791381882.088753,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "56357d9032f3de02",
+            "parent_span_id": "fbdff96d65a0cac3",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 9.421056,
+            "status": "UNSET",
+            "start_time": 1791381882.091,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "fbdff96d65a0cac3",
+            "parent_span_id": "b2a15408ffc2cc97",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 10.782208,
+            "status": "UNSET",
+            "start_time": 1791381882.09,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "b2a15408ffc2cc97",
+            "parent_span_id": "8bf672b2aa726124",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 11.192832,
+            "status": "UNSET",
+            "start_time": 1791381882.09,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "04bd64c0d966b1de",
+            "parent_span_id": "56357d9032f3de02",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 8.248832,
+            "status": "UNSET",
+            "start_time": 1791381882.092,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "5983ad1b571fdda4",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 26.999808,
+            "status": "UNSET",
+            "start_time": 1791381882.079,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "83d271f581e0d5d0",
+            "parent_span_id": "04bd64c0d966b1de",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.986624,
+            "status": "UNSET",
+            "start_time": 1791381882.094833,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "5afe9fc3d3f1ef5b",
+            "parent_span_id": "83d271f581e0d5d0",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.078592,
+            "status": "UNSET",
+            "start_time": 1791381882.097644,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "df6f8453c09da600e409f1584a5944d9",
+            "span_id": "10dd0c85987ad79a",
+            "parent_span_id": "5983ad1b571fdda4",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 13.14304,
+            "status": "UNSET",
+            "start_time": 1791381882.0886421,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "3fc33580229eabe321185fbec7c3896f",
+        "spans": [
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "4a4a7c49bc95a778",
+            "parent_span_id": "2baf1d93ce17be7d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 7.617024,
+            "status": "UNSET",
+            "start_time": 1791381870.789828,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "2baf1d93ce17be7d",
+            "parent_span_id": "1d188e8b6d132cef",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 7.815936,
+            "status": "UNSET",
+            "start_time": 1791381870.789668,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "1d188e8b6d132cef",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 35.999744,
+            "status": "UNSET",
+            "start_time": 1791381870.782,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "ef49887ba651e2c5",
+            "parent_span_id": "f97d19592bd10ff9",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 5.626112,
+            "status": "UNSET",
+            "start_time": 1791381870.7910001,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "f97d19592bd10ff9",
+            "parent_span_id": "7bcce7d02e6a41d4",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 6.210304,
+            "status": "UNSET",
+            "start_time": 1791381870.7910001,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "7bcce7d02e6a41d4",
+            "parent_span_id": "2c3d40bebfa2405c",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 6.956288,
+            "status": "UNSET",
+            "start_time": 1791381870.7900002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "2c3d40bebfa2405c",
+            "parent_span_id": "4a4a7c49bc95a778",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.307776,
+            "status": "UNSET",
+            "start_time": 1791381870.7900002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "897f4ba50c184c04",
+            "parent_span_id": "ef49887ba651e2c5",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.023296,
+            "status": "UNSET",
+            "start_time": 1791381870.7927625,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3fc33580229eabe321185fbec7c3896f",
+            "span_id": "e5d3d9b6654ae3bb",
+            "parent_span_id": "897f4ba50c184c04",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.080384,
+            "status": "UNSET",
+            "start_time": 1791381870.7952318,
+            "span_kind": "internal",
+            "db_system": null
+          }
+        ]
+      },
+      {
+        "trace_id": "86fff6fd94494915f3256341bb6950a5",
+        "spans": [
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "f16d62abb30bb052",
+            "parent_span_id": "7a8e85c32d0e7cfe",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 12.440832,
+            "status": "UNSET",
+            "start_time": 1791381868.080794,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "7a8e85c32d0e7cfe",
+            "parent_span_id": "e7f1f61233bef187",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 12.603904,
+            "status": "UNSET",
+            "start_time": 1791381868.0806751,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "60ac12f53ce4123e",
+            "parent_span_id": "8a518f0b04dab1d6",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 2.334464,
+            "status": "UNSET",
+            "start_time": 1791381868.0904095,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "669f4bdb0595e39c",
+            "parent_span_id": "60ac12f53ce4123e",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.185856,
+            "status": "UNSET",
+            "start_time": 1791381868.091497,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "e7f1f61233bef187",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 28.000256,
+            "status": "UNSET",
+            "start_time": 1791381868.074,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "8a518f0b04dab1d6",
+            "parent_span_id": "3f797c9230ab08ef",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 8.890368,
+            "status": "UNSET",
+            "start_time": 1791381868.0830002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "3f797c9230ab08ef",
+            "parent_span_id": "0e5e2bdd7864d2ac",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 9.388544,
+            "status": "UNSET",
+            "start_time": 1791381868.0830002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "0e5e2bdd7864d2ac",
+            "parent_span_id": "c0d6cdd12028d585",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 10.17216,
+            "status": "UNSET",
+            "start_time": 1791381868.0830002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "86fff6fd94494915f3256341bb6950a5",
+            "span_id": "c0d6cdd12028d585",
+            "parent_span_id": "f16d62abb30bb052",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 10.462208,
+            "status": "UNSET",
+            "start_time": 1791381868.0819998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      }
+    ]
+  }
+}

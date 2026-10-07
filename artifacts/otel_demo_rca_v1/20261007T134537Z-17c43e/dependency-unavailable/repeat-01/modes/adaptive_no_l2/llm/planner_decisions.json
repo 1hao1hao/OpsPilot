@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed dependency between checkout and the downstream service to distinguish rpc_error_rate from rpc_timeout.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but the current evidence does not identify which downstream dependency is involved. Topology can reveal the observed dependency path between checkout and downstream services, which is needed to distinguish db_slow_query from rpc_error_rate or rpc_timeout.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but the current evidence does not identify which downstream dependency is involved. Alerts can reveal the observed dependency path between checkout and downstream services, which is needed to distinguish db_slow_query from rpc_error_rate or rpc_timeout.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

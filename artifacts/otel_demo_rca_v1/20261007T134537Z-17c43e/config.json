@@ -1,0 +1,36 @@
+{
+  "experiment_version": "otel-demo-accuracy-closure@1.0.0",
+  "dataset": "benchmarks/datasets/otel_demo/v1/scenarios.yaml",
+  "profile": "release",
+  "repeats": 3,
+  "modes": [
+    "full_adaptive",
+    "fixed_full",
+    "adaptive_no_l2"
+  ],
+  "design": "paired fresh lifecycles; unchanged ground truth, scoring, load and mode rotation",
+  "rca": {
+    "investigation_max_rounds": 4,
+    "investigation_max_tool_calls": 8,
+    "investigation_max_expert_calls": 2,
+    "evidence_gate_confidence": 0.8,
+    "evidence_gate_margin": 0.15,
+    "evidence_gate_min_sources": 2,
+    "tool_timeout_seconds": 30,
+    "tool_max_attempts": 2,
+    "telemetry_timeout_seconds": 10,
+    "telemetry_step_seconds": 15,
+    "telemetry_log_limit": 50,
+    "telemetry_trace_limit": 50
+  },
+  "llm": {
+    "temperature": 0,
+    "max_tokens": 500,
+    "max_attempts": 1,
+    "role": "planner_only",
+    "pricing": null,
+    "model": "deepseek-v4-flash",
+    "base_url": "https://api.deepseek.com",
+    "timeout_seconds": 30.0
+  }
+}

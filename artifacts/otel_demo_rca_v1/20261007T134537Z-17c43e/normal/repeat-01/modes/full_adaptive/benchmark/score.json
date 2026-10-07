@@ -1,0 +1,17 @@
+{
+  "top1": false,
+  "top3": false,
+  "normal_correct": false,
+  "gate_pass": false,
+  "budget_exhausted": true,
+  "degraded": false,
+  "tool_calls": 6,
+  "expert_calls": 1,
+  "investigation_rounds": 4,
+  "latency_ms": 15503.261,
+  "expected": "no_fault",
+  "predicted": [
+    "db_slow_query"
+  ],
+  "category_only": true
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow and error spans implicate frontend-proxy/frontend path and a messaging dependency hint; topology will reveal observed service dependencies to localize the failing hop rather than re-collecting generic error symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error rate jumped from 0.0 yesterday to 100.0 now with an ERROR span on the frontend-proxy/frontend path; checking recent changes is the lowest-cost way to identify a deployment or config change that could explain the sudden failure, rather than re-collecting generic error symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Error rate jumped from 0.0 to 100.0 with an ERROR span on the frontend-proxy/frontend path; querying alerts is the only remaining allowed action and can surface correlated alert context to localize the failing hop rather than re-collecting generic error symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Error-rate alert with an ERROR trace span and a 100% error-rate baseline shift points to an RPC-layer fault; the rpc expert can validate the rpc_error_rate hypothesis against observed dependency behavior.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The observed messaging dependency hint ('publish orders') and the ERROR trace spanning frontend-proxy/frontend suggest a downstream dependency fault; topology.query will map the checkout service's dependencies to identify which downstream component to investigate next.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "The observed messaging dependency hint ('publish orders') and the ERROR trace spanning frontend-proxy/frontend suggest a downstream dependency fault; changes.query will reveal recent changes to the checkout service or its dependencies that could explain the error-rate increase.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

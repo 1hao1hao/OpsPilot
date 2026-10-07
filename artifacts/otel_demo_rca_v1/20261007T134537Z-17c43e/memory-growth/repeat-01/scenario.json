@@ -1,0 +1,47 @@
+{
+  "scenario_id": "memory-growth",
+  "fault_control": {
+    "flag": "emailMemoryLeak",
+    "variant": "100x"
+  },
+  "ground_truth": {
+    "root_cause_type": "resource_saturation",
+    "root_service": "email",
+    "mechanism": "larger retained email deliveries create a rising memory footprint",
+    "taxonomy_note": "Memory growth is a resource symptom; do not claim OOM unless independently observed."
+  },
+  "alert_template": {
+    "service_name": "email",
+    "alert_type": "resource",
+    "description": "Service memory footprint increased across successive request intervals",
+    "severity": "P2"
+  },
+  "tags": [
+    "resource",
+    "memory-trend"
+  ],
+  "timing_overrides": {},
+  "recovery_restart_services": [
+    "email"
+  ],
+  "preparation_restart_services": [
+    "email"
+  ],
+  "upstream_version": {
+    "commit": "7ea09b865a9b9d411b59459b15133d84f8c2784a",
+    "demo_image_version": "3.1.0",
+    "collector_version": "0.160.0"
+  },
+  "profile": {
+    "warmup_seconds": 90,
+    "fault_stabilization_seconds": 180,
+    "observation_window_seconds": 60,
+    "cooldown_seconds": 90,
+    "repeat": 3,
+    "normal_repeat": 3,
+    "recovery_timeout_seconds": 300,
+    "baseline_timeout_seconds": 180,
+    "max_memory_fraction": 0.85
+  },
+  "repetition": 1
+}

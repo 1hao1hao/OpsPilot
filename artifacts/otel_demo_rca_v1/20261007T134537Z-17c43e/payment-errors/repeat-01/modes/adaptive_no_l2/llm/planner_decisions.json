@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The checkout error span and the slow product-catalog span with db_slow_query are on different paths; topology is needed to determine whether checkout depends on product-catalog or the messaging dependency, rather than repeatedly collecting generic error-rate symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "The checkout error span and the slow product-catalog db span are on different trace paths, and the messaging dependency is only a hint. Checking recent changes is a targeted way to identify whether a deployment or config change introduced the checkout failures, rather than re-collecting generic error-rate symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "The checkout error span and the slow product-catalog db span are on different trace paths, and the messaging dependency is only a hint. With one round remaining and only alerts.query allowed, querying alerts is the targeted way to check whether the checkout error_rate alert correlates with other active alerts (e.g., db or messaging) rather than re-collecting generic error-rate symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

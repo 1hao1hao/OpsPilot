@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; query logs to measure observed dependencies and corroborate the db_slow_query and rpc_timeout hypotheses.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace db_slow evidence shows a 10655.7ms span through product-catalog, and the db_slow_query hypothesis is top-ranked; invoking the db expert measures the observed database dependency rather than collecting more generic timeout symptoms.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; query topology to measure the observed dependency path for product-catalog and corroborate whether the db_slow_query or rpc_timeout hypothesis is supported.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

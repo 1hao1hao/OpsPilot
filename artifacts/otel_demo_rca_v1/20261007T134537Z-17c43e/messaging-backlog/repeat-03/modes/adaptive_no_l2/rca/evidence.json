@@ -1,0 +1,18 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-2b07a34754bb6d04",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:tool-67fec54d9b681680db84",
+    "service": "checkout",
+    "observed_at": "2026-10-07T15:54:28.321545Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "tool-67fec54d9b681680db84"
+  }
+]

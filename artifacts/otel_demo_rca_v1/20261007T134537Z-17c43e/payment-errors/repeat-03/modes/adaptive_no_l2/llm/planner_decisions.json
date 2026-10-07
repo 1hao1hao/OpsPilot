@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error rate jumped from 0.0 to 100.0 and tp99 rose from 796ms to 4880ms versus yesterday; checking recent changes is the most direct way to identify a deployment or config change that could explain this sudden dependency-level failure.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Error rate jumped to 100% and tp99 rose sharply versus yesterday; the trace shows a load-generator/frontend-proxy/frontend path and a messaging dependency hint ('publish orders'). Inspecting topology will reveal the actual service dependency graph and downstream components of checkout, allowing measurement of the observed dependency rather than collecting more generic symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Error rate is 100% and tp99 rose sharply versus yesterday; the trace shows a load-generator/frontend-proxy/frontend path and a messaging dependency hint ('publish orders'). With only alerts.query available and no experts, querying alerts is the remaining low-cost way to correlate the observed dependency-level failure with active alerts rather than re-collecting generic symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

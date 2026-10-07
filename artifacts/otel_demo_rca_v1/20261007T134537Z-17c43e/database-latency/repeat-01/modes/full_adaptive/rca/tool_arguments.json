@@ -1,0 +1,82 @@
+[
+  {
+    "tool": "metrics.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-4edf22b6aa234c6a8aa1ca8cc0834126",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-07T16:03:47.362282Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "traces.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-4edf22b6aa234c6a8aa1ca8cc0834126",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-07T16:03:47.362282Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "changes.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-4edf22b6aa234c6a8aa1ca8cc0834126",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-07T16:03:47.362282Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "logs.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-4edf22b6aa234c6a8aa1ca8cc0834126",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-07T16:03:47.362282Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "db.slowlog",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-4edf22b6aa234c6a8aa1ca8cc0834126",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-07T16:03:47.362282Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "tool": "metrics.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "logs.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "traces.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "rpc.metrics",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "topology.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "changes.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-a2e57eeaa07d4db5a527ea20dd0e164c",
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "severity": "P2",
+        "timestamp": "2026-10-07T14:47:07.608006Z",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  }
+]

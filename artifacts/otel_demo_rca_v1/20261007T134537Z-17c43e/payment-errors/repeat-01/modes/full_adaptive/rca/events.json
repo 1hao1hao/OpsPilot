@@ -1,0 +1,122 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace evidence shows a checkout error span and a separate slow product-catalog span with a slow DB child; topology is needed to determine whether checkout depends on product-catalog or the observed DB/messaging dependencies before attributing the error-rate alert to db_slow_query or rpc_error_rate.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Checkout error rate is 100% versus a 0.0 yesterday baseline, while the only slow/DB evidence is on a separate product-catalog trace; checking recent changes is a low-cost way to see whether a deployment or config change explains the checkout failures before attributing them to db_slow_query or rpc_error_rate.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Checkout error rate is 100% versus a 0.0 yesterday baseline, and the only checkout trace evidence is an ERROR span on the checkout RPC path; the slow/DB evidence is on a separate product-catalog trace, so an RPC expert is needed to assess the checkout request failures rather than attributing them to db_slow_query.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: Checkout error rate is 100% versus a 0.0 yesterday baseline, and the only checkout trace evidence is an ERROR span on the checkout RPC path; the slow/DB evidence is on a separate product-catalog trace, so an RPC expert is needed to assess the checkout request failures rather than attributing them to db_slow_query.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.227, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.227, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.227, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.22749999999999992,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.95,
+      "score_margin": 0.18499999999999994,
+      "independent_source_count": 1,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query",
+    "rpc.metrics"
+  ],
+  "invoked_experts": [
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 1,
+  "duplicate_actions": 0
+}

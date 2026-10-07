@@ -1,0 +1,54 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-63142e856f90ad1a",
+    "evidence_type": "metric.resource_growth",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-b4eb7d20656132985d47",
+    "service": "email",
+    "observed_at": "2026-10-07T16:38:46.472170Z",
+    "fact": "memory_usage: sustained resource increase {'baseline': 0.4229296875, 'recent': 0.56033203125, 'delta': 0.13740234375, 'noise': 0.003144531249999971}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-b4eb7d20656132985d47"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-df9c8fc179267e5c",
+    "evidence_type": "anomaly.historical_baseline",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-b4eb7d20656132985d47",
+    "service": "email",
+    "observed_at": "2026-10-07T16:38:46.472170Z",
+    "fact": "memory_usage: current=0.5612109375, historical baselines={'last_week': None, 'yesterday': 0.4229296875}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-b4eb7d20656132985d47"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-403df1d08f63cd46",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:tool-3d4d2c19d81dea32d5b0",
+    "service": "email",
+    "observed_at": "2026-10-07T16:38:46.472170Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "tool-3d4d2c19d81dea32d5b0"
+  }
+]

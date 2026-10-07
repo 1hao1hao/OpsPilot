@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-07T16:44:11.660046+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.0333350000833375,
+      "fault": 0.05000250012500625,
+      "delta": 0.016667500041668747
+    },
+    "metrics.query.tp95": {
+      "baseline": 95.0,
+      "fault": 92.5,
+      "delta": -2.5
+    },
+    "metrics.query.tp99": {
+      "baseline": 98.99999999999999,
+      "fault": 98.5,
+      "delta": -0.4999999999999858
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.013795451818072723,
+      "fault": 0.014184367374694988,
+      "delta": 0.00038891555662226573
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.4292578125,
+      "fault": 0.5066015625,
+      "delta": 0.07734374999999999
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 32.214765100671144,
+      "fault": 30.71895424836601,
+      "delta": -1.4958108523051337
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1430520.0,
+      "fault": 1429944.0,
+      "delta": -576.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 17,
+      "first": 0.05000333355557038,
+      "last": 0.05000250012500625,
+      "slope_per_second": -1.6344771741145193e-05
+    },
+    "tp95": {
+      "samples": 17,
+      "first": 185.0,
+      "last": 92.5,
+      "slope_per_second": -0.5238562091503268
+    },
+    "tp99": {
+      "samples": 17,
+      "first": 197.0,
+      "last": 98.5,
+      "slope_per_second": -0.5622875816993465
+    },
+    "cpu_usage": {
+      "samples": 17,
+      "first": 0.012517831069864193,
+      "last": 0.014184367374694988,
+      "slope_per_second": 2.426287832014458e-06
+    },
+    "memory_usage": {
+      "samples": 17,
+      "first": 0.4351953125,
+      "last": 0.5066015625,
+      "slope_per_second": 0.0003369459763071896
+    }
+  },
+  "fault_observed": true
+}

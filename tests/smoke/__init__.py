@@ -5,5 +5,5 @@ def dependency_trace(service):
     return {"traces": [{"trace_id": "smoke", "spans": [
         {"span_id": "root", "service": "checkout", "status": "OK", "duration_ms": 10},
         {"span_id": "dependency", "parent_span_id": "root", "service": service,
-         "status": "SLOW", "duration_ms": 1500},
+         "status": "TIMEOUT" if service == "payment" else "SLOW", "duration_ms": 1500},
     ]}]}
