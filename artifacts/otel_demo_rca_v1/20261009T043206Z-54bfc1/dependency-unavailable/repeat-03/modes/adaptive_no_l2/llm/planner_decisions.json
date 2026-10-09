@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces.query will measure the observed downstream dependency behavior for the failing checkout requests.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but no downstream dependency is confirmed. topology.query will identify the actual downstream service(s) of checkout so the failing dependency can be measured rather than inferring a domain fault from slow spans and error rates alone.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but no downstream dependency is confirmed and no expert invocation is allowed. alerts.query is the only remaining allowed action and can surface related alerts that identify or corroborate the failing downstream dependency rather than inferring a domain fault from slow spans and error rates alone.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

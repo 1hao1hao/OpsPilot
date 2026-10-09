@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed downstream dependency and latency to distinguish rpc_timeout from rpc_error_rate.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show checkout failing on a downstream dependency with 100% error rate and elevated tp99; topology can identify the specific downstream service to distinguish rpc_timeout from rpc_error_rate before invoking a domain expert.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Traces show checkout failing on a downstream dependency with 100% error rate and elevated tp99, and topology was already queried to identify the downstream service; an rpc expert can distinguish rpc_timeout from rpc_error_rate using the observed dependency and latency measurements.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

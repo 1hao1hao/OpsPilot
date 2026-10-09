@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "CPU is saturated at 100% during ongoing request traffic; inspect traces to measure observed request dependencies and latency spans rather than collecting more generic resource symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "CPU is saturated at 100% during ongoing request traffic; inspect topology to identify which downstream dependencies the ad service calls, so subsequent measurements can target observed dependencies rather than collecting more generic resource symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "CPU is saturated at 100% with a sharp sustained increase from baseline during ongoing request traffic; inspect recent changes to identify any deployment or configuration change that could explain the resource growth, rather than collecting more generic resource symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

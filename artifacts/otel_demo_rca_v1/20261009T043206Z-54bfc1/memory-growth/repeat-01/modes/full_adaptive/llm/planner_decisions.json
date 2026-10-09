@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Memory footprint rising across successive intervals suggests a possible recent deployment or config change; checking changes is a targeted dependency measurement rather than repeating generic metrics/logs symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Memory growth across successive intervals may stem from a downstream dependency; topology reveals which dependencies email calls, enabling targeted measurement instead of repeating generic metrics/logs.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Memory growth across successive request intervals may correlate with specific request paths or downstream calls; traces provide targeted per-request dependency measurements rather than repeating generic metrics/logs symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

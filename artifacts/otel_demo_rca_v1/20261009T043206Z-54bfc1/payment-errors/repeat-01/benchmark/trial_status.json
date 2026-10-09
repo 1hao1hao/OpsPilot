@@ -1,0 +1,28 @@
+{
+  "scenario_id": "payment-errors",
+  "repetition": 1,
+  "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261009T043206Z-54bfc1\\payment-errors\\repeat-01",
+  "status": "completed",
+  "score": {
+    "top1": true,
+    "top3": true,
+    "normal_correct": null,
+    "gate_pass": false,
+    "budget_exhausted": true,
+    "degraded": false,
+    "tool_calls": 6,
+    "expert_calls": 1,
+    "investigation_rounds": 4,
+    "latency_ms": 19083.924,
+    "expected": "rpc_error_rate",
+    "predicted": [
+      "rpc_error_rate"
+    ],
+    "category_only": true
+  },
+  "fault_observed": true,
+  "recovery_health": true,
+  "recovery_queries_success": true,
+  "symptom_recovery_confirmed": true,
+  "duration_seconds": 571.1400000000003
+}

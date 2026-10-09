@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "CPU saturation is observed but the dependency causing the resource spike is unproven; traces can reveal which downstream dependency or span is driving the sustained CPU increase.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "CPU saturation is observed but the dependency driving the sustained resource increase is unproven; topology can reveal which downstream dependency or service relationship is associated with the CPU spike.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "CPU saturation is observed with a sustained increase from baseline, but the cause of the resource spike is unproven; checking recent changes can reveal a deployment or configuration change associated with the CPU increase.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

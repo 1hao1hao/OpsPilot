@@ -1,0 +1,59 @@
+{
+  "kind": "development hypothetical planner context; not fresh accuracy",
+  "decisions": [
+    {
+      "phase": 2,
+      "repeat": 0,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "rpc",
+        "reason": "The rpc_timeout hypothesis is supported by a tp99 volatility anomaly and slow spans, but no direct RPC timeout measurement exists yet. The rpc expert can measure outgoing call error rates, protocol timeouts, and latency to confirm or weaken this hypothesis before spending budget on generic topology."
+      }
+    },
+    {
+      "phase": 2,
+      "repeat": 1,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "rpc",
+        "reason": "The rpc_timeout hypothesis is supported by a tp99 volatility anomaly, and the slow trace spans show a dependency path through frontend/product-catalog. An RPC expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency, directly testing the timeout mechanism rather than collecting more generic topology."
+      }
+    },
+    {
+      "phase": 2,
+      "repeat": 2,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "rpc",
+        "reason": "The rpc_timeout hypothesis is supported by a tp99 volatility anomaly, and traces show slow spans on the frontend/product-catalog path. Measuring outgoing call error rates, protocol timeouts, and latency for this observed dependency will directly test the timeout mechanism rather than collecting more generic topology."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 0,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "kafka",
+        "reason": "Observed messaging dependency 'publish orders' is an unmeasured mechanism-specific domain observation; rpc.metrics showed no timeout or error-rate breach, weakening the rpc_timeout hypothesis, so measure messaging consumer lag/backlog for the observed dependency."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 1,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "kafka",
+        "reason": "Observed messaging dependency 'publish orders' is an unmeasured mechanism-specific domain observation; kafka expert can measure consumer lag/backlog to test whether messaging delay explains the slow checkout spans, rather than collecting more generic topology."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 2,
+      "choice": {
+        "action": "invoke_expert",
+        "target": "kafka",
+        "reason": "Observed messaging dependency 'publish orders' is an unmeasured mechanism-specific domain observation; kafka expert can measure consumer lag/backlog to test whether messaging delay explains the slow checkout spans, rather than collecting more generic topology."
+      }
+    }
+  ]
+}

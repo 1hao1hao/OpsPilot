@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') and the slow span is on the order-processing path; measuring consumer lag/backlog for this observed dependency is a mechanism-specific observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Kafka consumer lag was measured at 404 with a recent delta of 303, but this is a generic backlog symptom and the only observed dependency hint ('publish orders') is a diagnostic hint, not fault evidence; the slow span is on the frontend path, so measuring outgoing call error rates, protocol timeouts and latency for the observed RPC dependency is the remaining mechanism-specific observation.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

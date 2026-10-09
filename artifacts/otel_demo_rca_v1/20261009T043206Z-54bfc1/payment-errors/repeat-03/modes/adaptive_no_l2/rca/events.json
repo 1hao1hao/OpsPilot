@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and error spans implicate checkout's downstream dependencies (payment, product-catalog) and a messaging dependency; topology will map observed dependencies to distinguish which dependency is actually failing rather than collecting more generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error rate jumped from 0.0 yesterday to 100.0 and tp99 rose from 397ms to 4940ms, indicating a recent regression; checking recent changes is the most direct way to identify what altered checkout behavior rather than collecting more generic symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Error rate jumped from 0.0 to 100.0 and tp99 rose from 397ms to 4940ms, but the current evidence only shows generic slow/error spans and dependency hints without proving a specific fault; querying alerts is the remaining low-cost observation to correlate the checkout error_rate alert with any concrete dependency-level alert before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

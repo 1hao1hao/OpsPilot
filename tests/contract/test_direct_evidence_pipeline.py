@@ -182,10 +182,12 @@ async def test_failed_gate_plans_then_ranks_new_evidence(action, target, tool, o
         "provisional_top_k",
         "executed_tools",
         "invoked_experts",
+        "expert_capabilities",
         "action_history",
         "remaining_budget",
         "allowed_actions",
     }
+    assert set(payloads[0]["expert_capabilities"]) <= set(payloads[0]["allowed_actions"]["invoke_expert"])
     assert [gate.sufficient for gate in outcome.trace.gate_decisions] == [False, True]
     assert outcome.provisional_candidates[0].root_cause_type.value == cause
     assert investigator.analysis_engine.analysis_count == 2

@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; query logs to measure observed dependencies and confirm whether the db_slow_query or rpc_timeout hypothesis is supported.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; query topology to measure observed dependencies between product-catalog, the database, and messaging, and to confirm whether the db_slow_query or rpc_timeout hypothesis is supported.",
+      "round": 3,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Round budget is nearly exhausted and only alerts.query remains allowed; querying alerts provides direct measurement of the observed timeout condition and its scope, which is needed to distinguish db_slow_query from rpc_timeout rather than relying on slow spans and dependency hints alone.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,1622 @@
+{
+  "full_adaptive": {
+    "overall": {
+      "attempts": 21,
+      "scored": 21,
+      "completed": 21,
+      "fault_observation_confirmed": 18,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 16,
+        "denominator": 18,
+        "rate": 0.8888888888888888
+      },
+      "top3": {
+        "numerator": 16,
+        "denominator": 18,
+        "rate": 0.8888888888888888
+      },
+      "verified_fault_top1": {
+        "numerator": 16,
+        "denominator": 18,
+        "rate": 0.8888888888888888
+      },
+      "verified_fault_top3": {
+        "numerator": 16,
+        "denominator": 18,
+        "rate": 0.8888888888888888
+      },
+      "no_fault_accuracy": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "gate_pass_rate": {
+        "numerator": 3,
+        "denominator": 21,
+        "rate": 0.14285714285714285
+      },
+      "budget_exhausted_rate": {
+        "numerator": 18,
+        "denominator": 21,
+        "rate": 0.8571428571428571
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0.0
+      },
+      "avg_tool_calls": 5.476190476190476,
+      "avg_expert_calls": 0.5714285714285714,
+      "avg_investigation_rounds": 3.761904761904762,
+      "avg_llm_calls": 2.761904761904762,
+      "p50_latency_ms": 13694.082999999999,
+      "p95_latency_ms": 18702.521999999997,
+      "llm_used_runs": 21,
+      "fallback_runs": 0,
+      "api_calls": 58,
+      "api_successes": 58,
+      "api_failures": 0,
+      "planner_successes": 58,
+      "planner_fallbacks": 0,
+      "tokens": {
+        "prompt_tokens": 41556,
+        "completion_tokens": 3504,
+        "total_tokens": 45060
+      },
+      "usage_available_calls": 58,
+      "estimated_model_cost": null
+    },
+    "per_scenario": {
+      "compute": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 5.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 12897.676000000001,
+        "p95_latency_ms": 13614.442299999999,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 6189,
+          "completion_tokens": 536,
+          "total_tokens": 6725
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "database-latency": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 4.333333333333333,
+        "avg_expert_calls": 1.0,
+        "avg_investigation_rounds": 2.3333333333333335,
+        "avg_llm_calls": 1.3333333333333333,
+        "p50_latency_ms": 11614.68,
+        "p95_latency_ms": 13092.849,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 4,
+        "api_successes": 4,
+        "api_failures": 0,
+        "planner_successes": 4,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 3793,
+          "completion_tokens": 292,
+          "total_tokens": 4085
+        },
+        "usage_available_calls": 4,
+        "estimated_model_cost": null
+      },
+      "dependency-unavailable": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 1.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 13726.335000000001,
+        "p95_latency_ms": 18204.903299999998,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 7935,
+          "completion_tokens": 576,
+          "total_tokens": 8511
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "memory-growth": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 5.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 13516.938,
+        "p95_latency_ms": 14125.9059,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 5167,
+          "completion_tokens": 464,
+          "total_tokens": 5631
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "messaging-backlog": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 1.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 16556.898,
+        "p95_latency_ms": 16993.479,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 5485,
+          "completion_tokens": 553,
+          "total_tokens": 6038
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "normal": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 0,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "no_fault_accuracy": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 10574.695,
+        "p95_latency_ms": 15935.923899999998,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 4241,
+          "completion_tokens": 459,
+          "total_tokens": 4700
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "payment-errors": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 1.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 18172.808,
+        "p95_latency_ms": 18992.8124,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 8746,
+          "completion_tokens": 624,
+          "total_tokens": 9370
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      }
+    }
+  },
+  "fixed_full": {
+    "overall": {
+      "attempts": 21,
+      "scored": 21,
+      "completed": 21,
+      "fault_observation_confirmed": 18,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 17,
+        "denominator": 18,
+        "rate": 0.9444444444444444
+      },
+      "top3": {
+        "numerator": 17,
+        "denominator": 18,
+        "rate": 0.9444444444444444
+      },
+      "verified_fault_top1": {
+        "numerator": 17,
+        "denominator": 18,
+        "rate": 0.9444444444444444
+      },
+      "verified_fault_top3": {
+        "numerator": 17,
+        "denominator": 18,
+        "rate": 0.9444444444444444
+      },
+      "no_fault_accuracy": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "gate_pass_rate": {
+        "numerator": 3,
+        "denominator": 21,
+        "rate": 0.14285714285714285
+      },
+      "budget_exhausted_rate": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0.0
+      },
+      "avg_tool_calls": 13.0,
+      "avg_expert_calls": 0.0,
+      "avg_investigation_rounds": 1.0,
+      "avg_llm_calls": 0.0,
+      "p50_latency_ms": 26089.219,
+      "p95_latency_ms": 28696.669,
+      "llm_used_runs": 0,
+      "fallback_runs": 0,
+      "api_calls": 0,
+      "api_successes": 0,
+      "api_failures": 0,
+      "planner_successes": 0,
+      "planner_fallbacks": 0,
+      "tokens": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      },
+      "usage_available_calls": 0,
+      "estimated_model_cost": null
+    },
+    "per_scenario": {
+      "compute": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 24833.212,
+        "p95_latency_ms": 26087.6689,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "database-latency": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 28696.669,
+        "p95_latency_ms": 28829.004999999997,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "dependency-unavailable": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 21511.64,
+        "p95_latency_ms": 27265.2959,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "memory-growth": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 27240.647,
+        "p95_latency_ms": 27492.2231,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "messaging-backlog": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 25721.275999999998,
+        "p95_latency_ms": 26052.4247,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "normal": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 0,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "no_fault_accuracy": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 18121.019,
+        "p95_latency_ms": 24357.931699999997,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      },
+      "payment-errors": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 13.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 1.0,
+        "avg_llm_calls": 0.0,
+        "p50_latency_ms": 27783.889,
+        "p95_latency_ms": 27845.1664,
+        "llm_used_runs": 0,
+        "fallback_runs": 0,
+        "api_calls": 0,
+        "api_successes": 0,
+        "api_failures": 0,
+        "planner_successes": 0,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_available_calls": 0,
+        "estimated_model_cost": null
+      }
+    }
+  },
+  "adaptive_no_l2": {
+    "overall": {
+      "attempts": 21,
+      "scored": 21,
+      "completed": 21,
+      "fault_observation_confirmed": 18,
+      "fault_observation_gap": 0,
+      "top1": {
+        "numerator": 14,
+        "denominator": 18,
+        "rate": 0.7777777777777778
+      },
+      "top3": {
+        "numerator": 14,
+        "denominator": 18,
+        "rate": 0.7777777777777778
+      },
+      "verified_fault_top1": {
+        "numerator": 14,
+        "denominator": 18,
+        "rate": 0.7777777777777778
+      },
+      "verified_fault_top3": {
+        "numerator": 14,
+        "denominator": 18,
+        "rate": 0.7777777777777778
+      },
+      "no_fault_accuracy": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "gate_pass_rate": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0.0
+      },
+      "budget_exhausted_rate": {
+        "numerator": 21,
+        "denominator": 21,
+        "rate": 1.0
+      },
+      "degraded_run_rate": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0.0
+      },
+      "avg_tool_calls": 5.714285714285714,
+      "avg_expert_calls": 0.0,
+      "avg_investigation_rounds": 4.0,
+      "avg_llm_calls": 3.0,
+      "p50_latency_ms": 13704.658,
+      "p95_latency_ms": 15084.312,
+      "llm_used_runs": 21,
+      "fallback_runs": 0,
+      "api_calls": 63,
+      "api_successes": 63,
+      "api_failures": 0,
+      "planner_successes": 63,
+      "planner_fallbacks": 0,
+      "tokens": {
+        "prompt_tokens": 45042,
+        "completion_tokens": 3777,
+        "total_tokens": 48819
+      },
+      "usage_available_calls": 63,
+      "estimated_model_cost": null
+    },
+    "per_scenario": {
+      "compute": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 5.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 13005.011,
+        "p95_latency_ms": 13185.7364,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 6071,
+          "completion_tokens": 551,
+          "total_tokens": 6622
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "database-latency": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 13753.867,
+        "p95_latency_ms": 14612.9071,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 8683,
+          "completion_tokens": 587,
+          "total_tokens": 9270
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "dependency-unavailable": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 10601.563,
+        "p95_latency_ms": 13960.8697,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 7504,
+          "completion_tokens": 543,
+          "total_tokens": 8047
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "memory-growth": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top1": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "verified_fault_top3": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6666666666666666
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 5.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 14284.447,
+        "p95_latency_ms": 15025.8436,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 5218,
+          "completion_tokens": 484,
+          "total_tokens": 5702
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "messaging-backlog": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "top3": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "verified_fault_top1": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "verified_fault_top3": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 13931.83,
+        "p95_latency_ms": 14387.733999999999,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 5303,
+          "completion_tokens": 486,
+          "total_tokens": 5789
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "normal": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 0,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top1": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "verified_fault_top3": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "no_fault_accuracy": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 9981.557,
+        "p95_latency_ms": 13146.773299999999,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 4124,
+          "completion_tokens": 467,
+          "total_tokens": 4591
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      },
+      "payment-errors": {
+        "attempts": 3,
+        "scored": 3,
+        "completed": 3,
+        "fault_observation_confirmed": 3,
+        "fault_observation_gap": 0,
+        "top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top1": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "verified_fault_top3": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "no_fault_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "gate_pass_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "budget_exhausted_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "degraded_run_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "avg_tool_calls": 6.0,
+        "avg_expert_calls": 0.0,
+        "avg_investigation_rounds": 4.0,
+        "avg_llm_calls": 3.0,
+        "p50_latency_ms": 14714.905,
+        "p95_latency_ms": 15047.3713,
+        "llm_used_runs": 3,
+        "fallback_runs": 0,
+        "api_calls": 9,
+        "api_successes": 9,
+        "api_failures": 0,
+        "planner_successes": 9,
+        "planner_fallbacks": 0,
+        "tokens": {
+          "prompt_tokens": 8139,
+          "completion_tokens": 659,
+          "total_tokens": 8798
+        },
+        "usage_available_calls": 9,
+        "estimated_model_cost": null
+      }
+    }
+  }
+}

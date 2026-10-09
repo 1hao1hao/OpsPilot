@@ -1,0 +1,59 @@
+{
+  "kind": "development hypothetical evidence payload; not fresh accuracy",
+  "decisions": [
+    {
+      "phase": 2,
+      "repeat": 0,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a messaging dependency hint ('publish orders') suggest a downstream dependency may be involved; topology can identify the observed dependency path for checkout to guide targeted measurement rather than collecting more generic symptoms."
+      }
+    },
+    {
+      "phase": 2,
+      "repeat": 1,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a messaging dependency hint are present, but the observed dependency path is not yet mapped; topology can identify which downstream services or datastores sit on the checkout path so the next measurement targets the actual dependency rather than collecting more generic symptoms."
+      }
+    },
+    {
+      "phase": 2,
+      "repeat": 2,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a messaging dependency hint are present, but no fault is proven; topology can reveal the observed dependency path and whether checkout depends on the product-catalog or messaging components before invoking a domain expert."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 0,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a messaging dependency hint ('publish orders') suggest a downstream dependency; topology can reveal observed service dependencies to target measurement rather than collecting more generic symptoms."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 1,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a tp99 volatility anomaly with a messaging dependency hint point to latency instability; topology can reveal observed dependency paths to test the rpc_timeout hypothesis rather than collecting more generic symptoms."
+      }
+    },
+    {
+      "phase": 3,
+      "repeat": 2,
+      "choice": {
+        "action": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Slow spans and a tp99 volatility anomaly with a messaging dependency hint point to latency instability; topology can reveal observed dependency paths to test the rpc_timeout hypothesis rather than collecting more generic symptoms."
+      }
+    }
+  ]
+}

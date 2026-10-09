@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Provisional rpc_timeout hypothesis is supported only by generic volatility; measure outgoing call error rates, protocol timeouts and latency for the observed dependency to test the mechanism directly.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "The rpc_timeout hypothesis was weakened by the measured outgoing RPC sample showing timeout_rate 0.0 and error_rate 0.0 with latency below baseline. The remaining observed dependency class to test with a mechanism-specific domain measurement is the database, so measure query latency, connection usage, and replication delay to check for a domain fault behind the checkout delay.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Both rpc_timeout and db hypotheses were weakened by measured domain data (RPC timeout_rate 0.0, error_rate 0.0, latency below baseline; db replication/slowlog/connections already inspected). With one tool remaining and no experts, the unmeasured mechanism-specific observation is the trace-level span breakdown for the checkout delay, to localize which observed dependency span actually contributes the latency rather than collecting more generic topology.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

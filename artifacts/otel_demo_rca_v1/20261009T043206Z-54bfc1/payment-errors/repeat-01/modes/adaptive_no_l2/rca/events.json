@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace shows checkout/payment error and a slow frontend span; topology can reveal observed dependencies of checkout to localize the failing edge before collecting more generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Checkout error rate spiked to 100% with high recent volatility versus a zero baseline; checking recent changes can reveal a deployment or config change on the checkout/payment path that explains the observed error, rather than collecting more generic error symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Checkout error rate spiked to 100% with a failing checkout/payment span; querying alerts can reveal correlated active alerts on the checkout/payment path to localize the failing dependency before the final round.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

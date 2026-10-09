@@ -27,6 +27,13 @@ DOMAIN_TOOLS = {
     "rpc": ["rpc.metrics"],
 }
 
+EXPERT_CAPABILITIES = {
+    "db": "Measure database query latency, connection usage and replication delay",
+    "redis": "Measure cache memory pressure and hit-rate degradation",
+    "kafka": "Measure messaging consumer lag and backlog",
+    "rpc": "Measure outgoing call error rates, protocol timeouts and latency",
+}
+
 GENERAL_TOOL_PRIORITY = (
     "metrics.query",
     "logs.query",
@@ -229,6 +236,14 @@ class LLMAdaptivePlanner:
                         "action is inspect_tool or invoke_expert. Select only from allowed_actions. "
                         "Prefer measurements of observed dependencies to repeatedly collecting generic symptoms. "
                         "Slow spans and dependency hints alone do not prove timeouts or domain faults. "
+                        "Treat provisional candidates as hypotheses, not established facts. "
+                        "When only generic symptoms are available and no dependency is observed, "
+                        "inspect traces before invoking a domain expert. Do not invent a dependency "
+                        "from the service name. "
+                        "Prioritize unmeasured mechanism-specific domain observations for dependencies "
+                        "already seen in traces over additional generic topology. A domain measurement "
+                        "below its anomaly thresholds weakens that hypothesis; test another observed "
+                        "dependency with the remaining budget. Expert capabilities are given in expert_capabilities. "
                         "Never finalize and never infer facts not present in the input."
                     ),
                     payload=self._payload(**kwargs),
@@ -286,6 +301,11 @@ class LLMAdaptivePlanner:
             ],
             "executed_tools": kwargs["executed_tools"],
             "invoked_experts": kwargs["invoked_experts"],
+            "expert_capabilities": {
+                name: description for name, description in EXPERT_CAPABILITIES.items()
+                if name not in kwargs["invoked_experts"] and kwargs["remaining_expert_budget"] > 0
+                and self.registry.domain_names(name)
+            },
             "action_history": [
                 {"action": item.action_type.value, "target": item.target, "reason": item.reason}
                 for item in kwargs["action_history"]

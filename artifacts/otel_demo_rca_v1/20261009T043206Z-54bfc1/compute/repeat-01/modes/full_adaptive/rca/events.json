@@ -1,0 +1,101 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "CPU is saturated at 100% during ongoing request traffic; inspect traces to measure observed request dependencies and latency spans rather than collecting more generic resource symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "CPU is saturated at 100% during ongoing request traffic; inspect topology to identify which downstream dependencies the ad service calls, so subsequent measurements can target observed dependencies rather than collecting more generic resource symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "CPU is saturated at 100% with a sharp sustained increase from baseline during ongoing request traffic; inspect recent changes to identify any deployment or configuration change that could explain the resource growth, rather than collecting more generic resource symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 5,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

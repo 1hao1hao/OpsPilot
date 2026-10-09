@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces.query will identify observed downstream dependencies of checkout so subsequent expert measurements target an actually-seen dependency rather than generic topology.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show a messaging dependency 'publish orders' for checkout, and the alert is delayed order processing under load; measuring consumer lag/backlog on this observed dependency tests the messaging hypothesis directly rather than collecting more generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Kafka consumer lag is already measured at 707 (a confirmed anomaly), so the messaging hypothesis is supported; with the remaining budget, test another observed dependency. The slow trace path through checkout suggests downstream processing, and db is an allowed expert to measure query latency/connection usage for the order processing dependency rather than collecting more generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

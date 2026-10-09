@@ -1,0 +1,122 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and error spans span checkout, payment, and product-catalog; topology will reveal observed service dependencies to distinguish rpc_error_rate from rpc_timeout before invoking an expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Error spans on checkout/payment with 100% error rate and tp99 spike to 4940ms vs 397ms baseline indicate an RPC-layer fault; rpc expert can distinguish rpc_error_rate from rpc_timeout using observed dependency behavior.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: Error spans on checkout/payment with 100% error rate and tp99 spike to 4940ms vs 397ms baseline indicate an RPC-layer fault; rpc expert can distinguish rpc_error_rate from rpc_timeout using observed dependency behavior.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error spans on checkout/payment with 100% error rate and tp99 spike to 4940ms vs 397ms baseline suggest an RPC-layer fault, but slow spans and dependency hints alone do not prove timeouts or domain faults. Checking recent changes is a low-cost measurement that may reveal an observed deployment or config change underlying the error-rate increase before invoking a domain expert.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.765, margin=0.095, independent_sources=3",
+      "top1_confidence": 0.765,
+      "score_margin": 0.09499999999999997,
+      "independent_source_count": 3,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.765,
+      "score_margin": 0.09499999999999997,
+      "independent_source_count": 3,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "rpc.metrics",
+    "changes.query"
+  ],
+  "invoked_experts": [
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 1,
+  "duplicate_actions": 0
+}

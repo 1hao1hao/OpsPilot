@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-09T07:37:15.519388+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.06667111140742717,
+      "fault": 0.05000250012500625,
+      "delta": -0.01666861128242092
+    },
+    "metrics.query.tp95": {
+      "baseline": 179.99999999999997,
+      "fault": 48.0,
+      "delta": -131.99999999999997
+    },
+    "metrics.query.tp99": {
+      "baseline": 195.99999999999994,
+      "fault": 49.6,
+      "delta": -146.39999999999995
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.013754810192407695,
+      "fault": 0.014280476828609718,
+      "delta": 0.0005256666362020226
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.4330078125,
+      "fault": 0.5113671875,
+      "delta": 0.07835937500000001
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 39.86486486486486,
+      "fault": 36.71875,
+      "delta": -3.146114864864863
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1409240.0,
+      "fault": 1408312.0,
+      "delta": -928.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 17,
+      "first": 0.05000333355557038,
+      "last": 0.05000250012500625,
+      "slope_per_second": 5.446886358176345e-05
+    },
+    "tp95": {
+      "samples": 17,
+      "first": 44.0,
+      "last": 48.0,
+      "slope_per_second": -0.020261437908496733
+    },
+    "tp99": {
+      "samples": 17,
+      "first": 48.8,
+      "last": 49.6,
+      "slope_per_second": -0.03019607843137253
+    },
+    "cpu_usage": {
+      "samples": 17,
+      "first": 0.015236858948715895,
+      "last": 0.014280476828609718,
+      "slope_per_second": 2.1757292124466852e-06
+    },
+    "memory_usage": {
+      "samples": 17,
+      "first": 0.44015625,
+      "last": 0.5113671875,
+      "slope_per_second": 0.00033830550449346394
+    }
+  },
+  "fault_observed": true
+}

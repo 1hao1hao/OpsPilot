@@ -1,0 +1,180 @@
+{
+  "kind": "development only: cached paired Fixed measurements with real planner API calls; no fresh lifecycle and no fresh accuracy claim",
+  "outcomes": [
+    {
+      "repeat": 1,
+      "predicted": [
+        "rpc_timeout"
+      ],
+      "tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "rpc.metrics",
+        "db.replication",
+        "db.slowlog",
+        "db.connections",
+        "traces.query"
+      ],
+      "llm_decisions": [
+        {
+          "round": 2,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "rpc",
+            "reason": "Provisional rpc_timeout hypothesis is supported only by generic volatility; measure outgoing call error rates, protocol timeouts and latency for the observed dependency to test the mechanism directly.",
+            "round": 2,
+            "arguments": {},
+            "status": "planned"
+          }
+        },
+        {
+          "round": 3,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "db",
+            "reason": "The rpc_timeout hypothesis was weakened by the measured outgoing RPC sample showing timeout_rate 0.0 and error_rate 0.0 with latency below baseline. The remaining observed dependency class to test with a mechanism-specific domain measurement is the database, so measure query latency, connection usage, and replication delay to check for a domain fault behind the checkout delay.",
+            "round": 3,
+            "arguments": {},
+            "status": "planned"
+          }
+        },
+        {
+          "round": 4,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "inspect_tool",
+            "target": "traces.query",
+            "reason": "Both rpc_timeout and db hypotheses were weakened by measured domain data (RPC timeout_rate 0.0, error_rate 0.0, latency below baseline; db replication/slowlog/connections already inspected). With one tool remaining and no experts, the unmeasured mechanism-specific observation is the trace-level span breakdown for the checkout delay, to localize which observed dependency span actually contributes the latency rather than collecting more generic topology.",
+            "round": 4,
+            "arguments": {
+              "service_name": "checkout"
+            },
+            "status": "planned"
+          }
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "kafka.lag",
+        "db.replication",
+        "db.slowlog",
+        "db.connections"
+      ],
+      "llm_decisions": [
+        {
+          "round": 2,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "inspect_tool",
+            "target": "traces.query",
+            "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces.query will identify observed downstream dependencies of checkout so subsequent expert measurements target an actually-seen dependency rather than generic topology.",
+            "round": 2,
+            "arguments": {
+              "service_name": "checkout"
+            },
+            "status": "planned"
+          }
+        },
+        {
+          "round": 3,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "kafka",
+            "reason": "Traces show a messaging dependency 'publish orders' for checkout, and the alert is delayed order processing under load; measuring consumer lag/backlog on this observed dependency tests the messaging hypothesis directly rather than collecting more generic topology.",
+            "round": 3,
+            "arguments": {},
+            "status": "planned"
+          }
+        },
+        {
+          "round": 4,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "db",
+            "reason": "Kafka consumer lag is already measured at 707 (a confirmed anomaly), so the messaging hypothesis is supported; with the remaining budget, test another observed dependency. The slow trace path through checkout suggests downstream processing, and db is an allowed expert to measure query latency/connection usage for the order processing dependency rather than collecting more generic topology.",
+            "round": 4,
+            "arguments": {},
+            "status": "planned"
+          }
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "predicted": [
+        "kafka_consumer_lag"
+      ],
+      "tools": [
+        "metrics.query",
+        "logs.query",
+        "changes.query",
+        "traces.query",
+        "kafka.lag",
+        "rpc.metrics"
+      ],
+      "llm_decisions": [
+        {
+          "round": 2,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "inspect_tool",
+            "target": "traces.query",
+            "reason": "No evidence collected yet; traces will reveal which downstream dependencies checkout actually calls and where latency accumulates, enabling targeted domain measurements instead of generic symptom collection.",
+            "round": 2,
+            "arguments": {
+              "service_name": "checkout"
+            },
+            "status": "planned"
+          }
+        },
+        {
+          "round": 3,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "kafka",
+            "reason": "Trace shows a messaging dependency ('publish orders') for checkout, and the alert is delayed order processing; measuring consumer lag/backlog on this observed dependency tests the messaging hypothesis directly rather than collecting more generic topology.",
+            "round": 3,
+            "arguments": {},
+            "status": "planned"
+          }
+        },
+        {
+          "round": 4,
+          "llm_used": true,
+          "fallback_reason": null,
+          "action": {
+            "action_type": "invoke_expert",
+            "target": "rpc",
+            "reason": "Kafka consumer lag is already measured and elevated, but the slow trace span (1062.5ms) is on the frontend path and the messaging dependency is only a low-confidence hint; with one expert remaining, measure outgoing call error rates/timeouts/latency on the observed checkout path to test whether the delay is RPC-related rather than re-collecting generic topology.",
+            "round": 4,
+            "arguments": {},
+            "status": "planned"
+          }
+        }
+      ]
+    }
+  ]
+}

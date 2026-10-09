@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "No evidence collected yet; traces will reveal which downstream dependencies checkout actually calls and where latency accumulates, enabling targeted domain measurements instead of generic symptom collection.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Trace shows a messaging dependency ('publish orders') for checkout, and the alert is delayed order processing; measuring consumer lag/backlog on this observed dependency tests the messaging hypothesis directly rather than collecting more generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Kafka consumer lag is already measured and elevated, but the slow trace span (1062.5ms) is on the frontend path and the messaging dependency is only a low-confidence hint; with one expert remaining, measure outgoing call error rates/timeouts/latency on the observed checkout path to test whether the delay is RPC-related rather than re-collecting generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

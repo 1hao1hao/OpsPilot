@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-09T05:09:56.753801+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.2500083336111204,
+      "fault": 0.3000150007500375,
+      "delta": 0.050006667138917105
+    },
+    "metrics.query.tp95": {
+      "baseline": 3.6999999999999993,
+      "fault": 3.82,
+      "delta": 0.12000000000000055
+    },
+    "metrics.query.tp99": {
+      "baseline": 3.94,
+      "fault": 3.9640000000000004,
+      "delta": 0.024000000000000465
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.008572914374862493,
+      "fault": 1.0,
+      "delta": 0.9914270856251375
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.9227083333333332,
+      "fault": 0.9277734375,
+      "delta": 0.005065104166666723
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 32.6530612244898,
+      "fault": 31.54362416107383,
+      "delta": -1.1094370634159674
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1394912.0,
+      "fault": 1405120.0,
+      "delta": 10208.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 17,
+      "first": 0.2500083336111204,
+      "last": 0.3000150007500375,
+      "slope_per_second": 0.00020970933272668652
+    },
+    "tp95": {
+      "samples": 17,
+      "first": 3.6999999999999993,
+      "last": 3.82,
+      "slope_per_second": -0.20648366013071884
+    },
+    "tp99": {
+      "samples": 17,
+      "first": 3.94,
+      "last": 3.9640000000000004,
+      "slope_per_second": -0.2640418300653594
+    },
+    "cpu_usage": {
+      "samples": 17,
+      "first": 0.0075918636745469815,
+      "last": 1.0,
+      "slope_per_second": 0.00202904591673863
+    },
+    "memory_usage": {
+      "samples": 17,
+      "first": 0.9252083333333333,
+      "last": 0.9277734375,
+      "slope_per_second": -4.136029411764935e-06
+    }
+  },
+  "fault_observed": true
+}

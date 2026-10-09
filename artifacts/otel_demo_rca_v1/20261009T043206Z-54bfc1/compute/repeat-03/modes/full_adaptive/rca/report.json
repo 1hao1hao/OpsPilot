@@ -1,0 +1,198 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "319501d56af1434799ef577441170ef4",
+  "alert_id": "alert-8385ba6a3dcb4bbbab7c47baa8cedc39",
+  "service_name": "ad",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "resource_saturation",
+      "summary": "Service compute resources are saturated",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-363e85f779d61a4b",
+        "ev-4d0e912b0c082449",
+        "ev-ac27a31d05d93b8c"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "resource_saturation",
+    "summary": "Service compute resources are saturated",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-363e85f779d61a4b",
+      "ev-4d0e912b0c082449",
+      "ev-ac27a31d05d93b8c"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-363e85f779d61a4b",
+      "evidence_type": "metric.resource_saturation",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-f275f6826c1ab46e3b45",
+      "service": "ad",
+      "observed_at": "2026-10-09T05:12:58.527033Z",
+      "fact": "Resource usage cpu=100.0%, memory=92.8%",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-f275f6826c1ab46e3b45"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-4d0e912b0c082449",
+      "evidence_type": "metric.resource_growth",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-f275f6826c1ab46e3b45",
+      "service": "ad",
+      "observed_at": "2026-10-09T05:12:58.527033Z",
+      "fact": "cpu_usage: sustained resource increase {'baseline': 0.009005400324019443, 'recent': 1.0, 'delta': 0.9909945996759806, 'noise': 0.00043248594915695077}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-f275f6826c1ab46e3b45"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ac27a31d05d93b8c",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-f275f6826c1ab46e3b45",
+      "service": "ad",
+      "observed_at": "2026-10-09T05:12:58.527033Z",
+      "fact": "cpu_usage: current=1.0, historical baselines={'last_week': None, 'yesterday': 0.009005400324019443}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-f275f6826c1ab46e3b45"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for resource",
+        "round": 1,
+        "arguments": {
+          "service_name": "ad"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for resource",
+        "round": 1,
+        "arguments": {
+          "service_name": "ad"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "CPU saturation is observed but the alert is about CPU during ongoing request traffic; traces can reveal whether slow spans or downstream dependency latency are driving the load, which is more diagnostic than collecting more generic resource metrics.",
+        "round": 2,
+        "arguments": {
+          "service_name": "ad"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "CPU saturation is observed during ongoing request traffic; topology can identify upstream/downstream dependencies whose request patterns may be driving the load, which is more diagnostic than collecting more generic resource metrics.",
+        "round": 3,
+        "arguments": {
+          "service_name": "ad"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "CPU saturation is observed during ongoing request traffic; checking recent changes can reveal a deployment or configuration change that introduced the load, which is more diagnostic than collecting more generic resource metrics.",
+        "round": 4,
+        "arguments": {
+          "service_name": "ad"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "traces.query",
+      "topology.query",
+      "changes.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 5,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Service compute resources are saturated; supported by 3 evidence item(s).",
+  "recommended_actions": [
+    "Inspect service resource limits and recent workload changes"
+  ],
+  "started_at": "2026-10-09T05:14:39.517384Z",
+  "finished_at": "2026-10-09T05:14:53.211467Z",
+  "latency_ms": 13694.082999999999
+}

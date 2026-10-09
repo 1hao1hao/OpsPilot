@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and error spans span checkout, payment, and product-catalog; topology will reveal observed service dependencies to distinguish rpc_error_rate from rpc_timeout before invoking an expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Error spans on checkout/payment with 100% error rate and tp99 spike to 4940ms vs 397ms baseline indicate an RPC-layer fault; rpc expert can distinguish rpc_error_rate from rpc_timeout using observed dependency behavior.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error spans on checkout/payment with 100% error rate and tp99 spike to 4940ms vs 397ms baseline suggest an RPC-layer fault, but slow spans and dependency hints alone do not prove timeouts or domain faults. Checking recent changes is a low-cost measurement that may reveal an observed deployment or config change underlying the error-rate increase before invoking a domain expert.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

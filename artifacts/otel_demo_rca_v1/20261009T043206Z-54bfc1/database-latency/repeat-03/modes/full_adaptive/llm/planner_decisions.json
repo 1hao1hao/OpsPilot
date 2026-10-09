@@ -1,0 +1,15 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace evidence shows a 24967ms slow span on the product-catalog path with a db_slow_query support link, and the top provisional root cause is db_slow_query; a DB expert can measure the observed database dependency rather than collecting more generic timeout symptoms.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

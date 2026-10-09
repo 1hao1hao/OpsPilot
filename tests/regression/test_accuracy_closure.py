@@ -77,3 +77,78 @@ def test_duplicate_timeouts_cannot_outvote_a_direct_database_measurement():
 def test_typed_slow_database_span_is_specific_to_query_latency():
     result = analyze(("traces.query", spans(2, database=True)))
     assert [c.root_cause_type.value for c in result.candidates] == ["db_slow_query"]
+
+
+def timestamped_database(durations, *, offset=0):
+    value = spans(len(durations), database=True)
+    for trace, duration in zip(value["traces"], durations, strict=True):
+        trace["spans"][1].update(start_time=datetime(2026, 1, 1, tzinfo=UTC).timestamp() + offset,
+                                 duration_ms=duration)
+    return value
+
+
+def test_old_slow_database_calls_cannot_override_current_rpc_errors():
+    result = analyze(("traces.query", timestamped_database([30000] * 10, offset=-180)),
+                     ("rpc.metrics", {"error_rate": 0.2, "timeout_rate": 0}))
+    assert result.candidates[0].root_cause_type.value == "rpc_error_rate"
+    assert all(not e.supports for e in result.evidence if e.evidence_type == "trace.db_latency_hint")
+
+
+def test_isolated_or_small_latency_tail_is_context_not_database_root_cause():
+    for durations in ([1500] + [10] * 48, [2000] * 4 + [80] * 27):
+        result = analyze(("traces.query", timestamped_database(durations)))
+        assert result.candidates[0].root_cause_type.value == "no_fault"
+        assert any(e.evidence_type == "trace.db_latency_hint" for e in result.evidence)
+
+
+def test_repeated_incident_local_database_latency_retains_specific_support():
+    result = analyze(("traces.query", timestamped_database([15000] * 14 + [10] * 120)),
+                     ("rpc.metrics", {"error_rate": 0.3}))
+    assert result.candidates[0].root_cause_type.value == "db_slow_query"
+
+
+def test_observed_zero_timeouts_do_not_turn_latency_growth_into_timeouts():
+    value = {"timeout_rate": 0, "error_rate": 0, "latency_ms": 500, "baseline_latency_ms": 50}
+    result = analyze(("rpc.metrics", value))
+    assert result.candidates[0].root_cause_type.value == "no_fault"
+    result = analyze(("rpc.metrics", dict(value, timeout_rate=0.2)))
+    assert result.candidates[0].root_cause_type.value == "rpc_timeout"
+
+
+def test_domain_slow_query_count_requires_live_cohort_corroboration():
+    value = {"slow_query_count": 30, "database_latency_cohorts": [
+        {"slow_count": 30, "corroborated": False}]}
+    result = analyze(("db.slowlog", value))
+    assert result.candidates[0].root_cause_type.value == "no_fault"
+    value["database_latency_cohorts"][0]["corroborated"] = True
+    result = analyze(("db.slowlog", value))
+    assert result.candidates[0].root_cause_type.value == "db_slow_query"
+
+
+def test_duplicate_database_spans_do_not_manufacture_a_supported_cohort():
+    value = timestamped_database([30000])
+    value["traces"] *= 10
+    result = analyze(("traces.query", value))
+    assert result.candidates[0].root_cause_type.value == "no_fault"
+
+
+def test_resource_baseline_excludes_a_previous_regime_after_a_large_drop():
+    value = series([0.78, 0.47, 0.471, 0.5145, 0.515, 0.5104], [0.575, 0.567, 0.567, 0.579])
+    result = analyze(("metrics.query", {"memory_usage": value}))
+    assert result.candidates[0].root_cause_type.value == "resource_saturation"
+    assert any("discarded_before_discontinuity" in e.fact for e in result.evidence)
+
+
+def test_resource_reset_without_growth_or_with_insufficient_new_history_is_not_fault():
+    for before in ([0.78, 0.47, 0.471, 0.472], [0.78, 0.47, 0.48]):
+        result = analyze(("metrics.query", {"memory_usage": series(before, [0.48] * 4)}))
+        assert result.candidates[0].root_cause_type.value == "no_fault"
+
+
+def test_normal_sampled_rpc_outcomes_are_visible_without_causal_votes():
+    result = analyze(("rpc.metrics", {"timeout_rate": 0, "error_rate": 0, "call_volume": 20}))
+    assert result.candidates[0].root_cause_type.value == "no_fault"
+    observed = next(e for e in result.evidence if e.evidence_type == "rpc.observed_outcomes")
+    assert "'timeout_rate': 0" in observed.fact and not observed.supports
+    missing = analyze(("rpc.metrics", {"call_volume": 20}))
+    assert "timeout_rate" not in missing.evidence[0].fact

@@ -1,0 +1,29 @@
+{
+  "scenario_id": "database-latency",
+  "repetition": 2,
+  "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261009T043206Z-54bfc1\\database-latency\\repeat-02",
+  "status": "completed",
+  "score": {
+    "top1": true,
+    "top3": true,
+    "normal_correct": null,
+    "gate_pass": true,
+    "budget_exhausted": false,
+    "degraded": false,
+    "tool_calls": 5,
+    "expert_calls": 1,
+    "investigation_rounds": 3,
+    "latency_ms": 13257.09,
+    "expected": "db_slow_query",
+    "predicted": [
+      "db_slow_query",
+      "rpc_timeout"
+    ],
+    "category_only": true
+  },
+  "fault_observed": true,
+  "recovery_health": true,
+  "recovery_queries_success": true,
+  "symptom_recovery_confirmed": true,
+  "duration_seconds": 652.9689999999991
+}

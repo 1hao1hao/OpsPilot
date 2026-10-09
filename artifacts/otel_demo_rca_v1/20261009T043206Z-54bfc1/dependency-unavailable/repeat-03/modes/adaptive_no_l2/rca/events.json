@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces.query will measure the observed downstream dependency behavior for the failing checkout requests.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but no downstream dependency is confirmed. topology.query will identify the actual downstream service(s) of checkout so the failing dependency can be measured rather than inferring a domain fault from slow spans and error rates alone.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "The alert states checkout cannot complete requests to a downstream service, but no downstream dependency is confirmed and no expert invocation is allowed. alerts.query is the only remaining allowed action and can surface related alerts that identify or corroborate the failing downstream dependency rather than inferring a domain fault from slow spans and error rates alone.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.670, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.67,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "topology.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

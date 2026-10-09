@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "CPU saturation is observed but the alert notes ongoing request traffic; traces can measure request-level latency and dependency behavior to determine whether the resource saturation is driven by specific downstream dependencies rather than generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "CPU saturation is observed with ongoing request traffic; topology can identify which downstream dependencies the ad service calls, so subsequent measurements can attribute the resource saturation to a specific dependency rather than collecting generic symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "CPU saturation is observed with a sharp sustained increase (baseline ~0.009 to recent 1.0) during ongoing request traffic; checking recent changes can reveal a deployment or configuration change that introduced the resource growth, attributing the saturation to a specific cause rather than collecting generic symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

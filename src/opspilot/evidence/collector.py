@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 from typing import Any
 
+from opspilot.evidence.span_cohorts import DATABASE_SYSTEMS, database_latency_cohorts
 from opspilot.evidence.temporal import change
 from opspilot.models import (
     AlertEvent,
@@ -84,6 +85,8 @@ def _db(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]:
     items: list[Evidence] = []
     lag = _number(data, "replication_lag_seconds", _number(data, "slave_delay_seconds"))
     slow = _number(data, "slow_query_count")
+    if "database_latency_cohorts" in data:
+        slow = sum(c["slow_count"] for c in data["database_latency_cohorts"] if c["corroborated"])
     active_entry = data.get("active_connections", {})
     active = _number(data, "active_connections")
     maximum = _number(data, "max_connections")
@@ -135,7 +138,16 @@ def _rpc(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evidence]
     latency = _number(data, "latency_ms")
     baseline = max(_number(data, "baseline_latency_ms"), 1)
     latency_shift = "baseline_latency_ms" in data and latency / baseline >= 3
-    if timeout_rate >= 0.05 or latency_shift:
+    if _number(data, "call_volume") > 0:
+        # An absence of positive evidence does not tell the planner whether
+        # calls were measured and normal or their outcomes were unavailable.
+        observed = {name: data[name] for name in ("call_volume", "timeout_rate", "error_rate",
+                                                 "latency_ms", "baseline_latency_ms") if name in data}
+        items.append(_evidence(alert=alert, source_name=source, evidence_type="rpc.observed_outcomes",
+                               source_type=EvidenceSourceType.TRACE,
+                               fact=f"Observed outgoing RPC samples: {observed}; missing outcomes are unknown. Rates describe sampled calls, not every dependency.",
+                               severity=EvidenceSeverity.INFO, confidence=0.5, supports=[]))
+    if timeout_rate >= 0.05 or (latency_shift and "timeout_rate" not in data):
         items.append(_evidence(alert=alert, source_name=source, evidence_type="rpc.timeout", source_type=EvidenceSourceType.TRACE, fact=f"RPC timeout rate={timeout_rate:.1%}, latency ratio={latency / baseline:.1f}x", severity=EvidenceSeverity.CRITICAL if timeout_rate >= 0.1 else EvidenceSeverity.WARNING, confidence=0.9, supports=[RootCauseType.RPC_TIMEOUT]))
     if error_rate >= 0.05:
         items.append(_evidence(alert=alert, source_name=source, evidence_type="rpc.error_rate", source_type=EvidenceSourceType.TRACE, fact=f"RPC error rate is {error_rate:.1%}", severity=EvidenceSeverity.CRITICAL if error_rate >= 0.1 else EvidenceSeverity.WARNING, confidence=0.85, supports=[RootCauseType.RPC_ERROR_RATE]))
@@ -150,7 +162,7 @@ def _metrics(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Evide
     memory = memory / 100 if memory > 1 else memory
     for name in ("cpu_usage", "memory_usage", "disk_usage"):
         payload = data.get(name)
-        shift = change(payload, minimum_delta=0.05, minimum_ratio=1.1)
+        shift = change(payload, minimum_delta=0.05, minimum_ratio=1.1, reset_aware=True)
         if shift:
             items.append(_evidence(alert=alert, source_name=source, evidence_type="metric.resource_growth",
                                    source_type=EvidenceSourceType.METRIC,
@@ -182,6 +194,7 @@ def _traces(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Eviden
     items = _rpc(alert, data, source)
     raw_spans = {(t.get("trace_id"), s.get("span_id")): s
                  for t in data.get("traces", []) for s in t.get("spans", [])}
+    database_support, _ = database_latency_cohorts(raw_spans, alert.timestamp.timestamp())
     producers = {s.get("operation", "") for s in raw_spans.values() if s.get("span_kind") in {"producer", "consumer"}}
     if producers:
         items.append(_evidence(alert=alert, source_name=source, evidence_type="trace.messaging_dependency",
@@ -195,9 +208,10 @@ def _traces(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Eviden
         supports = [RootCauseType.RPC_ERROR_RATE] if anomaly.is_error else []
         if anomaly.status == "TIMEOUT" or raw.get("is_timeout"):
             supports = [RootCauseType.RPC_TIMEOUT]
-        database = raw.get("db_system") in {"postgresql", "postgres", "mysql", "mssql", "oracle"}
+        database = raw.get("db_system") in DATABASE_SYSTEMS
+        corroborated = (anomaly.trace_id, anomaly.span_id) in database_support
         if database and anomaly.is_slow:
-            supports = [RootCauseType.DB_SLOW_QUERY]
+            supports = [RootCauseType.DB_SLOW_QUERY] if corroborated else []
         elif any(token in dependency for token in ("mysql", "postgres", "database", "db")):
             # An untyped database dependency failure warrants drill-down; it
             # cannot distinguish replication, query or connection mechanisms.
@@ -209,7 +223,7 @@ def _traces(alert: AlertEvent, data: dict[str, Any], source: str) -> list[Eviden
             supports = [RootCauseType.KAFKA_CONSUMER_LAG]
         items.append(_evidence(
             alert=alert, source_name=source,
-            evidence_type="trace.db_slow" if database and anomaly.is_slow else "trace.span_error" if anomaly.is_error else "trace.span_slow",
+            evidence_type=("trace.db_slow" if corroborated else "trace.db_latency_hint") if database and anomaly.is_slow else "trace.span_error" if anomaly.is_error else "trace.span_slow",
             source_type=EvidenceSourceType.TRACE,
             fact=f"Trace {anomaly.trace_id} path {path}: status={anomaly.status}, duration={anomaly.duration_ms:.1f}ms",
             severity=EvidenceSeverity.CRITICAL if anomaly.is_error else EvidenceSeverity.WARNING,

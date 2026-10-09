@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace error span and 100% error_rate with messaging dependency hint suggest investigating RPC-level failures for checkout.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error rate spiked to 100% versus yesterday's 0.0 baseline during ongoing traffic; checking recent changes is a low-cost way to identify a deployment or config change that could explain the sudden checkout failures.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Messaging dependency hint ('publish orders') and RPC error rate need dependency mapping to identify which downstream service or broker is involved before invoking a domain expert.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

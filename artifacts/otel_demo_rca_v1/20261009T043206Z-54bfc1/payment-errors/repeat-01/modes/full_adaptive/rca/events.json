@@ -1,0 +1,122 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Error rate jumped from 0.0 baseline to 100.0 with high volatility, and a checkout->payment span errored; checking recent changes is the most direct way to identify a triggering deployment or config change rather than re-collecting generic error symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "The errored span is on the checkout->payment RPC path with error_rate at 100% versus 0.0 baseline, and the only dependency hint is a messaging publish; an RPC expert can determine whether this is a genuine RPC/domain fault rather than continuing to collect generic error symptoms.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: The errored span is on the checkout->payment RPC path with error_rate at 100% versus 0.0 baseline, and the only dependency hint is a messaging publish; an RPC expert can determine whether this is a genuine RPC/domain fault rather than continuing to collect generic error symptoms.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "The errored span is on the checkout->payment RPC path and the only dependency hint is a messaging publish; topology.query will reveal the actual service dependencies and callers of checkout to determine whether the failure originates in a downstream dependency rather than re-collecting generic error symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "changes.query",
+    "rpc.metrics",
+    "topology.query"
+  ],
+  "invoked_experts": [
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 1,
+  "duplicate_actions": 0
+}

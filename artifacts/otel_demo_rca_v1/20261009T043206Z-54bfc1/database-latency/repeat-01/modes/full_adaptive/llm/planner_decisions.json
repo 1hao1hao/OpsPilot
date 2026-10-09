@@ -1,0 +1,15 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Slow DB span (29979.9ms) on product-catalog path and db_slow_query provisional root cause at 0.95 confidence warrant DB expert to measure the observed database dependency rather than collect more generic timeout symptoms.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

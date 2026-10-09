@@ -1,0 +1,56 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-9222dd0f8499e001",
+    "evidence_type": "metric.resource_saturation",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-99c4e6d78629a6f8980e",
+    "service": "ad",
+    "observed_at": "2026-10-09T05:03:42.821921Z",
+    "fact": "Resource usage cpu=100.0%, memory=92.0%",
+    "severity": "critical",
+    "confidence": 0.9,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-99c4e6d78629a6f8980e"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-2508fb67b1f358a4",
+    "evidence_type": "metric.resource_growth",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-99c4e6d78629a6f8980e",
+    "service": "ad",
+    "observed_at": "2026-10-09T05:03:42.821921Z",
+    "fact": "cpu_usage: sustained resource increase {'baseline': 0.008755654874789982, 'recent': 1.0, 'delta': 0.99124434512521, 'noise': 0.0007572442895146629}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-99c4e6d78629a6f8980e"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-3382e3c9780fbfeb",
+    "evidence_type": "anomaly.historical_baseline",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:tool-99c4e6d78629a6f8980e",
+    "service": "ad",
+    "observed_at": "2026-10-09T05:03:42.821921Z",
+    "fact": "cpu_usage: current=1.0, historical baselines={'last_week': None, 'yesterday': 0.008755654874789982}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "tool-99c4e6d78629a6f8980e"
+  }
+]

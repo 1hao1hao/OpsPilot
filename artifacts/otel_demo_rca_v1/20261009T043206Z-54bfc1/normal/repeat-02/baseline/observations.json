@@ -1,0 +1,5670 @@
+{
+  "alerts.query": {},
+  "changes.query": {},
+  "db.connections": {
+    "max_connections": 100.0
+  },
+  "db.replication": {},
+  "db.slowlog": {},
+  "kafka.lag": {
+    "consumer_lag": {
+      "current": 0.0,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 0.0
+        }
+      ],
+      "baseline_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "time_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_series": [
+        0.0,
+        0.0
+      ],
+      "recent_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temporal_context": true,
+      "baseline": 0.0,
+      "query": "sum(kafka_consumer_group_lag_sum_ratio{})"
+    }
+  },
+  "logs.query": {
+    "logs": [
+      {
+        "timestamp": "2026-10-09T04:39:13.721257849Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:13.721332209Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:13.72134829Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:13.720994847Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:11.505144149Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:11.505179819Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:11.505199158Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:11.505216117Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:11.505236639Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:10.503045422Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:10.5030639Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:10.503078325Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:10.503087077Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:10.503097608Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955773754Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955854857Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955865629Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955892437Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955900122Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955909108Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:06.955922331Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.418004721Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "Order placed successfully"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.418045571Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.417888264Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.417943634Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.417954816Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.417982248Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:05.417992058Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:04.24385634Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908656312Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908681689Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908689646Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908698423Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908710761Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908720731Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908730172Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908743431Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908770331Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908779541Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:39:02.908791192Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896876444Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896929667Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896946141Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896979401Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896988534Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:59.896997875Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:58.694006617Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:58.694017523Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:58.694028858Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      },
+      {
+        "timestamp": "2026-10-09T04:38:58.694043601Z",
+        "service": "frontend",
+        "severity": "info",
+        "message": "API request completed"
+      }
+    ]
+  },
+  "metrics.query": {
+    "qps": {
+      "current": 15.21768117874525,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 14.21714057135238
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 14.21714057135238
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 14.21714057135238
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 15.21768117874525
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 15.21768117874525
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 15.21768117874525
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 15.21768117874525
+        }
+      ],
+      "baseline_series": [
+        14.21714057135238,
+        14.21714057135238,
+        14.21714057135238,
+        15.21768117874525,
+        15.21768117874525,
+        15.21768117874525
+      ],
+      "time_series": [
+        14.21714057135238,
+        14.21714057135238,
+        14.21714057135238,
+        15.21768117874525,
+        15.21768117874525,
+        15.21768117874525,
+        15.21768117874525
+      ],
+      "reference_series": [
+        14.21714057135238,
+        14.21714057135238
+      ],
+      "recent_series": [
+        15.21768117874525,
+        15.21768117874525,
+        15.21768117874525,
+        15.21768117874525
+      ],
+      "temporal_context": true,
+      "baseline": 14.717410875048815,
+      "query": "sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"frontend\"}[2m]))"
+    },
+    "error_rate": {
+      "current": 0.0,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 0.0
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 0.0
+        }
+      ],
+      "baseline_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "time_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_series": [
+        0.0,
+        0.0
+      ],
+      "recent_series": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temporal_context": true,
+      "baseline": 0.0,
+      "query": "100 * sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",status_code=\"STATUS_CODE_ERROR\",service_name=\"frontend\"}[2m])) / sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"frontend\"}[2m]))"
+    },
+    "tp95": {
+      "current": 976.4285714285717,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 922.4999999999986
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 922.4999999999986
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 922.4999999999986
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 976.4285714285717
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 976.4285714285717
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 976.4285714285717
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 976.4285714285717
+        }
+      ],
+      "baseline_series": [
+        922.4999999999986,
+        922.4999999999986,
+        922.4999999999986,
+        976.4285714285717,
+        976.4285714285717,
+        976.4285714285717
+      ],
+      "time_series": [
+        922.4999999999986,
+        922.4999999999986,
+        922.4999999999986,
+        976.4285714285717,
+        976.4285714285717,
+        976.4285714285717,
+        976.4285714285717
+      ],
+      "reference_series": [
+        922.4999999999986,
+        922.4999999999986
+      ],
+      "recent_series": [
+        976.4285714285717,
+        976.4285714285717,
+        976.4285714285717,
+        976.4285714285717
+      ],
+      "temporal_context": true,
+      "baseline": 949.4642857142852,
+      "query": "1 * histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"frontend\"}[2m])))"
+    },
+    "tp99": {
+      "current": 3043.571428571435,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 3924.2857142857088
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 3924.2857142857088
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 3924.2857142857088
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 3043.571428571435
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 3043.571428571435
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 3043.571428571435
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 3043.571428571435
+        }
+      ],
+      "baseline_series": [
+        3924.2857142857088,
+        3924.2857142857088,
+        3924.2857142857088,
+        3043.571428571435,
+        3043.571428571435,
+        3043.571428571435
+      ],
+      "time_series": [
+        3924.2857142857088,
+        3924.2857142857088,
+        3924.2857142857088,
+        3043.571428571435,
+        3043.571428571435,
+        3043.571428571435,
+        3043.571428571435
+      ],
+      "reference_series": [
+        3924.2857142857088,
+        3924.2857142857088
+      ],
+      "recent_series": [
+        3043.571428571435,
+        3043.571428571435,
+        3043.571428571435,
+        3043.571428571435
+      ],
+      "temporal_context": true,
+      "baseline": 3483.928571428572,
+      "query": "1 * histogram_quantile(0.99, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"frontend\"}[2m])))"
+    },
+    "cpu_usage": {
+      "current": 0.057631732634652696,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 0.06018590371807437
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 0.06305078203128124
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 0.05664733294665894
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 0.057849210952657174
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 0.05430558611172224
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 0.0581990519431166
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 0.057631732634652696
+        }
+      ],
+      "baseline_series": [
+        0.06018590371807437,
+        0.06305078203128124,
+        0.05664733294665894,
+        0.057849210952657174,
+        0.05430558611172224,
+        0.0581990519431166
+      ],
+      "time_series": [
+        0.06018590371807437,
+        0.06305078203128124,
+        0.05664733294665894,
+        0.057849210952657174,
+        0.05430558611172224,
+        0.0581990519431166,
+        0.057631732634652696
+      ],
+      "reference_series": [
+        0.06018590371807437,
+        0.06305078203128124
+      ],
+      "recent_series": [
+        0.057849210952657174,
+        0.05430558611172224,
+        0.0581990519431166,
+        0.057631732634652696
+      ],
+      "temporal_context": true,
+      "baseline": 0.058372977950585096,
+      "query": "clamp_max(max(rate(container_cpu_usage_nanoseconds_total{container_name=\"frontend\"}[1m])) / 1000000000, 1)"
+    },
+    "memory_usage": {
+      "current": 0.6772500000000001,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 0.672046875
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 0.67634375
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 0.671421875
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 0.6785
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 0.6780000000000002
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 0.682140625
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 0.6772500000000001
+        }
+      ],
+      "baseline_series": [
+        0.672046875,
+        0.67634375,
+        0.671421875,
+        0.6785,
+        0.6780000000000002,
+        0.682140625
+      ],
+      "time_series": [
+        0.672046875,
+        0.67634375,
+        0.671421875,
+        0.6785,
+        0.6780000000000002,
+        0.682140625,
+        0.6772500000000001
+      ],
+      "reference_series": [
+        0.672046875,
+        0.67634375
+      ],
+      "recent_series": [
+        0.6785,
+        0.6780000000000002,
+        0.682140625,
+        0.6772500000000001
+      ],
+      "temporal_context": true,
+      "baseline": 0.6764088541666666,
+      "query": "max(container_memory_percent_ratio{container_name=\"frontend\"}) / 100"
+    }
+  },
+  "redis.hotkeys": {
+    "hit_rate_percent": {
+      "current": 37.423312883435585,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 41.81818181818181
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 39.63414634146341
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 39.39393939393939
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 39.88095238095238
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 38.92215568862275
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 37.03703703703704
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 37.423312883435585
+        }
+      ],
+      "baseline_series": [
+        41.81818181818181,
+        39.63414634146341,
+        39.39393939393939,
+        39.88095238095238,
+        38.92215568862275,
+        37.03703703703704
+      ],
+      "time_series": [
+        41.81818181818181,
+        39.63414634146341,
+        39.39393939393939,
+        39.88095238095238,
+        38.92215568862275,
+        37.03703703703704,
+        37.423312883435585
+      ],
+      "reference_series": [
+        41.81818181818181,
+        39.63414634146341
+      ],
+      "recent_series": [
+        39.88095238095238,
+        38.92215568862275,
+        37.03703703703704,
+        37.423312883435585
+      ],
+      "temporal_context": true,
+      "baseline": 39.447735443366135,
+      "query": "100 * sum(rate(redis_keyspace_hits_total{}[2m])) / (sum(rate(redis_keyspace_hits_total{}[2m])) + sum(rate(redis_keyspace_misses_total{}[2m])))"
+    }
+  },
+  "redis.memory": {
+    "used_memory": {
+      "current": 1303584.0,
+      "data_points": [
+        {
+          "timestamp": 1791520664.155,
+          "value": 1298208.0
+        },
+        {
+          "timestamp": 1791520679.155,
+          "value": 1298976.0
+        },
+        {
+          "timestamp": 1791520694.155,
+          "value": 1299136.0
+        },
+        {
+          "timestamp": 1791520709.155,
+          "value": 1300160.0
+        },
+        {
+          "timestamp": 1791520724.155,
+          "value": 1300480.0
+        },
+        {
+          "timestamp": 1791520739.155,
+          "value": 1301984.0
+        },
+        {
+          "timestamp": 1791520754.155,
+          "value": 1303584.0
+        }
+      ],
+      "baseline_series": [
+        1298208.0,
+        1298976.0,
+        1299136.0,
+        1300160.0,
+        1300480.0,
+        1301984.0
+      ],
+      "time_series": [
+        1298208.0,
+        1298976.0,
+        1299136.0,
+        1300160.0,
+        1300480.0,
+        1301984.0,
+        1303584.0
+      ],
+      "reference_series": [
+        1298208.0,
+        1298976.0
+      ],
+      "recent_series": [
+        1300160.0,
+        1300480.0,
+        1301984.0,
+        1303584.0
+      ],
+      "temporal_context": true,
+      "baseline": 1299824.0,
+      "query": "sum(redis_memory_used_bytes{})"
+    }
+  },
+  "rpc.metrics": {
+    "error_rate": 0.0,
+    "latency_ms": 36.392522666666665,
+    "baseline_latency_ms": 260.3532108108108,
+    "call_volume": 24
+  },
+  "topology.query": {},
+  "traces.query": {
+    "traces": [
+      {
+        "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+        "spans": [
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "e3d8c555794b924e",
+            "parent_span_id": "43e98745a84f802b",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1696.065024,
+            "status": "UNSET",
+            "start_time": 1791520752.8498151,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "43e98745a84f802b",
+            "parent_span_id": "a7739b9ba5541400",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1696.27008,
+            "status": "UNSET",
+            "start_time": 1791520752.84967,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "362537ef25c55655",
+            "parent_span_id": "aea6304724a1137a",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 20.04608,
+            "status": "UNSET",
+            "start_time": 1791520754.5169837,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "aea6304724a1137a",
+            "parent_span_id": "9b665e448a499a9e",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1443.022848,
+            "status": "UNSET",
+            "start_time": 1791520753.1014645,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "a7739b9ba5541400",
+            "parent_span_id": "9ffcd9bc97a5ab20",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 1697.688576,
+            "status": "UNSET",
+            "start_time": 1791520752.8492842,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "9ffcd9bc97a5ab20",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_browse_product",
+            "duration_ms": 1698.460416,
+            "status": "UNSET",
+            "start_time": 1791520752.8486786,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "9b665e448a499a9e",
+            "parent_span_id": "955cacd12c2d99cd",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 1694.0096,
+            "status": "UNSET",
+            "start_time": 1791520752.851,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "955cacd12c2d99cd",
+            "parent_span_id": "a204ed7a5ff281c0",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 1694.70848,
+            "status": "UNSET",
+            "start_time": 1791520752.851,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "a204ed7a5ff281c0",
+            "parent_span_id": "02bbaa961de3d111",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 1695.22944,
+            "status": "UNSET",
+            "start_time": 1791520752.85,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f68efdab5c28ab53c1f3cade3c23f3c1",
+            "span_id": "02bbaa961de3d111",
+            "parent_span_id": "e3d8c555794b924e",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 1695.609344,
+            "status": "UNSET",
+            "start_time": 1791520752.85,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+        "spans": [
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "1000b292dd3b13f4",
+            "parent_span_id": "c6ebe5f2fc241d1a",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 39.31392,
+            "status": "UNSET",
+            "start_time": 1791520755.011662,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "c6ebe5f2fc241d1a",
+            "parent_span_id": "73eb53ddf7a68005",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 39.54304,
+            "status": "UNSET",
+            "start_time": 1791520755.0114582,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a26474ba7ede1a6b",
+            "parent_span_id": "00a37aee02ec6571",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 5.05088,
+            "status": "UNSET",
+            "start_time": 1791520755.052757,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "00a37aee02ec6571",
+            "parent_span_id": "b2788844c9a7ac08",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 5.265152,
+            "status": "UNSET",
+            "start_time": 1791520755.0525708,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "de28965c7252334c",
+            "parent_span_id": "133cb3422716d522",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1037.479936,
+            "status": "UNSET",
+            "start_time": 1791520755.0593789,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "54c8435bad98227b",
+            "parent_span_id": "3c1fbc9cfe00042e",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 0.86528,
+            "status": "UNSET",
+            "start_time": 1791520755.0554466,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "85ad2a8eb9e2a7f2",
+            "parent_span_id": "f1246e66e02215de",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.20992,
+            "status": "UNSET",
+            "start_time": 1791520755.0571804,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "92a5cdbbef34316b",
+            "parent_span_id": "1a8467f68f5927e3",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.370688,
+            "status": "UNSET",
+            "start_time": 1791520755.0616257,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "42cbb19f71815716",
+            "parent_span_id": "84883b7d7b2070d1",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/EmptyCart",
+            "duration_ms": 26.520064,
+            "status": "UNSET",
+            "start_time": 1791520755.1626077,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "942c34c1dd802257",
+            "parent_span_id": "3ba6e6d3f281e867",
+            "service": "cart",
+            "operation": "POST",
+            "duration_ms": 24.100608,
+            "status": "UNSET",
+            "start_time": 1791520755.1629467,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "62298607acfa8b5c",
+            "parent_span_id": "54c8435bad98227b",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.30592,
+            "status": "UNSET",
+            "start_time": 1791520755.0555556,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "1dc7e8fa57c3223d",
+            "parent_span_id": "54c8435bad98227b",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.164096,
+            "status": "UNSET",
+            "start_time": 1791520755.0559132,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "50efd95db327330f",
+            "parent_span_id": "54c8435bad98227b",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.178432,
+            "status": "UNSET",
+            "start_time": 1791520755.056081,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "afc800343222921e",
+            "parent_span_id": "42cbb19f71815716",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.290048,
+            "status": "UNSET",
+            "start_time": 1791520755.188498,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "76ec838192915442",
+            "parent_span_id": "42cbb19f71815716",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.169984,
+            "status": "UNSET",
+            "start_time": 1791520755.1888034,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "4444762ab9e0fe15",
+            "parent_span_id": "85ad2a8eb9e2a7f2",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.113408,
+            "status": "UNSET",
+            "start_time": 1791520755.0572555,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "c5e28a8599c6bbb7",
+            "parent_span_id": "92a5cdbbef34316b",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.19712,
+            "status": "UNSET",
+            "start_time": 1791520755.0617473,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "5caacc7de05e6fc6",
+            "parent_span_id": "a1846443c641a47c",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.734976,
+            "status": "UNSET",
+            "start_time": 1791520755.0436635,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "cc7dc6c82ed921c9",
+            "parent_span_id": "e36aea7a618faafe",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 2.249216,
+            "status": "UNSET",
+            "start_time": 1791520755.0698726,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "d6f71a0a9b461565",
+            "parent_span_id": "5d34c63f83604130",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 63.610368,
+            "status": "UNSET",
+            "start_time": 1791520755.8459024,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a1846443c641a47c",
+            "parent_span_id": "a5841c871cf98bb9",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 11.90144,
+            "status": "UNSET",
+            "start_time": 1791520755.0381107,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "e36aea7a618faafe",
+            "parent_span_id": "d221d8b431663613",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 5.726208,
+            "status": "UNSET",
+            "start_time": 1791520755.0694613,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "5d34c63f83604130",
+            "parent_span_id": "5da708c553579ca0",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 404.925952,
+            "status": "UNSET",
+            "start_time": 1791520755.6234202,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "133cb3422716d522",
+            "parent_span_id": "5a36598ac702f2fd",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 1037.88288,
+            "status": "UNSET",
+            "start_time": 1791520755.059264,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "1a8467f68f5927e3",
+            "parent_span_id": "54920b18cbfd3e36",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 0.88576,
+            "status": "UNSET",
+            "start_time": 1791520755.0612342,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "d221d8b431663613",
+            "parent_span_id": "54920b18cbfd3e36",
+            "service": "checkout",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 14.4576,
+            "status": "UNSET",
+            "start_time": 1791520755.062153,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "af0414beec8abc31",
+            "parent_span_id": "54920b18cbfd3e36",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.806144,
+            "status": "UNSET",
+            "start_time": 1791520755.076718,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "868011d4bdffa254",
+            "parent_span_id": "54920b18cbfd3e36",
+            "service": "checkout",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.561664,
+            "status": "UNSET",
+            "start_time": 1791520755.1043274,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "c4ce6726e9522386",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 2.135552,
+            "status": "UNSET",
+            "start_time": 1791520755.1049562,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "84883b7d7b2070d1",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "oteldemo.CartService/EmptyCart",
+            "duration_ms": 27.085568,
+            "status": "UNSET",
+            "start_time": 1791520755.162265,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "e11b66b0e1660067",
+            "parent_span_id": "61e6e61f5e9b135e",
+            "service": "checkout",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 142.721536,
+            "status": "UNSET",
+            "start_time": 1791520755.0610096,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "1aa5361d242bf815",
+            "parent_span_id": "54920b18cbfd3e36",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 26.670336,
+            "status": "UNSET",
+            "start_time": 1791520755.0776079,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "0df3d4015f93d922",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 55.02464,
+            "status": "UNSET",
+            "start_time": 1791520755.1071858,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "84e03982e2f6f6fc",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "POST",
+            "duration_ms": 13.470208,
+            "status": "UNSET",
+            "start_time": 1791520755.1895049,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "54920b18cbfd3e36",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "prepareOrderItemsAndShippingQuoteFromCart",
+            "duration_ms": 43.700736,
+            "status": "UNSET",
+            "start_time": 1791520755.0612173,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "8d0e7bec37bbc1be",
+            "parent_span_id": "e11b66b0e1660067",
+            "service": "checkout",
+            "operation": "publish orders",
+            "duration_ms": 0.49536,
+            "status": "UNSET",
+            "start_time": 1791520755.2031558,
+            "span_kind": "producer",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "f39040b0224e7858",
+            "parent_span_id": "9111720074588c4f",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.075776,
+            "status": "UNSET",
+            "start_time": 1791520755.2004247,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "9111720074588c4f",
+            "parent_span_id": "e7e8a978ea642882",
+            "service": "email",
+            "operation": "sinatra.render_template",
+            "duration_ms": 0.274944,
+            "status": "UNSET",
+            "start_time": 1791520755.20025,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "e7e8a978ea642882",
+            "parent_span_id": "8b4c64cacc48da59",
+            "service": "email",
+            "operation": "send_email",
+            "duration_ms": 11.538432,
+            "status": "UNSET",
+            "start_time": 1791520755.1907463,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "8b4c64cacc48da59",
+            "parent_span_id": "84e03982e2f6f6fc",
+            "service": "email",
+            "operation": "POST /send_order_confirmation",
+            "duration_ms": 12.294144,
+            "status": "UNSET",
+            "start_time": 1791520755.19037,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "f40a6cf6de20af20",
+            "parent_span_id": "cac8ea978a7ecc69",
+            "service": "quote",
+            "operation": "calculate-quote",
+            "duration_ms": 0.01024,
+            "status": "UNSET",
+            "start_time": 1791520755.1208346,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "cac8ea978a7ecc69",
+            "parent_span_id": "0d9c716b06be7e4c",
+            "service": "quote",
+            "operation": "{closure}",
+            "duration_ms": 0.375552,
+            "status": "UNSET",
+            "start_time": 1791520755.1207948,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "0d9c716b06be7e4c",
+            "parent_span_id": "50ea3c97cd4a6b85",
+            "service": "quote",
+            "operation": "POST /getquote",
+            "duration_ms": 0.505088,
+            "status": "UNSET",
+            "start_time": 1791520755.120711,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "50ea3c97cd4a6b85",
+            "parent_span_id": "3429696d326b36f1",
+            "service": "shipping",
+            "operation": "POST",
+            "duration_ms": 23.3664,
+            "status": "UNSET",
+            "start_time": 1791520755.0805337,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "3429696d326b36f1",
+            "parent_span_id": "1aa5361d242bf815",
+            "service": "shipping",
+            "operation": "POST /get-quote",
+            "duration_ms": 23.808256,
+            "status": "UNSET",
+            "start_time": 1791520755.0802047,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "652394d116060f66",
+            "parent_span_id": "0df3d4015f93d922",
+            "service": "shipping",
+            "operation": "POST /ship-order",
+            "duration_ms": 52.594432,
+            "status": "UNSET",
+            "start_time": 1791520755.1092322,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "73eb53ddf7a68005",
+            "parent_span_id": "a383cb6ea6df5620",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 40.7488,
+            "status": "UNSET",
+            "start_time": 1791520755.0108414,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "b2788844c9a7ac08",
+            "parent_span_id": "a383cb6ea6df5620",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 6.38848,
+            "status": "UNSET",
+            "start_time": 1791520755.0521147,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "5a36598ac702f2fd",
+            "parent_span_id": "532dd88af3ec2089",
+            "service": "load-generator",
+            "operation": "POST",
+            "duration_ms": 1039.303936,
+            "status": "UNSET",
+            "start_time": 1791520755.0588694,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a383cb6ea6df5620",
+            "parent_span_id": "532dd88af3ec2089",
+            "service": "load-generator",
+            "operation": "user_add_to_cart",
+            "duration_ms": 48.16896,
+            "status": "UNSET",
+            "start_time": 1791520755.0104163,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "532dd88af3ec2089",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_checkout_single",
+            "duration_ms": 1088.063232,
+            "status": "UNSET",
+            "start_time": 1791520755.0103662,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a5841c871cf98bb9",
+            "parent_span_id": "83e7be7265d0e514",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 36.676608,
+            "status": "UNSET",
+            "start_time": 1791520755.013,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "3c1fbc9cfe00042e",
+            "parent_span_id": "a70a9e61d544b7af",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 1.729536,
+            "status": "UNSET",
+            "start_time": 1791520755.0540001,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "f1246e66e02215de",
+            "parent_span_id": "a70a9e61d544b7af",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 0.848896,
+            "status": "UNSET",
+            "start_time": 1791520755.056,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "61e6e61f5e9b135e",
+            "parent_span_id": "fe6a66ce90048ca7",
+            "service": "frontend",
+            "operation": "oteldemo.CheckoutService/PlaceOrder",
+            "duration_ms": 144.280832,
+            "status": "UNSET",
+            "start_time": 1791520755.06,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "5da708c553579ca0",
+            "parent_span_id": "fe6a66ce90048ca7",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 891.382272,
+            "status": "UNSET",
+            "start_time": 1791520755.204,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "83e7be7265d0e514",
+            "parent_span_id": "d6e03ecd6c21ade6",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 37.06368,
+            "status": "UNSET",
+            "start_time": 1791520755.013,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "d6e03ecd6c21ade6",
+            "parent_span_id": "f9b32bc449db8fc0",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 37.666816,
+            "status": "UNSET",
+            "start_time": 1791520755.013,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a70a9e61d544b7af",
+            "parent_span_id": "320f70aba5efecaf",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 2.9376,
+            "status": "UNSET",
+            "start_time": 1791520755.0540001,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "320f70aba5efecaf",
+            "parent_span_id": "a791250ec0039e1e",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 3.385856,
+            "status": "UNSET",
+            "start_time": 1791520755.0540001,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "fe6a66ce90048ca7",
+            "parent_span_id": "a4ac158a3de53965",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/checkout",
+            "duration_ms": 1036.436736,
+            "status": "UNSET",
+            "start_time": 1791520755.06,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a4ac158a3de53965",
+            "parent_span_id": "4a4efeb62bb7c703",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 1036.97024,
+            "status": "UNSET",
+            "start_time": 1791520755.059,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "f9b32bc449db8fc0",
+            "parent_span_id": "1000b292dd3b13f4",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 38.67008,
+            "status": "UNSET",
+            "start_time": 1791520755.012,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "a791250ec0039e1e",
+            "parent_span_id": "a26474ba7ede1a6b",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 3.713792,
+            "status": "UNSET",
+            "start_time": 1791520755.0540001,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "4a4efeb62bb7c703",
+            "parent_span_id": "de28965c7252334c",
+            "service": "frontend",
+            "operation": "POST /api/checkout",
+            "duration_ms": 1037.262336,
+            "status": "UNSET",
+            "start_time": 1791520755.059,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "4e037eac7148cfb2",
+            "parent_span_id": "af0414beec8abc31",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.052992,
+            "status": "OK",
+            "start_time": 1791520755.0772734,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "d322f1c715485075",
+            "parent_span_id": "868011d4bdffa254",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.037376,
+            "status": "OK",
+            "start_time": 1791520755.1046944,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "d0bd01de4ed87585",
+            "parent_span_id": "633975235caf973c",
+            "service": "payment",
+            "operation": "charge",
+            "duration_ms": 0.427264,
+            "status": "UNSET",
+            "start_time": 1791520755.106,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "676074410c5d3f64ed2bd2841dd0e1db",
+            "span_id": "633975235caf973c",
+            "parent_span_id": "c4ce6726e9522386",
+            "service": "payment",
+            "operation": "oteldemo.PaymentService/Charge",
+            "duration_ms": 0.709632,
+            "status": "UNSET",
+            "start_time": 1791520755.105,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+        "spans": [
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "7bac40b635453d35",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 180.999936,
+            "status": "UNSET",
+            "start_time": 1791520754.8769999,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "36771efeb458f882",
+            "parent_span_id": "8c27b9d9388a7777",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 171.289088,
+            "status": "UNSET",
+            "start_time": 1791520754.884481,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "8c27b9d9388a7777",
+            "parent_span_id": "7bac40b635453d35",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 171.622144,
+            "status": "UNSET",
+            "start_time": 1791520754.884191,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "07f7e5689979cdc9",
+            "parent_span_id": "26ec8622cefe4131",
+            "service": "quote",
+            "operation": "calculate-quote",
+            "duration_ms": 1.6576,
+            "status": "UNSET",
+            "start_time": 1791520755.0465686,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "26ec8622cefe4131",
+            "parent_span_id": "407e5325d00e9483",
+            "service": "quote",
+            "operation": "{closure}",
+            "duration_ms": 46.26176,
+            "status": "UNSET",
+            "start_time": 1791520755.0340068,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "407e5325d00e9483",
+            "parent_span_id": "7451a6ede71c2f3b",
+            "service": "quote",
+            "operation": "POST /getquote",
+            "duration_ms": 79.175424,
+            "status": "UNSET",
+            "start_time": 1791520755.0033872,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "7451a6ede71c2f3b",
+            "parent_span_id": "357115b1228ae04c",
+            "service": "shipping",
+            "operation": "POST",
+            "duration_ms": 153.220608,
+            "status": "UNSET",
+            "start_time": 1791520754.8989391,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "357115b1228ae04c",
+            "parent_span_id": "60d35a9f9c861cfa",
+            "service": "shipping",
+            "operation": "POST /get-quote",
+            "duration_ms": 153.550848,
+            "status": "UNSET",
+            "start_time": 1791520754.8987238,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "484b583468bd9e03",
+            "parent_span_id": "ae0782f88125d140",
+            "service": "frontend",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 2.094848,
+            "status": "UNSET",
+            "start_time": 1791520755.053,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "ae0782f88125d140",
+            "parent_span_id": "5d594e3d8f255e28",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/shipping",
+            "duration_ms": 166.847488,
+            "status": "UNSET",
+            "start_time": 1791520754.888,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "5d594e3d8f255e28",
+            "parent_span_id": "8586e078c63e9191",
+            "service": "frontend",
+            "operation": "GET /api/shipping",
+            "duration_ms": 167.457792,
+            "status": "UNSET",
+            "start_time": 1791520754.888,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "8586e078c63e9191",
+            "parent_span_id": "36771efeb458f882",
+            "service": "frontend",
+            "operation": "GET /api/shipping",
+            "duration_ms": 167.873024,
+            "status": "UNSET",
+            "start_time": 1791520754.887,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "0e5bd61ae0695caa",
+            "parent_span_id": "ae0782f88125d140",
+            "service": "frontend",
+            "operation": "dns.lookup",
+            "duration_ms": 1.526272,
+            "status": "UNSET",
+            "start_time": 1791520754.893,
+            "span_kind": "client",
+            "db_system": null
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "b8761888bb51db3f",
+            "parent_span_id": "ae0782f88125d140",
+            "service": "frontend",
+            "operation": "tcp.connect",
+            "duration_ms": 2.393344,
+            "status": "UNSET",
+            "start_time": 1791520754.892,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "60d35a9f9c861cfa",
+            "parent_span_id": "ae0782f88125d140",
+            "service": "frontend",
+            "operation": "POST",
+            "duration_ms": 161.969152,
+            "status": "UNSET",
+            "start_time": 1791520754.8899999,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "074a9a5a33e7ab36447acf88155ebe07",
+            "span_id": "62bf52c191385de6",
+            "parent_span_id": "484b583468bd9e03",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/Convert",
+            "duration_ms": 0.041728,
+            "status": "OK",
+            "start_time": 1791520755.0541914,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "972eb480b8b359330a80bde804d0a185",
+        "spans": [
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "9cf804ca70fde8b5",
+            "parent_span_id": "c77e7789fbf4dcdc",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 220.310016,
+            "status": "UNSET",
+            "start_time": 1791520754.857635,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "c77e7789fbf4dcdc",
+            "parent_span_id": "8c5cfe3a64357573",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 220.63104,
+            "status": "UNSET",
+            "start_time": 1791520754.857373,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "8c5cfe3a64357573",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 236.0,
+            "status": "UNSET",
+            "start_time": 1791520754.844,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "6d2f482865a2c759",
+            "parent_span_id": "168cf8cf52868af2",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 11.158016,
+            "status": "UNSET",
+            "start_time": 1791520754.8670454,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "c8fb893f174b16de",
+            "parent_span_id": "2963584b2d4d025c",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 6.390016,
+            "status": "UNSET",
+            "start_time": 1791520755.0483916,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "21ba4fbf2329d5c9",
+            "parent_span_id": "0dc689ae3ed3e5cf",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.161536,
+            "status": "UNSET",
+            "start_time": 1791520755.0520566,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "da717f9f2fc31cd9",
+            "parent_span_id": "acbac26f7269d351",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 1.938176,
+            "status": "UNSET",
+            "start_time": 1791520755.0684114,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "498f0071f8d190f3",
+            "parent_span_id": "1d5ab1ed51e702d2",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 3.263232,
+            "status": "UNSET",
+            "start_time": 1791520755.0705411,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "168cf8cf52868af2",
+            "parent_span_id": "02bbfed29fa535e6",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 175.021312,
+            "status": "UNSET",
+            "start_time": 1791520754.865421,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "2963584b2d4d025c",
+            "parent_span_id": "588bbdc337d992e7",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 8.504576,
+            "status": "UNSET",
+            "start_time": 1791520755.0477707,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "0dc689ae3ed3e5cf",
+            "parent_span_id": "cb0cd033ed89170c",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 6.323712,
+            "status": "UNSET",
+            "start_time": 1791520755.0506268,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "acbac26f7269d351",
+            "parent_span_id": "730b16ab2124cb7f",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 21.781504,
+            "status": "UNSET",
+            "start_time": 1791520755.0514212,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "1d5ab1ed51e702d2",
+            "parent_span_id": "725e3a3aa0d869ca",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 24.651776,
+            "status": "UNSET",
+            "start_time": 1791520755.0515301,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "02bbfed29fa535e6",
+            "parent_span_id": "9d99f451bf1ac294",
+            "service": "recommendation",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 178.640896,
+            "status": "UNSET",
+            "start_time": 1791520754.8630116,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "503acf54e39a1afd",
+            "parent_span_id": "3ee634334d1eda30",
+            "service": "recommendation",
+            "operation": "oteldemo.RecommendationService/ListRecommendations",
+            "duration_ms": 179.172608,
+            "status": "UNSET",
+            "start_time": 1791520754.8627703,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "9d99f451bf1ac294",
+            "parent_span_id": "503acf54e39a1afd",
+            "service": "recommendation",
+            "operation": "get_product_list",
+            "duration_ms": 178.904064,
+            "status": "UNSET",
+            "start_time": 1791520754.8628185,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "3ee634334d1eda30",
+            "parent_span_id": "dcd1df69fba25d93",
+            "service": "frontend",
+            "operation": "oteldemo.RecommendationService/ListRecommendations",
+            "duration_ms": 181.906176,
+            "status": "UNSET",
+            "start_time": 1791520754.86,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "588bbdc337d992e7",
+            "parent_span_id": "dcd1df69fba25d93",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 14.171648,
+            "status": "UNSET",
+            "start_time": 1791520755.0419998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "cb0cd033ed89170c",
+            "parent_span_id": "dcd1df69fba25d93",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 14.690816,
+            "status": "UNSET",
+            "start_time": 1791520755.0419998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "730b16ab2124cb7f",
+            "parent_span_id": "dcd1df69fba25d93",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 31.294208,
+            "status": "UNSET",
+            "start_time": 1791520755.0419998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "725e3a3aa0d869ca",
+            "parent_span_id": "dcd1df69fba25d93",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 34.239488,
+            "status": "UNSET",
+            "start_time": 1791520755.0419998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "dcd1df69fba25d93",
+            "parent_span_id": "86b58112eed7aae2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/recommendations",
+            "duration_ms": 217.16608,
+            "status": "UNSET",
+            "start_time": 1791520754.86,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "86b58112eed7aae2",
+            "parent_span_id": "16c02995195201b1",
+            "service": "frontend",
+            "operation": "GET /api/recommendations",
+            "duration_ms": 218.477056,
+            "status": "UNSET",
+            "start_time": 1791520754.8579998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "972eb480b8b359330a80bde804d0a185",
+            "span_id": "16c02995195201b1",
+            "parent_span_id": "9cf804ca70fde8b5",
+            "service": "frontend",
+            "operation": "GET /api/recommendations",
+            "duration_ms": 219.357696,
+            "status": "UNSET",
+            "start_time": 1791520754.8579998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "752b90f0c1fb828727e8042d93467fc3",
+        "spans": [
+          {
+            "trace_id": "752b90f0c1fb828727e8042d93467fc3",
+            "span_id": "d009abe495ef259a",
+            "parent_span_id": "35fc828d518d4b34",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.795968,
+            "status": "UNSET",
+            "start_time": 1791520754.840117,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "752b90f0c1fb828727e8042d93467fc3",
+            "span_id": "35fc828d518d4b34",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.111104,
+            "status": "UNSET",
+            "start_time": 1791520754.8398468,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "752b90f0c1fb828727e8042d93467fc3",
+            "span_id": "9c79d1053cb45ab8",
+            "parent_span_id": "d009abe495ef259a",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.044608,
+            "status": "UNSET",
+            "start_time": 1791520754.84,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "b904417a7b94ca68560a1f6749c07f8d",
+        "spans": [
+          {
+            "trace_id": "b904417a7b94ca68560a1f6749c07f8d",
+            "span_id": "d8c62d66836375e4",
+            "parent_span_id": "82d351b980619719",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.93792,
+            "status": "UNSET",
+            "start_time": 1791520754.765541,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b904417a7b94ca68560a1f6749c07f8d",
+            "span_id": "82d351b980619719",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 2.05696,
+            "status": "UNSET",
+            "start_time": 1791520754.765451,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b904417a7b94ca68560a1f6749c07f8d",
+            "span_id": "230e2c2f8d9a62eb",
+            "parent_span_id": "d8c62d66836375e4",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.448704,
+            "status": "UNSET",
+            "start_time": 1791520754.766,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+        "spans": [
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "a1702296cc84f473",
+            "parent_span_id": "2a075975b6fccdac",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 48.989952,
+            "status": "UNSET",
+            "start_time": 1791520754.759497,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "2a075975b6fccdac",
+            "parent_span_id": "51b322d8d3d81952",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 49.64096,
+            "status": "UNSET",
+            "start_time": 1791520754.759316,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "51b322d8d3d81952",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 60.000256,
+            "status": "UNSET",
+            "start_time": 1791520754.754,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "bf0fc9851144dd3b",
+            "parent_span_id": "a36e89c81e81e7c0",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.837632,
+            "status": "UNSET",
+            "start_time": 1791520754.791974,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "a36e89c81e81e7c0",
+            "parent_span_id": "0c5cce5c0f621e31",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 19.030528,
+            "status": "UNSET",
+            "start_time": 1791520754.7859235,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "0c5cce5c0f621e31",
+            "parent_span_id": "39ad47691bf87e3f",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 44.928512,
+            "status": "UNSET",
+            "start_time": 1791520754.7619998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "39ad47691bf87e3f",
+            "parent_span_id": "b0a74def3da88d9c",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 45.477376,
+            "status": "UNSET",
+            "start_time": 1791520754.7619998,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "b0a74def3da88d9c",
+            "parent_span_id": "0427792c436b1840",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 46.017024,
+            "status": "UNSET",
+            "start_time": 1791520754.7619998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "fde3f1bcda2ab78b88081f8012cdc336",
+            "span_id": "0427792c436b1840",
+            "parent_span_id": "a1702296cc84f473",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 46.422528,
+            "status": "UNSET",
+            "start_time": 1791520754.7619998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "389d198c368f029309089e8ac6249d21",
+        "spans": [
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "6089f349162d6a5a",
+            "parent_span_id": "7ec6093c1a944f4a",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 16.924928,
+            "status": "UNSET",
+            "start_time": 1791520754.884481,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "7ec6093c1a944f4a",
+            "parent_span_id": "8fe383b303c06538",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 17.177088,
+            "status": "UNSET",
+            "start_time": 1791520754.884321,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "8fe383b303c06538",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 27.999744,
+            "status": "UNSET",
+            "start_time": 1791520754.878,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "cd90aae96402d734",
+            "parent_span_id": "32bf472c8b030f5e",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 4.62976,
+            "status": "UNSET",
+            "start_time": 1791520754.8962286,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "bb78e04aeab678bb",
+            "parent_span_id": "cd90aae96402d734",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.115968,
+            "status": "UNSET",
+            "start_time": 1791520754.8990028,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "32bf472c8b030f5e",
+            "parent_span_id": "b22439a616bc5a2a",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 13.793536,
+            "status": "UNSET",
+            "start_time": 1791520754.887,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "b22439a616bc5a2a",
+            "parent_span_id": "d0efa7a7b191befe",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 14.862592,
+            "status": "UNSET",
+            "start_time": 1791520754.8860002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "d0efa7a7b191befe",
+            "parent_span_id": "1d014d1d1e799e46",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 15.964416,
+            "status": "UNSET",
+            "start_time": 1791520754.885,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "389d198c368f029309089e8ac6249d21",
+            "span_id": "1d014d1d1e799e46",
+            "parent_span_id": "6089f349162d6a5a",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 16.503808,
+            "status": "UNSET",
+            "start_time": 1791520754.885,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+        "spans": [
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "37b3bbe4450bdb80",
+            "parent_span_id": "3362f15f2937aa2d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.548096,
+            "status": "UNSET",
+            "start_time": 1791520754.8254411,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "3362f15f2937aa2d",
+            "parent_span_id": "6a209016acdb4ba3",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 8.931072,
+            "status": "UNSET",
+            "start_time": 1791520754.8251488,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "6a209016acdb4ba3",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 18.000128,
+            "status": "UNSET",
+            "start_time": 1791520754.82,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "2040008652647299",
+            "parent_span_id": "a67bbb8af55fe53f",
+            "service": "ad",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 3.374848,
+            "status": "UNSET",
+            "start_time": 1791520754.8294523,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "c9d4ca91559830a2",
+            "parent_span_id": "2040008652647299",
+            "service": "ad",
+            "operation": "getAdsByCategory",
+            "duration_ms": 0.193792,
+            "status": "UNSET",
+            "start_time": 1791520754.8309603,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "a67bbb8af55fe53f",
+            "parent_span_id": "af87f7b3ccb05db8",
+            "service": "frontend",
+            "operation": "oteldemo.AdService/GetAds",
+            "duration_ms": 6.332928,
+            "status": "UNSET",
+            "start_time": 1791520754.826,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "af87f7b3ccb05db8",
+            "parent_span_id": "c97dad81bf789cda",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/data",
+            "duration_ms": 7.246336,
+            "status": "UNSET",
+            "start_time": 1791520754.826,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "c97dad81bf789cda",
+            "parent_span_id": "12bec2e41b392ab6",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 7.94624,
+            "status": "UNSET",
+            "start_time": 1791520754.826,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ba77d588d171e7d8f9f543bfbfc3eb2",
+            "span_id": "12bec2e41b392ab6",
+            "parent_span_id": "37b3bbe4450bdb80",
+            "service": "frontend",
+            "operation": "GET /api/data",
+            "duration_ms": 8.189952,
+            "status": "UNSET",
+            "start_time": 1791520754.825,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "8d54184ee189bba3735a2e8c85549d2c",
+        "spans": [
+          {
+            "trace_id": "8d54184ee189bba3735a2e8c85549d2c",
+            "span_id": "7aed58e9a7aa906e",
+            "parent_span_id": "ab51ecd591e26ce4",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.748992,
+            "status": "UNSET",
+            "start_time": 1791520754.765541,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "8d54184ee189bba3735a2e8c85549d2c",
+            "span_id": "ab51ecd591e26ce4",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.910016,
+            "status": "UNSET",
+            "start_time": 1791520754.765418,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "8d54184ee189bba3735a2e8c85549d2c",
+            "span_id": "ef9a6dd9db36bc77",
+            "parent_span_id": "7aed58e9a7aa906e",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.59872,
+            "status": "UNSET",
+            "start_time": 1791520754.7649999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+        "spans": [
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "3908561707c3c698",
+            "parent_span_id": "a4f88d4015da8d8d",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 14.223104,
+            "status": "UNSET",
+            "start_time": 1791520754.821374,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "a4f88d4015da8d8d",
+            "parent_span_id": "87090f4569cc9888",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 14.680064,
+            "status": "UNSET",
+            "start_time": 1791520754.821152,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "87090f4569cc9888",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 24.999936,
+            "status": "UNSET",
+            "start_time": 1791520754.815,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "2ee3a0d776988b8f",
+            "parent_span_id": "1440710193ff7cbf",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.824576,
+            "status": "UNSET",
+            "start_time": 1791520754.825441,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "6c0435e419ddabf6",
+            "parent_span_id": "2ee3a0d776988b8f",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.441856,
+            "status": "UNSET",
+            "start_time": 1791520754.8256168,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "bd07cd376b2a1a29",
+            "parent_span_id": "3bfd56f4c4ce51a6",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 1.350912,
+            "status": "UNSET",
+            "start_time": 1791520754.8317301,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "3bfd56f4c4ce51a6",
+            "parent_span_id": "e26e5b62fcc55bd7",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 3.18208,
+            "status": "UNSET",
+            "start_time": 1791520754.8315585,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "1440710193ff7cbf",
+            "parent_span_id": "4c979b3cd83a32e6",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 4.686592,
+            "status": "UNSET",
+            "start_time": 1791520754.823,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "e26e5b62fcc55bd7",
+            "parent_span_id": "4c979b3cd83a32e6",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 6.815744,
+            "status": "UNSET",
+            "start_time": 1791520754.828,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "4c979b3cd83a32e6",
+            "parent_span_id": "350c3442e7978e59",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 12.03328,
+            "status": "UNSET",
+            "start_time": 1791520754.823,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "350c3442e7978e59",
+            "parent_span_id": "ea7643bdfe632b3e",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 12.930304,
+            "status": "UNSET",
+            "start_time": 1791520754.822,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3996066a81d6d80b6a9c9edd68236ca4",
+            "span_id": "ea7643bdfe632b3e",
+            "parent_span_id": "3908561707c3c698",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 13.818112,
+            "status": "UNSET",
+            "start_time": 1791520754.8209999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+        "spans": [
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "4b8719c9ec6d2166",
+            "parent_span_id": "74cb6f0e9db0ee29",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 10.648064,
+            "status": "UNSET",
+            "start_time": 1791520754.798707,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "74cb6f0e9db0ee29",
+            "parent_span_id": "6a3f74c3cb5d8465",
+            "service": "frontend-proxy",
+            "operation": "POST",
+            "duration_ms": 10.909952,
+            "status": "UNSET",
+            "start_time": 1791520754.7984982,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "6a3f74c3cb5d8465",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "POST",
+            "duration_ms": 20.000256,
+            "status": "UNSET",
+            "start_time": 1791520754.794,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "e47878b43dc8b4a1",
+            "parent_span_id": "d9405841bcbb44d4",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/AddItem",
+            "duration_ms": 3.320064,
+            "status": "UNSET",
+            "start_time": 1791520754.8023212,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "b886903276102f11",
+            "parent_span_id": "53c0d86cd4e0a077",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.744192,
+            "status": "UNSET",
+            "start_time": 1791520754.807927,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "d32ba5bec17b4ff0",
+            "parent_span_id": "b886903276102f11",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.411904,
+            "status": "UNSET",
+            "start_time": 1791520754.8081295,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "49769cec6339f4c8",
+            "parent_span_id": "e47878b43dc8b4a1",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.595456,
+            "status": "UNSET",
+            "start_time": 1791520754.8025286,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "c66295b8532cc234",
+            "parent_span_id": "e47878b43dc8b4a1",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 1.71776,
+            "status": "UNSET",
+            "start_time": 1791520754.8031673,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "dd6bd493254410af",
+            "parent_span_id": "e47878b43dc8b4a1",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.6272,
+            "status": "UNSET",
+            "start_time": 1791520754.8049219,
+            "span_kind": "client",
+            "db_system": "redis"
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "d9405841bcbb44d4",
+            "parent_span_id": "f6299c030fa5d5e2",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/AddItem",
+            "duration_ms": 5.69344,
+            "status": "UNSET",
+            "start_time": 1791520754.8009999,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "53c0d86cd4e0a077",
+            "parent_span_id": "f6299c030fa5d5e2",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 2.089472,
+            "status": "UNSET",
+            "start_time": 1791520754.8060002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "f6299c030fa5d5e2",
+            "parent_span_id": "ff0f4fbe08e3cb1e",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 8.579072,
+            "status": "UNSET",
+            "start_time": 1791520754.8,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "ff0f4fbe08e3cb1e",
+            "parent_span_id": "58ce57ec78abfb5b",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 9.252608,
+            "status": "UNSET",
+            "start_time": 1791520754.8,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "10ec0851c3e6b8adae5ccbae41b875f4",
+            "span_id": "58ce57ec78abfb5b",
+            "parent_span_id": "4b8719c9ec6d2166",
+            "service": "frontend",
+            "operation": "POST /api/cart",
+            "duration_ms": 9.829376,
+            "status": "UNSET",
+            "start_time": 1791520754.799,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "f9e9137ec32b76172f925c63c226175b",
+        "spans": [
+          {
+            "trace_id": "f9e9137ec32b76172f925c63c226175b",
+            "span_id": "e1c2ce4df339fc3c",
+            "parent_span_id": "b001fad3fb03b849",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.174912,
+            "status": "UNSET",
+            "start_time": 1791520754.6828532,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f9e9137ec32b76172f925c63c226175b",
+            "span_id": "b001fad3fb03b849",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.312128,
+            "status": "UNSET",
+            "start_time": 1791520754.682752,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f9e9137ec32b76172f925c63c226175b",
+            "span_id": "e11d3df199afeb2d",
+            "parent_span_id": "e1c2ce4df339fc3c",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.597632,
+            "status": "UNSET",
+            "start_time": 1791520754.683,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "a038ead0e18406396609c7f5fe764590",
+        "spans": [
+          {
+            "trace_id": "a038ead0e18406396609c7f5fe764590",
+            "span_id": "2e6da7f8e7d5d57b",
+            "parent_span_id": "a4852de6a4da9ecd",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 2.745856,
+            "status": "UNSET",
+            "start_time": 1791520754.8638,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a038ead0e18406396609c7f5fe764590",
+            "span_id": "a4852de6a4da9ecd",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 2.949888,
+            "status": "UNSET",
+            "start_time": 1791520754.863648,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a038ead0e18406396609c7f5fe764590",
+            "span_id": "b3ecb787203d8bbd",
+            "parent_span_id": "2e6da7f8e7d5d57b",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.921792,
+            "status": "UNSET",
+            "start_time": 1791520754.864,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "71398cffb92327fd21ca80bab433edb8",
+        "spans": [
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "a81cd929d0c67b17",
+            "parent_span_id": "754db82270b55430",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 96.448,
+            "status": "UNSET",
+            "start_time": 1791520754.759497,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "754db82270b55430",
+            "parent_span_id": "35135c1313b4e6fe",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 96.71296,
+            "status": "UNSET",
+            "start_time": 1791520754.7593138,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "35135c1313b4e6fe",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 122.000128,
+            "status": "UNSET",
+            "start_time": 1791520754.753,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "4c55793b82bd8a1f",
+            "parent_span_id": "35a1095086267fbf",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 5.074176,
+            "status": "UNSET",
+            "start_time": 1791520754.7916663,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "fbdc7b03de2b9b4e",
+            "parent_span_id": "b117848a7d5a251a",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 1.823744,
+            "status": "UNSET",
+            "start_time": 1791520754.8189309,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "f59bcaa5549342ba",
+            "parent_span_id": "212e2bf15c5b7a69",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 5.221888,
+            "status": "UNSET",
+            "start_time": 1791520754.8203847,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "93a884eb4365fa30",
+            "parent_span_id": "d87f0e0cb5b45fb6",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 3.83488,
+            "status": "UNSET",
+            "start_time": 1791520754.8410184,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "1411027174d44b6b",
+            "parent_span_id": "ff251e13f65d643d",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 1.376256,
+            "status": "UNSET",
+            "start_time": 1791520754.847824,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "35a1095086267fbf",
+            "parent_span_id": "b6b8c17a1090f3d5",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 18.44352,
+            "status": "UNSET",
+            "start_time": 1791520754.7895632,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "b117848a7d5a251a",
+            "parent_span_id": "bf829ff58b710d58",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 7.220736,
+            "status": "UNSET",
+            "start_time": 1791520754.8187516,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "212e2bf15c5b7a69",
+            "parent_span_id": "3579bd644d506359",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 9.359872,
+            "status": "UNSET",
+            "start_time": 1791520754.81912,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "d87f0e0cb5b45fb6",
+            "parent_span_id": "dd952b0e98bb806e",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 26.776064,
+            "status": "UNSET",
+            "start_time": 1791520754.8189373,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "ff251e13f65d643d",
+            "parent_span_id": "28e428a17259722f",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 34.55744,
+            "status": "UNSET",
+            "start_time": 1791520754.8190048,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "b6b8c17a1090f3d5",
+            "parent_span_id": "c83830904a3ac296",
+            "service": "recommendation",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 44.673792,
+            "status": "UNSET",
+            "start_time": 1791520754.7649202,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "089bbf4b860cc331",
+            "parent_span_id": "f564fa7d67304ed3",
+            "service": "recommendation",
+            "operation": "oteldemo.RecommendationService/ListRecommendations",
+            "duration_ms": 45.675008,
+            "status": "UNSET",
+            "start_time": 1791520754.7645512,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "c83830904a3ac296",
+            "parent_span_id": "089bbf4b860cc331",
+            "service": "recommendation",
+            "operation": "get_product_list",
+            "duration_ms": 45.16352,
+            "status": "UNSET",
+            "start_time": 1791520754.7646382,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "f564fa7d67304ed3",
+            "parent_span_id": "81e2ed74fbae5b31",
+            "service": "frontend",
+            "operation": "oteldemo.RecommendationService/ListRecommendations",
+            "duration_ms": 49.483776,
+            "status": "UNSET",
+            "start_time": 1791520754.761,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "bf829ff58b710d58",
+            "parent_span_id": "81e2ed74fbae5b31",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 16.99712,
+            "status": "UNSET",
+            "start_time": 1791520754.811,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "3579bd644d506359",
+            "parent_span_id": "81e2ed74fbae5b31",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 18.48192,
+            "status": "UNSET",
+            "start_time": 1791520754.81,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "dd952b0e98bb806e",
+            "parent_span_id": "81e2ed74fbae5b31",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 35.22304,
+            "status": "UNSET",
+            "start_time": 1791520754.811,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "28e428a17259722f",
+            "parent_span_id": "81e2ed74fbae5b31",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 43.465984,
+            "status": "UNSET",
+            "start_time": 1791520754.811,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "81e2ed74fbae5b31",
+            "parent_span_id": "95937f5cae7f2403",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/recommendations",
+            "duration_ms": 94.189824,
+            "status": "UNSET",
+            "start_time": 1791520754.76,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "95937f5cae7f2403",
+            "parent_span_id": "01e381c73a297126",
+            "service": "frontend",
+            "operation": "GET /api/recommendations",
+            "duration_ms": 94.777344,
+            "status": "UNSET",
+            "start_time": 1791520754.76,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "71398cffb92327fd21ca80bab433edb8",
+            "span_id": "01e381c73a297126",
+            "parent_span_id": "a81cd929d0c67b17",
+            "service": "frontend",
+            "operation": "GET /api/recommendations",
+            "duration_ms": 95.552512,
+            "status": "UNSET",
+            "start_time": 1791520754.76,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "a5f4412eec6c82e1a15747310a401c66",
+        "spans": [
+          {
+            "trace_id": "a5f4412eec6c82e1a15747310a401c66",
+            "span_id": "4802537a7e8f9eeb",
+            "parent_span_id": "2480dbf83fbd182c",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.455232,
+            "status": "UNSET",
+            "start_time": 1791520754.8406348,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a5f4412eec6c82e1a15747310a401c66",
+            "span_id": "2480dbf83fbd182c",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.845888,
+            "status": "UNSET",
+            "start_time": 1791520754.840472,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a5f4412eec6c82e1a15747310a401c66",
+            "span_id": "0b5e9b57d7456fc1",
+            "parent_span_id": "4802537a7e8f9eeb",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.437632,
+            "status": "UNSET",
+            "start_time": 1791520754.8409998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "367cbc604cb2bc801d7736fe9fe44804",
+        "spans": [
+          {
+            "trace_id": "367cbc604cb2bc801d7736fe9fe44804",
+            "span_id": "cdf5e9dab4bb0c1c",
+            "parent_span_id": "18ece36348121a59",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.737984,
+            "status": "UNSET",
+            "start_time": 1791520754.7490869,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "367cbc604cb2bc801d7736fe9fe44804",
+            "span_id": "18ece36348121a59",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.96608,
+            "status": "UNSET",
+            "start_time": 1791520754.748894,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "367cbc604cb2bc801d7736fe9fe44804",
+            "span_id": "4ab66a64a894c4f7",
+            "parent_span_id": "cdf5e9dab4bb0c1c",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.196288,
+            "status": "UNSET",
+            "start_time": 1791520754.7489998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "281ac9038e2d122e210fe6655dbc82bd",
+        "spans": [
+          {
+            "trace_id": "281ac9038e2d122e210fe6655dbc82bd",
+            "span_id": "a5a38a74695928e4",
+            "parent_span_id": "5525ee46c4d65b43",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.876032,
+            "status": "UNSET",
+            "start_time": 1791520754.892323,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "281ac9038e2d122e210fe6655dbc82bd",
+            "span_id": "5525ee46c4d65b43",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 5.635072,
+            "status": "UNSET",
+            "start_time": 1791520754.891995,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "281ac9038e2d122e210fe6655dbc82bd",
+            "span_id": "4be3ed4b50014ff7",
+            "parent_span_id": "a5a38a74695928e4",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.882816,
+            "status": "UNSET",
+            "start_time": 1791520754.894,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "040d744e309f47bec593ffc2889210a9",
+        "spans": [
+          {
+            "trace_id": "040d744e309f47bec593ffc2889210a9",
+            "span_id": "9cae04a0ac6cb406",
+            "parent_span_id": "2d4119fb3609109a",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.49408,
+            "status": "UNSET",
+            "start_time": 1791520754.8214998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "040d744e309f47bec593ffc2889210a9",
+            "span_id": "2d4119fb3609109a",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 8.630784,
+            "status": "UNSET",
+            "start_time": 1791520754.821413,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "040d744e309f47bec593ffc2889210a9",
+            "span_id": "3251fb6b52fac7e6",
+            "parent_span_id": "9cae04a0ac6cb406",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 4.406016,
+            "status": "UNSET",
+            "start_time": 1791520754.825,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "c1aa7df3eeacce4db4ab224da3d97852",
+        "spans": [
+          {
+            "trace_id": "c1aa7df3eeacce4db4ab224da3d97852",
+            "span_id": "7c51dca593d82665",
+            "parent_span_id": "a9cfb37b439cea10",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 6.374912,
+            "status": "UNSET",
+            "start_time": 1791520754.650362,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1aa7df3eeacce4db4ab224da3d97852",
+            "span_id": "a9cfb37b439cea10",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 6.855168,
+            "status": "UNSET",
+            "start_time": 1791520754.650089,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1aa7df3eeacce4db4ab224da3d97852",
+            "span_id": "f7e83512ee70050c",
+            "parent_span_id": "7c51dca593d82665",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.75936,
+            "status": "UNSET",
+            "start_time": 1791520754.6529999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "effa03712407bfd641536cd5665c844d",
+        "spans": [
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "0ae5351c9bf752c9",
+            "parent_span_id": "ddf9c44fe92aadef",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1434.065152,
+            "status": "UNSET",
+            "start_time": 1791520753.105588,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "ddf9c44fe92aadef",
+            "parent_span_id": "c79560bad741bac9",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1434.418944,
+            "status": "UNSET",
+            "start_time": 1791520753.1053,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "c79560bad741bac9",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 1446.000128,
+            "status": "UNSET",
+            "start_time": 1791520753.0979998,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "e471dadfd4858ada",
+            "parent_span_id": "c6ca0e8924b59d68",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 366.955008,
+            "status": "UNSET",
+            "start_time": 1791520753.5885253,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "c6ca0e8924b59d68",
+            "parent_span_id": "e32a8fd0b7cce0ad",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 1247.49952,
+            "status": "UNSET",
+            "start_time": 1791520753.2861023,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "e32a8fd0b7cce0ad",
+            "parent_span_id": "097755140232f8fd",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 1428.901632,
+            "status": "UNSET",
+            "start_time": 1791520753.109,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "097755140232f8fd",
+            "parent_span_id": "f6a12d5275ffa4a2",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/index",
+            "duration_ms": 1429.769216,
+            "status": "UNSET",
+            "start_time": 1791520753.108,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "f6a12d5275ffa4a2",
+            "parent_span_id": "8df42040d201a751",
+            "service": "frontend",
+            "operation": "GET /api/products/index",
+            "duration_ms": 1431.2448,
+            "status": "UNSET",
+            "start_time": 1791520753.107,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "effa03712407bfd641536cd5665c844d",
+            "span_id": "8df42040d201a751",
+            "parent_span_id": "0ae5351c9bf752c9",
+            "service": "frontend",
+            "operation": "GET /api/products/index",
+            "duration_ms": 1432.821248,
+            "status": "UNSET",
+            "start_time": 1791520753.106,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "260e680e30cae23c7d263d03da70f685",
+        "spans": [
+          {
+            "trace_id": "260e680e30cae23c7d263d03da70f685",
+            "span_id": "37bca2fd69ceb123",
+            "parent_span_id": "3c06fd8b6e4f1280",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.613824,
+            "status": "UNSET",
+            "start_time": 1791520754.6329842,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "260e680e30cae23c7d263d03da70f685",
+            "span_id": "3c06fd8b6e4f1280",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.753088,
+            "status": "UNSET",
+            "start_time": 1791520754.632875,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "260e680e30cae23c7d263d03da70f685",
+            "span_id": "94733e62e8f147a8",
+            "parent_span_id": "37bca2fd69ceb123",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.03808,
+            "status": "UNSET",
+            "start_time": 1791520754.633,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "4395f03328eb9811bc4ac8809d8d0348",
+        "spans": [
+          {
+            "trace_id": "4395f03328eb9811bc4ac8809d8d0348",
+            "span_id": "8d2f4e6385f4a794",
+            "parent_span_id": "849498981b897c45",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 6.109952,
+            "status": "UNSET",
+            "start_time": 1791520754.650362,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "4395f03328eb9811bc4ac8809d8d0348",
+            "span_id": "849498981b897c45",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 6.574848,
+            "status": "UNSET",
+            "start_time": 1791520754.649954,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "4395f03328eb9811bc4ac8809d8d0348",
+            "span_id": "e14075839ff3aa17",
+            "parent_span_id": "8d2f4e6385f4a794",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.929856,
+            "status": "UNSET",
+            "start_time": 1791520754.652,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+        "spans": [
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "c10815a5563c440a",
+            "parent_span_id": "28b2ae098e4de7c4",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1485.657856,
+            "status": "UNSET",
+            "start_time": 1791520753.0540311,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "28b2ae098e4de7c4",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1486.136064,
+            "status": "UNSET",
+            "start_time": 1791520753.053601,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "6d0ceb52d0fbb298",
+            "parent_span_id": "165eeff5f75856bd",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 42.348032,
+            "status": "UNSET",
+            "start_time": 1791520753.5983078,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "165eeff5f75856bd",
+            "parent_span_id": "34b8bdc8b5e23031",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 1247.524608,
+            "status": "UNSET",
+            "start_time": 1791520753.2861032,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "34b8bdc8b5e23031",
+            "parent_span_id": "4968878199f09ec9",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/ListProducts",
+            "duration_ms": 1481.043712,
+            "status": "UNSET",
+            "start_time": 1791520753.057,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "4968878199f09ec9",
+            "parent_span_id": "3dd6b318b478133d",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/index",
+            "duration_ms": 1481.626112,
+            "status": "UNSET",
+            "start_time": 1791520753.057,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "3dd6b318b478133d",
+            "parent_span_id": "a6d2c842176e7bbf",
+            "service": "frontend",
+            "operation": "GET /api/products/index",
+            "duration_ms": 1482.836224,
+            "status": "UNSET",
+            "start_time": 1791520753.056,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "a4934cadc37006b57cc2299bf9096d81",
+            "span_id": "a6d2c842176e7bbf",
+            "parent_span_id": "c10815a5563c440a",
+            "service": "frontend",
+            "operation": "GET /api/products/index",
+            "duration_ms": 1484.100608,
+            "status": "UNSET",
+            "start_time": 1791520753.055,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "5cb48096882e41ba335d5f5086af9c6c",
+        "spans": [
+          {
+            "trace_id": "5cb48096882e41ba335d5f5086af9c6c",
+            "span_id": "2dbd63c576fed89b",
+            "parent_span_id": "3846452aeb827f16",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 5.885952,
+            "status": "UNSET",
+            "start_time": 1791520754.650362,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5cb48096882e41ba335d5f5086af9c6c",
+            "span_id": "3846452aeb827f16",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 6.141952,
+            "status": "UNSET",
+            "start_time": 1791520754.650194,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5cb48096882e41ba335d5f5086af9c6c",
+            "span_id": "55d6ea527505e590",
+            "parent_span_id": "2dbd63c576fed89b",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 4.584704,
+            "status": "UNSET",
+            "start_time": 1791520754.651,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "1b827e4cea720c359f4db171401ad679",
+        "spans": [
+          {
+            "trace_id": "1b827e4cea720c359f4db171401ad679",
+            "span_id": "e98742f16e65aa04",
+            "parent_span_id": "2f42a9824e0095c8",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.117632,
+            "status": "UNSET",
+            "start_time": 1791520753.027,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1b827e4cea720c359f4db171401ad679",
+            "span_id": "2f42a9824e0095c8",
+            "parent_span_id": "1a2c7567a6fd12f8",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.005952,
+            "status": "UNSET",
+            "start_time": 1791520753.0269282,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1b827e4cea720c359f4db171401ad679",
+            "span_id": "1a2c7567a6fd12f8",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.372032,
+            "status": "UNSET",
+            "start_time": 1791520753.026602,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+        "spans": [
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "a66a5c4e1acbde12",
+            "parent_span_id": "f0e0441b915600bf",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 7.399936,
+            "status": "UNSET",
+            "start_time": 1791520753.0670002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "20839f317e0c6703",
+            "parent_span_id": "6741462ddf4ad33b",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 5.571072,
+            "status": "UNSET",
+            "start_time": 1791520753.0670002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "6741462ddf4ad33b",
+            "parent_span_id": "54384fd125bb3cd6",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 6.327296,
+            "status": "UNSET",
+            "start_time": 1791520753.0670002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "54384fd125bb3cd6",
+            "parent_span_id": "a66a5c4e1acbde12",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 6.972672,
+            "status": "UNSET",
+            "start_time": 1791520753.0670002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "f0e0441b915600bf",
+            "parent_span_id": "c946a20de1ec7c37",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 7.985152,
+            "status": "UNSET",
+            "start_time": 1791520753.066438,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "c946a20de1ec7c37",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 8.332032,
+            "status": "UNSET",
+            "start_time": 1791520753.066189,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "af83aad107acc4c3",
+            "parent_span_id": "20839f317e0c6703",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 1.16352,
+            "status": "UNSET",
+            "start_time": 1791520753.0692177,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "6b32be2a60aab0a65a5ba8649e867d14",
+            "span_id": "68e6d807fbfb1351",
+            "parent_span_id": "af83aad107acc4c3",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.678144,
+            "status": "UNSET",
+            "start_time": 1791520753.069567,
+            "span_kind": "client",
+            "db_system": "redis"
+          }
+        ]
+      },
+      {
+        "trace_id": "dbe9433245b0daee5b78b91b0a23962d",
+        "spans": [
+          {
+            "trace_id": "dbe9433245b0daee5b78b91b0a23962d",
+            "span_id": "0dc36237a8a79edb",
+            "parent_span_id": "a07b48ffa438b358",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.400832,
+            "status": "UNSET",
+            "start_time": 1791520753.1139998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "dbe9433245b0daee5b78b91b0a23962d",
+            "span_id": "a07b48ffa438b358",
+            "parent_span_id": "fc5e16731d3b9fe8",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 2.910208,
+            "status": "UNSET",
+            "start_time": 1791520753.112721,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "dbe9433245b0daee5b78b91b0a23962d",
+            "span_id": "fc5e16731d3b9fe8",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.339008,
+            "status": "UNSET",
+            "start_time": 1791520753.112362,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "29b0de7e612ed6a90015529774cdf190",
+        "spans": [
+          {
+            "trace_id": "29b0de7e612ed6a90015529774cdf190",
+            "span_id": "de57573c97b43b9d",
+            "parent_span_id": "08fcb6b0bb6e2fbb",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.602368,
+            "status": "UNSET",
+            "start_time": 1791520752.663,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "29b0de7e612ed6a90015529774cdf190",
+            "span_id": "08fcb6b0bb6e2fbb",
+            "parent_span_id": "49809fc97446ae82",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.069056,
+            "status": "UNSET",
+            "start_time": 1791520752.66309,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "29b0de7e612ed6a90015529774cdf190",
+            "span_id": "49809fc97446ae82",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.153024,
+            "status": "UNSET",
+            "start_time": 1791520752.663023,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "2a8efb493fb338615d186aa4de280c77",
+        "spans": [
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "3e1a5f67420a609f",
+            "parent_span_id": "55aaf199ada32c42",
+            "service": "load-generator",
+            "operation": "GET",
+            "duration_ms": 58.053376,
+            "status": "UNSET",
+            "start_time": 1791520752.459457,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "55aaf199ada32c42",
+            "parent_span_id": null,
+            "service": "load-generator",
+            "operation": "user_browse_product",
+            "duration_ms": 58.602752,
+            "status": "UNSET",
+            "start_time": 1791520752.459064,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "87ad0e51dd0b709c",
+            "parent_span_id": "5e742259d9492c98",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 56.181248,
+            "status": "UNSET",
+            "start_time": 1791520752.46,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "f649d88b13a35b29",
+            "parent_span_id": "c2873ca57144de7f",
+            "service": "frontend",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 54.9376,
+            "status": "UNSET",
+            "start_time": 1791520752.46,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "c2873ca57144de7f",
+            "parent_span_id": "1c6c008d8c29909a",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/products/[productId]/index",
+            "duration_ms": 55.528192,
+            "status": "UNSET",
+            "start_time": 1791520752.46,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "1c6c008d8c29909a",
+            "parent_span_id": "87ad0e51dd0b709c",
+            "service": "frontend",
+            "operation": "GET /api/products/[productId]/index",
+            "duration_ms": 55.918336,
+            "status": "UNSET",
+            "start_time": 1791520752.46,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "cac1aa44ab8dad2f",
+            "parent_span_id": "d1d74ba40084be3a",
+            "service": "product-catalog",
+            "operation": "astronomy-db",
+            "duration_ms": 4.350464,
+            "status": "UNSET",
+            "start_time": 1791520752.4979954,
+            "span_kind": "client",
+            "db_system": "postgresql"
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "d1d74ba40084be3a",
+            "parent_span_id": "f649d88b13a35b29",
+            "service": "product-catalog",
+            "operation": "oteldemo.ProductCatalogService/GetProduct",
+            "duration_ms": 24.538112,
+            "status": "UNSET",
+            "start_time": 1791520752.4887326,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "5e742259d9492c98",
+            "parent_span_id": "32a3e4a1b63b0014",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 56.364032,
+            "status": "UNSET",
+            "start_time": 1791520752.459938,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2a8efb493fb338615d186aa4de280c77",
+            "span_id": "32a3e4a1b63b0014",
+            "parent_span_id": "3e1a5f67420a609f",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 56.517888,
+            "status": "UNSET",
+            "start_time": 1791520752.459831,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "5d4e75c47ae88aa05b4af6d0373aa1be",
+        "spans": [
+          {
+            "trace_id": "5d4e75c47ae88aa05b4af6d0373aa1be",
+            "span_id": "55ace69778219d1a",
+            "parent_span_id": "ae9213183dca35bb",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.12288,
+            "status": "UNSET",
+            "start_time": 1791520752.636035,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5d4e75c47ae88aa05b4af6d0373aa1be",
+            "span_id": "ae9213183dca35bb",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.349184,
+            "status": "UNSET",
+            "start_time": 1791520752.635846,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "5d4e75c47ae88aa05b4af6d0373aa1be",
+            "span_id": "b87ec23acb5dcae7",
+            "parent_span_id": "55ace69778219d1a",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.45888,
+            "status": "UNSET",
+            "start_time": 1791520752.6369998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+        "spans": [
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "f509d0a73fa3c7d1",
+            "parent_span_id": "a3b5a2ecd464eb36",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.803072,
+            "status": "UNSET",
+            "start_time": 1791520753.066504,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "a3b5a2ecd464eb36",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 9.08288,
+            "status": "UNSET",
+            "start_time": 1791520753.066272,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "bddbc3c66d347d5d",
+            "parent_span_id": "f509d0a73fa3c7d1",
+            "service": "frontend",
+            "operation": "GET /api/currency",
+            "duration_ms": 6.360576,
+            "status": "UNSET",
+            "start_time": 1791520753.068,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "5aba8a47f75abd0a",
+            "parent_span_id": "51ea4efe289b0350",
+            "service": "frontend",
+            "operation": "oteldemo.CurrencyService/GetSupportedCurrencies",
+            "duration_ms": 4.492544,
+            "status": "UNSET",
+            "start_time": 1791520753.0700002,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "51ea4efe289b0350",
+            "parent_span_id": "ffe5085ed108ae87",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/currency",
+            "duration_ms": 4.945664,
+            "status": "UNSET",
+            "start_time": 1791520753.0700002,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "ffe5085ed108ae87",
+            "parent_span_id": "bddbc3c66d347d5d",
+            "service": "frontend",
+            "operation": "GET /api/currency",
+            "duration_ms": 6.013184,
+            "status": "UNSET",
+            "start_time": 1791520753.069,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c1c7b5cef56bfa5f89e67e0b9951dba9",
+            "span_id": "5c5d2297b148398b",
+            "parent_span_id": "5aba8a47f75abd0a",
+            "service": "currency",
+            "operation": "oteldemo.CurrencyService/GetSupportedCurrencies",
+            "duration_ms": 0.067072,
+            "status": "OK",
+            "start_time": 1791520753.0722182,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "1f87dcfb6b54a4882a3a6640ea5266d4",
+        "spans": [
+          {
+            "trace_id": "1f87dcfb6b54a4882a3a6640ea5266d4",
+            "span_id": "865433a4129390ed",
+            "parent_span_id": "e207e0efdb973415",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.674112,
+            "status": "UNSET",
+            "start_time": 1791520752.652896,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1f87dcfb6b54a4882a3a6640ea5266d4",
+            "span_id": "e207e0efdb973415",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.803904,
+            "status": "UNSET",
+            "start_time": 1791520752.652811,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1f87dcfb6b54a4882a3a6640ea5266d4",
+            "span_id": "274997af624a7fbd",
+            "parent_span_id": "865433a4129390ed",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.17856,
+            "status": "UNSET",
+            "start_time": 1791520752.654,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "3b8d6ca518cdcbdc5157d3eef4cfb574",
+        "spans": [
+          {
+            "trace_id": "3b8d6ca518cdcbdc5157d3eef4cfb574",
+            "span_id": "c72d00fd156fdbd7",
+            "parent_span_id": "ba852921779f35f4",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.905024,
+            "status": "UNSET",
+            "start_time": 1791520752.967872,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3b8d6ca518cdcbdc5157d3eef4cfb574",
+            "span_id": "ba852921779f35f4",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.382976,
+            "status": "UNSET",
+            "start_time": 1791520752.967454,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3b8d6ca518cdcbdc5157d3eef4cfb574",
+            "span_id": "149e45408594d436",
+            "parent_span_id": "c72d00fd156fdbd7",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.632448,
+            "status": "UNSET",
+            "start_time": 1791520752.9689999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "b59105ad858217306691c9f8dd8265e0",
+        "spans": [
+          {
+            "trace_id": "b59105ad858217306691c9f8dd8265e0",
+            "span_id": "4a7ba15d13a4f433",
+            "parent_span_id": "b0dfb30d1bdd56c5",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.042752,
+            "status": "UNSET",
+            "start_time": 1791520752.65208,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b59105ad858217306691c9f8dd8265e0",
+            "span_id": "b0dfb30d1bdd56c5",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.188928,
+            "status": "UNSET",
+            "start_time": 1791520752.65198,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "b59105ad858217306691c9f8dd8265e0",
+            "span_id": "6b4614af9bef321f",
+            "parent_span_id": "4a7ba15d13a4f433",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.507968,
+            "status": "UNSET",
+            "start_time": 1791520752.652,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "95a1978ca13d030a633442892d9e29bc",
+        "spans": [
+          {
+            "trace_id": "95a1978ca13d030a633442892d9e29bc",
+            "span_id": "cad7bacc63016f5f",
+            "parent_span_id": "be1e6f84cc1e48ba",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 1.33504,
+            "status": "UNSET",
+            "start_time": 1791520752.6629639,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "95a1978ca13d030a633442892d9e29bc",
+            "span_id": "be1e6f84cc1e48ba",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 1.453056,
+            "status": "UNSET",
+            "start_time": 1791520752.662878,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "95a1978ca13d030a633442892d9e29bc",
+            "span_id": "c71d8ff887113e1c",
+            "parent_span_id": "cad7bacc63016f5f",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 0.896768,
+            "status": "UNSET",
+            "start_time": 1791520752.663,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+        "spans": [
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "e9c9abdac8e71b80",
+            "parent_span_id": "99ffb880089f9b22",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 9.55904,
+            "status": "UNSET",
+            "start_time": 1791520753.1068218,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "ac4b499930d69127",
+            "parent_span_id": null,
+            "service": "frontend-web",
+            "operation": "GET",
+            "duration_ms": 24.0,
+            "status": "UNSET",
+            "start_time": 1791520753.099,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "ec9f51702e0856ea",
+            "parent_span_id": "e9c9abdac8e71b80",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 5.729024,
+            "status": "UNSET",
+            "start_time": 1791520753.1100001,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "de8a898ac8f46d63",
+            "parent_span_id": "bc55656fa7baf9c9",
+            "service": "frontend",
+            "operation": "oteldemo.CartService/GetCart",
+            "duration_ms": 3.113472,
+            "status": "UNSET",
+            "start_time": 1791520753.112,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "bc55656fa7baf9c9",
+            "parent_span_id": "f4b6046cff642e4b",
+            "service": "frontend",
+            "operation": "executing api route (pages) /api/cart",
+            "duration_ms": 3.866112,
+            "status": "UNSET",
+            "start_time": 1791520753.112,
+            "span_kind": "internal",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "f4b6046cff642e4b",
+            "parent_span_id": "ec9f51702e0856ea",
+            "service": "frontend",
+            "operation": "GET /api/cart",
+            "duration_ms": 5.1264,
+            "status": "UNSET",
+            "start_time": 1791520753.111,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "99ffb880089f9b22",
+            "parent_span_id": "ac4b499930d69127",
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 10.23616,
+            "status": "UNSET",
+            "start_time": 1791520753.106566,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "3b06e4676307377d",
+            "parent_span_id": "de8a898ac8f46d63",
+            "service": "cart",
+            "operation": "POST /oteldemo.CartService/GetCart",
+            "duration_ms": 0.86912,
+            "status": "UNSET",
+            "start_time": 1791520753.1143184,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "ee20eec02249d4d88f23a81ed086601b",
+            "span_id": "8bed01ae47f0ceee",
+            "parent_span_id": "3b06e4676307377d",
+            "service": "cart",
+            "operation": "valkey-cart:6379",
+            "duration_ms": 0.456704,
+            "status": "UNSET",
+            "start_time": 1791520753.1145773,
+            "span_kind": "client",
+            "db_system": "redis"
+          }
+        ]
+      },
+      {
+        "trace_id": "4a721761b76ab40299ce37312d0cc563",
+        "spans": [
+          {
+            "trace_id": "4a721761b76ab40299ce37312d0cc563",
+            "span_id": "dfe242c5268f6b71",
+            "parent_span_id": "ab0636548c927c43",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.824128,
+            "status": "UNSET",
+            "start_time": 1791520752.6519208,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "4a721761b76ab40299ce37312d0cc563",
+            "span_id": "ab0636548c927c43",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.32512,
+            "status": "UNSET",
+            "start_time": 1791520752.651677,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "4a721761b76ab40299ce37312d0cc563",
+            "span_id": "c3fc79d5ff5469c9",
+            "parent_span_id": "dfe242c5268f6b71",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.248896,
+            "status": "UNSET",
+            "start_time": 1791520752.652,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "50047e23935bedfcffea4a85f4658382",
+        "spans": [
+          {
+            "trace_id": "50047e23935bedfcffea4a85f4658382",
+            "span_id": "5f282dbda66bf820",
+            "parent_span_id": "e946cfdf5536fafa",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.29216,
+            "status": "UNSET",
+            "start_time": 1791520752.6529658,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50047e23935bedfcffea4a85f4658382",
+            "span_id": "0bfeea9d0d40e6c9",
+            "parent_span_id": "5f282dbda66bf820",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.558016,
+            "status": "UNSET",
+            "start_time": 1791520752.654,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50047e23935bedfcffea4a85f4658382",
+            "span_id": "e946cfdf5536fafa",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.599872,
+            "status": "UNSET",
+            "start_time": 1791520752.652877,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "50e2ccd8779bda257fedda7ff30050f8",
+        "spans": [
+          {
+            "trace_id": "50e2ccd8779bda257fedda7ff30050f8",
+            "span_id": "5ef5b1de69f3e437",
+            "parent_span_id": "60e36f2d7ec2ddf8",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.08192,
+            "status": "UNSET",
+            "start_time": 1791520752.6363242,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50e2ccd8779bda257fedda7ff30050f8",
+            "span_id": "60e36f2d7ec2ddf8",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.249088,
+            "status": "UNSET",
+            "start_time": 1791520752.6361878,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "50e2ccd8779bda257fedda7ff30050f8",
+            "span_id": "177038c8223173fc",
+            "parent_span_id": "5ef5b1de69f3e437",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.32192,
+            "status": "UNSET",
+            "start_time": 1791520752.638,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "1302d743ce924fda572701c2b845f57a",
+        "spans": [
+          {
+            "trace_id": "1302d743ce924fda572701c2b845f57a",
+            "span_id": "ecbbecf3863c3681",
+            "parent_span_id": "0e3c0d1a2a8a8994",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 8.184064,
+            "status": "UNSET",
+            "start_time": 1791520752.636745,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1302d743ce924fda572701c2b845f57a",
+            "span_id": "0e3c0d1a2a8a8994",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 8.675072,
+            "status": "UNSET",
+            "start_time": 1791520752.636621,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1302d743ce924fda572701c2b845f57a",
+            "span_id": "a5946b6100eabadf",
+            "parent_span_id": "ecbbecf3863c3681",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 7.615744,
+            "status": "UNSET",
+            "start_time": 1791520752.6369998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "16f9098484d3bbbe1d6975f1a0e31787",
+        "spans": [
+          {
+            "trace_id": "16f9098484d3bbbe1d6975f1a0e31787",
+            "span_id": "148a71981e51b626",
+            "parent_span_id": "28eb8088727e8da0",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.906048,
+            "status": "UNSET",
+            "start_time": 1791520752.635234,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16f9098484d3bbbe1d6975f1a0e31787",
+            "span_id": "28eb8088727e8da0",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.064,
+            "status": "UNSET",
+            "start_time": 1791520752.635112,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "16f9098484d3bbbe1d6975f1a0e31787",
+            "span_id": "95cb9e16a8dca078",
+            "parent_span_id": "148a71981e51b626",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.032832,
+            "status": "UNSET",
+            "start_time": 1791520752.636,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "c4db3cba382b1fc8ecd48d2ab0033108",
+        "spans": [
+          {
+            "trace_id": "c4db3cba382b1fc8ecd48d2ab0033108",
+            "span_id": "edb6123577f65835",
+            "parent_span_id": "7916f0c8f4e9600e",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 2.008832,
+            "status": "UNSET",
+            "start_time": 1791520752.6619542,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c4db3cba382b1fc8ecd48d2ab0033108",
+            "span_id": "7554b6e74e658a6c",
+            "parent_span_id": "edb6123577f65835",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.29536,
+            "status": "UNSET",
+            "start_time": 1791520752.6620002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "c4db3cba382b1fc8ecd48d2ab0033108",
+            "span_id": "7916f0c8f4e9600e",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 2.345984,
+            "status": "UNSET",
+            "start_time": 1791520752.6617768,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "99e35dcc9875271e667634b04b2b50cb",
+        "spans": [
+          {
+            "trace_id": "99e35dcc9875271e667634b04b2b50cb",
+            "span_id": "5a35bbfaf0ea9f8d",
+            "parent_span_id": "24da01f707b38698",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 2.78016,
+            "status": "UNSET",
+            "start_time": 1791520752.627367,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99e35dcc9875271e667634b04b2b50cb",
+            "span_id": "24da01f707b38698",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 2.895104,
+            "status": "UNSET",
+            "start_time": 1791520752.627275,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "99e35dcc9875271e667634b04b2b50cb",
+            "span_id": "9f8bb3ba01012d3e",
+            "parent_span_id": "5a35bbfaf0ea9f8d",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 1.818624,
+            "status": "UNSET",
+            "start_time": 1791520752.628,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "92b36d149bfc5063442accb1fdf4000b",
+        "spans": [
+          {
+            "trace_id": "92b36d149bfc5063442accb1fdf4000b",
+            "span_id": "218f95286b8531c9",
+            "parent_span_id": "2c080dcb4b2b823b",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 6.767104,
+            "status": "UNSET",
+            "start_time": 1791520752.638422,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "92b36d149bfc5063442accb1fdf4000b",
+            "span_id": "2c080dcb4b2b823b",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 6.98112,
+            "status": "UNSET",
+            "start_time": 1791520752.638247,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "92b36d149bfc5063442accb1fdf4000b",
+            "span_id": "6886febb19dc76a6",
+            "parent_span_id": "218f95286b8531c9",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 5.728512,
+            "status": "UNSET",
+            "start_time": 1791520752.6390002,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "f543afb89081556be42ad80c9a1113b0",
+        "spans": [
+          {
+            "trace_id": "f543afb89081556be42ad80c9a1113b0",
+            "span_id": "b142162df46a2ac5",
+            "parent_span_id": "9f2f22eb764a7e56",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.085056,
+            "status": "UNSET",
+            "start_time": 1791520752.6519208,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f543afb89081556be42ad80c9a1113b0",
+            "span_id": "f1253a8ed85c1da4",
+            "parent_span_id": "b142162df46a2ac5",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.694912,
+            "status": "UNSET",
+            "start_time": 1791520752.652,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "f543afb89081556be42ad80c9a1113b0",
+            "span_id": "9f2f22eb764a7e56",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.425024,
+            "status": "UNSET",
+            "start_time": 1791520752.651816,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "1d063a10499f8c0d22be2aa640901f19",
+        "spans": [
+          {
+            "trace_id": "1d063a10499f8c0d22be2aa640901f19",
+            "span_id": "ca96a303afb202c1",
+            "parent_span_id": "336b54c8bc8575e4",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 3.041024,
+            "status": "UNSET",
+            "start_time": 1791520752.626687,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1d063a10499f8c0d22be2aa640901f19",
+            "span_id": "336b54c8bc8575e4",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 3.305984,
+            "status": "UNSET",
+            "start_time": 1791520752.626451,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "1d063a10499f8c0d22be2aa640901f19",
+            "span_id": "433bd96601caee85",
+            "parent_span_id": "ca96a303afb202c1",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 2.222592,
+            "status": "UNSET",
+            "start_time": 1791520752.627,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+        "spans": [
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "b2fccd6297afe494",
+            "parent_span_id": "75d744bdcd61f078",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.870144,
+            "status": "UNSET",
+            "start_time": 1791520752.609393,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "75d744bdcd61f078",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 5.243904,
+            "status": "UNSET",
+            "start_time": 1791520752.6090481,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "60b1330ad8cac757",
+            "parent_span_id": "b2fccd6297afe494",
+            "service": "frontend",
+            "operation": "GET /",
+            "duration_ms": 3.939072,
+            "status": "UNSET",
+            "start_time": 1791520752.61,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "81ad8617e0a58d1e",
+            "parent_span_id": "646e71b8ee3c00a5",
+            "service": "frontend",
+            "operation": "resolve page components",
+            "duration_ms": 0.040192,
+            "status": "UNSET",
+            "start_time": 1791520752.61,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "f0796922007fb421",
+            "parent_span_id": "646e71b8ee3c00a5",
+            "service": "frontend",
+            "operation": "render route (pages) /",
+            "duration_ms": 2.233856,
+            "status": "UNSET",
+            "start_time": 1791520752.611,
+            "span_kind": "internal",
+            "db_system": null
+          },
+          {
+            "trace_id": "3ae5842cf3b44aa2114557999451fcdb",
+            "span_id": "646e71b8ee3c00a5",
+            "parent_span_id": "60b1330ad8cac757",
+            "service": "frontend",
+            "operation": "GET /",
+            "duration_ms": 3.2832,
+            "status": "UNSET",
+            "start_time": 1791520752.61,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "339ec67afb4232cc6c370052ccb82949",
+        "spans": [
+          {
+            "trace_id": "339ec67afb4232cc6c370052ccb82949",
+            "span_id": "49056aa2d4d59667",
+            "parent_span_id": "6f2b00ef35f7bb3f",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.25088,
+            "status": "UNSET",
+            "start_time": 1791520752.6498911,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "339ec67afb4232cc6c370052ccb82949",
+            "span_id": "6f2b00ef35f7bb3f",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.477952,
+            "status": "UNSET",
+            "start_time": 1791520752.649705,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "339ec67afb4232cc6c370052ccb82949",
+            "span_id": "4d28e278fb25435f",
+            "parent_span_id": "49056aa2d4d59667",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.598592,
+            "status": "UNSET",
+            "start_time": 1791520752.6499999,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      },
+      {
+        "trace_id": "2cbcfa9c832991531bddfaefb1b8884d",
+        "spans": [
+          {
+            "trace_id": "2cbcfa9c832991531bddfaefb1b8884d",
+            "span_id": "748a2aa1673c9253",
+            "parent_span_id": "0140c8074efa681c",
+            "service": "frontend-proxy",
+            "operation": "router frontend egress",
+            "duration_ms": 4.05504,
+            "status": "UNSET",
+            "start_time": 1791520752.636607,
+            "span_kind": "client",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2cbcfa9c832991531bddfaefb1b8884d",
+            "span_id": "0140c8074efa681c",
+            "parent_span_id": null,
+            "service": "frontend-proxy",
+            "operation": "GET",
+            "duration_ms": 4.185856,
+            "status": "UNSET",
+            "start_time": 1791520752.636503,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          },
+          {
+            "trace_id": "2cbcfa9c832991531bddfaefb1b8884d",
+            "span_id": "dfc291c5caf2717b",
+            "parent_span_id": "748a2aa1673c9253",
+            "service": "frontend",
+            "operation": "GET",
+            "duration_ms": 3.526656,
+            "status": "UNSET",
+            "start_time": 1791520752.6369998,
+            "span_kind": "server",
+            "db_system": null,
+            "is_timeout": false
+          }
+        ]
+      }
+    ]
+  }
+}

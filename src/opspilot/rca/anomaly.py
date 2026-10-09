@@ -68,7 +68,8 @@ class AnomalyDetector:
                 if payload.get("temporal_context"):
                     is_resource = metric in {"cpu_usage", "memory_usage", "disk_usage"}
                     shift = change(payload, minimum_delta=0.05 if is_resource else 100 if metric in {"tp95", "tp99"} else 1,
-                                   minimum_ratio=1.1 if is_resource else 3 if metric in {"tp95", "tp99"} else 1.5)
+                                   minimum_ratio=1.1 if is_resource else 3 if metric in {"tp95", "tp99"} else 1.5,
+                                   reset_aware=is_resource)
                     if not shift:
                         continue
 

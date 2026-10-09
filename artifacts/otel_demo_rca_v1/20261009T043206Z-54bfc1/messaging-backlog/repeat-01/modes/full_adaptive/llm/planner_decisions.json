@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Volatility anomaly in tp99 suggests latency instability; traces can measure observed span durations and dependency timing to test the rpc_timeout hypothesis rather than collecting more generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Slow spans and a tp99 volatility anomaly with a messaging dependency hint point to latency instability; an rpc expert can measure observed dependency timing to test the rpc_timeout hypothesis rather than collecting more generic symptoms.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and a messaging dependency hint ('publish orders') suggest a downstream dependency may be involved; topology can reveal observed service dependencies to test whether the delay originates in a specific downstream component rather than collecting more generic symptoms.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

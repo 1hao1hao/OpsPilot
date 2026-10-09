@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') and a slow span on the order-processing path; measuring consumer lag/backlog for this observed dependency is the mechanism-specific check most likely to confirm or refute a messaging-related delay.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Kafka consumer lag was measured at 707, but this is a generic backlog symptom and the observed slow span is on the frontend-proxy/order-processing path; the remaining unmeasured mechanism-specific dependency is outgoing RPC calls, so measure RPC error rates, protocol timeouts, and latency to test whether the delay is caused by a downstream call rather than messaging.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "target_status": "ACCURACY_TARGET_NOT_MET",
+  "completed_at": "2026-10-09T07:47:10.033788+00:00",
+  "fresh_paired_lifecycles": 21,
+  "observed_recovered_fault_lifecycles": 18,
+  "actual_diagnoses": 63,
+  "new_full_top1": {
+    "numerator": 16,
+    "denominator": 18,
+    "rate": 0.8888888888888888
+  },
+  "normal": {
+    "numerator": 3,
+    "denominator": 3,
+    "rate": 1.0
+  },
+  "tool_reduction": 0.5787545787545787,
+  "ground_truth_and_scorer_unchanged": [
+    "src/opspilot/otel_benchmark/scoring.py",
+    "benchmarks/datasets/otel_demo/v1/scenarios.yaml"
+  ],
+  "pytest_passed": 301,
+  "pytest_skipped": 4,
+  "ruff": "passed"
+}

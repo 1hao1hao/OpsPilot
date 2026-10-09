@@ -1,0 +1,17 @@
+{
+  "top1": false,
+  "top3": false,
+  "normal_correct": null,
+  "gate_pass": false,
+  "budget_exhausted": true,
+  "degraded": false,
+  "tool_calls": 6,
+  "expert_calls": 1,
+  "investigation_rounds": 4,
+  "latency_ms": 13920.909,
+  "expected": "kafka_consumer_lag",
+  "predicted": [
+    "rpc_timeout"
+  ],
+  "category_only": true
+}

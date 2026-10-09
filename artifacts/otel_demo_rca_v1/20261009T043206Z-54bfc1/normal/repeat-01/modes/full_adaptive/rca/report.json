@@ -1,0 +1,146 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "4f5d099c589345d88db734910edb6341",
+  "alert_id": "alert-4fce3e25a2e64b49b6a9c51a3e965a86",
+  "service_name": "frontend",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "no_fault",
+      "summary": "No material fault was found in the collected evidence",
+      "confidence": 0.8,
+      "evidence_ids": []
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "no_fault",
+    "summary": "No material fault was found in the collected evidence",
+    "confidence": 0.8,
+    "evidence_ids": []
+  },
+  "evidence": [],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces provide measured latency and dependency observations for the frontend under ongoing traffic.",
+        "round": 2,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Need to map frontend dependencies to identify which downstream services could be implicated before invoking domain experts.",
+        "round": 3,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Round 1 low-cost seed observation for custom; alerts.query is the only remaining allowed tool and can reveal whether the frontend health evaluation has correlated alerts before invoking domain experts.",
+        "round": 4,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "topology.query",
+      "alerts.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "No material fault was found in the collected evidence; supported by 0 evidence item(s).",
+  "recommended_actions": [
+    "Continue monitoring and collect more data if the alert persists"
+  ],
+  "started_at": "2026-10-09T04:35:16.835682Z",
+  "finished_at": "2026-10-09T04:35:27.410377Z",
+  "latency_ms": 10574.695
+}

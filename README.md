@@ -164,3 +164,7 @@ Full 相对 Fixed 的工具调用减少 53.11%；准确率、延迟和 L2 收益
 **ACCURACY_TARGET_NOT_MET** — fresh Full Fault Top1 16/18, Top3 18/18, Normal 2/3; 56.41% fewer tool calls than Fixed.
 
 [Formal report](reports/accuracy_closure.md) · [Development record](reports/accuracy_closure_development.md)
+
+## Incident-local RCA validation (20261009T043206Z-54bfc1)
+
+**ACCURACY_TARGET_NOT_MET**: fresh Full Fault Top1 16/18, Normal 3/3, 57.88% fewer tools than Fixed. [Formal report](reports/top1_18_iteration1.md).

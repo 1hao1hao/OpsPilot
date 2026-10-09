@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; measuring observed dependencies via traces is preferred over repeatedly collecting generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow span on frontend-proxy path suggests a dependency; topology can reveal the observed dependency structure to guide targeted measurement rather than repeating generic symptom collection.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only remaining allowed action; slow span alone does not prove a fault, so check for corroborating alert evidence before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

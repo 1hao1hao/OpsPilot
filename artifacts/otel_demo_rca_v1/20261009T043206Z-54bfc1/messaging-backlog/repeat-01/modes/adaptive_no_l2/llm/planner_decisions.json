@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Volatility anomaly in tp99 suggests latency instability; traces can measure observed dependency latencies and identify whether a specific downstream call is responsible, rather than collecting more generic symptoms.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and a messaging dependency hint exist, but no measured dependency latency or timeout evidence is present; topology can reveal the checkout service's downstream dependencies to target measurement of the observed slow path.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only alerts.query remains allowed; prior traces show slow spans and a volatility anomaly but no measured timeout or domain fault, so querying alerts may surface direct timeout or error evidence for the checkout delay.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

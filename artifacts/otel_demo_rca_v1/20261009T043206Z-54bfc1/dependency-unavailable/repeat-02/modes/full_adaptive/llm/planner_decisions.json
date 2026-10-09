@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces will measure the observed downstream dependency and latency to distinguish rpc_timeout from rpc_error_rate.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace shows checkout ERROR on downstream call with 100% error rate and tp99 spike to 4970ms vs 199ms baseline; rpc expert can distinguish rpc_timeout from rpc_error_rate using observed dependency measurements.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace shows checkout ERROR on a downstream call with 100% error rate and tp99 spike to 4970ms vs 199ms baseline, but the specific downstream dependency is not yet identified. Topology will reveal checkout's downstream dependencies to distinguish rpc_timeout from rpc_error_rate and to determine whether the fault is in a db, redis, or kafka dependency.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

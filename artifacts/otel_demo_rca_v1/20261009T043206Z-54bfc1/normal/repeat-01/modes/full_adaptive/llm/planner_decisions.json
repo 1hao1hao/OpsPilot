@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces provide measured latency and dependency observations for the frontend under ongoing traffic.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Need to map frontend dependencies to identify which downstream services could be implicated before invoking domain experts.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Round 1 low-cost seed observation for custom; alerts.query is the only remaining allowed tool and can reveal whether the frontend health evaluation has correlated alerts before invoking domain experts.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

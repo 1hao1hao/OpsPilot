@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-09T07:18:08.389525+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 2.0,
+      "delta": 2.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.01666750004166875,
+      "fault": 0.03333444448148272,
+      "delta": 0.01666694443981397
+    },
+    "metrics.query.tp95": {
+      "baseline": 97.5,
+      "fault": 48.0,
+      "delta": -49.5
+    },
+    "metrics.query.tp99": {
+      "baseline": 99.5,
+      "fault": 49.599999999999994,
+      "delta": -49.900000000000006
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.01340625625025001,
+      "fault": 0.013655099305958358,
+      "delta": 0.000248843055708348
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.5999609375,
+      "fault": 0.57890625,
+      "delta": -0.021054687500000058
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 39.66942148760331,
+      "fault": 39.21568627450981,
+      "delta": -0.45373521309350195
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1407408.0,
+      "fault": 1407312.0,
+      "delta": -96.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 16,
+      "first": 0.01666750004166875,
+      "last": 0.03333444448148272,
+      "slope_per_second": -1.4708088372827667e-05
+    },
+    "tp95": {
+      "samples": 16,
+      "first": 97.5,
+      "last": 48.0,
+      "slope_per_second": -0.07122549019607843
+    },
+    "tp99": {
+      "samples": 16,
+      "first": 99.5,
+      "last": 49.599999999999994,
+      "slope_per_second": -0.07306862745098039
+    },
+    "cpu_usage": {
+      "samples": 16,
+      "first": 0.013596451929038583,
+      "last": 0.013655099305958358,
+      "slope_per_second": 1.116109535867519e-06
+    },
+    "memory_usage": {
+      "samples": 16,
+      "first": 0.5171484375,
+      "last": 0.57890625,
+      "slope_per_second": 0.00025866651348039227
+    }
+  },
+  "fault_observed": true
+}

@@ -1,0 +1,102 @@
+{
+  "enabled_at": "2026-10-09T06:45:32.069347+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "db.slowlog.slow_query_count": {
+      "baseline": null,
+      "fault": 31
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 4.6336422428161885,
+      "fault": 2.5168344556303754,
+      "delta": -2.116807787185813
+    },
+    "metrics.query.tp95": {
+      "baseline": 1509.9999999999995,
+      "fault": 15000.0,
+      "delta": 13490.0
+    },
+    "metrics.query.tp99": {
+      "baseline": 4073.333333333332,
+      "fault": 15000.0,
+      "delta": 10926.666666666668
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.2532902374142449,
+      "fault": 0.28052864229138325,
+      "delta": 0.027238404877138356
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.986328125,
+      "fault": 0.8037109375,
+      "delta": -0.1826171875
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 37.65432098765432,
+      "fault": 32.89473684210527,
+      "delta": -4.759584145549056
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1432752.0,
+      "fault": 1428880.0,
+      "delta": -3872.0
+    },
+    "rpc.metrics.error_rate": {
+      "baseline": 0.0,
+      "fault": 0.0
+    },
+    "rpc.metrics.latency_ms": {
+      "baseline": 28.4975616,
+      "fault": 2636.4658724948454
+    },
+    "rpc.metrics.baseline_latency_ms": {
+      "baseline": 38.04539911111111,
+      "fault": 4538.195906285714
+    },
+    "rpc.metrics.call_volume": {
+      "baseline": 15,
+      "fault": 97
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 17,
+      "first": 3.9668650099171625,
+      "last": 2.5168344556303754,
+      "slope_per_second": -0.009224150875090218
+    },
+    "tp95": {
+      "samples": 17,
+      "first": 1249.230769230769,
+      "last": 15000.0,
+      "slope_per_second": 48.3278029160381
+    },
+    "tp99": {
+      "samples": 17,
+      "first": 3809.9999999999977,
+      "last": 15000.0,
+      "slope_per_second": 38.39705882352942
+    },
+    "cpu_usage": {
+      "samples": 17,
+      "first": 0.6084116611661166,
+      "last": 0.28052864229138325,
+      "slope_per_second": -0.0007880213937206276
+    },
+    "memory_usage": {
+      "samples": 17,
+      "first": 0.7205078125,
+      "last": 0.8037109375,
+      "slope_per_second": -0.00017329197303921556
+    }
+  },
+  "fault_observed": true
+}

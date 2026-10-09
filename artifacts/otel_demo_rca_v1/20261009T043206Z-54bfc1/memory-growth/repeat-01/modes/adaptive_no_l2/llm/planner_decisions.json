@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Memory footprint rising across successive request intervals suggests a possible resource-related change; checking recent changes is a low-cost way to identify any deployment or configuration change that could explain the observed dependency.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Memory footprint rising across successive request intervals may correlate with request-level behavior; traces can reveal whether specific spans or dependencies accumulate resources over time, providing a measurement of the observed dependency rather than repeating generic symptom collection.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Memory footprint rising across successive request intervals suggests a resource-related dependency; topology can reveal which downstream services or messaging dependencies the email service interacts with, providing a measurement of the observed dependency rather than repeating generic symptom collection.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

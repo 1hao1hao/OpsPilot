@@ -27,11 +27,21 @@ def temporal_payload(points, timestamp, *, query=None):
     return payload
 
 
-def change(payload, *, direction="up", minimum_delta=0.0, minimum_ratio=1.5):
+def change(payload, *, direction="up", minimum_delta=0.0, minimum_ratio=1.5, reset_aware=False):
     """Require a material sustained shift exceeding robust historical noise."""
     if not isinstance(payload, dict):
         return None
     history = payload.get("reference_series", payload.get("baseline_series", []))
+    reset_index = 0
+    if reset_aware:
+        # A large downward discontinuity in a fractional resource gauge can
+        # separate process incarnations or recovery regimes. Never compare
+        # their combined level variance with the current process's growth.
+        for index in range(1, len(history)):
+            previous, value = float(history[index - 1]), float(history[index])
+            if previous - value > 0.1 and value < previous * 0.8:
+                reset_index = index
+        history = history[reset_index:]
     if len(history) < 3:
         return None
     baseline = median(float(v) for v in history)
@@ -42,4 +52,5 @@ def change(payload, *, direction="up", minimum_delta=0.0, minimum_ratio=1.5):
     material = max(minimum_delta, abs(baseline) * (minimum_ratio - 1), 6 * noise)
     if delta <= material:
         return None
-    return {"baseline": baseline, "recent": current, "delta": delta, "noise": noise}
+    return {"baseline": baseline, "recent": current, "delta": delta, "noise": noise,
+            "reference_samples": len(history), "discarded_before_discontinuity": reset_index}

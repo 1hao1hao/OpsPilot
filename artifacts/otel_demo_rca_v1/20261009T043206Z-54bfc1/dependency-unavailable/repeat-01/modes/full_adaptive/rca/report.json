@@ -1,0 +1,2513 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "ede389aa360744998173aa1c062f35bd",
+  "alert_id": "alert-be5c763a452a4a779b40b546d311eca3",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "rpc_error_rate",
+      "summary": "A downstream RPC dependency has an elevated error rate",
+      "confidence": 0.765,
+      "evidence_ids": [
+        "ev-0196bfcbbfeaa4c7",
+        "ev-045ff7fa087fec1e",
+        "ev-05f7ddfdba5ac023",
+        "ev-0647489a1cf2ebd6",
+        "ev-0762071172e5cf41",
+        "ev-099f776a3b991a3a",
+        "ev-0ad39ca74afe79fb",
+        "ev-14329dab975becca",
+        "ev-163a33b70acd43d6",
+        "ev-1c18bfa21fe9269c",
+        "ev-1f402083fee78571",
+        "ev-2049b80711e9a846",
+        "ev-20af1f8e2cab2f0f",
+        "ev-2a667dd82341894e",
+        "ev-2c34a70ecfb635ad",
+        "ev-2d198fd17d877a4a",
+        "ev-2ec2bb45f2e83bc2",
+        "ev-300e0d3c2936218e",
+        "ev-3517e0088c7d942b",
+        "ev-35df48b9dfd586d6",
+        "ev-37bf45109af9d348",
+        "ev-39cce09c4bc03ab7",
+        "ev-3b1af38d7da190a7",
+        "ev-405b76316eb321a5",
+        "ev-41ee8e8a44bd40bc",
+        "ev-41fe3d9183c4b290",
+        "ev-42d77f6c4f91bc7e",
+        "ev-4972f7a40a195c5f",
+        "ev-4a1769aceff91e4b",
+        "ev-4e51443fe19f60ee",
+        "ev-5394f21a687b93cc",
+        "ev-5447cc897923aabc",
+        "ev-545e645c29560cbb",
+        "ev-5520b356cd06ea0d",
+        "ev-5884620d6d8a1b51",
+        "ev-589fbc5f1f3ce0d2",
+        "ev-5cedf16a58f62ec5",
+        "ev-606a428783930ebc",
+        "ev-62b2866123f28411",
+        "ev-6566e27fa0057e0d",
+        "ev-67211a85ba4e75e7",
+        "ev-679dac5412206a21",
+        "ev-67a57402ea3806d5",
+        "ev-68d59e6315e03fb3",
+        "ev-6964d3912f9529d2",
+        "ev-6d663833507ab680",
+        "ev-732ef5d88100faf9",
+        "ev-7a6e9074c78693f0",
+        "ev-7ab5cbd30ac428a0",
+        "ev-7b6fcd72c79fe732",
+        "ev-7db74eff587e0cef",
+        "ev-7f267a4c7946da5a",
+        "ev-81c9c4b7c4161326",
+        "ev-842a0a9c052ab37d",
+        "ev-8495e0cb3884dc41",
+        "ev-86fa2829a14509be",
+        "ev-87cdf89058cad2fc",
+        "ev-920cc98522e6f22b",
+        "ev-92ab405612082b77",
+        "ev-98a404218747ee6b",
+        "ev-98cc123ba4ba01b9",
+        "ev-a13b97e8ee58fa3c",
+        "ev-a3b60b71e984d2b0",
+        "ev-a4fdf30b7092fe08",
+        "ev-a6180e422eb8fe54",
+        "ev-a7774d2561fc19f5",
+        "ev-a7c1619c63f7df0b",
+        "ev-a850af56b4371763",
+        "ev-af394a7b11109dd9",
+        "ev-b25b39059bd5a2e9",
+        "ev-b9af9ce8f103a9cd",
+        "ev-ba0abbc4831cd3d5",
+        "ev-bbe42fe069ea562e",
+        "ev-c2a7948d32a227ee",
+        "ev-c2f21758cc74857f",
+        "ev-c440984b52eea92c",
+        "ev-c4586ccde73176f4",
+        "ev-c9442250e368b699",
+        "ev-caf7fb8d2b2706e6",
+        "ev-d02fd4c1fcb1ffff",
+        "ev-d1267f738a4bee80",
+        "ev-d141ba38a6d1bd68",
+        "ev-d6b8935e6d792f2d",
+        "ev-d7833a7d538ebdc7",
+        "ev-db63e49e31c7fb65",
+        "ev-dda9231c2c4d72d0",
+        "ev-deabc8b021e75e2e",
+        "ev-dec9108d05b8b188",
+        "ev-e4dd23c696d57b14",
+        "ev-e81e473c181e4e0d",
+        "ev-e8d5e8436e41e4ed",
+        "ev-f11af977185a9505",
+        "ev-f4c950f6872a9ec2",
+        "ev-f88e2df019444c2b",
+        "ev-f8d80412873c4026",
+        "ev-f9ffa7dc25e9ffd9",
+        "ev-fbb21d7a9f90b4af",
+        "ev-fc191da4531676fb",
+        "ev-fc86509dfb8d06d2",
+        "ev-fefeaa8a24b89456",
+        "ev-ffbbb269385fb1b5"
+      ]
+    },
+    {
+      "rank": 2,
+      "root_cause_type": "rpc_timeout",
+      "summary": "A downstream RPC dependency is timing out",
+      "confidence": 0.67,
+      "evidence_ids": [
+        "ev-0d5036e8ef7e1b61",
+        "ev-fed05824357b8e0b"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "rpc_error_rate",
+    "summary": "A downstream RPC dependency has an elevated error rate",
+    "confidence": 0.765,
+    "evidence_ids": [
+      "ev-0196bfcbbfeaa4c7",
+      "ev-045ff7fa087fec1e",
+      "ev-05f7ddfdba5ac023",
+      "ev-0647489a1cf2ebd6",
+      "ev-0762071172e5cf41",
+      "ev-099f776a3b991a3a",
+      "ev-0ad39ca74afe79fb",
+      "ev-14329dab975becca",
+      "ev-163a33b70acd43d6",
+      "ev-1c18bfa21fe9269c",
+      "ev-1f402083fee78571",
+      "ev-2049b80711e9a846",
+      "ev-20af1f8e2cab2f0f",
+      "ev-2a667dd82341894e",
+      "ev-2c34a70ecfb635ad",
+      "ev-2d198fd17d877a4a",
+      "ev-2ec2bb45f2e83bc2",
+      "ev-300e0d3c2936218e",
+      "ev-3517e0088c7d942b",
+      "ev-35df48b9dfd586d6",
+      "ev-37bf45109af9d348",
+      "ev-39cce09c4bc03ab7",
+      "ev-3b1af38d7da190a7",
+      "ev-405b76316eb321a5",
+      "ev-41ee8e8a44bd40bc",
+      "ev-41fe3d9183c4b290",
+      "ev-42d77f6c4f91bc7e",
+      "ev-4972f7a40a195c5f",
+      "ev-4a1769aceff91e4b",
+      "ev-4e51443fe19f60ee",
+      "ev-5394f21a687b93cc",
+      "ev-5447cc897923aabc",
+      "ev-545e645c29560cbb",
+      "ev-5520b356cd06ea0d",
+      "ev-5884620d6d8a1b51",
+      "ev-589fbc5f1f3ce0d2",
+      "ev-5cedf16a58f62ec5",
+      "ev-606a428783930ebc",
+      "ev-62b2866123f28411",
+      "ev-6566e27fa0057e0d",
+      "ev-67211a85ba4e75e7",
+      "ev-679dac5412206a21",
+      "ev-67a57402ea3806d5",
+      "ev-68d59e6315e03fb3",
+      "ev-6964d3912f9529d2",
+      "ev-6d663833507ab680",
+      "ev-732ef5d88100faf9",
+      "ev-7a6e9074c78693f0",
+      "ev-7ab5cbd30ac428a0",
+      "ev-7b6fcd72c79fe732",
+      "ev-7db74eff587e0cef",
+      "ev-7f267a4c7946da5a",
+      "ev-81c9c4b7c4161326",
+      "ev-842a0a9c052ab37d",
+      "ev-8495e0cb3884dc41",
+      "ev-86fa2829a14509be",
+      "ev-87cdf89058cad2fc",
+      "ev-920cc98522e6f22b",
+      "ev-92ab405612082b77",
+      "ev-98a404218747ee6b",
+      "ev-98cc123ba4ba01b9",
+      "ev-a13b97e8ee58fa3c",
+      "ev-a3b60b71e984d2b0",
+      "ev-a4fdf30b7092fe08",
+      "ev-a6180e422eb8fe54",
+      "ev-a7774d2561fc19f5",
+      "ev-a7c1619c63f7df0b",
+      "ev-a850af56b4371763",
+      "ev-af394a7b11109dd9",
+      "ev-b25b39059bd5a2e9",
+      "ev-b9af9ce8f103a9cd",
+      "ev-ba0abbc4831cd3d5",
+      "ev-bbe42fe069ea562e",
+      "ev-c2a7948d32a227ee",
+      "ev-c2f21758cc74857f",
+      "ev-c440984b52eea92c",
+      "ev-c4586ccde73176f4",
+      "ev-c9442250e368b699",
+      "ev-caf7fb8d2b2706e6",
+      "ev-d02fd4c1fcb1ffff",
+      "ev-d1267f738a4bee80",
+      "ev-d141ba38a6d1bd68",
+      "ev-d6b8935e6d792f2d",
+      "ev-d7833a7d538ebdc7",
+      "ev-db63e49e31c7fb65",
+      "ev-dda9231c2c4d72d0",
+      "ev-deabc8b021e75e2e",
+      "ev-dec9108d05b8b188",
+      "ev-e4dd23c696d57b14",
+      "ev-e81e473c181e4e0d",
+      "ev-e8d5e8436e41e4ed",
+      "ev-f11af977185a9505",
+      "ev-f4c950f6872a9ec2",
+      "ev-f88e2df019444c2b",
+      "ev-f8d80412873c4026",
+      "ev-f9ffa7dc25e9ffd9",
+      "ev-fbb21d7a9f90b4af",
+      "ev-fc191da4531676fb",
+      "ev-fc86509dfb8d06d2",
+      "ev-fefeaa8a24b89456",
+      "ev-ffbbb269385fb1b5"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0196bfcbbfeaa4c7",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4109.5ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:857ce515f6a9c124"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-045ff7fa087fec1e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend: status=ERROR, duration=4278.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:f70e582459f9fcf3"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-05f7ddfdba5ac023",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=ERROR, duration=8193.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:7d651c54672640a9"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0647489a1cf2ebd6",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend: status=ERROR, duration=4279.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:45e622ef811fb072"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0762071172e5cf41",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4408.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:38ddd6bdc518f9a7"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-099f776a3b991a3a",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend: status=ERROR, duration=4280.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:cfb2ee2dfdc7be0a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0ad39ca74afe79fb",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:8182505c9b1ac052"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-1116a80c1bd25068",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "product-catalog",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend/product-catalog: status=UNSET, duration=2055.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:000e4d42b3dc3956"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-14329dab975becca",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend: status=ERROR, duration=4101.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:e0818ffc8d91c7f2"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-163a33b70acd43d6",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator: status=ERROR, duration=8196.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:1cb99c98ef993a2e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-1c18bfa21fe9269c",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4123.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:62f04cca7cf1e2fe"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-1f402083fee78571",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4099.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:fed62a42185d82ca"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-201c68158f235b0c",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator: status=UNSET, duration=2438.5ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:721609635aee6016"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-20af1f8e2cab2f0f",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4937.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:83827e57ac7d3cff"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-22b21ae32ee823c9",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1326.6ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:77cd55659077be2f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2a667dd82341894e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4226.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:a67afd1b64112f23"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2c34a70ecfb635ad",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4216.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:5837b3959e911a82"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2d198fd17d877a4a",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend: status=ERROR, duration=4005.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:919fa2c35e1742e2"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2ec2bb45f2e83bc2",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4212.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:4b084c542f68933f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-300e0d3c2936218e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator: status=ERROR, duration=4220.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:3f986b16e7a1c20a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-3517e0088c7d942b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator: status=ERROR, duration=4104.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:25dee5816d23d9d1"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-35df48b9dfd586d6",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy: status=ERROR, duration=4125.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:e58084a25dc45abd"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-37bf45109af9d348",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4124.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:43b5d815a2d7cf48"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-3914e84c2fe54783",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=UNSET, duration=2426.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:38d9e167e3bb78b1"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-39cce09c4bc03ab7",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy: status=ERROR, duration=4280.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:e1447f77cf9c015a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-3b1af38d7da190a7",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4216.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:aab0a2e5c15ea38c"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-405b76316eb321a5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4215.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:610156151dbb477b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-41ee8e8a44bd40bc",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4111.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:3282950b99a81a12"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-41fe3d9183c4b290",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy: status=ERROR, duration=4005.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:475474f471a1461a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-42d77f6c4f91bc7e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4217.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:13e578d13a5040fa"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-4972f7a40a195c5f",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=ERROR, duration=8194.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:9920d233af44e080"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-4a1769aceff91e4b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4226.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:7853fcdd53be76af"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-4e51443fe19f60ee",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy: status=ERROR, duration=4939.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:7d6865882ea34a6a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5394f21a687b93cc",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy: status=ERROR, duration=4102.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:f85d5b2975de0862"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5447cc897923aabc",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4002.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:4988e1145716baa9"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-545e645c29560cbb",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy: status=ERROR, duration=4939.5ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:c6277b3abe47a5a3"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5520b356cd06ea0d",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4215.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:18c11f9eb4586787"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5884620d6d8a1b51",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4112.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:e07aa6e455a7b20b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-589fbc5f1f3ce0d2",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4213.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:3fc28f6a24d0e974"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5cedf16a58f62ec5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy: status=ERROR, duration=4102.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:02926e53071b2eaa"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-606a428783930ebc",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4125.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:0c7276bb45328881"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-614d9c00d092f087",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=UNSET, duration=2427.5ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:371212e177567bb8"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-62b2866123f28411",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4124.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:6680f10f614ad54a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-6566e27fa0057e0d",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4112.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:81347a69365f3dc5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-67211a85ba4e75e7",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend: status=ERROR, duration=4279.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:320f6dedd75f82c8"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-679dac5412206a21",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy: status=ERROR, duration=4218.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:f71aa6b0471e0cf4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-67a57402ea3806d5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend: status=ERROR, duration=4100.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:bc76092812419a4d"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-68d59e6315e03fb3",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4939.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:f014a792cbc75391"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-6964d3912f9529d2",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy: status=ERROR, duration=4218.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:d32c7b910241d19a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-6d663833507ab680",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend: status=ERROR, duration=4004.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:d16a36346b78e62d"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-732ef5d88100faf9",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:6de212fa45085648"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7a6e9074c78693f0",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4408.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:b3d86c1e46db2718"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7ab5cbd30ac428a0",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4225.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:5aa1ef31c06db7fd"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7b6fcd72c79fe732",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy: status=ERROR, duration=4216.5ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:7f9ba44035d1388e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7db74eff587e0cef",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:427c94439808ebe3"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7f267a4c7946da5a",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy: status=ERROR, duration=4408.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:6fda4f4161d3993b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-80d0ff7d16b3f643",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy: status=UNSET, duration=2428.0ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:2efbe5e4df7000b9"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-81c9c4b7c4161326",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator: status=ERROR, duration=4218.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:2d1e22b87104e31a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-842a0a9c052ab37d",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy: status=ERROR, duration=4408.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:c7a251850c7e594b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-8495e0cb3884dc41",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4407.5ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:a7ff36a50d4babd8"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-86fa2829a14509be",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4935.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:13fe3a3e3f04dffa"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-87cdf89058cad2fc",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4408.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:c581da70793f84f3"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-8bae4c698397cc28",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator: status=UNSET, duration=2430.0ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:80a89243c14e54ff"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-8ea1cdf4f96488ba",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1325.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:8b6c61f56d557dd9"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-920cc98522e6f22b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4226.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:6ab6f78e7c1874f5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-92ab405612082b77",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:d2972ce8ae7e396c"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-98a404218747ee6b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy: status=ERROR, duration=4280.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:2a1b2ce15a3c0398"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-98cc123ba4ba01b9",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy: status=ERROR, duration=4113.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:fb68f4f44d65e5db"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a0bd221f0d68dee6",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy: status=UNSET, duration=1327.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:3c64aed885e2e075"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a13b97e8ee58fa3c",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator: status=ERROR, duration=4126.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:cc52330504593773"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a3345e942fce9ab9",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy: status=UNSET, duration=1327.0ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:50ea90d3a136d157"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a3b60b71e984d2b0",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:abbb7b6a3ab6e60e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a4fdf30b7092fe08",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy: status=ERROR, duration=4216.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:699d4373c4ecfbfe"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a69bce484620a4fa",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator: status=UNSET, duration=1328.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:00b837d5948856ba"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a7774d2561fc19f5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4277.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:4270fcd287bf25a5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a7c1619c63f7df0b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=ERROR, duration=8193.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:19d1c85f4eb97ff0"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a850af56b4371763",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=8191.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:0f083e091f0227bc"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-af394a7b11109dd9",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator: status=ERROR, duration=4228.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:618bbe922118acaf"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b25b39059bd5a2e9",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy: status=ERROR, duration=8195.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:2dda4537894f8d52"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b9af9ce8f103a9cd",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:4ab4df718f040473"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ba0abbc4831cd3d5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4122.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:3cea156718ce0670"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-bbb72aaeee93037f",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1326.3ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:7b0801390a9839c3"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-bbe42fe069ea562e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator: status=ERROR, duration=4281.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:04be5daf13bac544"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c2a7948d32a227ee",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy: status=ERROR, duration=4005.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:ef99af9f1bf16336"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c2f21758cc74857f",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend: status=ERROR, duration=4003.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:1b6b294297f791cf"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c440984b52eea92c",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4406.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:b1d8eb85aa7bcce6"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c4586ccde73176f4",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend: status=ERROR, duration=4102.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:8ad3a271947591bf"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c88fb0ed6bb52632",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy: status=UNSET, duration=2428.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:86f2e2b3c8b8153a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c9442250e368b699",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 279606ce8e724743ad6818a757f1cba0 path load-generator/frontend-proxy: status=ERROR, duration=4125.3ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:279606ce8e724743ad6818a757f1cba0/span:c6bb299657df4352"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-caf7fb8d2b2706e6",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4217.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:bdc81528b6d95462"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d02fd4c1fcb1ffff",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 88ce941c21197b822e2c96628f726686 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4214.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:88ce941c21197b822e2c96628f726686/span:2bba4aaea15a2f2e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d1267f738a4bee80",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:ca2462185bb8b301"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d141ba38a6d1bd68",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy: status=ERROR, duration=4227.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:25d0953f518371c0"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d6b8935e6d792f2d",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend: status=ERROR, duration=4005.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:67c08750ac9b912a"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d7833a7d538ebdc7",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4938.5ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:2887ea26a6e21c8b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d9bc722a1d8cd420",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=UNSET, duration=2427.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:08e1509183e25bf8"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-db63e49e31c7fb65",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2b098fb2bbdb23ed1e95d323dd98d69d path load-generator/frontend-proxy/frontend: status=ERROR, duration=4101.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2b098fb2bbdb23ed1e95d323dd98d69d/span:a0b7bf9b88b78f4b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-dd63bfbf6fd469b1",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator: status=UNSET, duration=1339.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:6011a89a87e5e4ca"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-dda9231c2c4d72d0",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=ERROR, duration=8194.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:f6a0c01d7639b543"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-deabc8b021e75e2e",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator: status=ERROR, duration=4940.7ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:80f8f07ee7ce3e72"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-dec9108d05b8b188",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:d310f60ec86958f6"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e4dd23c696d57b14",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy: status=ERROR, duration=4112.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:94fab37d165d6826"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e81e473c181e4e0d",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4110.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:1f559f95f53d9ee7"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e8d5e8436e41e4ed",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4217.4ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:155b2e3c87dc8048"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-f11af977185a9505",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace fb05f092949a85a9a23c84899e6460f8 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:fb05f092949a85a9a23c84899e6460f8/span:8307b7d92d16ed63"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-f4c950f6872a9ec2",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=4224.8ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:947141708b9e7646"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-f88e2df019444c2b",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator: status=ERROR, duration=4007.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:4d91cbcc9322f46b"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-f8d80412873c4026",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 2becc73f589f19e6326fe455ad83b01c path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:2becc73f589f19e6326fe455ad83b01c/span:e3a5f0828a121f48"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-f9ffa7dc25e9ffd9",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3f18dd81913a826991b0e5f2c0cb68f8 path load-generator/frontend-proxy: status=ERROR, duration=4226.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3f18dd81913a826991b0e5f2c0cb68f8/span:1e14b28b5afebbe5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fbb21d7a9f90b4af",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 3aef8e7ee595561f3f6b4e3f03051dbc path load-generator/frontend-proxy/frontend/checkout: status=ERROR, duration=0.0ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:3aef8e7ee595561f3f6b4e3f03051dbc/span:702866e7299bbce1"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fc191da4531676fb",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace baea47e82dfff4cac05ef9d19da8d6f7 path load-generator: status=ERROR, duration=4409.6ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:baea47e82dfff4cac05ef9d19da8d6f7/span:d07928ec8b214d48"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fc86509dfb8d06d2",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace cdc4c9e7ff7c2afe04968cda3bfec195 path load-generator: status=ERROR, duration=4114.2ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:cdc4c9e7ff7c2afe04968cda3bfec195/span:b241663f4554b747"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fd82316408797915",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy/frontend: status=UNSET, duration=2426.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:92983c93b6f0098f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fe2bba9e5770a7fd",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1325.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:bc320eb4ac14e2fa"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fefeaa8a24b89456",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace f5d3840e8beb50716449e35771b4bc77 path load-generator/frontend-proxy/frontend: status=ERROR, duration=4937.9ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:f5d3840e8beb50716449e35771b4bc77/span:f80e08ec505e9c1d"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ffbbb269385fb1b5",
+      "evidence_type": "trace.span_error",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Trace 051f1492ed2baafab135f93a73534948 path load-generator/frontend-proxy: status=ERROR, duration=8195.1ms",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "trace:051f1492ed2baafab135f93a73534948/span:42c8a54845acb49e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0d5036e8ef7e1b61",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-a2c03abee2da37bfbac4",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "tp95: current=4850.0, historical baselines={'last_week': None, 'yesterday': 390.0}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_timeout"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-a2c03abee2da37bfbac4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2049b80711e9a846",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-a2c03abee2da37bfbac4",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "error_rate: current=100.0, historical baselines={'last_week': None, 'yesterday': 0.0}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-a2c03abee2da37bfbac4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a6180e422eb8fe54",
+      "evidence_type": "rpc.error_rate",
+      "source_type": "trace",
+      "source_name": "rpc.metrics",
+      "source_group": "tool:rpc.metrics:tool-d7233ba09896b62ee9f4",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "RPC error rate is 13.2%",
+      "severity": "critical",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_error_rate"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-d7233ba09896b62ee9f4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-fed05824357b8e0b",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:tool-a2c03abee2da37bfbac4",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "tp99: current=4970.0, historical baselines={'last_week': None, 'yesterday': 398.0}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_timeout"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-a2c03abee2da37bfbac4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-6cb5374c03694d62",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-6524311095921a27ca39",
+      "service": "checkout",
+      "observed_at": "2026-10-09T05:52:20.018543Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-6524311095921a27ca39"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; traces can measure the observed downstream dependency and distinguish timeout from error.",
+        "round": 2,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "invoke_expert",
+        "target": "rpc",
+        "reason": "Checkout shows 100% error rate and elevated tp95 with a downstream messaging dependency hint; an RPC expert can distinguish timeout from domain fault in the observed downstream call.",
+        "round": 3,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "rpc Expert drill-down: Checkout shows 100% error rate and elevated tp95 with a downstream messaging dependency hint; an RPC expert can distinguish timeout from domain fault in the observed downstream call.",
+        "round": 3,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Checkout cannot complete requests to a downstream service; topology can identify the observed downstream dependency to distinguish timeout from domain fault.",
+        "round": 4,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.670, margin=0.000, independent_sources=1",
+        "top1_confidence": 0.67,
+        "score_margin": 0.0,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+        "top1_confidence": 0.7225,
+        "score_margin": 0.05249999999999999,
+        "independent_source_count": 2,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.765, margin=0.095, independent_sources=3",
+        "top1_confidence": 0.765,
+        "score_margin": 0.09499999999999997,
+        "independent_source_count": 3,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.765,
+        "score_margin": 0.09499999999999997,
+        "independent_source_count": 3,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "rpc.metrics",
+      "topology.query"
+    ],
+    "invoked_experts": [
+      "rpc"
+    ],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 1,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "A downstream RPC dependency has an elevated error rate; supported by 101 evidence item(s).",
+  "recommended_actions": [
+    "Inspect the affected downstream dependency and timeout policy"
+  ],
+  "started_at": "2026-10-09T05:53:49.503003Z",
+  "finished_at": "2026-10-09T05:54:08.205525Z",
+  "latency_ms": 18702.521999999997
+}

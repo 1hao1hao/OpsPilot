@@ -1,0 +1,28 @@
+{
+  "scenario_id": "memory-growth",
+  "repetition": 3,
+  "path": "D:\\deeprca\\DeepRCA-Agent-master\\artifacts\\otel_demo_rca_v1\\20261009T043206Z-54bfc1\\memory-growth\\repeat-03",
+  "status": "completed",
+  "score": {
+    "top1": true,
+    "top3": true,
+    "normal_correct": null,
+    "gate_pass": false,
+    "budget_exhausted": true,
+    "degraded": false,
+    "tool_calls": 5,
+    "expert_calls": 0,
+    "investigation_rounds": 4,
+    "latency_ms": 13254.413,
+    "expected": "resource_saturation",
+    "predicted": [
+      "resource_saturation"
+    ],
+    "category_only": true
+  },
+  "fault_observed": true,
+  "recovery_health": true,
+  "recovery_queries_success": true,
+  "symptom_recovery_confirmed": true,
+  "duration_seconds": 564.0630000000001
+}

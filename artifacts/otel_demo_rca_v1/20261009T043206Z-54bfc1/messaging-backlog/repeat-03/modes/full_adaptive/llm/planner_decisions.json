@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Slow spans and dependency hints alone do not prove timeouts or domain faults; measuring observed dependencies via traces is needed to localize the delayed order processing.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Slow spans and a messaging dependency hint alone do not prove timeouts or domain faults; topology is needed to localize the checkout dependency path for the delayed order processing.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "The only dependency hint is a messaging producer/consumer operation ('publish orders') on the checkout path, and slow spans plus dependency hints alone do not prove timeouts or domain faults; a kafka expert is needed to measure whether the observed messaging dependency is delaying order processing.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]
