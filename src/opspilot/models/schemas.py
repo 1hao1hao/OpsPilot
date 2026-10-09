@@ -91,6 +91,72 @@ class EvidenceGateDecision(StrictModel):
     budget_exhausted: bool = False
 
 
+class DiagnosisVerdict(str, Enum):
+    CONFIRMED = "CONFIRMED"
+    NO_FAULT = "NO_FAULT"
+    INCONCLUSIVE = "INCONCLUSIVE"
+
+
+class FaultPresence(str, Enum):
+    PRESENT = "PRESENT"
+    ABSENT = "ABSENT"
+    UNKNOWN = "UNKNOWN"
+
+
+class ObservationQuality(str, Enum):
+    ABNORMAL = "abnormal"
+    NORMAL = "normal"
+    NO_DATA = "no_data"
+    FAILED = "failed"
+    MISSING_BASELINE = "missing_baseline"
+    UNSCOPED = "unscoped"
+    CONFLICT = "conflict"
+
+
+class ObservationAssessment(StrictModel):
+    observation_id: str
+    tool_name: str
+    signal: str
+    service: str
+    quality: ObservationQuality
+    reason: str
+    healthy_reference: bool = False
+    evidence_ids: list[str] = Field(default_factory=list)
+
+
+class EvidenceRequirement(StrictModel):
+    requirement_id: str
+    signal: str
+    service: str
+    purpose: str
+    satisfied: bool
+    quality: ObservationQuality
+    observation_ids: list[str] = Field(default_factory=list)
+    suggested_tools: list[str] = Field(default_factory=list)
+    reason: str
+
+
+class DiagnosisDecision(StrictModel):
+    verdict: DiagnosisVerdict
+    fault_presence: FaultPresence
+    reason: str
+    requirements: list[EvidenceRequirement] = Field(default_factory=list)
+    observations: list[ObservationAssessment] = Field(default_factory=list)
+    contradictions: list[str] = Field(default_factory=list)
+    root_cause_confirmed: bool = False
+
+    @model_validator(mode="after")
+    def consistent_verdict(self) -> DiagnosisDecision:
+        if self.root_cause_confirmed != (self.verdict == DiagnosisVerdict.CONFIRMED):
+            raise ValueError("root confirmation must match CONFIRMED verdict")
+        if self.verdict == DiagnosisVerdict.CONFIRMED and (
+                self.fault_presence != FaultPresence.PRESENT or self.contradictions):
+            raise ValueError("confirmation requires presence and resolved contradictions")
+        if self.verdict == DiagnosisVerdict.NO_FAULT and self.fault_presence != FaultPresence.ABSENT:
+            raise ValueError("NO_FAULT requires ABSENT presence")
+        return self
+
+
 class InvestigationTrace(StrictModel):
     rounds: int = Field(ge=1)
     action_history: list[InvestigationAction] = Field(default_factory=list)
@@ -101,6 +167,8 @@ class InvestigationTrace(StrictModel):
     tool_budget_used: int = Field(ge=0)
     expert_budget_used: int = Field(ge=0)
     duplicate_actions: int = Field(default=0, ge=0)
+    decision: DiagnosisDecision | None = None
+    decision_history: list[DiagnosisDecision] = Field(default_factory=list)
 
 
 class ToolStatus(str, Enum):
@@ -206,11 +274,15 @@ class RoundAnalysisResult(StrictModel):
 
 
 class DiagnosisReport(StrictModel):
-    schema_version: str = "2.0"
+    schema_version: str = "3.0"
     trace_id: str
     alert_id: str
     service_name: str
     status: str = "completed"
+    verdict: DiagnosisVerdict = DiagnosisVerdict.INCONCLUSIVE
+    decision: DiagnosisDecision | None = None
+    primary_root_cause_confirmed: bool = False
+    confirmed_root_cause: RootCauseCandidate | None = None
     candidates: list[RootCauseCandidate]
     primary_root_cause: RootCauseCandidate
     evidence: list[Evidence]
@@ -223,6 +295,17 @@ class DiagnosisReport(StrictModel):
     started_at: datetime
     finished_at: datetime
     latency_ms: float = Field(ge=0)
+
+    @model_validator(mode="after")
+    def consistent_confirmation(self) -> DiagnosisReport:
+        confirmed = self.verdict == DiagnosisVerdict.CONFIRMED
+        if self.primary_root_cause_confirmed != confirmed or (self.confirmed_root_cause is not None) != confirmed:
+            raise ValueError("confirmed root must match diagnostic verdict")
+        if self.decision and self.decision.verdict != self.verdict:
+            raise ValueError("report and decision verdicts disagree")
+        if confirmed and (not self.decision or self.confirmed_root_cause != self.primary_root_cause):
+            raise ValueError("confirmation requires a consistent deterministic decision")
+        return self
 
 
 class EvaluationCase(StrictModel):

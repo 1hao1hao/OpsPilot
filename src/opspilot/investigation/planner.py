@@ -150,6 +150,7 @@ class DeterministicPlannerFallback:
         remaining_round_budget: int,
         remaining_tool_budget: int,
         remaining_expert_budget: int,
+        evidence_requirements=None,
     ) -> InvestigationAction | None:
         del action_history, candidates
         if remaining_tool_budget <= 0 or remaining_round_budget <= 0:
@@ -162,6 +163,18 @@ class DeterministicPlannerFallback:
                 for domain in DOMAIN_TOOLS
                 if domain in domains and domain not in invoked_experts and self.registry.domain_names(domain)
             )
+        for requirement in evidence_requirements or []:
+            for tool in requirement.suggested_tools:
+                if tool in executed_tools:
+                    continue
+                if tool in self.registry.general_names():
+                    choices.append((InvestigationActionType.INSPECT_TOOL, tool,
+                                    "Resolve evidence requirement: " + requirement.signal))
+                elif remaining_expert_budget > 0:
+                    for domain, tools in DOMAIN_TOOLS.items():
+                        if tool in tools and domain not in invoked_experts and tool in self.registry.domain_names(domain):
+                            choices.append((InvestigationActionType.INVOKE_EXPERT, domain,
+                                            "Resolve evidence requirement: " + requirement.signal))
         general = self.registry.general_names()
         choices.extend(
             (InvestigationActionType.INSPECT_TOOL, name, "Next unexecuted general observation")
@@ -300,6 +313,8 @@ class LLMAdaptivePlanner:
                 for item in kwargs["candidates"][:3]
             ],
             "executed_tools": kwargs["executed_tools"],
+            "unmet_evidence_requirements": [r.model_dump(mode="json")
+                                            for r in kwargs.get("evidence_requirements", [])],
             "invoked_experts": kwargs["invoked_experts"],
             "expert_capabilities": {
                 name: description for name, description in EXPERT_CAPABILITIES.items()

@@ -175,7 +175,8 @@ async def test_failed_gate_plans_then_ranks_new_evidence(action, target, tool, o
         return result(name, observations if name == tool else {})
 
     outcome = await investigator.run(alert(), execute)
-    assert len(payloads) == 1
+    # A gate passing without the alert's resource observations must not stop.
+    assert len(payloads) >= 1
     assert set(payloads[0]) == {
         "alert",
         "evidence",
@@ -183,14 +184,18 @@ async def test_failed_gate_plans_then_ranks_new_evidence(action, target, tool, o
         "executed_tools",
         "invoked_experts",
         "expert_capabilities",
+        "unmet_evidence_requirements",
         "action_history",
         "remaining_budget",
         "allowed_actions",
     }
     assert set(payloads[0]["expert_capabilities"]) <= set(payloads[0]["allowed_actions"]["invoke_expert"])
-    assert [gate.sufficient for gate in outcome.trace.gate_decisions] == [False, True]
+    assert not outcome.trace.gate_decisions[0].sufficient
+    assert outcome.trace.gate_decisions[1].sufficient
+    assert outcome.trace.decision.verdict.value == "INCONCLUSIVE"
+    assert not outcome.trace.decision.root_cause_confirmed
     assert outcome.provisional_candidates[0].root_cause_type.value == cause
-    assert investigator.analysis_engine.analysis_count == 2
+    assert investigator.analysis_engine.analysis_count == outcome.trace.rounds
 
 
 @pytest.mark.asyncio

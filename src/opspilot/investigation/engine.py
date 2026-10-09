@@ -10,9 +10,12 @@ from typing import Any
 from opspilot.agents import CoordinatorAgent, RootCauseAgent
 from opspilot.config import RuntimeSettings
 from opspilot.investigation.analysis import DeterministicEvidenceEngine
+from opspilot.investigation.decision import decide_diagnosis
 from opspilot.investigation.planner import ActionValidator, EvidenceGate, LLMAdaptivePlanner
 from opspilot.models import (
     AlertEvent,
+    DiagnosisDecision,
+    DiagnosisVerdict,
     Evidence,
     EvidenceGateDecision,
     InvestigationAction,
@@ -123,9 +126,13 @@ class AdaptiveInvestigator:
                 budget_exhausted=exhausted,
             )
             state["gate_decisions"].append(gate)
+            decision = decide_diagnosis(alert, state["tool_results"], state["evidence"],
+                                        state["provisional_candidates"], gate)
+            state["decision"] = decision
+            state["decision_history"].append(decision)
             await self._notify(on_state, "investigation.gate", state)
-            if gate.sufficient or exhausted:
-                state["stop_reason"] = gate.reason
+            if decision.verdict != DiagnosisVerdict.INCONCLUSIVE or exhausted:
+                state["stop_reason"] = decision.reason
                 break
 
             next_round = state["round"] + 1
@@ -141,6 +148,7 @@ class AdaptiveInvestigator:
                 remaining_round_budget=self.settings.investigation_max_rounds - state["round"],
                 remaining_tool_budget=self.settings.investigation_max_tool_calls - len(state["executed_tools"]),
                 remaining_expert_budget=self.settings.investigation_max_expert_calls - len(state["invoked_experts"]),
+                evidence_requirements=[r for r in decision.requirements if not r.satisfied],
             )
             if action is None:
                 state["stop_reason"] = "no legal non-duplicate investigation action"
@@ -174,6 +182,8 @@ class AdaptiveInvestigator:
             tool_budget_used=len(state["executed_tools"]),
             expert_budget_used=len(state["invoked_experts"]),
             duplicate_actions=state["duplicate_actions"],
+            decision=state["decision"],
+            decision_history=state["decision_history"],
         )
         snapshot = self._snapshot(state)
         return InvestigationOutcome(
@@ -299,6 +309,8 @@ class AdaptiveInvestigator:
             ],
             "duplicate_actions": int(data.get("duplicate_actions", 0)),
             "stop_reason": str(data.get("stop_reason", "")),
+            "decision": DiagnosisDecision.model_validate(data["decision"]) if data.get("decision") else None,
+            "decision_history": [DiagnosisDecision.model_validate(item) for item in data.get("decision_history", [])],
         }
 
     @staticmethod
@@ -314,4 +326,6 @@ class AdaptiveInvestigator:
             "gate_decisions": [item.model_dump(mode="json") for item in state["gate_decisions"]],
             "duplicate_actions": state["duplicate_actions"],
             "stop_reason": state["stop_reason"],
+            "decision": state["decision"].model_dump(mode="json") if state["decision"] else None,
+            "decision_history": [item.model_dump(mode="json") for item in state["decision_history"]],
         }

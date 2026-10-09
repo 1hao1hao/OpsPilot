@@ -93,7 +93,10 @@ async def test_evidence_shortage_triggers_db_expert_after_seed_observation():
     trace = report.investigation
 
     assert trace.executed_tools[:3] == ["metrics.query", "traces.query", "changes.query"]
-    assert trace.invoked_experts == ["db"]
+    # Legacy spans omit incident timestamps: investigate the observed DB first,
+    # but do not finalize merely because the root ranking gate passes.
+    assert trace.invoked_experts[0] == "db"
+    assert report.verdict.value == "INCONCLUSIVE"
     assert "db.replication" in trace.executed_tools
     expert_action = next(item for item in trace.action_history if item.action_type == InvestigationActionType.INVOKE_EXPERT)
     assert expert_action.round == 2
@@ -144,4 +147,4 @@ async def test_optional_llm_explains_but_cannot_change_deterministic_candidate()
 
     assert report.primary_root_cause.root_cause_type == RootCauseType.RESOURCE_SATURATION
     assert report.llm_used is True
-    assert report.decision_rationale == "LLM explanation constrained to resource_saturation"
+    assert "provisional ranking: LLM explanation constrained to resource_saturation" in report.decision_rationale
