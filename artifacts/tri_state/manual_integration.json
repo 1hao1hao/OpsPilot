@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "mode": "manual_after_explicit_user_merge_request",
+  "completed_at": "2026-10-10T03:59:14.590834+00:00",
+  "integrated_commit": "7c2fac7ed2dcf8d170c1a3777f00dbfef877c346",
+  "previous_automatic_attempt": {
+    "status": "failed",
+    "error": "RuntimeError: Existing release interrupted; no merge or new experiment",
+    "new_experiments_started": 0
+  },
+  "regression_tests_passed": 68,
+  "ruff": "passed",
+  "unrelated_edits_preserved": true,
+  "original_task_backup": ".external/task_10.9.before_manual_merge.md",
+  "frozen_experiment_status": "interrupted; not accepted",
+  "new_experiments_started": 0
+}
