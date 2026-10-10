@@ -1,0 +1,6 @@
+{
+  "root_cause_type": "rpc_error_rate",
+  "root_service": "payment",
+  "mechanism": "checkout directs payment RPC to an unreachable endpoint",
+  "taxonomy_note": "Real smoke showed PaymentService/Charge ERROR with is_timeout=false; unreachable endpoint produces connection or DNS/UNAVAILABLE errors. Existing RPC_ERROR_RATE expresses the error symptom, not a dedicated downstream-unavailable mechanism. No new type or diagnosis rule added."
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Resource saturation is observed but no dependency is identified; traces are needed to reveal downstream dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Resource saturation is observed on 'ad' but no dependency has been identified from traces; topology is needed to reveal downstream dependencies before invoking any domain expert.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Resource saturation is observed on 'ad' with CPU at 100% and a sharp sustained increase from baseline, but no dependency has been identified from traces or topology. With one round remaining, checking recent changes is the lowest-cost way to find a mechanism-specific cause (e.g., a deployment or config change) for the observed resource anomaly before invoking a domain expert.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

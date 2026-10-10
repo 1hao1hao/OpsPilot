@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms (high latency, 100% error rate) are available and no downstream dependency has been observed in traces yet; inspecting traces is needed to identify the actual downstream service and mechanism before any domain expert could be invoked.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a messaging dependency hint ('publish orders') but no concrete downstream service is identified; topology.query is the only remaining allowed tool to map checkout's downstream dependencies and locate the failing target before any domain expert can be invoked.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms (high latency, 100% error rate) and a low-confidence messaging dependency hint are available; no concrete downstream service or mechanism is established. With traces and topology already inspected and no domain expert available, alerts.query is the only remaining allowed tool to surface a specific failing dependency or mechanism before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

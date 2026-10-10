@@ -1,0 +1,163 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "7935e5b184944380b7c85406927101b8",
+  "alert_id": "alert-b0df42af67ba4240b45534b3335320d4",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "no_fault",
+      "summary": "No material fault was found in the collected evidence",
+      "confidence": 0.8,
+      "evidence_ids": []
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "no_fault",
+    "summary": "No material fault was found in the collected evidence",
+    "confidence": 0.8,
+    "evidence_ids": []
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-188df724c10d301d",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-8965f88e81ffcd1885a9",
+      "service": "checkout",
+      "observed_at": "2026-10-09T10:03:08.014664Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-8965f88e81ffcd1885a9"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency has been observed in traces yet, so inspect traces to identify actual dependencies before considering any domain expert.",
+        "round": 2,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "A messaging dependency ('publish orders') was observed in traces, but no domain expert is available and no mechanism-specific measurement has been taken; topology.query is the only remaining allowed tool to characterize the observed dependency's downstream consumers before the budget expires.",
+        "round": 3,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Only generic symptoms and a no_fault hypothesis are present; the observed messaging dependency ('publish orders') is a diagnostic hint, not fault evidence, and no domain expert is available. With one round remaining, inspect alerts.query to check for any alert-level evidence tied to the observed dependency before the budget expires.",
+        "round": 4,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "topology.query",
+      "alerts.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "No material fault was found in the collected evidence; supported by 0 evidence item(s).",
+  "recommended_actions": [
+    "Continue monitoring and collect more data if the alert persists"
+  ],
+  "started_at": "2026-10-09T10:04:38.721451Z",
+  "finished_at": "2026-10-09T10:04:53.774860Z",
+  "latency_ms": 15053.409
+}

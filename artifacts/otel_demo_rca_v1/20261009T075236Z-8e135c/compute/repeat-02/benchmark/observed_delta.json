@@ -1,0 +1,82 @@
+{
+  "enabled_at": "2026-10-09T08:23:23.859185+00:00",
+  "delta": {
+    "db.connections.max_connections": {
+      "baseline": 100.0,
+      "fault": 100.0
+    },
+    "kafka.lag.consumer_lag": {
+      "baseline": 0.0,
+      "fault": 0.0,
+      "delta": 0.0
+    },
+    "metrics.query.qps": {
+      "baseline": 0.25001666777785186,
+      "fault": 0.20000666688889632,
+      "delta": -0.05001000088895555
+    },
+    "metrics.query.tp95": {
+      "baseline": 3.625,
+      "fault": 3.3999999999999995,
+      "delta": -0.22500000000000053
+    },
+    "metrics.query.tp99": {
+      "baseline": 3.925,
+      "fault": 3.88,
+      "delta": -0.04499999999999993
+    },
+    "metrics.query.cpu_usage": {
+      "baseline": 0.007383230658452675,
+      "fault": 1.0,
+      "delta": 0.9926167693415473
+    },
+    "metrics.query.memory_usage": {
+      "baseline": 0.9563020833333333,
+      "fault": 0.9577213541666667,
+      "delta": 0.0014192708333333748
+    },
+    "redis.hotkeys.hit_rate_percent": {
+      "baseline": 29.197080291970806,
+      "fault": 30.0,
+      "delta": 0.8029197080291937
+    },
+    "redis.memory.used_memory": {
+      "baseline": 1430104.0,
+      "fault": 1431064.0,
+      "delta": 960.0
+    }
+  },
+  "trends": {
+    "qps": {
+      "samples": 17,
+      "first": 0.20000666688889632,
+      "last": 0.20000666688889632,
+      "slope_per_second": -5.989678465398633e-05
+    },
+    "tp95": {
+      "samples": 17,
+      "first": 3.6999999999999993,
+      "last": 3.3999999999999995,
+      "slope_per_second": -0.03460784313725491
+    },
+    "tp99": {
+      "samples": 17,
+      "first": 3.94,
+      "last": 3.88,
+      "slope_per_second": -0.06705228758169939
+    },
+    "cpu_usage": {
+      "samples": 17,
+      "first": 0.007337013480539221,
+      "last": 1.0,
+      "slope_per_second": 0.00221084723559087
+    },
+    "memory_usage": {
+      "samples": 17,
+      "first": 0.9548828125,
+      "last": 0.9577213541666667,
+      "slope_per_second": -2.64033564814845e-06
+    }
+  },
+  "fault_observed": true
+}

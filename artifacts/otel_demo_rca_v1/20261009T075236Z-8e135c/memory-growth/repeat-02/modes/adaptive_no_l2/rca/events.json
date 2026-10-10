@@ -1,0 +1,101 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "failed"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms observed so far; no dependency has been observed in traces. Inspecting traces is the required next step to identify an observed dependency before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "failed"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Only generic resource symptoms are present and no dependency has been observed in traces; with no domain experts available, inspecting topology is the remaining low-cost step to identify an observed dependency before any further hypothesis testing.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Next unexecuted general observation",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 5,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

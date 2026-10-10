@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency is observed yet, so inspect traces to identify actual dependencies and slow spans before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow span and a messaging dependency hint ('publish orders') but no measured dependency mechanism; topology can reveal the actual downstream dependency for the observed messaging operations before any expert invocation, and no domain experts are available.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms (slow span, unmeasured messaging dependency hint) are present and no domain experts are available; with one round remaining, query alerts to check for any measured dependency-specific anomaly before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "topology.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show a messaging dependency on 'publish orders' and the slow span is on the order-processing path; kafka expert can measure consumer lag/backlog to test whether messaging is the delayed mechanism.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Kafka consumer lag was measured at 1111 with a large positive delta, but this is a generic symptom and the only observed dependency hint is a messaging producer/consumer operation on the order path; the slow span is on the frontend-proxy/checkout path, so the remaining budget should test the observed outgoing-call mechanism (RPC latency/timeouts) rather than re-collecting generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

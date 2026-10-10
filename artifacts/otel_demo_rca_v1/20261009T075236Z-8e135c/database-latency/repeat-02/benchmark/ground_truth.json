@@ -1,0 +1,6 @@
+{
+  "root_cause_type": "db_slow_query",
+  "root_service": "astronomy-db",
+  "mechanism": "periodic ACCESS EXCLUSIVE lock on catalog.products",
+  "taxonomy_note": "Mechanism is lock contention; category is database latency or bottleneck. Existing normalized telemetry does not expose lock wait identity; do not equate these."
+}

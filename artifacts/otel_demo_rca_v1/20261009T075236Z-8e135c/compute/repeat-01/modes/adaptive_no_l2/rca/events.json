@@ -1,0 +1,101 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Resource saturation is observed on 'ad' but no dependency is seen in traces; inspect traces to identify observed downstream dependencies and their latency/error behavior before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Resource saturation is observed on 'ad' with no dependency seen in traces; inspect topology to identify observed dependencies and their behavior before considering any domain expert.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Resource saturation on 'ad' is well-measured (cpu=100%, memory=95.6%, sustained growth vs baseline), but no dependency is observed in traces and no expert is available. With one round left, inspect recent changes to check for a deployment/config change that could explain the CPU spike, rather than re-collecting generic resource metrics.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.95,
+      "score_margin": 0.95,
+      "independent_source_count": 1,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 5,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

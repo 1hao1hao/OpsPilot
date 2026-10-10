@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms observed so far; no dependency is observed in traces yet, so inspect traces to identify observed dependencies before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow span and a messaging dependency hint ('publish orders') but no measured dependency mechanism; with no experts available, inspect topology to identify the observed dependency's target service before further generic symptom collection.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Only generic resource symptoms and a slow span with a messaging dependency hint are observed; no dependency mechanism is measured and no experts are available. With traces and topology already inspected, check recent changes to see if a deployment or config change correlates with the memory growth before concluding no_fault.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "call": 3,
+  "started_at": "2026-10-09T09:45:30.851808+00:00",
+  "request": {
+    "model": "deepseek-v4-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You control an RCA investigation. Return exactly action, target, reason. action is inspect_tool or invoke_expert. Select only from allowed_actions. Prefer measurements of observed dependencies to repeatedly collecting generic symptoms. Slow spans and dependency hints alone do not prove timeouts or domain faults. Treat provisional candidates as hypotheses, not established facts. When only generic symptoms are available and no dependency is observed, inspect traces before invoking a domain expert. Do not invent a dependency from the service name. Prioritize unmeasured mechanism-specific domain observations for dependencies already seen in traces over additional generic topology. A domain measurement below its anomaly thresholds weakens that hypothesis; test another observed dependency with the remaining budget. Expert capabilities are given in expert_capabilities. Never finalize and never infer facts not present in the input.\nReturn the result as a JSON object."
+      },
+      {
+        "role": "user",
+        "content": "{\"alert\": {\"service_name\": \"checkout\", \"alert_type\": \"custom\", \"severity\": \"P2\", \"description\": \"Order processing completion is delayed during ongoing user traffic\", \"labels\": {}}, \"evidence\": [{\"type\": \"trace.span_slow\", \"fact\": \"Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy: status=UNSET, duration=1616.1ms\", \"confidence\": 0.9, \"source_group\": \"tool:traces.query:tool-feb609158460daf6dccc\", \"supports\": []}, {\"type\": \"kafka.consumer_lag\", \"fact\": \"Kafka consumer lag is 1111; temporal change={'baseline': 0.0, 'recent': 1060.5, 'delta': 1060.5, 'noise': 0.0, 'reference_samples': 6, 'discarded_before_discontinuity': 0}\", \"confidence\": 0.9, \"source_group\": \"tool:kafka.lag:tool-f3e004ce17314231c3b7\", \"supports\": [\"kafka_consumer_lag\"]}, {\"type\": \"trace.messaging_dependency\", \"fact\": \"Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence\", \"confidence\": 0.3, \"source_group\": \"tool:traces.query:tool-feb609158460daf6dccc\", \"supports\": []}], \"provisional_top_k\": [{\"root_cause_type\": \"kafka_consumer_lag\", \"confidence\": 0.95}], \"executed_tools\": [\"metrics.query\", \"logs.query\", \"changes.query\", \"traces.query\", \"kafka.lag\"], \"invoked_experts\": [\"kafka\"], \"expert_capabilities\": {\"db\": \"Measure database query latency, connection usage and replication delay\", \"redis\": \"Measure cache memory pressure and hit-rate degradation\", \"rpc\": \"Measure outgoing call error rates, protocol timeouts and latency\"}, \"action_history\": [{\"action\": \"inspect_tool\", \"target\": \"metrics.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"logs.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"changes.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"traces.query\", \"reason\": \"Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking a domain expert.\"}, {\"action\": \"invoke_expert\", \"target\": \"kafka\", \"reason\": \"Traces show a messaging dependency on 'publish orders' and the slow span is on the order-processing path; kafka expert can measure consumer lag/backlog to test whether messaging is the delayed mechanism.\"}, {\"action\": \"inspect_tool\", \"target\": \"kafka.lag\", \"reason\": \"kafka Expert drill-down: Traces show a messaging dependency on 'publish orders' and the slow span is on the order-processing path; kafka expert can measure consumer lag/backlog to test whether messaging is the delayed mechanism.\"}], \"remaining_budget\": {\"rounds\": 1, \"tools\": 3, \"experts\": 1}, \"allowed_actions\": {\"inspect_tool\": [\"alerts.query\", \"topology.query\"], \"invoke_expert\": [\"db\", \"redis\", \"rpc\"]}}"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 500
+  },
+  "api_success": true,
+  "response": {
+    "id": "ce2e520e-fcf7-446f-bee7-b09f3ebe7452",
+    "object": "chat.completion",
+    "created": 1791539131,
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"invoke_expert\", \"target\": \"rpc\", \"reason\": \"Kafka consumer lag was measured at 1111 with a large positive delta, but this is a generic symptom and the only observed dependency hint is a messaging producer/consumer operation on the order path; the slow span is on the frontend-proxy/checkout path, so the remaining budget should test the observed outgoing-call mechanism (RPC latency/timeouts) rather than re-collecting generic topology.\"}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1005,
+      "completion_tokens": 103,
+      "total_tokens": 1108,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 877
+    },
+    "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669"
+  },
+  "usage": {
+    "prompt_tokens": 1005,
+    "completion_tokens": 103,
+    "total_tokens": 1108,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 877
+  },
+  "response_model": "deepseek-flash",
+  "latency_ms": 2139.839100000245
+}

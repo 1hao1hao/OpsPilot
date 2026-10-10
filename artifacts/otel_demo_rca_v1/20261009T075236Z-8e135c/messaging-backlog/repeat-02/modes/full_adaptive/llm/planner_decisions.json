@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show a slow checkout span and an observed messaging dependency ('publish orders'); kafka expert can measure consumer lag/backlog for this observed dependency, which is more mechanism-specific than additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "The slow checkout span traverses frontend-proxy/frontend/checkout/shipping, indicating an outgoing call path; the kafka consumer lag measurement is already below its anomaly threshold (recent 808 vs baseline 0 with noise 0, but lag 1111 is not a strong timeout signal), so the kafka hypothesis is weakened. The remaining observed dependency is the RPC call to shipping, and the rpc expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

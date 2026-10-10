@@ -1,0 +1,355 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "72a84841c3d54dbe9f0dc85f74bdfd4e",
+  "alert_id": "alert-11ca161036b94c98b86629823fd1c439",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "no_fault",
+      "summary": "No material fault was found in the collected evidence",
+      "confidence": 0.8,
+      "evidence_ids": []
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "no_fault",
+    "summary": "No material fault was found in the collected evidence",
+    "confidence": 0.8,
+    "evidence_ids": []
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-0757475f5fb9705f",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy: status=UNSET, duration=1616.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:aa062cd30f5a2f08"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-25299e883f3f3dfe",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1570.5ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:fe6488aefef5c985"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-6d177c06c172eb5d",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1615.6ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:8cd5344a536200bd"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-805e6a616d69922b",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy: status=UNSET, duration=1615.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:1860eed3baa94944"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-9013f2bc45dbd82c",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1615.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:2d930bdb62ddd1a7"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-9a1b95bdd2dfbb04",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1591.0ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:9d57a7bd5199886f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-9a445d7df2951481",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1610.5ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:0d78baeaa389a36f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b517b286453a8fae",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1614.6ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:61600e5c1973e435"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-bb3820347a747a40",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1571.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:58f52ee923802241"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-bcfa14c369dde21e",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1609.5ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:9d8f0fb892fea003"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e518967c08de708e",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator: status=UNSET, duration=1617.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:891bad095ce12efc"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ef33ea6c46fc28d5",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Trace a116e491718d2ca34f7ac7446e61c256 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1583.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:a116e491718d2ca34f7ac7446e61c256/span:0bf7d09aa7f08e83"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-74bcd5d553870dcb",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-41976cdf76e9480573e7",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:43:44.192637Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-41976cdf76e9480573e7"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency is observed yet, so inspect traces to identify actual dependencies and slow spans before considering any domain expert.",
+        "round": 2,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Traces show a slow span and a messaging dependency hint ('publish orders') but no measured dependency mechanism; topology can reveal the actual downstream dependency for the observed messaging operations before any expert invocation, and no domain experts are available.",
+        "round": 3,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Only generic symptoms (slow span, unmeasured messaging dependency hint) are present and no domain experts are available; with one round remaining, query alerts to check for any measured dependency-specific anomaly before concluding.",
+        "round": 4,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "topology.query",
+      "alerts.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "No material fault was found in the collected evidence; supported by 0 evidence item(s).",
+  "recommended_actions": [
+    "Continue monitoring and collect more data if the alert persists"
+  ],
+  "started_at": "2026-10-09T09:46:05.926676Z",
+  "finished_at": "2026-10-09T09:46:20.070337Z",
+  "latency_ms": 14143.661
+}

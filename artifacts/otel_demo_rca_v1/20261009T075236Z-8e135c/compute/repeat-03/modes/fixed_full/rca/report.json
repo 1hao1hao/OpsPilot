@@ -1,0 +1,236 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "7a4c91b039764f8fbf8afbc9ec6f9ded",
+  "alert_id": "alert-0572f737360b4af2b60f569c601ddfa7",
+  "service_name": "ad",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "resource_saturation",
+      "summary": "Service compute resources are saturated",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-64df4409a7f37c7e",
+        "ev-85bb78900d467e2a",
+        "ev-def62de4b9c2c5bf"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "resource_saturation",
+    "summary": "Service compute resources are saturated",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-64df4409a7f37c7e",
+      "ev-85bb78900d467e2a",
+      "ev-def62de4b9c2c5bf"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-85bb78900d467e2a",
+      "evidence_type": "metric.resource_saturation",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:30c98d37c5054ab1b8119b56ecd36262",
+      "service": "ad",
+      "observed_at": "2026-10-09T08:35:43.482635Z",
+      "fact": "Resource usage cpu=100.0%, memory=95.4%",
+      "severity": "critical",
+      "confidence": 0.9,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "30c98d37c5054ab1b8119b56ecd36262"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-64df4409a7f37c7e",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:30c98d37c5054ab1b8119b56ecd36262",
+      "service": "ad",
+      "observed_at": "2026-10-09T08:35:43.482635Z",
+      "fact": "cpu_usage: current=1.0, historical baselines={'last_week': None, 'yesterday': 0.006331086621732436}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "30c98d37c5054ab1b8119b56ecd36262"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-def62de4b9c2c5bf",
+      "evidence_type": "metric.resource_growth",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:30c98d37c5054ab1b8119b56ecd36262",
+      "service": "ad",
+      "observed_at": "2026-10-09T08:35:43.482635Z",
+      "fact": "cpu_usage: sustained resource increase {'baseline': 0.006331086621732436, 'recent': 1.0, 'delta': 0.9936689133782676, 'noise': 6.846086418698175e-05, 'reference_samples': 6, 'discarded_before_discontinuity': 0}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "30c98d37c5054ab1b8119b56ecd36262"
+    }
+  ],
+  "investigation": {
+    "rounds": 1,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.connections",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.replication",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.slowlog",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.hotkeys",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.memory",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      }
+    ],
+    "executed_tools": [
+      "alerts.query",
+      "changes.query",
+      "db.connections",
+      "db.replication",
+      "db.slowlog",
+      "kafka.lag",
+      "logs.query",
+      "metrics.query",
+      "redis.hotkeys",
+      "redis.memory",
+      "rpc.metrics",
+      "topology.query",
+      "traces.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "Frozen full tool list completed",
+    "tool_budget_used": 13,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": false,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Service compute resources are saturated; supported by 3 evidence item(s).",
+  "recommended_actions": [
+    "Inspect service resource limits and recent workload changes"
+  ],
+  "started_at": "2026-10-09T08:37:35.603753Z",
+  "finished_at": "2026-10-09T08:38:00.096695Z",
+  "latency_ms": 24492.942
+}

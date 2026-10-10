@@ -1,0 +1,101 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms observed so far; no dependency is observed in traces yet, so inspect traces to identify observed dependencies before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow span and a messaging dependency hint ('publish orders') but no measured dependency mechanism; with no experts available, inspect topology to identify the observed dependency's target service before further generic symptom collection.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Only generic resource symptoms and a slow span with a messaging dependency hint are observed; no dependency mechanism is measured and no experts are available. With traces and topology already inspected, check recent changes to see if a deployment or config change correlates with the memory growth before concluding no_fault.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "topology.query",
+    "changes.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 5,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

@@ -1,0 +1,420 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "b1c018045efd4f7baeb4bbcc6fac2200",
+  "alert_id": "alert-e9969412e6ca47229dd767c66695d891",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "kafka_consumer_lag",
+      "summary": "Kafka consumer lag is delaying message processing",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-416af5043c5c418e"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "kafka_consumer_lag",
+    "summary": "Kafka consumer lag is delaying message processing",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-416af5043c5c418e"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-416af5043c5c418e",
+      "evidence_type": "kafka.consumer_lag",
+      "source_type": "metric",
+      "source_name": "kafka.lag",
+      "source_group": "tool:kafka.lag:041c8868d6ee434eb9996c758c494bed",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Kafka consumer lag is 1111; temporal change={'baseline': 0.0, 'recent': 808.0, 'delta': 808.0, 'noise': 0.0, 'reference_samples': 7, 'discarded_before_discontinuity': 0}",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [
+        "kafka_consumer_lag"
+      ],
+      "contradicts": [],
+      "raw_ref": "041c8868d6ee434eb9996c758c494bed"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-487bb83c9a4b42cb",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1019.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:df023cf08222581f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-51e7974ec991e5a2",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1023.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:9ae9d27a7a488722"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-70b5694609c1202b",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy: status=UNSET, duration=1077.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:db6860c2d66ee2b4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7e1f3ac8b73d0f20",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1063.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:8747c8be444ceff1"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-9ddd6853d370986c",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy: status=UNSET, duration=1077.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:a1574a721f4da3ef"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a404515c03c376e9",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:af106ad3fee431b5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ac17fa5b258e2ae2",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1019.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:1e956f0a872c4db0"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b05384e52fee15fc",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1042.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:2a1609a936169a05"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c2c4e5b34e1c63fa",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:e3d3a9643bec7a4d"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c9b22d925d5dee4a",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:4dedf4d78b291637"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d3348487abd227e1",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator: status=UNSET, duration=1079.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:b88eee8267408b84"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e0c4b09ba3673840",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1062.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:a180614a53bd0deb"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b791b39c1972e2c6",
+      "evidence_type": "rpc.observed_outcomes",
+      "source_type": "trace",
+      "source_name": "rpc.metrics",
+      "source_group": "tool:rpc.metrics:e2c58c4e71ff43f5ba867c2ce8d43785",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Observed outgoing RPC samples: {'call_volume': 24, 'timeout_rate': 0.0, 'error_rate': 0.0, 'latency_ms': 16.613824, 'baseline_latency_ms': 25.07527791304348}; missing outcomes are unknown. Rates describe sampled calls, not every dependency.",
+      "severity": "info",
+      "confidence": 0.5,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "e2c58c4e71ff43f5ba867c2ce8d43785"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b59455edfe7eae22",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:023b3553373041fdbd057369bcfe3f08",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "023b3553373041fdbd057369bcfe3f08"
+    }
+  ],
+  "investigation": {
+    "rounds": 1,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.connections",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.replication",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.slowlog",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.hotkeys",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.memory",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      }
+    ],
+    "executed_tools": [
+      "alerts.query",
+      "changes.query",
+      "db.connections",
+      "db.replication",
+      "db.slowlog",
+      "kafka.lag",
+      "logs.query",
+      "metrics.query",
+      "redis.hotkeys",
+      "redis.memory",
+      "rpc.metrics",
+      "topology.query",
+      "traces.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "Frozen full tool list completed",
+    "tool_budget_used": 13,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": false,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Kafka consumer lag is delaying message processing; supported by 1 evidence item(s).",
+  "recommended_actions": [
+    "Inspect consumer health and lag by partition"
+  ],
+  "started_at": "2026-10-09T09:54:54.843240Z",
+  "finished_at": "2026-10-09T09:55:24.376320Z",
+  "latency_ms": 29533.08
+}

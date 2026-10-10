@@ -1,0 +1,301 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "d02581e7e07743878f5de742255b5bfe",
+  "alert_id": "alert-bfadd9367ee94914aea822fab3db0275",
+  "service_name": "frontend",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "no_fault",
+      "summary": "No material fault was found in the collected evidence",
+      "confidence": 0.8,
+      "evidence_ids": []
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "no_fault",
+    "summary": "No material fault was found in the collected evidence",
+    "confidence": 0.8,
+    "evidence_ids": []
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-2df9624f05496ddf",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "shipping",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend/shipping: status=UNSET, duration=1135.0ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:ed8e8f730badfb63"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-4292e88867a2c0d5",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy: status=UNSET, duration=1144.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:aa6d107e27ecbb02"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5ab41b4d2b5ffba5",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1139.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:1af4682fbc1ede9e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-5d8d64f0d06eef45",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1143.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:8752823bd392c5a6"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-728c0102c1590f66",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1143.7ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:1d6b19f8879125a4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b8a7f907e5054114",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend: status=UNSET, duration=1142.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:6f6ed677625ee3bd"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c12b0fc4aa80889b",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy: status=UNSET, duration=1144.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:3f3103ef439f5d3e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e72647862bdfa7c4",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-536fbb3c6d7447016a11",
+      "service": "shipping",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Trace 5a4124e0b0c81dc8bd3298335fddd7d0 path frontend-web/frontend-proxy/frontend/shipping: status=UNSET, duration=1134.7ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:5a4124e0b0c81dc8bd3298335fddd7d0/span:f9ae30bd07ed757e"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-90c8c598812b215d",
+      "evidence_type": "rpc.observed_outcomes",
+      "source_type": "trace",
+      "source_name": "rpc.metrics",
+      "source_group": "tool:rpc.metrics:tool-4ae96fae87dbee2bcd88",
+      "service": "frontend",
+      "observed_at": "2026-10-09T07:54:37.904920Z",
+      "fact": "Observed outgoing RPC samples: {'call_volume': 39, 'error_rate': 0.0, 'latency_ms': 123.55136984615385, 'baseline_latency_ms': 635.0050591219513}; missing outcomes are unknown. Rates describe sampled calls, not every dependency.",
+      "severity": "info",
+      "confidence": 0.5,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-4ae96fae87dbee2bcd88"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking any domain expert.",
+        "round": 2,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Trace shows a slow span on the frontend->shipping path but no dependency mechanism is yet observed; topology can reveal the actual downstream dependency (e.g., db, redis, kafka, rpc) behind shipping before invoking a domain expert.",
+        "round": 3,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "invoke_expert",
+        "target": "rpc",
+        "reason": "Trace shows a slow span on the frontend->shipping path (1135ms) with no dependency mechanism yet measured; the observed downstream call is an outgoing RPC-style dependency, so measure outgoing call error rates, protocol timeouts and latency for this observed dependency rather than collecting more generic topology.",
+        "round": 4,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "rpc Expert drill-down: Trace shows a slow span on the frontend->shipping path (1135ms) with no dependency mechanism yet measured; the observed downstream call is an outgoing RPC-style dependency, so measure outgoing call error rates, protocol timeouts and latency for this observed dependency rather than collecting more generic topology.",
+        "round": 4,
+        "arguments": {
+          "service_name": "frontend"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "topology.query",
+      "rpc.metrics"
+    ],
+    "invoked_experts": [
+      "rpc"
+    ],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 1,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "No material fault was found in the collected evidence; supported by 0 evidence item(s).",
+  "recommended_actions": [
+    "Continue monitoring and collect more data if the alert persists"
+  ],
+  "started_at": "2026-10-09T07:56:06.580202Z",
+  "finished_at": "2026-10-09T07:56:22.590660Z",
+  "latency_ms": 16010.458
+}

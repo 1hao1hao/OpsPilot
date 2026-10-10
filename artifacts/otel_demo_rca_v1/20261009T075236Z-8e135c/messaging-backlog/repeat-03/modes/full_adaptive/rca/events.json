@@ -1,0 +1,131 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency has been observed in traces yet, so inspect traces to identify actual downstream dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders'), and the alert is delayed order processing under load; kafka expert can measure consumer lag/backlog for this observed dependency, which is more mechanism-specific than additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "kafka.lag",
+      "reason": "kafka Expert drill-down: Traces show an observed messaging dependency ('publish orders'), and the alert is delayed order processing under load; kafka expert can measure consumer lag/backlog for this observed dependency, which is more mechanism-specific than additional generic topology.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "The only observed dependency is a messaging producer operation ('publish orders'), and the kafka expert plus kafka.lag measurement have already been executed without establishing a fault. No database, redis, or rpc dependency has been observed in traces, but among the remaining allowed experts, rpc is the most plausible unmeasured mechanism for delayed order processing under load (outgoing call latency/timeouts), and it is a mechanism-specific domain measurement rather than additional generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: The only observed dependency is a messaging producer operation ('publish orders'), and the kafka expert plus kafka.lag measurement have already been executed without establishing a fault. No database, redis, or rpc dependency has been observed in traces, but among the remaining allowed experts, rpc is the most plausible unmeasured mechanism for delayed order processing under load (outgoing call latency/timeouts), and it is a mechanism-specific domain measurement rather than additional generic topology.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "kafka.lag",
+    "rpc.metrics"
+  ],
+  "invoked_experts": [
+    "kafka",
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 2,
+  "duplicate_actions": 0
+}

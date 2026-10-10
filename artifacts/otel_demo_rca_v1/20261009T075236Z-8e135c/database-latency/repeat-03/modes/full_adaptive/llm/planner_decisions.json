@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace 62e27779e7314a3953d4d46c636c09f0 shows a slow span on the product-catalog path with a db_slow_query hint, so measuring database query latency and connection usage is the most direct way to test the db_slow_query hypothesis.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace f60ef62f0cde8b475f1165f0cb508648 shows a TIMEOUT status with 15000ms duration and tp99 jumped from ~49ms to 15000ms, indicating an rpc_timeout mechanism; measuring outgoing call error rates, protocol timeouts, and latency directly tests this hypothesis, which remains unmeasured while db_slow_query was already probed via db.slowlog.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Remaining budget has no experts available and db_slow_query was probed via db.slowlog while rpc_timeout was probed via rpc.metrics; the observed messaging dependency 'publish orders' is only a hint, and no dependency is confirmed for resource_saturation beyond generic cpu/memory metrics, so inspecting logs is the lowest-cost way to gather mechanism-specific evidence for the timeout before finalizing.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

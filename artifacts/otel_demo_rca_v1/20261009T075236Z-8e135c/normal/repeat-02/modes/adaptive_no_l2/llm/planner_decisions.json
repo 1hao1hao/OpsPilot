@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency is observed in evidence. Inspecting traces is the required next step to observe actual dependencies before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Only a generic messaging dependency hint ('publish orders') is observed, with no measured dependency fault and a strong no_fault provisional hypothesis. With no domain experts available, the remaining budget should be used to inspect topology to confirm whether the observed messaging dependency is a real, relevant dependency before concluding.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only a generic messaging dependency hint ('publish orders') is observed, with no measured dependency fault and a strong no_fault provisional hypothesis. No domain experts are available. The remaining budget should be used to inspect alerts for any measured anomaly tied to the observed dependency before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

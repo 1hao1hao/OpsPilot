@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency is observed in traces yet, so inspect traces to identify observed dependencies before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow frontend span and a product-catalog db_latency_hint dependency, but no dependency mechanism has been measured; topology can reveal the observed dependency path for product-catalog before any domain expert is considered.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; traces show a slow frontend span and a product-catalog db_latency_hint dependency but no mechanism has been measured, and no domain expert is available. With one round remaining, inspect alerts.query to check for any measured anomaly evidence tied to the observed dependencies before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "topology.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

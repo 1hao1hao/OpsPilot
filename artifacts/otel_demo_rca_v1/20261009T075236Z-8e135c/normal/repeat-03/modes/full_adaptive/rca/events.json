@@ -1,0 +1,153 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency has been observed in traces yet, so inspect traces to identify actual dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace 8799fb0d2512ee683981f3c043125785 shows a product-catalog span with a db_latency_hint of 1194.4ms, an observed dependency-specific measurement; invoking the db expert will measure database query latency and connection usage to test whether this observed dependency is the mechanism behind the slow span.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "db.replication",
+      "reason": "db Expert drill-down: Trace 8799fb0d2512ee683981f3c043125785 shows a product-catalog span with a db_latency_hint of 1194.4ms, an observed dependency-specific measurement; invoking the db expert will measure database query latency and connection usage to test whether this observed dependency is the mechanism behind the slow span.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "db.slowlog",
+      "reason": "db Expert drill-down: Trace 8799fb0d2512ee683981f3c043125785 shows a product-catalog span with a db_latency_hint of 1194.4ms, an observed dependency-specific measurement; invoking the db expert will measure database query latency and connection usage to test whether this observed dependency is the mechanism behind the slow span.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "db.connections",
+      "reason": "db Expert drill-down: Trace 8799fb0d2512ee683981f3c043125785 shows a product-catalog span with a db_latency_hint of 1194.4ms, an observed dependency-specific measurement; invoking the db expert will measure database query latency and connection usage to test whether this observed dependency is the mechanism behind the slow span.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') that has not yet been measured, and the db expert drill-down (db.replication, db.slowlog, db.connections) already tested the db_latency_hint without establishing a fault; with one expert budget remaining, measure the unmeasured messaging dependency's consumer lag and backlog to test whether it is the mechanism behind the slow spans.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "kafka.lag",
+      "reason": "kafka Expert drill-down: Traces show an observed messaging dependency ('publish orders') that has not yet been measured, and the db expert drill-down (db.replication, db.slowlog, db.connections) already tested the db_latency_hint without establishing a fault; with one expert budget remaining, measure the unmeasured messaging dependency's consumer lag and backlog to test whether it is the mechanism behind the slow spans.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "db.replication",
+    "db.slowlog",
+    "db.connections",
+    "kafka.lag"
+  ],
+  "invoked_experts": [
+    "db",
+    "kafka"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 8,
+  "expert_budget_used": 2,
+  "duplicate_actions": 0
+}

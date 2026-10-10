@@ -1,0 +1,34 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-e4d9d4b4f7df0096",
+    "evidence_type": "rpc.observed_outcomes",
+    "source_type": "trace",
+    "source_name": "rpc.metrics",
+    "source_group": "tool:rpc.metrics:2cc94654251d42989d1a8fc258834602",
+    "service": "frontend",
+    "observed_at": "2026-10-09T08:00:57.785512Z",
+    "fact": "Observed outgoing RPC samples: {'call_volume': 28, 'error_rate': 0.0, 'latency_ms': 132.724544, 'baseline_latency_ms': 140.0403332413793}; missing outcomes are unknown. Rates describe sampled calls, not every dependency.",
+    "severity": "info",
+    "confidence": 0.5,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "2cc94654251d42989d1a8fc258834602"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-9842ae462926dc25",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:fb491247647e4a6fbc3f78952e7affa7",
+    "service": "frontend",
+    "observed_at": "2026-10-09T08:00:57.785512Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "fb491247647e4a6fbc3f78952e7affa7"
+  }
+]

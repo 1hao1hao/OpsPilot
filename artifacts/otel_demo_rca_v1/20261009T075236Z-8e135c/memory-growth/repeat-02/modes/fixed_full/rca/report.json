@@ -1,0 +1,245 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "0ef217db8877433eac2dc7265dbcace5",
+  "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+  "service_name": "email",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "resource_saturation",
+      "summary": "Service compute resources are saturated",
+      "confidence": 0.925,
+      "evidence_ids": [
+        "ev-ec94f72a3964cffb"
+      ]
+    },
+    {
+      "rank": 2,
+      "root_cause_type": "rpc_timeout",
+      "summary": "A downstream RPC dependency is timing out",
+      "confidence": 0.67,
+      "evidence_ids": [
+        "ev-74ace0323b3c065c",
+        "ev-7f0e791975b2f76e"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "resource_saturation",
+    "summary": "Service compute resources are saturated",
+    "confidence": 0.925,
+    "evidence_ids": [
+      "ev-ec94f72a3964cffb"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-74ace0323b3c065c",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+      "service": "email",
+      "observed_at": "2026-10-09T10:53:59.385476Z",
+      "fact": "tp99: current=197.99999999999997, historical baselines={'last_week': None, 'yesterday': 49.4}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_timeout"
+      ],
+      "contradicts": [],
+      "raw_ref": "b575f43d495643319389e8500633f8ea"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7f0e791975b2f76e",
+      "evidence_type": "anomaly.historical_baseline",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+      "service": "email",
+      "observed_at": "2026-10-09T10:53:59.385476Z",
+      "fact": "tp95: current=190.0, historical baselines={'last_week': None, 'yesterday': 46.99999999999999}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "rpc_timeout"
+      ],
+      "contradicts": [],
+      "raw_ref": "b575f43d495643319389e8500633f8ea"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ec94f72a3964cffb",
+      "evidence_type": "metric.resource_growth",
+      "source_type": "metric",
+      "source_name": "metrics.query",
+      "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+      "service": "email",
+      "observed_at": "2026-10-09T10:53:59.385476Z",
+      "fact": "memory_usage: sustained resource increase {'baseline': 0.4272265625, 'recent': 0.48791015625, 'delta': 0.06068359374999999, 'noise': 0.006250000000000033, 'reference_samples': 7, 'discarded_before_discontinuity': 0}",
+      "severity": "warning",
+      "confidence": 0.85,
+      "supports": [
+        "resource_saturation"
+      ],
+      "contradicts": [],
+      "raw_ref": "b575f43d495643319389e8500633f8ea"
+    }
+  ],
+  "investigation": {
+    "rounds": 1,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "alerts.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.connections",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.replication",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "db.slowlog",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.hotkeys",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "redis.memory",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "failed"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "topology.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Frozen full tool list",
+        "round": 1,
+        "arguments": {},
+        "status": "failed"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.925, margin=0.255, independent_sources=1",
+        "top1_confidence": 0.925,
+        "score_margin": 0.255,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      }
+    ],
+    "executed_tools": [
+      "alerts.query",
+      "changes.query",
+      "db.connections",
+      "db.replication",
+      "db.slowlog",
+      "kafka.lag",
+      "logs.query",
+      "metrics.query",
+      "redis.hotkeys",
+      "redis.memory",
+      "rpc.metrics",
+      "topology.query",
+      "traces.query"
+    ],
+    "invoked_experts": [],
+    "stop_reason": "Frozen full tool list completed",
+    "tool_budget_used": 13,
+    "expert_budget_used": 0,
+    "duplicate_actions": 0
+  },
+  "llm_used": false,
+  "degraded": true,
+  "missing_sources": [
+    "rpc.metrics",
+    "traces.query"
+  ],
+  "decision_rationale": "Service compute resources are saturated; supported by 1 evidence item(s).",
+  "recommended_actions": [
+    "Inspect service resource limits and recent workload changes"
+  ],
+  "started_at": "2026-10-09T10:55:29.169530Z",
+  "finished_at": "2026-10-09T10:55:55.278314Z",
+  "latency_ms": 26108.784
+}

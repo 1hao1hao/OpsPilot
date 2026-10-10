@@ -1,0 +1,82 @@
+[
+  {
+    "tool": "metrics.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+        "service_name": "email",
+        "alert_type": "resource",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:53:59.385476Z",
+        "description": "Service memory footprint increased across successive request intervals",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "logs.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+        "service_name": "email",
+        "alert_type": "resource",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:53:59.385476Z",
+        "description": "Service memory footprint increased across successive request intervals",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "traces.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+        "service_name": "email",
+        "alert_type": "resource",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:53:59.385476Z",
+        "description": "Service memory footprint increased across successive request intervals",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "kafka.lag",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+        "service_name": "email",
+        "alert_type": "resource",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:53:59.385476Z",
+        "description": "Service memory footprint increased across successive request intervals",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "topology.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-3dd1cc606be34168be73677e3c558967",
+        "service_name": "email",
+        "alert_type": "resource",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:53:59.385476Z",
+        "description": "Service memory footprint increased across successive request intervals",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Trace evidence shows a slow db span on the product-catalog path and a timeout, but the mechanism is unmeasured; logs can reveal whether the observed db_slow_query dependency is a real timeout/error or a downstream symptom before invoking any expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace evidence shows a slow db span on the product-catalog path and a timeout, but the specific downstream dependency (database) is not yet identified in topology; inspecting topology will reveal the observed dependency for product-catalog before any expert invocation.",
+      "round": 3,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms (slow spans, timeout) and a provisional db_slow_query hypothesis are present; no dependency mechanism has been measured. With no experts available and one round left, querying alerts is the remaining allowed observation to check for any measured dependency-specific signal before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

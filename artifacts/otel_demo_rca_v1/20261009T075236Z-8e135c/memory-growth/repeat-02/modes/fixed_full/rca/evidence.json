@@ -1,0 +1,56 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-74ace0323b3c065c",
+    "evidence_type": "anomaly.historical_baseline",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+    "service": "email",
+    "observed_at": "2026-10-09T10:53:59.385476Z",
+    "fact": "tp99: current=197.99999999999997, historical baselines={'last_week': None, 'yesterday': 49.4}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "rpc_timeout"
+    ],
+    "contradicts": [],
+    "raw_ref": "b575f43d495643319389e8500633f8ea"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-7f0e791975b2f76e",
+    "evidence_type": "anomaly.historical_baseline",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+    "service": "email",
+    "observed_at": "2026-10-09T10:53:59.385476Z",
+    "fact": "tp95: current=190.0, historical baselines={'last_week': None, 'yesterday': 46.99999999999999}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "rpc_timeout"
+    ],
+    "contradicts": [],
+    "raw_ref": "b575f43d495643319389e8500633f8ea"
+  },
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-ec94f72a3964cffb",
+    "evidence_type": "metric.resource_growth",
+    "source_type": "metric",
+    "source_name": "metrics.query",
+    "source_group": "tool:metrics.query:b575f43d495643319389e8500633f8ea",
+    "service": "email",
+    "observed_at": "2026-10-09T10:53:59.385476Z",
+    "fact": "memory_usage: sustained resource increase {'baseline': 0.4272265625, 'recent': 0.48791015625, 'delta': 0.06068359374999999, 'noise': 0.006250000000000033, 'reference_samples': 7, 'discarded_before_discontinuity': 0}",
+    "severity": "warning",
+    "confidence": 0.85,
+    "supports": [
+      "resource_saturation"
+    ],
+    "contradicts": [],
+    "raw_ref": "b575f43d495643319389e8500633f8ea"
+  }
+]

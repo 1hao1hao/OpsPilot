@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Trace shows a slow span on the frontend->shipping path but no dependency mechanism is yet observed; topology can reveal the actual downstream dependency (e.g., db, redis, kafka, rpc) behind shipping before invoking a domain expert.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace shows a slow span on the frontend->shipping path (1135ms) with no dependency mechanism yet measured; the observed downstream call is an outgoing RPC-style dependency, so measure outgoing call error rates, protocol timeouts and latency for this observed dependency rather than collecting more generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

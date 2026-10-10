@@ -1,0 +1,18 @@
+[
+  {
+    "schema_version": "1.0",
+    "evidence_id": "ev-42e766af418372a6",
+    "evidence_type": "trace.messaging_dependency",
+    "source_type": "trace",
+    "source_name": "traces.query",
+    "source_group": "tool:traces.query:tool-d2935171b229e45e2ca0",
+    "service": "email",
+    "observed_at": "2026-10-09T10:53:59.385476Z",
+    "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+    "severity": "info",
+    "confidence": 0.3,
+    "supports": [],
+    "contradicts": [],
+    "raw_ref": "tool-d2935171b229e45e2ca0"
+  }
+]

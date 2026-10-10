@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency has been observed in traces yet, so inspect traces to identify actual dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace 8799fb0d2512ee683981f3c043125785 shows a product-catalog span with a db_latency_hint of 1194.4ms, an observed dependency-specific measurement; invoking the db expert will measure database query latency and connection usage to test whether this observed dependency is the mechanism behind the slow span.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') that has not yet been measured, and the db expert drill-down (db.replication, db.slowlog, db.connections) already tested the db_latency_hint without establishing a fault; with one expert budget remaining, measure the unmeasured messaging dependency's consumer lag and backlog to test whether it is the mechanism behind the slow spans.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

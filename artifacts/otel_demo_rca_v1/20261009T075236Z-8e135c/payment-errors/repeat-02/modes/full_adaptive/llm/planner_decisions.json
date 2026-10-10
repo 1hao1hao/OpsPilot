@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Traces show an errored frontend span and a slow frontend span, and the provisional hypothesis is rpc_error_rate; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency to test this observed dependency mechanism.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') and the rpc measurement was below anomaly thresholds (timeout_rate=0.0, latency below baseline), weakening the rpc_error_rate hypothesis; the kafka expert can measure consumer lag and backlog for this observed dependency.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "RPC measurements were below anomaly thresholds (timeout_rate=0.0, latency below baseline) and Kafka lag was already inspected, weakening both prior hypotheses; with no experts remaining, inspect topology to identify other observed dependencies of checkout for the remaining budget.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

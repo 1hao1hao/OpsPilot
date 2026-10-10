@@ -1,0 +1,40 @@
+{
+  "logs": [
+    {
+      "timestamp": "2026-10-09T09:07:29.585146901Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "[PlaceOrder]"
+    },
+    {
+      "timestamp": "2026-10-09T09:07:29.585160326Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "payment went through"
+    },
+    {
+      "timestamp": "2026-10-09T09:07:29.585174544Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "order placed"
+    },
+    {
+      "timestamp": "2026-10-09T09:07:29.585181671Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "order confirmation email sent"
+    },
+    {
+      "timestamp": "2026-10-09T09:07:29.585191323Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "sending to postProcessor"
+    },
+    {
+      "timestamp": "2026-10-09T09:07:29.585196125Z",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "Successful to write message. offset: 0, duration: 311.261µs"
+    }
+  ]
+}

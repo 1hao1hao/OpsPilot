@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace 1e1bd1a6b410e1853305397c41aa669e shows a slow db span (8698.8ms) on the product-catalog path, and db_slow_query is a provisional candidate; measuring database query latency and connection usage will confirm or refute this observed dependency mechanism.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace f1d3c8f7520608d69e35428f0e0661e6 shows a TIMEOUT span (14999.6ms) on the load-generator/frontend-proxy path, and rpc_timeout is a provisional candidate; measuring outgoing call error rates, protocol timeouts and latency will confirm or refute this observed dependency mechanism.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Remaining budget has no experts available; db_slow_query and rpc_timeout hypotheses were tested with db.slowlog (20 slow queries) and rpc.metrics (error_rate 0.0, latency below baseline), weakening both. Resource saturation shows memory=99.4% but no mechanism-specific measurement yet. Inspecting logs is the lowest-cost remaining observation to look for memory pressure or OOM evidence on product-catalog before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

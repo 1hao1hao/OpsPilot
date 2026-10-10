@@ -1,0 +1,282 @@
+[
+  {
+    "name": "grafana",
+    "image": "grafana/grafana:13.2.1",
+    "image_id": "sha256:f772d434e8fab0049deb2b1b30abd43342bcfca1537614aa8d36080232cf4283",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 183500800
+  },
+  {
+    "name": "checkout",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-checkout",
+    "image_id": "sha256:5835cc2c382533bc5532c4958f9fbbc93ae38a4090dd66d7ddafdf00a5b359be",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 1,
+    "health": "healthy",
+    "memory_limit": 134217728
+  },
+  {
+    "name": "opensearch",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-opensearch",
+    "image_id": "sha256:1e5218aabcc0f3bf1d1dc312ba4fd8d16f70187ba1e6218d2d36f6466f07a625",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 1073741824
+  },
+  {
+    "name": "frontend-proxy",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-frontend-proxy",
+    "image_id": "sha256:42adc05d23f4b71caf54302b371c6405786847827119f484061437b42993756e",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 94371840
+  },
+  {
+    "name": "load-generator",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-load-generator",
+    "image_id": "sha256:1bbf166d93104465fc8286e7bde9b9e6acbcb2e26f0dd3751758432ed82f3df5",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 1572864000
+  },
+  {
+    "name": "frontend",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-frontend",
+    "image_id": "sha256:71b72225519231dc29a31869bf01048ce03520706faca2e16e5e04e714e51bfd",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 262144000
+  },
+  {
+    "name": "ad",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-ad",
+    "image_id": "sha256:332aaa9e44ab4f46b328ffbdcc7afb8f8a637c49d0d45948328439594ddb0d92",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 314572800
+  },
+  {
+    "name": "fraud-detection",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-fraud-detection",
+    "image_id": "sha256:61bf737e44b903822c5407019966136603680040aaa8c18e117a4686e7c95d1f",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 314572800
+  },
+  {
+    "name": "accounting",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-accounting",
+    "image_id": "sha256:24c7a4d180d510179e5f9cbc8cc962804ff5472ada52b9ce6536878d16442f99",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 167772160
+  },
+  {
+    "name": "kafka",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-kafka",
+    "image_id": "sha256:626584c8e41a5f93cb74c82554d137809b0304a74272c0a9724fdfec7d76c9c2",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 650117120
+  },
+  {
+    "name": "recommendation",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-recommendation",
+    "image_id": "sha256:011271d30c9c50af5cd74f48ac76a9b621b85c546ce79973e7120e6dae7e5f1c",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 524288000
+  },
+  {
+    "name": "email",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-email",
+    "image_id": "sha256:c69d721733f5c99fb259b5739cb71639a1a308903f58f42bfeea25820eb14fab",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 104857600
+  },
+  {
+    "name": "payment",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-payment",
+    "image_id": "sha256:3f9e0b47920817c98f950a02f7deedd4b32917e9bc5dd82bd49b2b6b2dba7751",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 146800640
+  },
+  {
+    "name": "flagd-ui",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-flagd-ui",
+    "image_id": "sha256:60695b26795bc450cbeb9ed653814736657983e31d3697c1c6cfc4a11c0bd67f",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 209715200
+  },
+  {
+    "name": "quote",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-quote",
+    "image_id": "sha256:b6ab106c25defd5072bcad7d22cdb7895bc7cf5a8fd9dd9f2c5c94d65b6bf5b5",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 41943040
+  },
+  {
+    "name": "image-provider",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-image-provider",
+    "image_id": "sha256:2355642abcf7e3df3d6606ffa6dd8b54fe3aa89747dcf0ac86206bb49d047e9e",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 125829120
+  },
+  {
+    "name": "cart",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-cart",
+    "image_id": "sha256:4b1ecc263cd8b0d63ce7cd6e99012d4cac73a2d39721aad812f2608d1730e846",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 167772160
+  },
+  {
+    "name": "product-catalog",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-product-catalog",
+    "image_id": "sha256:ab877a13a0496a616b0dfe5bd5979c0afcb297d85811be7264e1c0b950f608d2",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 1,
+    "health": "healthy",
+    "memory_limit": 20971520
+  },
+  {
+    "name": "shipping",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-shipping",
+    "image_id": "sha256:9ac833f24c4976202be61308d7d53038882c13b793029a8fd59d39bb9fadd674",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 20971520
+  },
+  {
+    "name": "currency",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-currency",
+    "image_id": "sha256:6bfc08ad09cca353e211ef478b150ebd9c9d360385fe86f4c432a816692eb8ce",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 20971520
+  },
+  {
+    "name": "otel-collector",
+    "image": "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.160.0",
+    "image_id": "sha256:5b66b0dc6921f2a439cf50b942ccb9e2a4375f136239a9fdf709ef33e4bfc668",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 419430400
+  },
+  {
+    "name": "flagd",
+    "image": "ghcr.io/open-feature/flagd:v0.16.0",
+    "image_id": "sha256:128e5f6a0d34dc3224c762167997db767b034c0bd660db15a42fc487b5df0541",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 78643200
+  },
+  {
+    "name": "opamp-server",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-opamp-server",
+    "image_id": "sha256:84e7b95d756595e4c63f2d79502bf2ef9aa66a248ca5d958aa12ac3e06322c14",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 68157440
+  },
+  {
+    "name": "telemetry-docs",
+    "image": "ghcr.io/open-telemetry/demo:3.1.0-telemetry-docs",
+    "image_id": "sha256:60959c316aa7264109ebe6a68c7da51b294a81819e001b66edbd2b631f8ef822",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 104857600
+  },
+  {
+    "name": "valkey-cart",
+    "image": "ghcr.io/valkey-io/valkey:9.1.2-alpine3.24",
+    "image_id": "sha256:3b83b0b6a598bb390c8186a408a69949772f439548a81c5ea0ab7ccf102c248d",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 20971520
+  },
+  {
+    "name": "astronomy-db",
+    "image": "postgres:18.6",
+    "image_id": "sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": "healthy",
+    "memory_limit": 83886080
+  },
+  {
+    "name": "jaeger",
+    "image": "quay.io/jaegertracing/jaeger:2.21.0",
+    "image_id": "sha256:3d0ac795ff98aa04d1be04311d2dac6c25b4bfc8322dc02e53bc5b170c5018c3",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 1258291200
+  },
+  {
+    "name": "prometheus",
+    "image": "quay.io/prometheus/prometheus:v3.13.3",
+    "image_id": "sha256:6976aa8a60fec930796ce5772b8d12da7a318a5daa8d40d69c5c7819a05eeed7",
+    "state": "running",
+    "oom_killed": false,
+    "restart_count": 0,
+    "health": null,
+    "memory_limit": 209715200
+  }
+]

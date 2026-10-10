@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic latency and error-rate symptoms are observed; no downstream dependency has been identified in traces yet. Inspecting traces is needed to observe the actual dependency and its failure mechanism before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Traces show an observed messaging dependency ('publish orders') and generic RPC error/latency symptoms, but the mechanism-specific RPC measurements (outgoing call error rates, protocol timeouts, latency) for this observed dependency are unmeasured; invoking the rpc expert tests the leading rpc_error_rate/rpc_timeout hypotheses against the actual dependency.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') and generic RPC error/latency symptoms, but the mechanism-specific messaging measurements (consumer lag, backlog) for this observed dependency are unmeasured; invoking the kafka expert tests the messaging dependency hypothesis against the actual observed dependency.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

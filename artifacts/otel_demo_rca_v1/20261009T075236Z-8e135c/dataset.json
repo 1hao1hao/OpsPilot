@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0",
+  "dataset_version": "otel-demo-rca@1.0.1",
+  "upstream_version": {
+    "commit": "7ea09b865a9b9d411b59459b15133d84f8c2784a",
+    "demo_image_version": "3.1.0",
+    "collector_version": "0.160.0"
+  },
+  "load": {
+    "user_count": 5,
+    "spawn_rate": 1
+  },
+  "profiles": {
+    "smoke": {
+      "warmup_seconds": 30,
+      "fault_stabilization_seconds": 45,
+      "observation_window_seconds": 30,
+      "cooldown_seconds": 45,
+      "repeat": 1,
+      "normal_repeat": 3,
+      "recovery_timeout_seconds": 300,
+      "baseline_timeout_seconds": 180,
+      "max_memory_fraction": 0.85
+    },
+    "release": {
+      "warmup_seconds": 90,
+      "fault_stabilization_seconds": 180,
+      "observation_window_seconds": 60,
+      "cooldown_seconds": 90,
+      "repeat": 3,
+      "normal_repeat": 3,
+      "recovery_timeout_seconds": 300,
+      "baseline_timeout_seconds": 180,
+      "max_memory_fraction": 0.85
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "normal",
+      "fault_control": null,
+      "ground_truth": {
+        "root_cause_type": "no_fault",
+        "root_service": "frontend",
+        "mechanism": "all faults disabled under the same continuous load",
+        "taxonomy_note": ""
+      },
+      "alert_template": {
+        "service_name": "frontend",
+        "alert_type": "custom",
+        "description": "Periodic service health evaluation during ongoing user traffic",
+        "severity": "P2"
+      },
+      "tags": [
+        "normal",
+        "false-positive-check"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "compute",
+      "fault_control": {
+        "flag": "adHighCpu",
+        "variant": "on"
+      },
+      "ground_truth": {
+        "root_cause_type": "resource_saturation",
+        "root_service": "ad",
+        "mechanism": "CPU workload introduced in advertising service",
+        "taxonomy_note": ""
+      },
+      "alert_template": {
+        "service_name": "ad",
+        "alert_type": "resource",
+        "description": "Service CPU utilization increased during ongoing request traffic",
+        "severity": "P2"
+      },
+      "tags": [
+        "resource"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "payment-errors",
+      "fault_control": {
+        "flag": "paymentFailure",
+        "variant": "100%"
+      },
+      "ground_truth": {
+        "root_cause_type": "rpc_error_rate",
+        "root_service": "payment",
+        "mechanism": "rejected payment requests at a fixed probability of one",
+        "taxonomy_note": ""
+      },
+      "alert_template": {
+        "service_name": "checkout",
+        "alert_type": "error_rate",
+        "description": "Checkout request failures increased during ongoing user traffic",
+        "severity": "P2"
+      },
+      "tags": [
+        "rpc"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "dependency-unavailable",
+      "fault_control": {
+        "flag": "paymentUnreachable",
+        "variant": "on"
+      },
+      "ground_truth": {
+        "root_cause_type": "rpc_error_rate",
+        "root_service": "payment",
+        "mechanism": "checkout directs payment RPC to an unreachable endpoint",
+        "taxonomy_note": "Real smoke showed PaymentService/Charge ERROR with is_timeout=false; unreachable endpoint produces connection or DNS/UNAVAILABLE errors. Existing RPC_ERROR_RATE expresses the error symptom, not a dedicated downstream-unavailable mechanism. No new type or diagnosis rule added."
+      },
+      "alert_template": {
+        "service_name": "checkout",
+        "alert_type": "custom",
+        "description": "Checkout cannot complete requests to a downstream service",
+        "severity": "P2"
+      },
+      "tags": [
+        "rpc",
+        "taxonomy-gap-review"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "messaging-backlog",
+      "fault_control": {
+        "flag": "kafkaQueueProblems",
+        "variant": "on"
+      },
+      "ground_truth": {
+        "root_cause_type": "kafka_consumer_lag",
+        "root_service": "kafka",
+        "mechanism": "checkout amplifies Kafka message production and consumer delay",
+        "taxonomy_note": ""
+      },
+      "alert_template": {
+        "service_name": "checkout",
+        "alert_type": "custom",
+        "description": "Order processing completion is delayed during ongoing user traffic",
+        "severity": "P2"
+      },
+      "tags": [
+        "kafka",
+        "full-layer"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "database-latency",
+      "fault_control": {
+        "flag": "productCatalogLockContention",
+        "variant": "on"
+      },
+      "ground_truth": {
+        "root_cause_type": "db_slow_query",
+        "root_service": "astronomy-db",
+        "mechanism": "periodic ACCESS EXCLUSIVE lock on catalog.products",
+        "taxonomy_note": "Mechanism is lock contention; category is database latency or bottleneck. Existing normalized telemetry does not expose lock wait identity; do not equate these."
+      },
+      "alert_template": {
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "severity": "P2"
+      },
+      "tags": [
+        "database",
+        "taxonomy-gap-review"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [],
+      "preparation_restart_services": []
+    },
+    {
+      "scenario_id": "memory-growth",
+      "fault_control": {
+        "flag": "emailMemoryLeak",
+        "variant": "100x"
+      },
+      "ground_truth": {
+        "root_cause_type": "resource_saturation",
+        "root_service": "email",
+        "mechanism": "larger retained email deliveries create a rising memory footprint",
+        "taxonomy_note": "Memory growth is a resource symptom; do not claim OOM unless independently observed."
+      },
+      "alert_template": {
+        "service_name": "email",
+        "alert_type": "resource",
+        "description": "Service memory footprint increased across successive request intervals",
+        "severity": "P2"
+      },
+      "tags": [
+        "resource",
+        "memory-trend"
+      ],
+      "timing_overrides": {},
+      "recovery_restart_services": [
+        "email"
+      ],
+      "preparation_restart_services": [
+        "email"
+      ]
+    }
+  ]
+}

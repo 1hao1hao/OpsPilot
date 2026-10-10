@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms (high tp99, 100% error rate) are available with no observed dependency; traces will reveal the actual downstream dependency and its failure mechanism before any domain expert invocation.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a generic error and a messaging dependency hint ('publish orders') but no confirmed downstream dependency or mechanism; topology will identify the actual downstream service(s) of checkout so the observed error can be attributed to a specific dependency before any further measurement.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms (high tp99, 100% error rate) and a low-confidence messaging dependency hint are available; no dependency is confirmed and no expert is allowed, so the remaining budget must be used to inspect alerts for a concrete downstream dependency or mechanism before any conclusion.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  }
+]

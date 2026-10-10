@@ -1,0 +1,412 @@
+{
+  "schema_version": "2.0",
+  "trace_id": "b9558878cef747fba6fb17e1c84abe44",
+  "alert_id": "alert-e9969412e6ca47229dd767c66695d891",
+  "service_name": "checkout",
+  "status": "completed",
+  "candidates": [
+    {
+      "rank": 1,
+      "root_cause_type": "kafka_consumer_lag",
+      "summary": "Kafka consumer lag is delaying message processing",
+      "confidence": 0.95,
+      "evidence_ids": [
+        "ev-416af5043c5c418e"
+      ]
+    }
+  ],
+  "primary_root_cause": {
+    "rank": 1,
+    "root_cause_type": "kafka_consumer_lag",
+    "summary": "Kafka consumer lag is delaying message processing",
+    "confidence": 0.95,
+    "evidence_ids": [
+      "ev-416af5043c5c418e"
+    ]
+  },
+  "evidence": [
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-416af5043c5c418e",
+      "evidence_type": "kafka.consumer_lag",
+      "source_type": "metric",
+      "source_name": "kafka.lag",
+      "source_group": "tool:kafka.lag:tool-c2f3ea87a236471da770",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Kafka consumer lag is 1111; temporal change={'baseline': 0.0, 'recent': 808.0, 'delta': 808.0, 'noise': 0.0, 'reference_samples': 7, 'discarded_before_discontinuity': 0}",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [
+        "kafka_consumer_lag"
+      ],
+      "contradicts": [],
+      "raw_ref": "tool-c2f3ea87a236471da770"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-487bb83c9a4b42cb",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1019.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:df023cf08222581f"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-51e7974ec991e5a2",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1023.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:9ae9d27a7a488722"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-70b5694609c1202b",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy: status=UNSET, duration=1077.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:db6860c2d66ee2b4"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-7e1f3ac8b73d0f20",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1063.9ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:8747c8be444ceff1"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-9ddd6853d370986c",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend-proxy",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy: status=UNSET, duration=1077.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:a1574a721f4da3ef"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-a404515c03c376e9",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:af106ad3fee431b5"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-ac17fa5b258e2ae2",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "shipping",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout/shipping: status=UNSET, duration=1019.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:1e956f0a872c4db0"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b05384e52fee15fc",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1042.4ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:2a1609a936169a05"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c2c4e5b34e1c63fa",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.1ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:e3d3a9643bec7a4d"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-c9b22d925d5dee4a",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "frontend",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend: status=UNSET, duration=1076.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:4dedf4d78b291637"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-d3348487abd227e1",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "load-generator",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator: status=UNSET, duration=1079.2ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:b88eee8267408b84"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-e0c4b09ba3673840",
+      "evidence_type": "trace.span_slow",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Trace e975503b296015d7fdf811c3fcdd6f39 path load-generator/frontend-proxy/frontend/checkout: status=UNSET, duration=1062.8ms",
+      "severity": "warning",
+      "confidence": 0.9,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "trace:e975503b296015d7fdf811c3fcdd6f39/span:a180614a53bd0deb"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b791b39c1972e2c6",
+      "evidence_type": "rpc.observed_outcomes",
+      "source_type": "trace",
+      "source_name": "rpc.metrics",
+      "source_group": "tool:rpc.metrics:tool-279b0028eea6e2ae6b13",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Observed outgoing RPC samples: {'call_volume': 24, 'timeout_rate': 0.0, 'error_rate': 0.0, 'latency_ms': 16.613824, 'baseline_latency_ms': 25.07527791304348}; missing outcomes are unknown. Rates describe sampled calls, not every dependency.",
+      "severity": "info",
+      "confidence": 0.5,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-279b0028eea6e2ae6b13"
+    },
+    {
+      "schema_version": "1.0",
+      "evidence_id": "ev-b59455edfe7eae22",
+      "evidence_type": "trace.messaging_dependency",
+      "source_type": "trace",
+      "source_name": "traces.query",
+      "source_group": "tool:traces.query:tool-fa176032918ea9a843fa",
+      "service": "checkout",
+      "observed_at": "2026-10-09T09:53:24.126489Z",
+      "fact": "Observed messaging producer/consumer operations: ['publish orders']; this is a diagnostic dependency hint, not fault evidence",
+      "severity": "info",
+      "confidence": 0.3,
+      "supports": [],
+      "contradicts": [],
+      "raw_ref": "tool-fa176032918ea9a843fa"
+    }
+  ],
+  "investigation": {
+    "rounds": 4,
+    "action_history": [
+      {
+        "action_type": "inspect_tool",
+        "target": "metrics.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "logs.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "changes.query",
+        "reason": "Round 1 low-cost seed observation for custom",
+        "round": 1,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "traces.query",
+        "reason": "Only generic symptoms are available and no dependency is observed; inspect traces to identify observed dependencies before invoking a domain expert.",
+        "round": 2,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "invoke_expert",
+        "target": "kafka",
+        "reason": "Traces show a slow checkout span and an observed messaging dependency ('publish orders'); kafka expert can measure consumer lag/backlog for this observed dependency, which is more mechanism-specific than additional generic topology.",
+        "round": 3,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "kafka.lag",
+        "reason": "kafka Expert drill-down: Traces show a slow checkout span and an observed messaging dependency ('publish orders'); kafka expert can measure consumer lag/backlog for this observed dependency, which is more mechanism-specific than additional generic topology.",
+        "round": 3,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      },
+      {
+        "action_type": "invoke_expert",
+        "target": "rpc",
+        "reason": "The slow checkout span traverses frontend-proxy/frontend/checkout/shipping, indicating an outgoing call path; the kafka consumer lag measurement is already below its anomaly threshold (recent 808 vs baseline 0 with noise 0, but lag 1111 is not a strong timeout signal), so the kafka hypothesis is weakened. The remaining observed dependency is the RPC call to shipping, and the rpc expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency.",
+        "round": 4,
+        "arguments": {},
+        "status": "succeeded"
+      },
+      {
+        "action_type": "inspect_tool",
+        "target": "rpc.metrics",
+        "reason": "rpc Expert drill-down: The slow checkout span traverses frontend-proxy/frontend/checkout/shipping, indicating an outgoing call path; the kafka consumer lag measurement is already below its anomaly threshold (recent 808 vs baseline 0 with noise 0, but lag 1111 is not a strong timeout signal), so the kafka hypothesis is weakened. The remaining observed dependency is the RPC call to shipping, and the rpc expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency.",
+        "round": 4,
+        "arguments": {
+          "service_name": "checkout"
+        },
+        "status": "succeeded"
+      }
+    ],
+    "gate_decisions": [
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+        "top1_confidence": 0.8,
+        "score_margin": 0.8,
+        "independent_source_count": 0,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "evidence insufficient: confidence=0.950, margin=0.950, independent_sources=1",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": false
+      },
+      {
+        "sufficient": false,
+        "reason": "investigation budget exhausted; use current complete deterministic ranking",
+        "top1_confidence": 0.95,
+        "score_margin": 0.95,
+        "independent_source_count": 1,
+        "budget_exhausted": true
+      }
+    ],
+    "executed_tools": [
+      "metrics.query",
+      "logs.query",
+      "changes.query",
+      "traces.query",
+      "kafka.lag",
+      "rpc.metrics"
+    ],
+    "invoked_experts": [
+      "kafka",
+      "rpc"
+    ],
+    "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+    "tool_budget_used": 6,
+    "expert_budget_used": 2,
+    "duplicate_actions": 0
+  },
+  "llm_used": true,
+  "degraded": false,
+  "missing_sources": [],
+  "decision_rationale": "Kafka consumer lag is delaying message processing; supported by 1 evidence item(s).",
+  "recommended_actions": [
+    "Inspect consumer health and lag by partition"
+  ],
+  "started_at": "2026-10-09T09:55:39.621002Z",
+  "finished_at": "2026-10-09T09:56:01.850709Z",
+  "latency_ms": 22229.707000000002
+}

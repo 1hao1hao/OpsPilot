@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Traces show a slow db span on the product-catalog path and a timeout, but the mechanism is unmeasured; logs can reveal whether the db_slow_query or resource_saturation hypothesis is supported before any expert is available.",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow db span on the product-catalog path and a timeout, but the specific dependency (database) is only hinted, not confirmed; topology can confirm the observed dependency and its mechanism before any expert is available, and no experts are permitted.",
+      "round": 3,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only one round remains and no experts are available. The observed dependencies (slow db span on product-catalog path, timeout) are already measured via traces, and resource_saturation is contradicted by low CPU (4.9%) despite high memory. The remaining unmeasured signal is the alert context itself; querying alerts can confirm whether the timeout alert correlates with the db_slow_query dependency or reveals a distinct mechanism before finalizing.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "planned"
+    }
+  }
+]

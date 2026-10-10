@@ -1,0 +1,98 @@
+[
+  {
+    "tool": "metrics.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "traces.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "changes.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "db.slowlog",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "rpc.metrics",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  },
+  {
+    "tool": "logs.query",
+    "arguments": {
+      "alert": {
+        "schema_version": "1.0",
+        "alert_id": "alert-c26330189b914407a8baf07a9800a0b9",
+        "service_name": "product-catalog",
+        "alert_type": "timeout",
+        "severity": "P2",
+        "timestamp": "2026-10-09T10:33:20.937514Z",
+        "description": "Product listing request latency increased during ongoing user traffic",
+        "labels": {},
+        "signals": {}
+      }
+    }
+  }
+]

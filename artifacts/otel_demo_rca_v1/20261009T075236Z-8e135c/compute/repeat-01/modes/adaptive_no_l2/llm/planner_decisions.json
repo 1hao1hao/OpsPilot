@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Resource saturation is observed on 'ad' but no dependency is seen in traces; inspect traces to identify observed downstream dependencies and their latency/error behavior before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Resource saturation is observed on 'ad' with no dependency seen in traces; inspect topology to identify observed dependencies and their behavior before considering any domain expert.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Resource saturation on 'ad' is well-measured (cpu=100%, memory=95.6%, sustained growth vs baseline), but no dependency is observed in traces and no expert is available. With one round left, inspect recent changes to check for a deployment/config change that could explain the CPU spike, rather than re-collecting generic resource metrics.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

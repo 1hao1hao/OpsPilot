@@ -1,0 +1,131 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for custom",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms (error rate, latency) are available and no downstream dependency has been observed in traces yet; inspecting traces is needed to identify the actual dependency before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Traces show an observed downstream dependency with error and latency anomalies (error_rate 100%, tp95 4850ms vs 770ms baseline) consistent with an outgoing RPC fault; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency to confirm or refute the rpc_error_rate/rpc_timeout hypotheses.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: Traces show an observed downstream dependency with error and latency anomalies (error_rate 100%, tp95 4850ms vs 770ms baseline) consistent with an outgoing RPC fault; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency to confirm or refute the rpc_error_rate/rpc_timeout hypotheses.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') that has not yet been measured; the rpc expert's measurements weakened the rpc_timeout hypothesis (timeout_rate 0.0, latency below baseline), so with the remaining budget I should measure the observed messaging dependency's consumer lag and backlog via the kafka expert rather than collect additional generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "kafka.lag",
+      "reason": "kafka Expert drill-down: Traces show an observed messaging dependency ('publish orders') that has not yet been measured; the rpc expert's measurements weakened the rpc_timeout hypothesis (timeout_rate 0.0, latency below baseline), so with the remaining budget I should measure the observed messaging dependency's consumer lag and backlog via the kafka expert rather than collect additional generic topology.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.670, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.67,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.052, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.05249999999999999,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.765, margin=0.095, independent_sources=3",
+      "top1_confidence": 0.765,
+      "score_margin": 0.09499999999999997,
+      "independent_source_count": 3,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.765,
+      "score_margin": 0.09499999999999997,
+      "independent_source_count": 3,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "changes.query",
+    "traces.query",
+    "rpc.metrics",
+    "kafka.lag"
+  ],
+  "invoked_experts": [
+    "rpc",
+    "kafka"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 2,
+  "duplicate_actions": 0
+}

@@ -1,0 +1,51 @@
+{
+  "db.connections.max_connections": {
+    "baseline": 100.0,
+    "fault": 100.0
+  },
+  "kafka.lag.consumer_lag": {
+    "baseline": 2.0,
+    "fault": 0.0,
+    "delta": -2.0
+  },
+  "metrics.query.qps": {
+    "baseline": 0.05000250012500625,
+    "fault": 0.0333350000833375,
+    "delta": -0.016667500041668747
+  },
+  "metrics.query.error_rate": {
+    "baseline": 0.0,
+    "fault": 0.0,
+    "delta": 0.0
+  },
+  "metrics.query.tp95": {
+    "baseline": 370.0,
+    "fault": 380.0,
+    "delta": 10.0
+  },
+  "metrics.query.tp99": {
+    "baseline": 394.0,
+    "fault": 395.99999999999994,
+    "delta": 1.9999999999999432
+  },
+  "metrics.query.cpu_usage": {
+    "baseline": 0.0052431145868752135,
+    "fault": 0.005212252735164111,
+    "delta": -3.086185171110277e-05
+  },
+  "metrics.query.memory_usage": {
+    "baseline": 0.1270751953125,
+    "fault": 0.1236572265625,
+    "delta": -0.00341796875
+  },
+  "redis.hotkeys.hit_rate_percent": {
+    "baseline": 32.02614379084967,
+    "fault": 37.195121951219505,
+    "delta": 5.168978160369832
+  },
+  "redis.memory.used_memory": {
+    "baseline": 1447544.0,
+    "fault": 1447304.0,
+    "delta": -240.0
+  }
+}

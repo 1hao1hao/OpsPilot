@@ -1,0 +1,112 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for timeout",
+      "round": 1,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for timeout",
+      "round": 1,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Round 1 low-cost seed observation for timeout",
+      "round": 1,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Next unexecuted general observation",
+      "round": 2,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow db dependency (trace.db_slow) and a messaging dependency hint, but no dependency is confirmed and no domain expert is available. With generic symptoms only and unmeasured dependencies, inspect topology to identify the actual observed dependency path before concluding db_slow_query or resource_saturation.",
+      "round": 3,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only one round remains and no domain experts are available. The provisional candidates (db_slow_query, resource_saturation, rpc_timeout) are hypotheses, not established facts: the db_slow trace is a generic slow span without a measured query-level mechanism, resource_saturation is contradicted by low CPU (4.5%) and only memory is elevated, and the timeout is a generic symptom. With no observed dependency mechanism measured and no expert available, inspect the remaining unexecuted tool alerts.query to gather any additional alert-level evidence before the budget expires.",
+      "round": 4,
+      "arguments": {
+        "service_name": "product-catalog"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.950, margin=0.000, independent_sources=1",
+      "top1_confidence": 0.95,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.95,
+      "score_margin": 0.0,
+      "independent_source_count": 1,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "traces.query",
+    "changes.query",
+    "logs.query",
+    "topology.query",
+    "alerts.query"
+  ],
+  "invoked_experts": [],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 0,
+  "duplicate_actions": 0
+}

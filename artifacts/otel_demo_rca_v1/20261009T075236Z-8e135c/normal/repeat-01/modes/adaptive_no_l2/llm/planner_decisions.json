@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": false,
+    "fallback_reason": "ValidationError: 1 validation error for PlannerDecision\ntype\n  Extra inputs are not permitted [type=extra_forbidden, input_value='json_object', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden",
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Next unexecuted general observation",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Only a generic slow span is observed with no dependency mechanism measured; inspect topology to identify the observed dependency (shipping) and its downstream relationships before any domain expert invocation.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only a generic slow span on the frontend->shipping path is observed with no dependency mechanism measured; no domain experts are available, so use the remaining budget to check alerts for any mechanism-specific observation on the observed shipping dependency before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

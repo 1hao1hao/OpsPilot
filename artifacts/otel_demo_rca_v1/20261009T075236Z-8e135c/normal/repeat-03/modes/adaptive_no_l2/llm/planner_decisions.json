@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency is observed in traces yet, so inspect traces to identify observed dependencies before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Traces show a slow frontend span and a product-catalog db_latency_hint dependency, but no dependency mechanism has been measured; topology can reveal the observed dependency path for product-catalog before any domain expert is considered.",
+      "round": 3,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "alerts.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; traces show a slow frontend span and a product-catalog db_latency_hint dependency but no mechanism has been measured, and no domain expert is available. With one round remaining, inspect alerts.query to check for any measured anomaly evidence tied to the observed dependencies before concluding.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

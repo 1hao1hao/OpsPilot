@@ -1,0 +1,45 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms and a no_fault hypothesis are present; no dependency has been observed in traces yet, so inspect traces to identify actual dependencies before invoking any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show a messaging dependency ('publish orders') on the frontend, and kafka is the only expert capable of measuring messaging consumer lag and backlog for this observed dependency; this is a mechanism-specific measurement of an already-observed dependency rather than additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Only a generic messaging dependency hint ('publish orders') and a no_fault hypothesis are present; kafka lag was already measured without establishing a fault, and no other dependency has been observed in traces. With one round remaining, inspect topology to identify actual observed dependencies before invoking a domain expert, rather than inventing a dependency from the service name.",
+      "round": 4,
+      "arguments": {
+        "service_name": "frontend"
+      },
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,305 @@
+{
+  "qps": {
+    "current": 0.0,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 0.08333888925928395
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 0.08333888925928395
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 0.08333888925928395
+      },
+      {
+        "timestamp": 1791536844.198,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1791536859.198,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1791536874.198,
+        "value": 0.0
+      },
+      {
+        "timestamp": 1791536889.198,
+        "value": 0.0
+      }
+    ],
+    "baseline_series": [
+      0.08333888925928395,
+      0.08333888925928395,
+      0.08333888925928395,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "time_series": [
+      0.08333888925928395,
+      0.08333888925928395,
+      0.08333888925928395,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "reference_series": [
+      0.08333888925928395,
+      0.08333888925928395
+    ],
+    "recent_series": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "temporal_context": true,
+    "baseline": 0.04166944462964198,
+    "query": "sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m]))"
+  },
+  "error_rate": {
+    "current": 100.0,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 100.0
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 100.0
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 100.0
+      }
+    ],
+    "baseline_series": [
+      100.0,
+      100.0,
+      100.0
+    ],
+    "time_series": [
+      100.0,
+      100.0,
+      100.0
+    ],
+    "reference_series": [
+      100.0
+    ],
+    "recent_series": [
+      100.0,
+      100.0,
+      100.0
+    ],
+    "temporal_context": true,
+    "baseline": 100.0,
+    "query": "100 * sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",status_code=\"STATUS_CODE_ERROR\",service_name=\"checkout\"}[2m])) / sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m]))"
+  },
+  "tp95": {
+    "current": 699.9999999999999,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 699.9999999999999
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 699.9999999999999
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 699.9999999999999
+      }
+    ],
+    "baseline_series": [
+      699.9999999999999,
+      699.9999999999999,
+      699.9999999999999
+    ],
+    "time_series": [
+      699.9999999999999,
+      699.9999999999999,
+      699.9999999999999
+    ],
+    "reference_series": [
+      699.9999999999999
+    ],
+    "recent_series": [
+      699.9999999999999,
+      699.9999999999999,
+      699.9999999999999
+    ],
+    "temporal_context": true,
+    "baseline": 699.9999999999999,
+    "query": "1 * histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m])))"
+  },
+  "tp99": {
+    "current": 780.0,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 780.0
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 780.0
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 780.0
+      }
+    ],
+    "baseline_series": [
+      780.0,
+      780.0,
+      780.0
+    ],
+    "time_series": [
+      780.0,
+      780.0,
+      780.0
+    ],
+    "reference_series": [
+      780.0
+    ],
+    "recent_series": [
+      780.0,
+      780.0,
+      780.0
+    ],
+    "temporal_context": true,
+    "baseline": 780.0,
+    "query": "1 * histogram_quantile(0.99, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"checkout\"}[2m])))"
+  },
+  "cpu_usage": {
+    "current": 0.004955118204728189,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 0.004911914714882893
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 0.004806888413304799
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 0.004500430008600172
+      },
+      {
+        "timestamp": 1791536844.198,
+        "value": 0.004431625897553854
+      },
+      {
+        "timestamp": 1791536859.198,
+        "value": 0.004605784231369254
+      },
+      {
+        "timestamp": 1791536874.198,
+        "value": 0.004586586926954156
+      },
+      {
+        "timestamp": 1791536889.198,
+        "value": 0.004955118204728189
+      }
+    ],
+    "baseline_series": [
+      0.004911914714882893,
+      0.004806888413304799,
+      0.004500430008600172,
+      0.004431625897553854,
+      0.004605784231369254,
+      0.004586586926954156
+    ],
+    "time_series": [
+      0.004911914714882893,
+      0.004806888413304799,
+      0.004500430008600172,
+      0.004431625897553854,
+      0.004605784231369254,
+      0.004586586926954156,
+      0.004955118204728189
+    ],
+    "reference_series": [
+      0.004911914714882893,
+      0.004806888413304799
+    ],
+    "recent_series": [
+      0.004431625897553854,
+      0.004605784231369254,
+      0.004586586926954156,
+      0.004955118204728189
+    ],
+    "temporal_context": true,
+    "baseline": 0.004640538365444188,
+    "query": "clamp_max(max(rate(container_cpu_usage_nanoseconds_total{container_name=\"checkout\"}[1m])) / 1000000000, 1)"
+  },
+  "memory_usage": {
+    "current": 0.105194091796875,
+    "data_points": [
+      {
+        "timestamp": 1791536799.198,
+        "value": 0.104949951171875
+      },
+      {
+        "timestamp": 1791536814.198,
+        "value": 0.10498046875
+      },
+      {
+        "timestamp": 1791536829.198,
+        "value": 0.10498046875
+      },
+      {
+        "timestamp": 1791536844.198,
+        "value": 0.10498046875
+      },
+      {
+        "timestamp": 1791536859.198,
+        "value": 0.105010986328125
+      },
+      {
+        "timestamp": 1791536874.198,
+        "value": 0.10467529296875
+      },
+      {
+        "timestamp": 1791536889.198,
+        "value": 0.105194091796875
+      }
+    ],
+    "baseline_series": [
+      0.104949951171875,
+      0.10498046875,
+      0.10498046875,
+      0.10498046875,
+      0.105010986328125,
+      0.10467529296875
+    ],
+    "time_series": [
+      0.104949951171875,
+      0.10498046875,
+      0.10498046875,
+      0.10498046875,
+      0.105010986328125,
+      0.10467529296875,
+      0.105194091796875
+    ],
+    "reference_series": [
+      0.104949951171875,
+      0.10498046875
+    ],
+    "recent_series": [
+      0.10498046875,
+      0.105010986328125,
+      0.10467529296875,
+      0.105194091796875
+    ],
+    "temporal_context": true,
+    "baseline": 0.10492960611979167,
+    "query": "max(container_memory_percent_ratio{container_name=\"checkout\"}) / 100"
+  }
+}

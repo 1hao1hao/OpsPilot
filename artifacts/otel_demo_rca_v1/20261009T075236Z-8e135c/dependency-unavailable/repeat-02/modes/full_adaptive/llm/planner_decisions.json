@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic symptoms (error rate, latency) are available and no downstream dependency has been observed in traces yet; inspecting traces is needed to identify the actual dependency before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Traces show an observed downstream dependency with error and latency anomalies (error_rate 100%, tp95 4850ms vs 770ms baseline) consistent with an outgoing RPC fault; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency to confirm or refute the rpc_error_rate/rpc_timeout hypotheses.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') that has not yet been measured; the rpc expert's measurements weakened the rpc_timeout hypothesis (timeout_rate 0.0, latency below baseline), so with the remaining budget I should measure the observed messaging dependency's consumer lag and backlog via the kafka expert rather than collect additional generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

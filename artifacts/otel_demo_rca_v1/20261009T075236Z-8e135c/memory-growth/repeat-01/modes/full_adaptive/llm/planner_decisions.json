@@ -1,0 +1,43 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms are available and no dependency is observed; inspect traces to identify any observed dependency before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders'), and the alert is a resource/memory symptom; measuring messaging consumer lag and backlog for this observed dependency is a mechanism-specific domain observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "The only observed dependency in traces is a slow span on the checkout path (load-generator/frontend-proxy/frontend/checkout, 1133.9ms) with no measured mechanism; the messaging dependency hint is explicitly diagnostic-only and kafka lag was already measured. With one expert remaining, measure outgoing call error rates, protocol timeouts and latency for the observed checkout dependency rather than collecting additional generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

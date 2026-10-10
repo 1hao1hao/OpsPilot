@@ -1,0 +1,131 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Round 1 low-cost seed observation for error_rate",
+      "round": 1,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "Trace shows an ERROR span on the checkout->payment RPC call with 100% error rate versus a 0.0 baseline, and the provisional root cause is rpc_error_rate; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency.",
+      "round": 2,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: Trace shows an ERROR span on the checkout->payment RPC call with 100% error rate versus a 0.0 baseline, and the provisional root cause is rpc_error_rate; the rpc expert can measure outgoing call error rates, protocol timeouts, and latency for this observed dependency.",
+      "round": 2,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders') that has not yet been measured; the kafka expert can measure consumer lag and backlog for this dependency, which is a mechanism-specific observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "kafka.lag",
+      "reason": "kafka Expert drill-down: Traces show an observed messaging dependency ('publish orders') that has not yet been measured; the kafka expert can measure consumer lag and backlog for this dependency, which is a mechanism-specific observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "The observed checkout->payment RPC error span and 100% error rate versus 0.0 baseline are already measured, and the rpc expert plus rpc.metrics drill-down have been executed; with no experts remaining and only generic topology tools left, checking recent changes is the most direct remaining way to identify what altered the observed dependency's behavior.",
+      "round": 4,
+      "arguments": {
+        "service_name": "checkout"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.723, margin=0.723, independent_sources=2",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.7225,
+      "score_margin": 0.7225,
+      "independent_source_count": 2,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "rpc.metrics",
+    "kafka.lag",
+    "changes.query"
+  ],
+  "invoked_experts": [
+    "rpc",
+    "kafka"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 6,
+  "expert_budget_used": 2,
+  "duplicate_actions": 0
+}

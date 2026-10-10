@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms observed so far; no dependency has been observed in traces. Inspecting traces is the required next step to identify an observed dependency before considering any domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "Only generic resource symptoms are present and no dependency has been observed in traces; with no domain experts available, inspecting topology is the remaining low-cost step to identify an observed dependency before any further hypothesis testing.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": false,
+    "fallback_reason": "RuntimeError: DeepSeek transport failed after 1 attempts",
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "Next unexecuted general observation",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "planned"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "invoke_expert",
+      "target": "db",
+      "reason": "Trace f330b5eb40799e92d8dd240369162a3d shows a slow db span (27793ms) on the product-catalog path, directly supporting the db_slow_query hypothesis; measuring database query latency and connection usage will confirm or refute this observed dependency mechanism.",
+      "round": 2,
+      "arguments": {},
+      "status": "planned"
+    }
+  }
+]

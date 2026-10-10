@@ -1,0 +1,120 @@
+{
+  "rounds": 4,
+  "action_history": [
+    {
+      "action_type": "inspect_tool",
+      "target": "metrics.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "logs.query",
+      "reason": "Round 1 low-cost seed observation for resource",
+      "round": 1,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "Only generic resource symptoms are available and no dependency is observed; inspect traces to identify any observed dependency before invoking a domain expert.",
+      "round": 2,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "kafka",
+      "reason": "Traces show an observed messaging dependency ('publish orders'), and the alert is a resource/memory symptom; measuring messaging consumer lag and backlog for this observed dependency is a mechanism-specific domain observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "kafka.lag",
+      "reason": "kafka Expert drill-down: Traces show an observed messaging dependency ('publish orders'), and the alert is a resource/memory symptom; measuring messaging consumer lag and backlog for this observed dependency is a mechanism-specific domain observation prioritized over additional generic topology.",
+      "round": 3,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    },
+    {
+      "action_type": "invoke_expert",
+      "target": "rpc",
+      "reason": "The only observed dependency in traces is a slow span on the checkout path (load-generator/frontend-proxy/frontend/checkout, 1133.9ms) with no measured mechanism; the messaging dependency hint is explicitly diagnostic-only and kafka lag was already measured. With one expert remaining, measure outgoing call error rates, protocol timeouts and latency for the observed checkout dependency rather than collecting additional generic topology.",
+      "round": 4,
+      "arguments": {},
+      "status": "succeeded"
+    },
+    {
+      "action_type": "inspect_tool",
+      "target": "rpc.metrics",
+      "reason": "rpc Expert drill-down: The only observed dependency in traces is a slow span on the checkout path (load-generator/frontend-proxy/frontend/checkout, 1133.9ms) with no measured mechanism; the messaging dependency hint is explicitly diagnostic-only and kafka lag was already measured. With one expert remaining, measure outgoing call error rates, protocol timeouts and latency for the observed checkout dependency rather than collecting additional generic topology.",
+      "round": 4,
+      "arguments": {
+        "service_name": "email"
+      },
+      "status": "succeeded"
+    }
+  ],
+  "gate_decisions": [
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "evidence insufficient: confidence=0.800, margin=0.800, independent_sources=0",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": false
+    },
+    {
+      "sufficient": false,
+      "reason": "investigation budget exhausted; use current complete deterministic ranking",
+      "top1_confidence": 0.8,
+      "score_margin": 0.8,
+      "independent_source_count": 0,
+      "budget_exhausted": true
+    }
+  ],
+  "executed_tools": [
+    "metrics.query",
+    "logs.query",
+    "traces.query",
+    "kafka.lag",
+    "rpc.metrics"
+  ],
+  "invoked_experts": [
+    "kafka",
+    "rpc"
+  ],
+  "stop_reason": "investigation budget exhausted; use current complete deterministic ranking",
+  "tool_budget_used": 5,
+  "expert_budget_used": 2,
+  "duplicate_actions": 0
+}

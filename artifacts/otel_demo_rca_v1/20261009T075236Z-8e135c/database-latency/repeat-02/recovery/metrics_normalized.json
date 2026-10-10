@@ -1,0 +1,317 @@
+{
+  "qps": {
+    "current": 3.116926410534212,
+    "data_points": [
+      {
+        "timestamp": 1791541537.175,
+        "value": 2.18347889859324
+      },
+      {
+        "timestamp": 1791541552.175,
+        "value": 2.18347889859324
+      },
+      {
+        "timestamp": 1791541567.175,
+        "value": 2.18347889859324
+      },
+      {
+        "timestamp": 1791541582.175,
+        "value": 3.116926410534212
+      },
+      {
+        "timestamp": 1791541597.175,
+        "value": 3.116926410534212
+      },
+      {
+        "timestamp": 1791541612.175,
+        "value": 3.116926410534212
+      },
+      {
+        "timestamp": 1791541627.175,
+        "value": 3.116926410534212
+      }
+    ],
+    "baseline_series": [
+      2.18347889859324,
+      2.18347889859324,
+      2.18347889859324,
+      3.116926410534212,
+      3.116926410534212,
+      3.116926410534212
+    ],
+    "time_series": [
+      2.18347889859324,
+      2.18347889859324,
+      2.18347889859324,
+      3.116926410534212,
+      3.116926410534212,
+      3.116926410534212,
+      3.116926410534212
+    ],
+    "reference_series": [
+      2.18347889859324,
+      2.18347889859324
+    ],
+    "recent_series": [
+      3.116926410534212,
+      3.116926410534212,
+      3.116926410534212,
+      3.116926410534212
+    ],
+    "temporal_context": true,
+    "baseline": 2.6502026545637256,
+    "query": "sum(rate(traces_span_metrics_calls_total{span_kind=\"SPAN_KIND_SERVER\",service_name=\"product-catalog\"}[2m]))"
+  },
+  "tp95": {
+    "current": 15000.0,
+    "data_points": [
+      {
+        "timestamp": 1791541537.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541552.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541567.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541582.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541597.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541612.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541627.175,
+        "value": 15000.0
+      }
+    ],
+    "baseline_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "time_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "reference_series": [
+      15000.0,
+      15000.0
+    ],
+    "recent_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "temporal_context": true,
+    "baseline": 15000.0,
+    "query": "1 * histogram_quantile(0.95, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"product-catalog\"}[2m])))"
+  },
+  "tp99": {
+    "current": 15000.0,
+    "data_points": [
+      {
+        "timestamp": 1791541537.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541552.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541567.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541582.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541597.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541612.175,
+        "value": 15000.0
+      },
+      {
+        "timestamp": 1791541627.175,
+        "value": 15000.0
+      }
+    ],
+    "baseline_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "time_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "reference_series": [
+      15000.0,
+      15000.0
+    ],
+    "recent_series": [
+      15000.0,
+      15000.0,
+      15000.0,
+      15000.0
+    ],
+    "temporal_context": true,
+    "baseline": 15000.0,
+    "query": "1 * histogram_quantile(0.99, sum by (le) (rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\",service_name=\"product-catalog\"}[2m])))"
+  },
+  "cpu_usage": {
+    "current": 0.101914958299166,
+    "data_points": [
+      {
+        "timestamp": 1791541537.175,
+        "value": 0.0562791367482049
+      },
+      {
+        "timestamp": 1791541552.175,
+        "value": 0.050185318531853186
+      },
+      {
+        "timestamp": 1791541567.175,
+        "value": 0.07430447217888717
+      },
+      {
+        "timestamp": 1791541582.175,
+        "value": 0.0698708896711737
+      },
+      {
+        "timestamp": 1791541597.175,
+        "value": 0.08599029980599612
+      },
+      {
+        "timestamp": 1791541612.175,
+        "value": 0.10192607260726073
+      },
+      {
+        "timestamp": 1791541627.175,
+        "value": 0.101914958299166
+      }
+    ],
+    "baseline_series": [
+      0.0562791367482049,
+      0.050185318531853186,
+      0.07430447217888717,
+      0.0698708896711737,
+      0.08599029980599612,
+      0.10192607260726073
+    ],
+    "time_series": [
+      0.0562791367482049,
+      0.050185318531853186,
+      0.07430447217888717,
+      0.0698708896711737,
+      0.08599029980599612,
+      0.10192607260726073,
+      0.101914958299166
+    ],
+    "reference_series": [
+      0.0562791367482049,
+      0.050185318531853186
+    ],
+    "recent_series": [
+      0.0698708896711737,
+      0.08599029980599612,
+      0.10192607260726073,
+      0.101914958299166
+    ],
+    "temporal_context": true,
+    "baseline": 0.0730926982572293,
+    "query": "clamp_max(max(rate(container_cpu_usage_nanoseconds_total{container_name=\"product-catalog\"}[1m])) / 1000000000, 1)"
+  },
+  "memory_usage": {
+    "current": 0.75078125,
+    "data_points": [
+      {
+        "timestamp": 1791541537.175,
+        "value": 0.7572265625
+      },
+      {
+        "timestamp": 1791541552.175,
+        "value": 0.787109375
+      },
+      {
+        "timestamp": 1791541567.175,
+        "value": 0.8109375
+      },
+      {
+        "timestamp": 1791541582.175,
+        "value": 0.75625
+      },
+      {
+        "timestamp": 1791541597.175,
+        "value": 0.8958984375
+      },
+      {
+        "timestamp": 1791541612.175,
+        "value": 0.9478515625
+      },
+      {
+        "timestamp": 1791541627.175,
+        "value": 0.75078125
+      }
+    ],
+    "baseline_series": [
+      0.7572265625,
+      0.787109375,
+      0.8109375,
+      0.75625,
+      0.8958984375,
+      0.9478515625
+    ],
+    "time_series": [
+      0.7572265625,
+      0.787109375,
+      0.8109375,
+      0.75625,
+      0.8958984375,
+      0.9478515625,
+      0.75078125
+    ],
+    "reference_series": [
+      0.7572265625,
+      0.787109375
+    ],
+    "recent_series": [
+      0.75625,
+      0.8958984375,
+      0.9478515625,
+      0.75078125
+    ],
+    "temporal_context": true,
+    "baseline": 0.8258789062499999,
+    "query": "max(container_memory_percent_ratio{container_name=\"product-catalog\"}) / 100"
+  }
+}

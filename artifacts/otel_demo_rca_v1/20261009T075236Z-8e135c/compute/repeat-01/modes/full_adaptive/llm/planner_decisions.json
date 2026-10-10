@@ -1,0 +1,47 @@
+[
+  {
+    "round": 2,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "traces.query",
+      "reason": "CPU saturation is observed on 'ad', but no downstream dependency has been measured. Inspecting traces is the lowest-cost way to identify which dependency (db/redis/kafka/rpc) is actually involved before invoking a domain expert, rather than guessing from the service name.",
+      "round": 2,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 3,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "topology.query",
+      "reason": "CPU saturation is observed on 'ad' but no downstream dependency has been measured; traces.query was already executed yet no dependency is established in the evidence. Inspecting topology is the lowest-cost way to identify which dependency (db/redis/kafka/rpc) is actually connected to 'ad' before invoking a domain expert, rather than guessing from the service name.",
+      "round": 3,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  },
+  {
+    "round": 4,
+    "llm_used": true,
+    "fallback_reason": null,
+    "action": {
+      "action_type": "inspect_tool",
+      "target": "changes.query",
+      "reason": "CPU saturation is observed on 'ad' with a sharp sustained increase (baseline 0.0076 to 1.0), but no downstream dependency has been measured in traces or topology, so no domain expert can be justified without inventing a dependency. With one round remaining, inspecting changes.query is the lowest-cost way to check whether a recent deployment or configuration change explains the CPU spike, rather than guessing a dependency from the service name.",
+      "round": 4,
+      "arguments": {
+        "service_name": "ad"
+      },
+      "status": "planned"
+    }
+  }
+]

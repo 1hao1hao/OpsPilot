@@ -1,0 +1,66 @@
+{
+  "call": 1,
+  "started_at": "2026-10-09T09:16:58.429078+00:00",
+  "request": {
+    "model": "deepseek-v4-flash",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You control an RCA investigation. Return exactly action, target, reason. action is inspect_tool or invoke_expert. Select only from allowed_actions. Prefer measurements of observed dependencies to repeatedly collecting generic symptoms. Slow spans and dependency hints alone do not prove timeouts or domain faults. Treat provisional candidates as hypotheses, not established facts. When only generic symptoms are available and no dependency is observed, inspect traces before invoking a domain expert. Do not invent a dependency from the service name. Prioritize unmeasured mechanism-specific domain observations for dependencies already seen in traces over additional generic topology. A domain measurement below its anomaly thresholds weakens that hypothesis; test another observed dependency with the remaining budget. Expert capabilities are given in expert_capabilities. Never finalize and never infer facts not present in the input.\nReturn the result as a JSON object."
+      },
+      {
+        "role": "user",
+        "content": "{\"alert\": {\"service_name\": \"checkout\", \"alert_type\": \"custom\", \"severity\": \"P2\", \"description\": \"Checkout cannot complete requests to a downstream service\", \"labels\": {}}, \"evidence\": [{\"type\": \"anomaly.historical_baseline\", \"fact\": \"tp99: current=9850.0, historical baselines={'last_week': None, 'yesterday': 780.0}\", \"confidence\": 0.85, \"source_group\": \"tool:metrics.query:tool-cce8cbb557c311aa5639\", \"supports\": [\"rpc_timeout\"]}, {\"type\": \"anomaly.historical_baseline\", \"fact\": \"error_rate: current=100.0, historical baselines={'last_week': None, 'yesterday': 0.0}\", \"confidence\": 0.85, \"source_group\": \"tool:metrics.query:tool-cce8cbb557c311aa5639\", \"supports\": [\"rpc_error_rate\"]}], \"provisional_top_k\": [{\"root_cause_type\": \"rpc_error_rate\", \"confidence\": 0.67}, {\"root_cause_type\": \"rpc_timeout\", \"confidence\": 0.67}], \"executed_tools\": [\"metrics.query\", \"logs.query\", \"changes.query\"], \"invoked_experts\": [], \"expert_capabilities\": {}, \"action_history\": [{\"action\": \"inspect_tool\", \"target\": \"metrics.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"logs.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}, {\"action\": \"inspect_tool\", \"target\": \"changes.query\", \"reason\": \"Round 1 low-cost seed observation for custom\"}], \"remaining_budget\": {\"rounds\": 3, \"tools\": 5, \"experts\": 0}, \"allowed_actions\": {\"inspect_tool\": [\"alerts.query\", \"topology.query\", \"traces.query\"], \"invoke_expert\": []}}"
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 500
+  },
+  "api_success": true,
+  "response": {
+    "id": "b48e17c8-29ec-4306-bca5-0844a4a3b05c",
+    "object": "chat.completion",
+    "created": 1791537418,
+    "model": "deepseek-flash",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"inspect_tool\", \"target\": \"traces.query\", \"reason\": \"Only generic symptoms (high tp99, 100% error rate) are available with no observed dependency; traces will reveal the actual downstream dependency and its failure mechanism before any domain expert invocation.\"}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 661,
+      "completion_tokens": 60,
+      "total_tokens": 721,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 533
+    },
+    "system_fingerprint": "aeb56401ca74e127821c4f9126dcb669"
+  },
+  "usage": {
+    "prompt_tokens": 661,
+    "completion_tokens": 60,
+    "total_tokens": 721,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 533
+  },
+  "response_model": "deepseek-flash",
+  "latency_ms": 1491.2380999994639
+}
