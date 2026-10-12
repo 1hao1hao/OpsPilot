@@ -15,11 +15,13 @@ flowchart LR
     T --> P[Mock / OpenTelemetry Provider]
     T --> A[DeterministicEvidenceEngine]
     A --> R[RootCauseAgent: Top-K]
-    R --> D[Evidence Gate + deterministic DiagnosisDecision]
+    R --> G[Evidence Gate]
+    G --> D[deterministic DiagnosisDecision]
     T --> D
-    D --> L[Planner: unmet requirements]
+    A --> D
+    D -->|INCONCLUSIVE 且轮数与工具预算剩余| L[Planner: unmet requirements]
     L --> I
-    D --> B[shared build_report]
+    D -->|CONFIRMED / NO_FAULT 或无法继续| B[shared build_report]
     I --> CP[Checkpoint]
     CP --> PG
     B --> PG
@@ -44,11 +46,85 @@ flowchart LR
 
 算法在每轮 Ranking 前运行，最终 Report 不再另跑一套分析。当前算法是历史基线、IQR 和滚动波动；旧 NoiseFilter/ExpertRuleEngine/L1 Finding promotion 架构不能视为当前在线实现。
 
-## 排名、存在性和确认
+## 调查与决策的数据流
 
-排名只表示候选优先级。`decide_diagnosis` 从真实观测判断 Fault Presence，评估需求覆盖和矛盾；Gate 通过后仍需机制、来源与范围校验。`CONFIRMED` 或 `NO_FAULT` 才可信停止；预算耗尽、无合法动作等以 `INCONCLUSIVE` 结束，保留临时 Top-K。
+完整子图和条件分支见 [README「调查与决策」](../README.md#调查与决策)。下面按实际执行顺序解释输入、输出和判断边界；图中的动态需求与 Fault Presence 都在 `decide_diagnosis` 内计算，不是另外的 LLM Agent。
 
-动态需求包含告警存在性和近邻候选机制区分；成功无数据、失败、缺基线、正常、异常、范围外和矛盾分别记录。明确的告警阈值按支持的单位归一化；未知单位不能直接套用。健康参考缺失时不能从空 Evidence 推断正常。
+源码对应：[分析入口](../src/opspilot/investigation/analysis.py)、[决策与动态需求](../src/opspilot/investigation/decision.py)、[调查引擎](../src/opspilot/investigation/engine.py)、[Planner / Gate / 动作授权](../src/opspilot/investigation/planner.py)、[确定性 Ranker](../src/opspilot/agents/root_cause.py)。
+
+### 1. 累计观测生成 Evidence，再排名
+
+`AdaptiveInvestigator.run` 先执行 Coordinator 选择的 General Seed Tools；恢复时复用已执行工具，并续执行已规划但未完成的动作。随后每轮 `_analyze` 都将 **Alert 与累计 ToolResult** 传给 `DeterministicEvidenceEngine.analyze`：
+
+1. `collect_evidence` 从工具观测提取机制、指标、日志、调用及变更线索；`AnomalyDetector.detect` 补充历史基线、IQR、滚动波动等异常证据。
+2. 合并后按 `evidence_id` 去重，以置信度和 ID 排序。Evidence 保留 `supports / contradicts`、`confidence`、服务、`source_group` 与 `raw_ref`，可追溯到原始工具结果。
+3. `RootCauseAgent.diagnose` 根据支持与反驳进行确定性排名，返回最多 3 个候选。直接机制证据权重更高，模糊支持在候选间分摊；同类来源重复证据取最大贡献，独立来源补充有限贡献。没有正分候选时返回兼容候选 `no_fault`，这仍不能证明 Fault Presence 为 `ABSENT`。
+
+Evidence 是面向候选的因果表达，不是完整观测覆盖账本。工具失败、查询成功但无数据、缺少有效健康参考、数据属于其他服务或时间窗等情况，可能没有对应的支持 Evidence。因此决策必须同时读取 **原始 ToolResult + Evidence + Alert + Top-K**，不能只看 Evidence 或 Top1。
+
+### 2. 先计算 Gate，再评估观测与动态需求
+
+`engine.py` 在分析后先计算轮数 / 工具预算是否耗尽，并调用 `EvidenceGate.evaluate(candidates, evidence, budget_exhausted=...)`。Gate 只评价当前排名的可信度，默认要求同时满足：
+
+- Top1 不是 `no_fault`，且 confidence ≥ 0.8。
+- Top1 与 Top2 的 confidence 分差 ≥ 0.15；没有 Top2 时其置信度按 0 计算。
+- Top1 引用且明确支持它的 Evidence 至少有 2 个不同的非空 `source_group`。同一 ToolResult 产生的多个 Evidence 不增加来源数。
+
+`budget_exhausted` 是 GateDecision 的执行状态与原因输入，不会把不充分证据变成充分证据。Gate 阈值可配置；下述近邻候选需求的分差 **0.15 是 `decision.py` 当前固定条件**，不要将两者视为同一个可配置参数。
+
+接着调用 `decide_diagnosis(alert, results, evidence, candidates, gate)`。它先通过 `assess_observations` 生成 ObservationAssessment：
+
+- 从告警服务与告警附近的 Trace 父子调用建立关联服务范围，按工具和观测类型检查数据与因果证据。时间校验在支持的指标时间点、Span、日志等路径执行，当前 incident-local 判断为告警时间前后 60 秒，并非所有工具都具有相同的原始时间字段。
+- 区分 `NORMAL / ABNORMAL / NO_DATA / FAILED / MISSING_BASELINE / UNSCOPED`，保留观测 ID、信号、服务、健康参考状态与关联 Evidence ID。明确告警阈值按代码支持的单位归一化；无法比较的阈值不能当作有效绝对判据。
+- 同一 `(tool_name, signal, service)` 同时出现正常与异常时记录测量冲突；作用于范围内服务且反驳 Top1 的 Evidence 另记候选矛盾。不同测量群体的健康与异常不会自动互相抵消，例如下游调用健康不反驳入口错误率异常。
+
+然后每轮重建需求，旧满足状态不会直接沿用：
+
+| 需求来源 | 当前规则 | 满足条件与输出 |
+| --- | --- | --- |
+| Alert → `existence` | `initial_signals` 根据告警类型、描述、标签及已有观测确定存在性信号，并要求活动量；涉及异步完成 / 队列的 Custom 告警另需 completion | 有有效异常，或有带有效健康参考的正常观测；冲突时不满足 |
+| Top-K → `root discrimination` | Top1 非 `no_fault` 时，检查前两个候选：Top1 必选，Top2 仅在分差小于 0.15 时考虑；机制经 `CAUSE_SIGNALS` 映射且须在 `SIGNAL_TOOLS` 中。已是存在性需求的信号不重复添加 | 有有效异常或正常观测，且无测量冲突；正常机制测量可区分或削弱假设，但不能单独确认根因 |
+| 实际观测 → 需求覆盖 | 每个信号关联该轮累计观测，重新生成 `satisfied / quality / observation_ids / reason` | 无观测为 `NO_DATA`；冲突需求为 `CONFLICT`，并附 `suggested_tools` |
+
+需求满足不等于故障确认：异常和充分正常观测都可以满足需求，但支持不同结论。`SIGNAL_TOOLS` 只是建议测量工具的映射，不授予 Planner 直接执行领域工具的权限。所有未满足需求都随 DiagnosisDecision 保存；引擎仅把其中 `satisfied=false` 的条目传入 Planner。
+
+### 3. Fault Presence 与最终三终态
+
+存在性判断只依赖有效观测及存在性需求，不以 Top1 排名或 Gate 为依据。`decision.py` 按以下优先级生成 Fault Presence：
+
+1. 存在测量冲突 → `UNKNOWN`。
+2. 否则有与告警存在性信号相关的异常（活动量本身不作此类故障证明）→ `PRESENT`。Custom 告警可由更广泛机制异常证明存在性，但单纯 `bad_deployment` 不足以证明故障。
+3. 否则存在性需求非空、全部满足且质量均为健康正常 → `ABSENT`。
+4. 其余 → `UNKNOWN`。
+
+故障存在和根因确认是两层判断。缺失或失败不自动否定其他有效观测已经证明的异常；反驳 Top1 的证据也不单独将 `PRESENT` 改成 `UNKNOWN`，但会阻止根因确认。
+
+在 Fault Presence 计算后，代码校验 Top1 的异常支持、来源、范围和机制，再按 **CONFIRMED → NO_FAULT → INCONCLUSIVE** 的顺序确定 Verdict：
+
+| Verdict | 必须满足的条件 |
+| --- | --- |
+| `CONFIRMED` | Presence 为 `PRESENT`；Gate sufficient；Top1 不是 `no_fault` 且其 Evidence 与有效异常观测的 Evidence ID 有交集；支持 Top1 的已验证来源数至少覆盖 Gate 计入的来源数；候选未引用被标为 `UNSCOPED` 的 Evidence；所有区分需求满足，且可映射的 Top1 机制另有异常观测；没有测量冲突或范围内反驳 Top1 的矛盾 |
+| `NO_FAULT` | 未满足确认条件，且 Presence 为 `ABSENT`。不要求 Gate 通过，也不要求排名第一为 `no_fault`；结论仅适用于当前告警范围与窗口 |
+| `INCONCLUSIVE` | 其余情况，包括存在性未知，或故障存在但根因的来源、范围、机制、区分条件或 Gate 不充分 |
+
+确认条件没有要求所有存在性需求一律满足：已验证的相关异常可以证明 `PRESENT`，确认仍以 Gate、根因有效支持及机制等条件为准。相反，`ABSENT` 需要存在性需求全部健康覆盖，空 Evidence、空查询结果或工具调用成功均不足以产生 `NO_FAULT`。
+
+DiagnosisDecision 输出 `verdict / fault_presence / root_cause_confirmed / reason`，同时保留 requirements、observations 和 contradictions。预算耗尽只能补充停止原因，不改变以上真值条件。
+
+### 4. INCONCLUSIVE 如何继续或结束
+
+`engine.py` 保存每轮 GateDecision 和 DiagnosisDecision 后判断是否继续：
+
+1. `CONFIRMED / NO_FAULT` 立即结束；即使此时预算已耗尽，也保留已经满足条件的确定性结论。
+2. `INCONCLUSIVE` 且达到轮数上限 **或** 工具上限时结束，保留未确认候选。Expert 次数上限不在 `_budget_exhausted` 的整轮停止条件中。
+3. 否则 Planner 接收公开 Alert、Evidence、Top-K、未满足需求、动作历史 / 身份、已执行工具 / Expert 和三类剩余预算。LLM 输入对 Evidence 去重并限制为 20 条，Top-K 最多 3 条；它选择测量动作，不输出 Verdict。
+4. LLM 关闭、失败或返回非法 / 重复 / 不可用动作时使用确定性 Fallback：优先已有 Evidence 支持且未调用的领域，再尝试未满足需求建议工具，最后选择未执行的通用工具。领域工具建议转换成相应 Expert 调用。
+5. 无合法动作时结束；引擎还会检查动作去重、授权和 Expert 预算。取得动作后推进一轮：`inspect_tool` 仅执行 General Tool；`invoke_expert` 调用未使用的 DB / Redis / Kafka / RPC Expert，由它根据已有 Evidence 选择领域工具，受工具总预算限制，并跳过已执行工具。
+6. 新 ToolResult 追加到累计结果，再进入 **Collector / AnomalyDetector → Evidence → Ranker → Gate → decide_diagnosis**，重新生成覆盖与结论。
+
+默认总预算是 4 轮 / 8 次工具 / 2 次 Expert。Expert 预算为零时仍可选择剩余通用工具；工具失败也保留 ToolResult 并计入已执行工具数，闭环不是无限重试。正常 Planner 路径对非法 LLM 动作进行 Fallback；绕过该约束的自定义 Planner 若违反 ActionValidator，会抛出执行错误，不应把它描绘成正常的 `INCONCLUSIVE` 停止分支。
+
+结束时 `investigation/report.py` 使用已有 Evidence 与候选构建报告，不再运行 Collector 或 Ranker；它会以实际 ToolResult 和最后的 GateDecision 重算 `decide_diagnosis`，避免信任恢复元数据中的结论。`INCONCLUSIVE` 保留临时 Top-K、需求覆盖、决策轨迹与停止原因，不升级为已确认根因。
 
 ## 持久化与兼容
 

@@ -8,28 +8,82 @@ OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查�
 
 ```mermaid
 flowchart TD
-    A[Alert] --> C[Coordinator: 2–3 个 Seed Tools]
-    C --> T[General / Domain ToolResult]
-    T --> E[Evidence + AnomalyDetector]
-    E --> R[确定性 Top-K Ranking]
-    R --> D[动态证据需求 + Fault Presence + Evidence Gate]
-    T --> D
-    D -->|可信根因| F[CONFIRMED]
-    D -->|充分证实告警范围内无故障| N[NO_FAULT]
-    D -->|证据不足且有预算| P[LLM Planner / Deterministic Fallback]
-    P -->|inspect_tool / invoke_expert| T
-    D -->|预算耗尽或无合法新动作| I[INCONCLUSIVE]
+    A["Alert：服务、类型、时间、公开标签"] --> C["Coordinator：首轮 General Seed Tools"]
+    C --> X["执行工具，累计 ToolResult"]
+
+    subgraph Analysis["1 · 证据生成与确定性排名：analysis.py"]
+        T["累计 ToolResult：状态 + 原始 observations"] --> EC["Evidence Collector + AnomalyDetector"]
+        EC --> E["结构化 Evidence：支持 / 反驳、置信度、来源、原始引用<br/>按 evidence_id 去重"]
+        E --> R["确定性 Ranker → 临时 Top-K 候选"]
+        R --> G["Evidence Gate：Top1 非 no_fault<br/>confidence ≥ 0.8、margin ≥ 0.15、来源 ≥ 2"]
+        E -->|候选支持证据的 source_group| G
+    end
+    X --> T
+
+    subgraph Requirements["2 · decide_diagnosis：观测质量与动态需求"]
+        Q["观测质量 / 范围校验<br/>正常、异常、失败、无数据、缺基线、范围外；检测矛盾"]
+        U["重建 EvidenceRequirements<br/>Alert → 存在性需求；Top1 / 近邻 Top2 → 区分需求<br/>更新 satisfied、quality、suggested_tools"]
+        FP{"Fault Presence<br/>测量冲突优先 UNKNOWN<br/>相关异常 → PRESENT<br/>存在性需求全部健康覆盖 → ABSENT<br/>其余 → UNKNOWN"}
+        Q --> U --> FP
+        Q -->|有效异常与测量冲突| FP
+    end
+    G -->|Gate 计算完毕，进入决策| Q
+    T -->|原始数据：覆盖、基线、状态、服务与时间| Q
+    E -->|关联并校验因果证据| Q
+    A -->|服务与告警时间| Q
+    R -->|检查反驳 Top1 的证据| Q
+    A -->|告警范围与存在性信号| U
+    R -->|Top1 与分差小于 0.15 的 Top2| U
+
+    subgraph Decision["3 · DiagnosisDecision：按顺序判定三终态"]
+        K{"根因确认条件全部成立？<br/>Gate 通过 + 有效异常支持 / 来源覆盖<br/>候选范围有效 + 区分需求满足 / 可映射机制异常<br/>无未解决矛盾"}
+        F["CONFIRMED：根因确认"]
+        N["NO_FAULT：范围与窗口内无故障"]
+        I["INCONCLUSIVE：未确认，可继续调查"]
+        FP -->|PRESENT| K
+        FP -->|ABSENT| N
+        FP -->|UNKNOWN| I
+        G -.->|GateDecision| K
+        U -.->|需求满足状态| K
+        Q -.->|有效支持、范围与矛盾| K
+        K -->|是| F
+        K -->|否| I
+    end
+
+    subgraph Loop["4 · engine.py：有界调查闭环"]
+        B{"轮数与工具预算均剩余？"}
+        P["LLM Planner / Deterministic Fallback<br/>公开 Alert、未满足需求、动作历史、剩余预算"]
+        V{"取得合法、不重复、预算允许的动作？"}
+        END["结束并构建报告<br/>未确认时保留临时 Top-K、需求与停止原因"]
+        I --> B
+        B -->|否| END
+        B -->|是| P --> V
+        V -->|否：无动作或被拒绝| END
+        V -->|inspect_tool：General Tool| X
+        V -->|invoke_expert：Expert 选择领域工具| X
+        F --> END
+        N --> END
+    end
+    E -.->|Evidence| P
+    R -.->|临时 Top-K| P
+    U -.->|仅未满足需求 + 建议工具| P
 ```
 
-Coordinator 只选择低成本首轮工具；之后复用 ToolRegistry 与现有 DB、Redis、Kafka、RPC Expert。每轮对累计 ToolResult 重新构建 Evidence 和候选，根据告警、已观测证据和 Top-K 更新需求，把缺失观测反馈给 Planner。领域工具不能由 Planner 直接 `inspect_tool`，必须通过相应 Expert。
+图中实线表示主流程或数据流，虚线表示传入判断与规划的补充输入；Gate 阈值为默认配置。实际顺序是：首轮工具 → 分析累计结果 → 计算 Gate → 调用 `decide_diagnosis` 评估观测、更新需求、判断存在性及 Verdict → 结束或规划下一轮。每轮重新分析累计结果，不沿用上一轮的需求满足状态。
 
-Fault Presence 独立于排名：有效观测证明异常为 `PRESENT`；关键覆盖和健康参考充分为 `ABSENT`；缺失、失败、基线不足或观测矛盾为 `UNKNOWN`。服务关联、时间窗、数据库调用群组和日志上下文限制证据范围。
+Collector 与 AnomalyDetector 生成支持 / 反驳根因的结构化 Evidence，Ranker 据此给出最多 3 个临时候选。**ToolResult 还必须直接进入观测质量判断**：Evidence 主要承载因果线索，无法单独说明工具失败、成功但无数据、健康参考不足或服务 / 时间范围是否有效；没有 Evidence 也不能推导无故障。质量判断结合原始观测与 Evidence，重新统计具有有效异常支持的来源，要求其数量覆盖 Gate 计入的来源数。
+
+动态需求先由 Alert 建立存在性信号（含活动量），再为非 `no_fault` Top1 及与它分差小于 0.15 的 Top2 增加可映射的机制区分信号；同一信号已是存在性需求时不重复添加。实际观测更新需求的满足状态、质量与建议工具。异常可满足需求；存在性需求的正常观测还必须有有效健康参考，测量冲突使相应需求不满足。未满足需求传给 Planner，建议工具仍受动作授权和预算约束。
+
+Coordinator 只选择低成本首轮工具；之后复用 ToolRegistry 与现有 DB、Redis、Kafka、RPC Expert。领域工具不能由 Planner 直接 `inspect_tool`，必须通过相应 Expert。`INCONCLUSIVE` 是本轮判定；只有轮数与工具预算都剩余，且 Planner 返回合法、不重复、预算允许的动作时才继续。Expert 预算耗尽仅禁用 Expert 动作；否则保留未确认候选与停止原因结束。
+
+Fault Presence 独立于排名：同一工具 / 信号 / 服务的正常与异常测量冲突时优先为 `UNKNOWN`；否则有与告警相关的有效异常为 `PRESENT`；再否则存在性需求全部健康覆盖为 `ABSENT`；其余为 `UNKNOWN`。缺失或失败不会抹去其他有效观测证明的异常。反驳 Top1 的证据会阻止根因确认，但不会单独抹去故障存在性。服务关联、时间窗、数据库调用群组和日志上下文限制证据范围。
 
 | Verdict | 判定 |
 | --- | --- |
-| `CONFIRMED` | 故障存在，原 Evidence Gate 通过，机制及来源质量校验通过，无未解决的关键矛盾 |
-| `NO_FAULT` | 有充分证据证明当前告警范围与窗口内异常未发生 |
-| `INCONCLUSIVE` | 其余情况，包括预算耗尽、缺失关键观测及故障存在但根因未确认 |
+| `CONFIRMED` | `PRESENT`，Gate 通过，Top1 有有效异常支持且覆盖 Gate 计入的来源数，无范围外支持，区分需求满足且可映射的 Top1 机制有异常观测，无未解决矛盾 |
+| `NO_FAULT` | 未确认根因且 Fault Presence 为 `ABSENT`；不要求 Gate 通过，也不要求 Top1 排为 `no_fault` |
+| `INCONCLUSIVE` | 其余情况，包括缺失关键观测及故障存在但根因未确认；预算耗尽也不会将它变为确认 |
 
 **Top1 排名、Gate 通过、工具成功和预算耗尽，都不能单独替代最终确认。** 空 Evidence 或空查询结果不代表正常。异步业务完成度也不能由请求延迟正常代替。
 
