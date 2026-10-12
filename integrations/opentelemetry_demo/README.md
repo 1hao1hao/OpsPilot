@@ -113,7 +113,7 @@ OpenSearch adapter 使用 upstream Grafana datasource 的 `observedTimestamp` �
 
 连接/HTTP/响应结构错误分别归一化为 `prometheus_unavailable`、`jaeger_unavailable`、`opensearch_unavailable`；ToolExecutor 产生 ERROR，现有 report builder 根据失败调用产生 degraded。成功查询无记录才返回空。整体工具预算超时仍使用既有 `tool_timeout`。
 
-Harness 后续提交的 Alert 必须只描述 symptom（例如 `checkout error rate elevated`），ground truth 留在独立 benchmark metadata；不得把 fault flag、真实根因放入 description/labels/signals。本阶段未实现 fault harness，也未跑 fault/LLM 实验。
+Harness 提交的 Alert 只描述 symptom（例如 `checkout error rate elevated`），ground truth 留在独立 benchmark metadata；不得把 fault flag、真实根因放入 description/labels/signals。当前 `src/opspilot/otel_benchmark` 已实现真实 Locust、注入与恢复生命周期、三模式比较和冻结工件；使用真实 Planner 的已完成实验与中断实验分别保留。场景与配置见 [Benchmark 指南](../../benchmarks/datasets/otel_demo/v1/README.md)。
 
 ## 验证
 
@@ -125,7 +125,9 @@ OPSPILOT_OTEL_LIVE_TEST=1 pytest tests/integration/test_otel_demo_live.py -q
 
 单测 fixtures 是人工构造的真实 API **格式**，并非 live 捕获数据；验证 adapter→ObservationOutput→Evidence 和异常、隔离、单位、时间窗口。Live smoke 执行全部现有工具，失败即失败，L1 metrics/logs/traces 要求非空；领域能力允许有已说明的空值，Kafka lag、DB connection max、Valkey used memory / hit rate 也要求真实字段；同时保存实际 discovery 和逐字段 `telemetry_gaps.json`，成功查询不等同于字段齐全。实际 payload 写入 artifact 供审查。
 
-本次 Docker 集成 **SKIPPED：执行环境无 Docker CLI/daemon**，未运行真实 discovery、部署 healthcheck 或 live smoke。详见 `artifacts/otel_demo/validation.json`。主要缺口：活跃 DB 连接计数、replication、全量慢查询、Valkey maxmemory/热点键、缺少协议状态的 RPC 样本、部署变更源、独立拓扑/告警源。日志和 trace 采样/内存保留、metric label/version 差异会影响覆盖率；没有调 RCA 阈值来掩盖这些缺口。
+早期服务器验证因缺少 Docker daemon 跳过，记录保留在 `artifacts/otel_demo/validation.json`；这不是当前集成状态。后续 Windows 本机已完成 Docker 部署、discovery 与 live smoke，见 [验收报告](../../reports/otel_demo_live_smoke.md)。最近完整真实发布 Full Top1 16/18、Normal 3/3，见 [完整报告](../../reports/top1_18_iteration1.md)；后续冻结实验恢复查询失败中断，见 [中断记录](../../reports/top1_18_interrupted.md)。
+
+新三终态使用历史 ToolResult/Evidence/Trace 做离线验收，没有重跑真实生命周期。工具成功、未查到错误或某领域返回空都不能证明 NO_FAULT；观测缺失、基线不足与矛盾可以得到 INCONCLUSIVE。当前仍存在 replication、全量慢查询、容量/热点字段、缺少协议状态的 RPC 样本、部署变更源、独立拓扑/告警源等覆盖限制；某次 live 字段可用不等于所有服务、所有窗口持续覆盖。实际差异见当次 telemetry_gaps.json，日志和 trace 采样及保留期也影响判断。
 
 
 ## 2026-10-04 复查补齐

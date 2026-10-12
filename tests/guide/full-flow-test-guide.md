@@ -35,7 +35,9 @@ curl 'http://localhost:8000/api/v1/runs/RUN_ID/events?after=0'
 websocat ws://localhost:8000/api/v1/runs/RUN_ID/stream
 ```
 
-状态为 QUEUED、RUNNING、RETRYING、SUCCEEDED、FAILED 或 CANCELLED。运行中的 result 请求返回 202。最终报告包含 Top-K、Evidence 和嵌套 InvestigationTrace；工具 attempt、latency、状态与错误码在工具完成事件中。
+状态为 QUEUED、RUNNING、RETRYING、SUCCEEDED、FAILED 或 CANCELLED。运行中的 result 请求返回 202。最终报告 schema 3.0 包含 Top-K、Evidence、verdict、decision 和嵌套 InvestigationTrace；工具 attempt、latency、状态与错误码在工具完成事件中。
+
+Run SUCCEEDED 和报告 completed 只表示执行成功。CONFIRMED 才确认根因；NO_FAULT 需要当前告警范围内的充分健康证据；INCONCLUSIVE 可保留临时 Top-K。读取 primary_root_cause_confirmed 与 confirmed_root_cause，不要把兼容字段 primary_root_cause 自动当作确认结果。上例只有一个资源观测，不保证通过默认双来源 Gate。
 
 ## 测试部署后的 HTTP 服务
 
@@ -52,8 +54,8 @@ pytest -q tests/integration/test_postgres_redis_runtime.py
 python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtime_faults.yaml
 ```
 
-恢复测试覆盖 Worker 崩溃、stale run 重新入队、checkpoint 恢复、成功 ToolCall 不重复执行、重复请求/投递和超时重试。当前 checkpoint schema 是 3.0，不读取旧版本状态。
+恢复测试覆盖 Worker 崩溃、stale run 重新入队、checkpoint 恢复、成功 ToolCall 不重复执行、重复请求/投递和超时重试。当前 checkpoint schema 是 3.0，graph version 为 opspilot-runtime-v6-compact-report；版本不匹配拒绝恢复，同版本状态缺少新决策字段时兼容读取并重新判断。历史报告缺少新字段时保持未确认。
 
 ## 诊断质量
 
-原始 v1 数据中的领域快照不对 Planner 开放。关闭 LLM 且 L1 没有领域线索时，fallback 只补查通用工具，可能以 NO_FAULT 和预算耗尽结束；这不能解释为已经排除了全部领域故障。完整观测排名回归和自适应调查覆盖率必须分别查看，当前对照见 README 和 `artifacts/reconstruction_2/comparison.json`。
+原始 v1 数据中的领域快照不对 Planner 开放。Fallback 优先已有 Evidence 指向的领域，并考虑动态证据需求；缺少观测或健康参考、预算耗尽时保留 INCONCLUSIVE，不能从 Top1=no_fault 推断已排除故障。原始 Top1、确认率、错误确认率和拒判率分别统计；历史对照与最新真实发布、离线回放及中断记录见 [README](../../README.md)。

@@ -1,102 +1,42 @@
-# OpsPilot Tool、L1 与 L2 调查链
+# OpsPilot 工具与调查链
 
-本文描述 Runtime v3 的真实行为。Coordinator 只生成 2–3 个低成本 Seed Tool；Controller 分析本轮 Observation，经 Evidence Gate 判断是否足够，再从白名单中选择 `inspect_tool`、`invoke_expert` 或 `finalize`。所有 Tool 均接收 `AlertEvent`，统一返回 `ToolResult.data.observations`。
+更新：2026-10-12。以 `tools/registry.py`、`investigation/planner.py` 和 `decision.py` 为准；[旧说明](history/20261012/tools_intro.md) 仅用于追溯。
 
-## Tool 清单
+所有工具输入为 `AlertToolInput(alert: AlertEvent)`，handler 返回 `ObservationOutput`，Executor 包装为 `ToolResult.data.observations`。默认 Registry 为 **6 个 General + 7 个 Domain，共 13 个只读工具**，没有 `db.inspect`、`redis.inspect`、`kafka.inspect` 或 `rpc.inspect`。
 
-| Tool | 调用维度 / Expert | 触发条件 | 返回信息 | Observation → Finding / Evidence |
-|---|---|---|---|---|
-| `metrics.query` | L1 Upstream / Cluster | 所有类型的 Seed；`resource` 最高优先级 | QPS、error rate、TP99、CPU、memory 及时间序列 | QPS 下降 50% → `upstream_qps_drop`；error rate ≥ 5% → `upstream_error_rate`；CPU/内存 ≥ 85% → `{metric}_high` 与资源 Evidence |
-| `logs.query` | L1 Errorlog | `error_rate/resource` Seed；P0 或证据不足时补查 | `logs/messages`、级别、服务、Trace ID | OOM 关键字 → `oom_signature` / `log.oom`；其他错误记录 → `error_pattern` |
-| `changes.query` | L1 Change | `timeout/custom` Seed；release/config label 或证据不足时补查 | 发布、配置变更、风险数、时间 | 近期发布、变更非空或高风险数 ≥ 1 → `recent_change` / `change.recent_deployment` |
-| `traces.query` | L1 Downstream | `timeout/error_rate` Seed；dependency/trace label 优先 | Mock、Jaeger 或 OTLP 原始 Span | Adapter 归一化后按 `parent_span_id` 重建树；错误状态或耗时 > 1000 ms → `downstream_span_error/slow`，保留根服务到异常服务的完整 path |
-| `topology.query` | L1 Upstream / Downstream 上下文 | Seed 证据不足且 timeout/error_rate | 上下游服务和依赖关系 | 当前只补充依赖上下文，不单独产生 Finding |
-| `alerts.query` | L1 Problem | P0/P1 且证据不足 | 关联告警、已知问题 | 任一非空 → `related_incident` |
-| `db.inspect` | 固定方案 DB Expert | 仅 Fixed Planner 消融或兼容调用 | DB 连接、慢查询、复制延迟全集 | 与下列 DB 专用 Tool 使用相同阈值；Adaptive 主链不预先调用 |
-| `redis.inspect` | 固定方案 Redis Expert | 仅 Fixed Planner 消融或兼容调用 | Redis 内存、命中率全集 | 与下列 Redis 专用 Tool 使用相同阈值 |
-| `kafka.inspect` | 固定方案 Kafka Expert | 仅 Fixed Planner 消融或兼容调用 | Consumer Lag、吞吐全集 | lag ≥ 1000 → `kafka_consumer_lag` |
-| `rpc.inspect` | 固定方案 RPC Expert | 仅 Fixed Planner 消融或兼容调用 | timeout/error rate、延迟、基线、调用量 | timeout ≥ 5% 或延迟比 ≥ 3 → `rpc_timeout`；error ≥ 5% → `rpc_error_rate` |
-| `db.replication` | L2 DB Expert | L1 Trace/Finding 出现 mysql/database/replica，或 DB signal 可用；上下文含复制/read/mysql 时选择 | replication/slave lag | lag ≥ 5 s → `db_replication_lag`；≥ 15 s 为 critical；转成 `db.replication_lag` Evidence |
-| `db.slowlog` | L2 DB Expert | DB Expert 已触发且上下文含 slow/latency/query/mysql | slow query 数与记录 | count ≥ 10 → `db_slow_query` / `db.slow_query` |
-| `db.connections` | L2 DB Expert | DB Expert 已触发且上下文含 connection/queue/capacity/resource | active/max connections | 使用率 ≥ 80% → `db_connection_exhausted` / `db.connection_usage` |
-| `redis.memory` | L2 Redis Expert | L1 path/文本出现 redis/cache，或 Redis signal 可用 | 内存使用率、used memory、eviction | 内存 ≥ 80% → `redis_memory_pressure` / `redis.memory_usage` |
-| `redis.hotkeys` | L2 Redis Expert | Redis Expert 已触发 | 命中率、hotkeys | 命中率 ≤ 90% → `redis_low_hit_rate` / `redis.hit_rate` |
-| `kafka.lag` | L2 Kafka Expert | L1/告警出现 kafka/consumer/queue/event delivery，或 Kafka signal 可用 | consumer/total lag、produce/consume rate | lag ≥ 1000 → `kafka_consumer_lag` / `kafka.consumer_lag` |
-| `rpc.metrics` | L2 RPC Expert | L1/告警出现 rpc/grpc/dependency/downstream/http，或 RPC signal 可用 | timeout/error rate、延迟、基线、调用量 | timeout ≥ 5% 或延迟比 ≥ 3 → `rpc_timeout`；error ≥ 5% → `rpc_error_rate`，并生成同名 Evidence |
+## 工具清单
 
-未达到阈值表示“观察正常”，不是 Tool 失败；结果仍是合法 `SemanticAnalysisResult(findings=[])`。失败 Tool 会进入 `missing_sources`，报告标记 `degraded=true`。
+| Tool | 类别 | 观测与证据用途 |
+| --- | --- | --- |
+| `metrics.query` | General | QPS、延迟、错误率、CPU/内存等；collector 与 AnomalyDetector 生成资源和算法 Evidence |
+| `logs.query` | General | 结构化日志；OOM 签名可产生证据，三终态还检查服务与事件时间 |
+| `traces.query` | General | 归一化 spans、父子关系、耗时和状态；服务范围、失败调用及数据库延迟群组 |
+| `changes.query` | General | 发布/配置变化上下文；变化本身不等于已确认故障 |
+| `topology.query` | General | 依赖上下文；没有独立根因票据 |
+| `alerts.query` | General | 相关告警/问题上下文；不能代替当前告警的直接观测 |
+| `db.replication` | DB Expert | 复制延迟；现有 collector 的绝对阈值为 5 秒 |
+| `db.slowlog` | DB Expert | 慢查询及群组；存在 cohort 时只使用被 corroborated 的慢调用统计 |
+| `db.connections` | DB Expert | active/max connections；现有连接使用率阈值 80% |
+| `redis.memory` | Redis Expert | 内存及容量；现有内存使用率阈值 80% |
+| `redis.hotkeys` | Redis Expert | 命中率与热点上下文；带时间历史时要求实际下降，而非只凭低值 |
+| `kafka.lag` | Kafka Expert | consumer lag；带时间上下文时要求实质变化，不能只凭积存绝对值 |
+| `rpc.metrics` | RPC Expert | 调用量、timeout/error rate、延迟和基线；缺少协议结果保持未知 |
 
-## 完整调用图
+RPC 明确观测到低 timeout rate 时，不从延迟比直接宣称 timeout；仅缺少 timeout 字段的历史路径保留延迟比推断。数据库慢调用对实时数据要求告警时间附近同类调用 corroboration：至少 3 次慢调用且群组平均耗时超过原 1 秒预算。孤立慢调用保留线索，不自动获得同等因果票据。
 
-```mermaid
-flowchart TB
-    A["输入 AlertEvent<br/>type / severity / labels / signals"] --> S["Seed Planner<br/>输出 2–3 个低成本 Tool + reason"]
-    S -->|"timeout: metrics+trace+change<br/>error_rate: metrics+log+trace<br/>resource: metrics+log"| EX["Tool Executor<br/>输出 ToolResult"]
+阈值产生候选 Evidence，不等于最终确认。`ToolStatus.SUCCESS` 只表示调用成功；空结果不表示健康。需要可信健康参考、范围与覆盖才能得到 `NO_FAULT`。工具 ERROR 记录 error_code，并使报告 degraded；成功但缺少字段也可能 `INCONCLUSIVE`。
 
-    subgraph BASE["L1 / 通用 Tools"]
-      M["metrics.query<br/>in: AlertEvent<br/>out: metrics"]
-      L["logs.query<br/>out: logs"]
-      C["changes.query<br/>out: changes"]
-      T["traces.query<br/>out: raw spans"]
-      O["topology.query<br/>out: dependencies"]
-      A2["alerts.query<br/>out: related alerts"]
-    end
-    EX --> M & L & C & T & O & A2
+## 首轮与后续动作
 
-    M --> U["L1 Upstream<br/>QPS/error Findings"]
-    M --> CL["L1 Cluster<br/>CPU/memory Findings"]
-    L --> EL["L1 Errorlog<br/>OOM/error Findings"]
-    C --> CH["L1 Change<br/>recent-change Finding"]
-    T --> N["Trace Adapter + Span Tree<br/>out: normalized span + full path"] --> D["L1 Downstream<br/>slow/error Span Finding"]
-    O -. context .-> U
-    O -. context .-> D
-    A2 --> P["L1 Problem<br/>related-incident Finding"]
+| Alert type | 默认 Seed |
+| --- | --- |
+| timeout | metrics、traces、changes |
+| error_rate | metrics、logs、traces |
+| resource | metrics、logs |
+| custom | metrics、logs、changes |
 
-    U & CL & EL & CH & D & P --> OBS["Observe<br/>L1 Finding + Evidence"]
-    OBS --> G{"Evidence Gate<br/>confidence ≥ .8<br/>margin ≥ .15<br/>independent sources ≥ 2?"}
-    G -->|yes| F["finalize"]
-    G -->|no| AP["Adaptive Planner<br/>输出下一轮 Action + reason"]
-    AP -->|inspect_tool| EX
+严重程度和 labels 可调整 Seed 顺序，生产默认最多 3 个。后续 Planner 仅能 `inspect_tool` 调通用工具或 `invoke_expert` 调领域；`finalize` 不属于动作枚举。Expert 根据已支持根因选择领域工具；没有细分支持时使用本领域小型工具集。
 
-    subgraph L2["Dynamic L2 Experts：仅在 Observation 命中领域后触发"]
-      DBE["DB Expert<br/>in: DB ToolResults<br/>out: DB Findings"]
-      RE["Redis Expert<br/>in: Redis ToolResults<br/>out: Redis Findings"]
-      KE["Kafka Expert<br/>in: Kafka ToolResults<br/>out: Kafka Finding"]
-      RPE["RPC Expert<br/>in: RPC ToolResults<br/>out: RPC Findings"]
-    end
-    AP -->|"invoke_expert: db<br/>mysql/database/replica/DB signal"| DBE
-    AP -->|"invoke_expert: redis<br/>redis/cache/path/Redis signal"| RE
-    AP -->|"invoke_expert: kafka<br/>kafka/consumer/queue/Kafka signal"| KE
-    AP -->|"invoke_expert: rpc<br/>rpc/dependency/http/RPC signal"| RPE
+每轮执行 Tool → Evidence/算法 → Top-K → Gate/动态需求/Fault Presence → Verdict。未满足需求传给 Planner；预算耗尽或无合法动作时保留未确认候选。默认预算和 API 契约见 [README](../README.md)。Fixed 实验模式执行同一 Registry 全部 13 个工具，不调用 Planner；No-L2 禁用 Expert，不能冒充领域测量。
 
-    DBE --> DBR["db.replication"] & DBS["db.slowlog"] & DBC["db.connections"]
-    RE --> RM["redis.memory"] & RH["redis.hotkeys"]
-    KE --> KL["kafka.lag"]
-    RPE --> RPM["rpc.metrics"]
-    DBR & DBS & DBC --> DBE
-    RM & RH --> RE
-    KL --> KE
-    RPM --> RPE
-    DBE & RE & KE & RPE --> EF["L2 Finding → Evidence"] --> G
-
-    subgraph COMPAT["Fixed Planner / 兼容 Tool"]
-      DI["db.inspect"]
-      RI["redis.inspect"]
-      KI["kafka.inspect"]
-      RPI["rpc.inspect"]
-    end
-    DI -.-> DBE
-    RI -.-> RE
-    KI -.-> KE
-    RPI -.-> RPE
-
-    F --> L3["L3: MetricFilter / NoiseFilter / WoW-DoD / IQR / Volatility / ExpertRuleEngine"]
-    L3 --> RC["Deterministic Root Cause Ranking"] --> R["输出 DiagnosisReport<br/>Evidence + InvestigationTrace + Top3"]
-```
-
-## 调查与恢复边界
-
-- Action 只允许 `inspect_tool`、`invoke_expert`、`finalize`；Tool/Expert 必须存在于白名单。
-- 默认上限为 4 轮、8 次 Tool、2 次 Expert；相同 Action identity 不重复执行。
-- `InvestigationTrace` 保存每轮原因、Gate 判断、Tool/Expert 消耗与停止原因。
-- Runtime v3 把同一调查状态写入 Checkpoint；Worker 恢复后会继续未完成 Action，已成功的稳定 `tool_call_id` 不会重复产生成功执行。
+Mock 可从 `alert.signals` 读取测试后端快照，但 Planner 不可读取它；真实 OpenTelemetry 请求的告警只含公开症状。Ground Truth、注入 flag 和答案不得进入在线决策。后端字段与已知缺口见 [集成指南](../integrations/opentelemetry_demo/README.md)。

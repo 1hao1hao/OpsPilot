@@ -1,170 +1,112 @@
 # OpsPilot
 
-OpsPilot 是面向微服务故障诊断的自适应 Multi-Agent RCA 系统。项目分成两部分：RCA Engine 决定怎么诊断，异步 Runtime 保证诊断能够可靠执行和恢复。
+OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查，确定性代码从工具观测生成 Evidence、排序候选，并判断 `CONFIRMED / NO_FAULT / INCONCLUSIVE`。独立 Worker 通过 PostgreSQL、Redis 和 Checkpoint 执行、恢复任务。
 
-## RCA Engine：怎么诊断
+当前代码说明更新于 **2026-10-12**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。
+
+## 调查与决策
 
 ```mermaid
 flowchart TD
-    A[Alert] --> C[Coordinator]
-    C --> L1[L1: Metrics / Logs / Traces / Changes]
-    L1 --> T[ToolResult]
-    T --> E[Evidence Builder / AnomalyDetector]
-    E --> P[Evidence Pool]
-    P --> R[Deterministic RootCause Ranking / Top-K]
-    R --> G{Evidence Gate}
-    G -->|PASS| F[Final RCA]
-    G -->|FAIL 且预算充足| L[LLM Adaptive Planner]
-    L -->|inspect_tool| L1
-    L -->|invoke_expert| X[L2: DB / Redis / Kafka / RPC Expert]
-    X --> D[Domain Tools]
-    D --> T
-    G -->|预算耗尽或没有合法动作| F
+    A[Alert] --> C[Coordinator: 2–3 个 Seed Tools]
+    C --> T[General / Domain ToolResult]
+    T --> E[Evidence + AnomalyDetector]
+    E --> R[确定性 Top-K Ranking]
+    R --> D[动态证据需求 + Fault Presence + Evidence Gate]
+    T --> D
+    D -->|可信根因| F[CONFIRMED]
+    D -->|充分证实告警范围内无故障| N[NO_FAULT]
+    D -->|证据不足且有预算| P[LLM Planner / Deterministic Fallback]
+    P -->|inspect_tool / invoke_expert| T
+    D -->|预算耗尽或无合法新动作| I[INCONCLUSIVE]
 ```
 
-Coordinator 根据公开告警类型、严重程度和标签选择 2–3 个低成本通用工具作为首轮调查。L1 的广度调查指 Metrics、Logs、Traces、Changes；Topology 和相关告警查询是补充工具。L2 Expert 选择自己的领域工具，得到的 ToolResult 使用同一个 Evidence Builder。
+Coordinator 只选择低成本首轮工具；之后复用 ToolRegistry 与现有 DB、Redis、Kafka、RPC Expert。每轮对累计 ToolResult 重新构建 Evidence 和候选，根据告警、已观测证据和 Top-K 更新需求，把缺失观测反馈给 Planner。领域工具不能由 Planner 直接 `inspect_tool`，必须通过相应 Expert。
 
-L3 确定性分析包含历史基线对比、IQR 和滚动波动检测，输出直接进入 Evidence Pool。证据保留来源、置信度、支持/反驳的根因和原始观测引用；同一事实去重，同一 ToolResult 的多个检测结果只算一个独立来源。排名累加支持证据的 confidence、扣减反驳证据的 confidence，输出 Top-3。
+Fault Presence 独立于排名：有效观测证明异常为 `PRESENT`；关键覆盖和健康参考充分为 `ABSENT`；缺失、失败、基线不足或观测矛盾为 `UNKNOWN`。服务关联、时间窗、数据库调用群组和日志上下文限制证据范围。
 
-Evidence Gate 检查 Top-1 不是 NO_FAULT、confidence、Top1/Top2 margin 和独立证据来源数。通过则停止；未通过则继续规划，直到轮数或工具预算耗尽，或者没有合法动作。Expert budget 单独限制领域调用，不会阻止普通工具补查。最终结果记录 stop_reason。
+| Verdict | 判定 |
+| --- | --- |
+| `CONFIRMED` | 故障存在，原 Evidence Gate 通过，机制及来源质量校验通过，无未解决的关键矛盾 |
+| `NO_FAULT` | 有充分证据证明当前告警范围与窗口内异常未发生 |
+| `INCONCLUSIVE` | 其余情况，包括预算耗尽、缺失关键观测及故障存在但根因未确认 |
 
-**设计边界：LLM 负责下一步查什么；确定性代码负责工具权限、Evidence、异常检测、Gate、预算和最终根因排名。** 可选 LLM 解释只针对已经确定的根因，不能修改候选排名。Planner 只能返回 `inspect_tool` 或 `invoke_expert`，且不能读取作为工具后端快照的 `alert.signals`。
+**Top1 排名、Gate 通过、工具成功和预算耗尽，都不能单独替代最终确认。** 空 Evidence 或空查询结果不代表正常。异步业务完成度也不能由请求延迟正常代替。
 
-### LLM 失败后的 fallback
+LLM 只能返回 `inspect_tool` 或 `invoke_expert`，不决定 Verdict、不改变排名，也不读取工具后端快照 `alert.signals`。LLM 关闭或失败时，Fallback 优先测量已由 Evidence 支持的领域，再处理未满足的证据需求，最后补查未使用的通用工具。所有动作受白名单、去重和预算约束。
 
-1. Evidence 的 `supports` 明确指向一个未调用领域，且 Expert budget 充足：调用该 Expert。
-2. 否则依次选择未执行的 Metrics、Logs、Traces、Changes、Topology、Alerts 工具。
-3. 没有合法且未重复的动作：返回 None。
+默认上限为 **4 轮 / 8 次工具 / 2 次 Expert**。Gate 默认检查 confidence ≥ 0.8、Top1/Top2 margin ≥ 0.15、独立来源 ≥ 2，且 Top1 不是 `no_fault`；同一 ToolResult 的多个证据只算一个独立来源。这些是可配置的根因可信度条件。
 
-Fallback 不分析告警关键词、不根据 alert_type 猜领域，也不读取未观测的后端快照。它保证可靠退出，不能替代 LLM 的开放式调查能力。Expert 根据证据支持的根因选择对应领域工具；缺少细分线索时检查该领域的小型固定工具集。
+## Runtime、API 与报告
 
-## Runtime：怎么可靠执行
-
-```mermaid
-flowchart LR
-    API[Run API] --> PG[(PostgreSQL Run)]
-    API --> Q[(Redis run_id Queue)]
-    Q --> W[Independent Worker]
-    W --> RCA[RCA Engine]
-    RCA --> CP[Checkpoint]
-    CP --> PG
-    PG --> REC[Stale Run Recovery]
-    REC --> Q
-```
-
-PostgreSQL 是 Run、ToolExecution、Checkpoint、事件和报告的事实源；Redis 只传递 run_id。Worker 在 Action、Tool 和 Gate 边界保存状态，恢复扫描重新入队 stale Run，持久化 ToolCall 幂等键避免已成功工具重复执行。重试和超时仍由 Tool Executor 控制。
-
-Runtime 不解释异常检测或领域证据。它给 `AdaptiveInvestigator` 注入工具执行函数和 checkpoint 回调，保存/恢复调查状态。在线执行和离线评测共用 Engine；`OpsPilotWorkflow` 仅作为离线工具执行包装，两种入口都调用 `investigation/report.py` 的唯一报告构造函数。
-
-当前 checkpoint schema 为 **3.0**，graph version 为 `opspilot-runtime-v6-compact-report`；不转换旧 checkpoint，版本不匹配会明确失败。
-
-## API 与 Report
+PostgreSQL 保存 Run、Step、ToolExecution、Checkpoint、事件和报告；Redis 只传递 `run_id`。API 快速接收请求，独立 Worker 执行调查。持久化 `request_id` 与稳定 `tool_call_id` 支持幂等，stale Run 可重新入队，恢复时复用已成功工具并重新判断观测。
 
 | 方法 | 路径 | 用途 |
-|---|---|---|
-| POST | `/api/v1/runs` | 提交 request_id 与 Alert，返回 run_id |
-| GET | `/api/v1/runs/{run_id}` | 查询状态 |
-| GET | `/api/v1/runs/{run_id}/result` | 获取最终结果；运行中返回 202 |
-| GET | `/api/v1/runs/{run_id}/events?after=0` | 按事件序号增量查询 |
+| --- | --- | --- |
+| POST | `/api/v1/runs` | 提交 `request_id` 与 Alert |
+| GET | `/api/v1/runs/{run_id}` | 查询 Run 状态 |
+| GET | `/api/v1/runs/{run_id}/result` | 获取结果；运行中返回 202 |
+| GET | `/api/v1/runs/{run_id}/events?after=0` | 增量事件，含工具状态、attempt、耗时和错误 |
 | WS | `/api/v1/runs/{run_id}/stream` | 订阅调查事件 |
 
-DiagnosisReport schema **2.0** 包含 trace_id（在线时等于 run_id）、告警与服务标识、Top-K、primary_root_cause、Evidence、decision_rationale、recommended_actions，以及耗时和降级信息。调查说明集中在嵌套的 `investigation: InvestigationTrace`，包括轮数、动作、Gate 判断、预算和停止原因。
+DiagnosisReport schema 为 **3.0**。`status=completed` 表示诊断执行完成，Run 的 `SUCCEEDED` 同样不保证根因已确认。报告还包含 `verdict`、`decision`、需求覆盖、Fault Presence、临时候选、Evidence 和嵌套调查轨迹。
 
-工具调用 ID、attempt、latency、status、error_code 通过 `/events` 查询，不再平铺在最终报告中。旧报告中间结构和旧兼容接口已删除。
+`primary_root_cause` 为兼容保留的 Top1；只有 `primary_root_cause_confirmed=true` 和非空 `confirmed_root_cause` 表示已确认。`INCONCLUSIVE` 可以保留 Top-K。缺少新字段的历史报告按未确认读取。Checkpoint schema 也是 **3.0**，graph version 为 `opspilot-runtime-v6-compact-report`；兼容缺少新决策字段的调查状态，schema/graph 版本不匹配仍明确失败。
 
-## 运行和验证
+## 本地开发
+
+要求 Python **3.11+**。从其他系统复制来的虚拟环境应备份，并在本机重新创建。
+
+Windows PowerShell：
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e '.[dev]'
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m ruff check src/opspilot tests/contract tests/integration tests/recovery scripts/otel_demo
+```
+
+上例使用本机已安装的 Python 3.12；其他符合要求的版本可替换创建命令。
+
+Linux / macOS：
 
 ```bash
 bash scripts/bootstrap_dev_env.sh
 source .venv/bin/activate
-ruff check src tests
-pytest -q
+python -m pytest -q
+python -m ruff check src/opspilot tests/contract tests/integration tests/recovery scripts/otel_demo
 ```
 
-未配置服务 URL 时，HTTP 冒烟测试运行本地测试应用，使用 SQLite 和内存队列；这不等同于真实 PostgreSQL/Redis 的独立进程验证。真实基础设施测试需要设置 `OPSPILOT_TEST_DATABASE_URL`、`OPSPILOT_TEST_REDIS_URL`。显式设置 `AGENT_URL` 和 `MOCK_URL` 时，冒烟客户端连接部署服务。
+默认本地 HTTP 测试使用测试应用、SQLite 和内存队列；未配置真实服务时部分集成测试跳过，不等于验证了实际 PostgreSQL/Redis 或 Demo 部署。
 
-启动 API、Worker、PostgreSQL、Redis 与 Mock：
+运行 API、Worker、PostgreSQL、Redis 与 Mock：
 
 ```bash
 docker compose --profile full up --build -d
 ```
 
-LLM 默认关闭。需要时设置 `OPSPILOT_LLM_ENABLED=true` 和 `DEEPSEEK_API_KEY`；模型、地址和超时使用 `OPSPILOT_LLM_MODEL`、`OPSPILOT_LLM_BASE_URL`、`OPSPILOT_LLM_TIMEOUT_SECONDS`。所有工具只读，报告提供处置建议，不自动修改生产资源。
+LLM 默认关闭。启用时配置 `OPSPILOT_LLM_ENABLED=true`、`DEEPSEEK_API_KEY`；模型、地址和超时由 `OPSPILOT_LLM_MODEL`、`OPSPILOT_LLM_BASE_URL`、`OPSPILOT_LLM_TIMEOUT_SECONDS` 控制。不要提交 `.env` 或密钥。API 请求及恢复验证见 [全流程指南](tests/guide/full-flow-test-guide.md)，本机说明见 [本地运行指南](docs/README_local.md)。
 
-API 示例与恢复验证见 [测试指南](tests/guide/full-flow-test-guide.md)。
+## OpenTelemetry 与验证现状
 
-## 评测范围与已知限制
+`OPSPILOT_OBSERVATION_BACKEND=otel_demo` 接入 Prometheus、Jaeger 和 OpenSearch；默认后端为 Mock。Astronomy Shop 使用固定 Demo 3.1.0 与 Collector 0.160.0，部署版本与脚本见 [集成指南](integrations/opentelemetry_demo/README.md)。已有 Windows Docker Desktop 部署、28 服务与 live smoke 验收记录；这些是当次验证结果，不表示当前机器上的容器仍运行。
 
-v1 原始数据集保持不变，共 25 个 dev、12 个 frozen-test 样本。第二阶段对照关闭 LLM，结果如下：
+真实 Benchmark 使用 Locust、六类故障加 Normal、3 repeats、3 modes，Ground Truth 与在线调查隔离。场景、配置及命令见 [Benchmark 指南](benchmarks/datasets/otel_demo/v1/README.md)。
 
-| 模式 | dev 故障 Hit@1 | test 故障 Hit@1 |
-|---|---:|---:|
-| 第二阶段之前的关键词/default fallback | 21/21 | 10/10 |
-| 当前 Evidence + 固定工具顺序 fallback | 6/21 | 2/10 |
-| 当前固定执行全部工具，使用同一 Evidence + Ranker | 21/21 | 10/10 |
+| 验证记录 | 结果与范围 |
+| --- | --- |
+| [最近完整真实发布](reports/top1_18_iteration1.md)，2026-10-09 | 21 个恢复通过的生命周期、63 次诊断；Full 故障 Top1 **16/18**、Normal **3/3**，未达到 18/18 目标；该发布早于三终态改动 |
+| [后续冻结实验](reports/top1_18_interrupted.md) | 60 次诊断，最后恢复查询失败，中断且未完成验收；Full 部分故障 Top1 **14/17**，不能当作完整发布 |
+| [三终态验收](reports/task_10.9.md)，2026-10-10 合入 | 126 次既有真实工件离线回放；保留原排名，最新一批 Full 确认 **3/21**、拒判 **18/21**、错误确认 **0/21**；没有使用新实现重跑真实生命周期 |
 
-许多旧样本只有领域后端快照，没有 L1 领域线索。删掉语义 fallback 后，未启用 LLM 就不会猜测这些领域。**这是真实的调查覆盖率下降，不能用排名正确率代替完整自适应诊断准确率。** 旧 v1 mock 样本尚未执行付费真实 LLM 评测；Planner 的成功、非法输出、异常和 fallback 边界由可控响应测试覆盖。
+三终态合入后的针对性回归 **68 passed**、Ruff 通过，这是 2026-10-10 的记录，不是当前全量测试数。回放中 Normal 工件缺少充分健康参考，未宣称 `NO_FAULT`；有效健康参考下的路径由针对性测试验证。零错误确认伴随较高拒判率，不能宣传为 100% 准确率。
 
-[逐样本对照](artifacts/reconstruction_2/comparison.json) 保留重构前结果、当前 fallback 与完整观测 Top-K。CI 分别检查完整观测的确定性排名、合法动作/预算和 Runtime 可靠性；自适应覆盖率原样报告，不再使用已经移除的语义 fallback 的全命中门槛。
+旧 v1 Mock 数据集与 6/21 调查覆盖率记录保留供追溯，未修复或包装为当前验证；旧三路 LLM 消融与 snapshot latency 也不能代表新调查循环或生产效果。未接入 EvalRAG/Knowledge Tool，未实现生产自动修复或生产准确率保证。本次文档更新没有启动新实验。
 
-```bash
-python -m opspilot.evaluation.cli run --config benchmarks/configs/fixed_planner.yaml --split dev
-python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split dev
-python -m opspilot.evaluation.cli run --config benchmarks/configs/full_adaptive_rca.yaml --split test
-python -m opspilot.evaluation.cli concurrency --config benchmarks/configs/tool_concurrency.yaml
-python -m opspilot.evaluation.cli reliability --config benchmarks/configs/runtime_faults.yaml
-```
+## 文档与代码导航
 
-历史评测工件保留供追溯，不代表当前版本。`adaptive_planner` 和 `full_adaptive_rca` 两个历史配置名目前调用同一实现；`adaptive_without_dynamic_l2` 通过 Expert budget=0 禁用领域深挖。
+- [架构与恢复边界](docs/architecture.md) · [工具说明](docs/tools_intro.md) · [数据流](docs/RCA_DATAFLOW_REFERENCE.md)
+- [项目定位](docs/project_brief.md) · [项目材料](docs/project_materials.md) · [当前任务状态](docs/task_board.md)
+- [验证与维护计划](docs/plan.md) · [历史规划索引](docs/history/20261012/README.md)
 
-## 代码入口
-
-```text
-src/opspilot/
-├── agents/          # Coordinator、确定性 Ranker、可选结果解释
-├── investigation/   # Engine、Planner、Gate、共享 Report 构造
-├── evidence/        # ToolResult → Evidence
-├── rca/             # Historical Baseline / IQR / Rolling Volatility
-├── tools/           # Registry、Executor、通用与领域工具
-├── tracing/         # Mock / Jaeger / OTLP 与异常 Span 路径
-├── runtime/         # TaskManager、Queue、Worker、可恢复执行
-├── persistence/     # PostgreSQL models / repositories
-├── api/             # Runs、Events、WebSocket
-├── graph/           # 薄离线包装，不维护另一套 RCA
-└── evaluation/      # 数据集、对照评测、可靠性验证
-src/deeprca/mock_env/ # 独立 Mock 服务；旧诊断实现已删除
-```
-
-## OpenTelemetry Astronomy Shop
-
-可通过 `OPSPILOT_OBSERVATION_BACKEND=otel_demo` 接入独立部署的 Prometheus、Jaeger 和 OpenSearch。默认仍使用 Mock，核心 RCA 与 Runtime 不变。固定版本、启动脚本、backend URL、工具映射、telemetry gap 和验证说明见 [集成指南](integrations/opentelemetry_demo/README.md)。
-
-真实 RCA Benchmark 使用 OpenTelemetry 官方 Astronomy Shop 近真实微服务环境、真实 Locust 和 feature-flag 注入，固定六个故障 + Normal；OpsPilot 没有企业生产数据。版本化场景、Ground Truth 隔离、smoke/release 运行与工件说明见 [Benchmark 指南](benchmarks/datasets/otel_demo/v1/README.md)。
-初步实测、逐场景评分与失败原因见 [Benchmark 报告](reports/otel_demo_benchmark.md)。
-
-2026-10-04 早期计划复查：本地全量测试 **216 passed / 4 skipped**；[重构验收与新 dev 对照](artifacts/reconstruction_2/recheck_20261004/acceptance.json) 明确保留简化 fallback 的覆盖率限制。[早期 Telemetry 检查](artifacts/otel_demo/validation.json) 保留当时未执行 Docker/live discovery 的状态；后续真实部署、故障 smoke 和一次 RCA 已通过，当前结果见 [live 验收报告](reports/otel_demo_live_smoke.md)。
-
-## 官方 Demo 正式消融（2026-10-05）
-
-近真实微服务环境中的 7 场景 × 3 repeats × 3 modes，共 63 次实际 RCA、21 个完整生命周期，18 次故障出现及恢复确认。Full 与 No-L2 使用当前配置的真实 DeepSeek Planner，逐次 LLM/fallback 单独记录；不代表企业生产数据。
-
-| 模式 | Fault Top1 | Fault Top3 | Normal | Avg Tool | Avg Expert | P50 / P95 ms |
-| --- | --- | --- | --- | --- | --- | --- |
-| full_adaptive | 10/18 | 12/18 | 2/3 | 6.10 | 1.00 | 17038.33 / 21673.26 |
-| fixed_full | 10/18 | 11/18 | 0/3 | 13.00 | 0.00 | 27408.37 / 28744.40 |
-| adaptive_no_l2 | 10/18 | 12/18 | 2/3 | 5.71 | 0.00 | 13809.91 / 14738.43 |
-
-Full 相对 Fixed 的工具调用减少 53.11%；准确率、延迟和 L2 收益须按结果分别解读，不把调用数减少写成全面性能提升。Fixed 不调用 LLM；模型现金成本未估算。Knowledge Tool Decision：**INCONCLUSIVE**，未接入 EvalRAG 或 Knowledge Tool。
-
-[完整报告](reports/otel_demo_rca_v1.md) · [复现配置与步骤](benchmarks/datasets/otel_demo/v1/EXPERIMENT.md) · [真实逐次结果](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/records.json) · [独立验收](artifacts/otel_demo_rca_v1/20261005T041333Z-9b9d16/independent_audit.json) · [失败分析](artifacts/failure_analysis.md) · [Knowledge 决策](artifacts/knowledge_tool_decision.md)。
-本次最终验证：273 passed / 4 skipped；Ruff 通过。旧 mock benchmark 的 6/21 覆盖率结果仍单独保留。
-
-## RCA Accuracy Closure (2026-10-08)
-
-**ACCURACY_TARGET_NOT_MET** — fresh Full Fault Top1 16/18, Top3 18/18, Normal 2/3; 56.41% fewer tool calls than Fixed.
-
-[Formal report](reports/accuracy_closure.md) · [Development record](reports/accuracy_closure_development.md)
-
-## Incident-local RCA validation (20261009T043206Z-54bfc1)
-
-**ACCURACY_TARGET_NOT_MET**: fresh Full Fault Top1 16/18, Normal 3/3, 57.88% fewer tools than Fixed. [Formal report](reports/top1_18_iteration1.md).
+核心入口：`src/opspilot/investigation/{engine,analysis,decision,planner,report}.py`。`agents` 提供 Seed Coordinator 与 Ranker，`tools/evidence/rca/observations/tracing` 负责观测与分析，`api/runtime/persistence` 负责持久执行，`evaluation/otel_benchmark` 负责评测。`src/deeprca/mock_env` 保留独立 Mock 服务；旧诊断链已移除。`plan/`、`prds/` 和历史报告记录需求与演进，不代表全部当前实现。
