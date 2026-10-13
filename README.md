@@ -6,70 +6,48 @@ OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查�
 
 ## 调查与决策
 
+**图 1：调查主流程**
+
 ```mermaid
 flowchart TD
-    A["Alert：服务、类型、时间、公开标签"] --> C["Coordinator：首轮 General Seed Tools"]
-    C --> X["执行工具，累计 ToolResult"]
-
-    subgraph Analysis["1 · 证据生成与确定性排名：analysis.py"]
-        T["累计 ToolResult：状态 + 原始 observations"] --> EC["Evidence Collector + AnomalyDetector"]
-        EC --> E["结构化 Evidence：支持 / 反驳、置信度、来源、原始引用<br/>按 evidence_id 去重"]
-        E --> R["确定性 Ranker → 临时 Top-K 候选"]
-        R --> G["Evidence Gate：Top1 非 no_fault<br/>confidence ≥ 0.8、margin ≥ 0.15、来源 ≥ 2"]
-        E -->|候选支持证据的 source_group| G
-    end
-    X --> T
-
-    subgraph Requirements["2 · decide_diagnosis：观测质量与动态需求"]
-        Q["观测质量 / 范围校验<br/>正常、异常、失败、无数据、缺基线、范围外；检测矛盾"]
-        U["重建 EvidenceRequirements<br/>Alert → 存在性需求；Top1 / 近邻 Top2 → 区分需求<br/>更新 satisfied、quality、suggested_tools"]
-        FP{"Fault Presence<br/>测量冲突优先 UNKNOWN<br/>相关异常 → PRESENT<br/>存在性需求全部健康覆盖 → ABSENT<br/>其余 → UNKNOWN"}
-        Q --> U --> FP
-        Q -->|有效异常与测量冲突| FP
-    end
-    G -->|Gate 计算完毕，进入决策| Q
-    T -->|原始数据：覆盖、基线、状态、服务与时间| Q
-    E -->|关联并校验因果证据| Q
-    A -->|服务与告警时间| Q
-    R -->|检查反驳 Top1 的证据| Q
-    A -->|告警范围与存在性信号| U
-    R -->|Top1 与分差小于 0.15 的 Top2| U
-
-    subgraph Decision["3 · DiagnosisDecision：按顺序判定三终态"]
-        K{"根因确认条件全部成立？<br/>Gate 通过 + 有效异常支持 / 来源覆盖<br/>候选范围有效 + 区分需求满足 / 可映射机制异常<br/>无未解决矛盾"}
-        F["CONFIRMED：根因确认"]
-        N["NO_FAULT：范围与窗口内无故障"]
-        I["INCONCLUSIVE：未确认，可继续调查"]
-        FP -->|PRESENT| K
-        FP -->|ABSENT| N
-        FP -->|UNKNOWN| I
-        G -.->|GateDecision| K
-        U -.->|需求满足状态| K
-        Q -.->|有效支持、范围与矛盾| K
-        K -->|是| F
-        K -->|否| I
-    end
-
-    subgraph Loop["4 · engine.py：有界调查闭环"]
-        B{"轮数与工具预算均剩余？"}
-        P["LLM Planner / Deterministic Fallback<br/>公开 Alert、未满足需求、动作历史、剩余预算"]
-        V{"取得合法、不重复、预算允许的动作？"}
-        END["结束并构建报告<br/>未确认时保留临时 Top-K、需求与停止原因"]
-        I --> B
-        B -->|否| END
-        B -->|是| P --> V
-        V -->|否：无动作或被拒绝| END
-        V -->|inspect_tool：General Tool| X
-        V -->|invoke_expert：Expert 选择领域工具| X
-        F --> END
-        N --> END
-    end
-    E -.->|Evidence| P
-    R -.->|临时 Top-K| P
-    U -.->|仅未满足需求 + 建议工具| P
+    A["Alert"] --> C["Coordinator<br/>首轮 General Seed Tools"]
+    C --> T["执行工具并累计 ToolResult"]
+    T --> E["Evidence Engine<br/>Collector + AnomalyDetector → Evidence"]
+    E --> R["确定性 Ranker<br/>临时 Top-K"]
+    R --> G["Evidence Gate<br/>输入：Top-K + Evidence"]
+    G --> D["DiagnosisDecision<br/>观测质量、动态需求、存在性与根因判断"]
+    D -->|CONFIRMED| F["根因确认"]
+    D -->|NO_FAULT| N["范围与窗口内无故障"]
+    D -->|INCONCLUSIVE| I["未确认"]
+    F --> END["结束并构建报告"]
+    N --> END
+    I --> B{"轮数与工具预算均剩余？"}
+    B -->|否| END
+    B -->|是| P["LLM Planner / Fallback<br/>输入：Evidence、Top-K、未满足需求与预算等"]
+    P --> V{"有合法、不重复且预算允许的动作？"}
+    V -->|否| END
+    V -->|是| T
 ```
 
-图中实线表示主流程或数据流，虚线表示传入判断与规划的补充输入；Gate 阈值为默认配置。实际顺序是：首轮工具 → 分析累计结果 → 计算 Gate → 调用 `decide_diagnosis` 评估观测、更新需求、判断存在性及 Verdict → 结束或规划下一轮。每轮重新分析累计结果，不沿用上一轮的需求满足状态。
+主流程对应 `engine.py`：每轮重新分析累计 ToolResult，先算 Gate，再调用 `decide_diagnosis`。`CONFIRMED / NO_FAULT` 直接结束；`INCONCLUSIVE` 只有预算与合法动作允许时才继续，否则保留临时 Top-K、需求与停止原因。Planner 只能 `inspect_tool` 调用通用工具，或 `invoke_expert` 由 Expert 选择领域工具；Expert 预算耗尽仅限制 Expert 动作。
+
+**图 2：决策内部细节**
+
+```mermaid
+flowchart TD
+    Q["观测质量校验<br/>输入：ToolResult + Evidence + Alert<br/>检查状态、基线、服务与时间范围"]
+    Q --> O["观测评估与矛盾<br/>正常 / 异常 / 失败 / 无数据 / 缺基线 / 范围外<br/>测量冲突；范围内 Evidence 对 Top1 的反驳"]
+    O --> U["动态证据需求<br/>输入：Alert + Top-K + 观测评估<br/>Alert → 存在性；Top1 / 近邻 Top2 → 根因区分"]
+    U --> S["更新需求覆盖<br/>输入：观测质量与冲突<br/>输出：满足状态、未满足需求与建议工具"]
+    S --> FP["Fault Presence<br/>测量冲突 → UNKNOWN；否则相关异常 → PRESENT<br/>否则存在性需求全部健康覆盖 → ABSENT<br/>其余 → UNKNOWN"]
+    FP --> K{"根因确认条件全部成立？<br/>PRESENT + Evidence Gate 通过<br/>Top1 支持、来源与范围有效<br/>区分需求满足、可映射机制异常、无矛盾"}
+    K -->|是| F["CONFIRMED"]
+    K -->|否| B{"Fault Presence 为 ABSENT？"}
+    B -->|是| N["NO_FAULT"]
+    B -->|否| I["INCONCLUSIVE"]
+```
+
+图 2 展开 `decision.py` 的单轮判定；普通输入写在节点内，箭头只表达处理顺序与条件分支。Gate 已由 `planner.py` 根据 Top-K 与 Evidence 计算，观测、需求和候选信息继续参与根因校验：先判断是否 `CONFIRMED`，否则由 `ABSENT` 得到 `NO_FAULT`，其余为 `INCONCLUSIVE`。每轮重建需求与满足状态；未满足需求用于图 1 的下一步规划。
 
 Collector 与 AnomalyDetector 生成支持 / 反驳根因的结构化 Evidence，Ranker 据此给出最多 3 个临时候选。**ToolResult 还必须直接进入观测质量判断**：Evidence 主要承载因果线索，无法单独说明工具失败、成功但无数据、健康参考不足或服务 / 时间范围是否有效；没有 Evidence 也不能推导无故障。质量判断结合原始观测与 Evidence，重新统计具有有效异常支持的来源，要求其数量覆盖 Gate 计入的来源数。
 
