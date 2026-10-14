@@ -35,19 +35,39 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Q["观测质量校验<br/>输入：ToolResult + Evidence + Alert<br/>检查状态、基线、服务与时间范围"]
-    Q --> O["观测评估与矛盾<br/>正常 / 异常 / 失败 / 无数据 / 缺基线 / 范围外<br/>测量冲突；范围内 Evidence 对 Top1 的反驳"]
-    O --> U["动态证据需求<br/>输入：Alert + Top-K + 观测评估<br/>Alert → 存在性；Top1 / 近邻 Top2 → 根因区分"]
-    U --> S["更新需求覆盖<br/>输入：观测质量与冲突<br/>输出：满足状态、未满足需求与建议工具"]
-    S --> FP["Fault Presence<br/>测量冲突 → UNKNOWN；否则相关异常 → PRESENT<br/>否则存在性需求全部健康覆盖 → ABSENT<br/>其余 → UNKNOWN"]
-    FP --> K{"根因确认条件全部成立？<br/>PRESENT + Evidence Gate 通过<br/>Top1 支持、来源与范围有效<br/>区分需求满足、可映射机制异常、无矛盾"}
-    K -->|是| F["CONFIRMED"]
-    K -->|否| B{"Fault Presence 为 ABSENT？"}
-    B -->|是| N["NO_FAULT"]
-    B -->|否| I["INCONCLUSIVE"]
+    subgraph OBS["1 · 观测评估"]
+        I0["Alert + 原始 ToolResult + Evidence"] --> Q["检查状态、数据、基线<br/>服务与时间范围"]
+        Q --> O["观测质量与矛盾<br/>含测量冲突、Top1 反证"]
+    end
+
+    subgraph REQ["2 · 动态证据需求"]
+        A["Alert → 存在性需求"] --> U["更新需求覆盖<br/>satisfied / quality / suggested_tools"]
+        R["Top1 / 近邻 Top2<br/>→ 根因区分需求"] --> U
+        U -->|输出：未满足需求| P["Planner"]
+    end
+
+    subgraph DEC["3 · 诊断决策"]
+        FP["Fault Presence<br/>输入：观测 + 需求覆盖"]
+        C["根因校验<br/>有效支持 / 来源 / 范围<br/>区分需求 / 机制 / 矛盾"]
+        G["外部输入：GateDecision"]
+        K{"PRESENT 且 Gate 通过<br/>根因校验满足？"}
+        B{"Fault Presence<br/>为 ABSENT？"}
+        FP --> K
+        G --> K
+        C --> K
+        K -->|条件：是| F["CONFIRMED"]
+        K -->|条件：否| B
+        B -->|条件：是| N["NO_FAULT"]
+        B -->|条件：否| I["INCONCLUSIVE"]
+    end
+
+    O --> U
+    O --> FP
+    U --> FP
+    O --> C
 ```
 
-图 2 展开 `decision.py` 的单轮判定；普通输入写在节点内，箭头只表达处理顺序与条件分支。Gate 已由 `planner.py` 根据 Top-K 与 Evidence 计算，观测、需求和候选信息继续参与根因校验：先判断是否 `CONFIRMED`，否则由 `ABSENT` 得到 `NO_FAULT`，其余为 `INCONCLUSIVE`。每轮重建需求与满足状态；未满足需求用于图 1 的下一步规划。
+图 2 展开 `decision.py` 的单轮判定。`engine.py` 先计算 GateDecision，再传入决策；动态需求不会改变 Gate。观测质量区分正常、异常、失败、无数据、缺基线及范围外观测；同一工具、信号和服务的正常与异常测量冲突时，Fault Presence 为 `UNKNOWN`。否则相关异常为 `PRESENT`，存在性需求全部得到健康覆盖才为 `ABSENT`，其余仍为 `UNKNOWN`。根因校验还读取区分需求的满足状态：Top1 须有范围内有效异常支持，已验证来源数量须覆盖 Gate 计入的数量；可映射机制须有异常观测，且不能有未解决矛盾。不满足确认条件时，只有 `ABSENT` 才得到 `NO_FAULT`。每轮重建需求，未满足项及建议工具反馈 Planner。
 
 Collector 与 AnomalyDetector 生成支持 / 反驳根因的结构化 Evidence，Ranker 据此给出最多 3 个临时候选。**ToolResult 还必须直接进入观测质量判断**：Evidence 主要承载因果线索，无法单独说明工具失败、成功但无数据、健康参考不足或服务 / 时间范围是否有效；没有 Evidence 也不能推导无故障。质量判断结合原始观测与 Evidence，重新统计具有有效异常支持的来源，要求其数量覆盖 Gate 计入的来源数。
 
