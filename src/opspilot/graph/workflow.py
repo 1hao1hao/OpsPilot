@@ -54,13 +54,17 @@ class OpsPilotWorkflow:
     async def observe(self, alert: AlertEvent, *, trace_id: str) -> InvestigationOutcome:
         executor = ToolExecutor(self.registry)
 
-        async def execute_tool(tool_name: str, round_number: int, reason: str):
+        async def execute_tool(tool_name: str, round_number: int, reason: str,
+                               target_service: str | None = None):
             definition = self.registry.get(tool_name)
             arguments = {"alert": alert.model_dump(mode="json")}
+            if target_service and target_service != alert.service_name:
+                arguments["target_service"] = target_service
+            suffix = f":{target_service}" if target_service and target_service != alert.service_name else ""
             call = ToolCall(
                 tool_call_id=build_tool_call_id(
                     trace_id=trace_id,
-                    step_id=f"round-{round_number}:{tool_name}",
+                    step_id=f"round-{round_number}:{tool_name}{suffix}",
                     tool_name=tool_name,
                     version=definition.version,
                     arguments=arguments,

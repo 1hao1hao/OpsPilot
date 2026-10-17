@@ -10,7 +10,7 @@ from typing import Any
 from opspilot.agents import CoordinatorAgent, RootCauseAgent
 from opspilot.config import RuntimeSettings
 from opspilot.investigation.analysis import DeterministicEvidenceEngine
-from opspilot.investigation.decision import decide_diagnosis
+from opspilot.investigation.decision import decide_diagnosis, prepare_decision
 from opspilot.investigation.planner import ActionValidator, EvidenceGate, LLMAdaptivePlanner
 from opspilot.models import (
     AlertEvent,
@@ -18,6 +18,7 @@ from opspilot.models import (
     DiagnosisVerdict,
     Evidence,
     EvidenceGateDecision,
+    EvidenceRequirement,
     InvestigationAction,
     InvestigationActionType,
     InvestigationTrace,
@@ -26,7 +27,7 @@ from opspilot.models import (
 )
 from opspilot.tools import ToolRegistry
 
-ToolRunner = Callable[[str, int, str], Awaitable[ToolResult]]
+ToolRunner = Callable[[str, int, str, str | None], Awaitable[ToolResult]]
 StateCallback = Callable[[str, dict[str, Any]], Awaitable[None]]
 
 
@@ -74,13 +75,20 @@ class AdaptiveInvestigator:
         parallel_seed: bool = False,
     ) -> InvestigationOutcome:
         state = self._restore(restored_state)
+        if not state["executed_tool_targets"]:
+            state["executed_tool_targets"] = [
+                f"{item.tool_name}|{item.target_service or alert.service_name}" for item in state["tool_results"]
+            ] or [f"{name}|{alert.service_name}" for name in state["executed_tools"]]
+        if not state["invoked_expert_targets"]:
+            state["invoked_expert_targets"] = [f"{name}|{alert.service_name}" for name in state["invoked_experts"]]
         seed_plan = self.seed_planner.plan(alert)
         for step in seed_plan.steps:
             self.validator.validate_seed_tool(step.tool_name)
 
         state["round"] = max(state["round"], 1)
-        pending_seed = [step for step in seed_plan.steps if step.tool_name not in state["executed_tools"]]
-        remaining = self.settings.investigation_max_tool_calls - len(state["executed_tools"])
+        pending_seed = [step for step in seed_plan.steps
+                        if f"{step.tool_name}|{alert.service_name}" not in state["executed_tool_targets"]]
+        remaining = self.settings.investigation_max_tool_calls - len(state["executed_tool_targets"])
         pending_seed = pending_seed[:max(remaining, 0)]
         if parallel_seed and on_state is None:
             await asyncio.gather(*(
@@ -119,15 +127,23 @@ class AdaptiveInvestigator:
         await self._notify(on_state, "investigation.round.completed", state)
 
         while True:
+            prepared = prepare_decision(
+                alert, state["tool_results"], state["evidence"], state["provisional_candidates"],
+                previous_requirements=state["requirements"], previous_version=state["requirements_version"],
+            )
+            state["requirements"] = prepared.requirements
+            state["requirements_version"] = prepared.requirements_version
             exhausted = self._budget_exhausted(state)
             gate = self.gate.evaluate(
                 state["provisional_candidates"],
                 state["evidence"],
                 budget_exhausted=exhausted,
+                requirements=prepared.requirements,
+                requirements_version=prepared.requirements_version,
             )
             state["gate_decisions"].append(gate)
             decision = decide_diagnosis(alert, state["tool_results"], state["evidence"],
-                                        state["provisional_candidates"], gate)
+                                        state["provisional_candidates"], gate, prepared=prepared)
             state["decision"] = decision
             state["decision_history"].append(decision)
             await self._notify(on_state, "investigation.gate", state)
@@ -142,12 +158,14 @@ class AdaptiveInvestigator:
                 evidence=state["evidence"],
                 candidates=state["provisional_candidates"],
                 executed_tools=state["executed_tools"],
+                executed_tool_targets=state["executed_tool_targets"],
                 invoked_experts=state["invoked_experts"],
+                invoked_expert_targets=state["invoked_expert_targets"],
                 action_history=state["action_history"],
                 action_identities={item.identity for item in state["action_history"]},
                 remaining_round_budget=self.settings.investigation_max_rounds - state["round"],
-                remaining_tool_budget=self.settings.investigation_max_tool_calls - len(state["executed_tools"]),
-                remaining_expert_budget=self.settings.investigation_max_expert_calls - len(state["invoked_experts"]),
+                remaining_tool_budget=self.settings.investigation_max_tool_calls - len(state["executed_tool_targets"]),
+                remaining_expert_budget=self.settings.investigation_max_expert_calls - len(state["invoked_expert_targets"]),
                 evidence_requirements=[r for r in decision.requirements if not r.satisfied],
             )
             if action is None:
@@ -159,7 +177,7 @@ class AdaptiveInvestigator:
                 break
             self.validator.validate_planner_action(action)
             if (action.action_type == InvestigationActionType.INVOKE_EXPERT
-                    and len(state["invoked_experts"]) >= self.settings.investigation_max_expert_calls):
+                    and len(state["invoked_expert_targets"]) >= self.settings.investigation_max_expert_calls):
                 state["stop_reason"] = "expert budget exhausted; rejected planner action"
                 break
             action.round = next_round
@@ -177,13 +195,15 @@ class AdaptiveInvestigator:
             action_history=state["action_history"],
             gate_decisions=state["gate_decisions"],
             executed_tools=state["executed_tools"],
+            executed_tool_targets=state["executed_tool_targets"],
             invoked_experts=state["invoked_experts"],
             stop_reason=state["stop_reason"],
-            tool_budget_used=len(state["executed_tools"]),
-            expert_budget_used=len(state["invoked_experts"]),
+            tool_budget_used=len(state["executed_tool_targets"]),
+            expert_budget_used=len(state["invoked_expert_targets"]),
             duplicate_actions=state["duplicate_actions"],
             decision=state["decision"],
             decision_history=state["decision_history"],
+            requirements_version=state["requirements_version"],
         )
         snapshot = self._snapshot(state)
         return InvestigationOutcome(
@@ -203,8 +223,12 @@ class AdaptiveInvestigator:
         on_state: StateCallback | None,
     ) -> None:
         self.validator.validate_planner_action(action)
+        target_service = action.arguments.get("service_name", alert.service_name)
+        allowed_targets = {alert.service_name} | {item.service for item in state["requirements"] if item.active}
+        if target_service not in allowed_targets:
+            raise ValueError(f"investigation target outside observed scope: {target_service}")
         if action.action_type == InvestigationActionType.INSPECT_TOOL:
-            if action.target not in state["executed_tools"]:
+            if f"{action.target}|{target_service}" not in state["executed_tool_targets"]:
                 await self._inspect(
                     state,
                     alert,
@@ -214,23 +238,29 @@ class AdaptiveInvestigator:
                     on_state,
                     round_number=action.round,
                     record_action=False,
+                    target_service=target_service,
                 )
-            result = next(item for item in state["tool_results"] if item.tool_name == action.target)
+            result = next(item for item in state["tool_results"] if item.tool_name == action.target
+                          and (item.target_service or alert.service_name) == target_service)
             action.status = "succeeded" if result.status.value == "success" else "failed"
             return
         if action.action_type == InvestigationActionType.INVOKE_EXPERT:
+            expert_key = f"{action.target}|{target_service}"
+            if expert_key not in state["invoked_expert_targets"]:
+                state["invoked_expert_targets"].append(expert_key)
             if action.target not in state["invoked_experts"]:
                 state["invoked_experts"].append(action.target)
             tools = self.planner.expert_tools(
                 action.target,
                 alert,
                 state["evidence"],
+                required_tool=action.arguments.get("required_tool"),
             )
             for tool_name in tools:
                 self.validator.validate_expert_tool(action.target, tool_name)
-                if len(state["executed_tools"]) >= self.settings.investigation_max_tool_calls:
+                if len(state["executed_tool_targets"]) >= self.settings.investigation_max_tool_calls:
                     break
-                if tool_name in state["executed_tools"]:
+                if f"{tool_name}|{target_service}" in state["executed_tool_targets"]:
                     continue
                 await self._inspect(
                     state,
@@ -240,6 +270,7 @@ class AdaptiveInvestigator:
                     execute_tool,
                     on_state,
                     round_number=action.round,
+                    target_service=target_service,
                 )
             action.status = "succeeded"
             await self._notify(on_state, "investigation.expert.completed", state)
@@ -255,8 +286,11 @@ class AdaptiveInvestigator:
         *,
         round_number: int,
         record_action: bool = True,
+        target_service: str | None = None,
     ) -> None:
-        if tool_name in state["executed_tools"]:
+        target = target_service or alert.service_name
+        identity = f"{tool_name}|{target}"
+        if identity in state["executed_tool_targets"]:
             state["duplicate_actions"] += 1
             return
         action = InvestigationAction(
@@ -264,16 +298,20 @@ class AdaptiveInvestigator:
             target=tool_name,
             reason=reason,
             round=round_number,
-            arguments={"service_name": alert.service_name},
+            arguments={"service_name": target},
         )
         if record_action:
             state["action_history"].append(action)
         else:
             action = next(item for item in reversed(state["action_history"])
-                          if item.target == tool_name and item.round == round_number)
-        result = await execute_tool(tool_name, round_number, reason)
+                          if item.target == tool_name and item.round == round_number
+                          and item.arguments.get("service_name", alert.service_name) == target)
+        result = await execute_tool(tool_name, round_number, reason, target)
+        if result.target_service is None and target != alert.service_name:
+            result = result.model_copy(update={"target_service": target})
         state["tool_results"].append(result)
         state["executed_tools"].append(tool_name)
+        state["executed_tool_targets"].append(identity)
         action.status = "succeeded" if result.status.value == "success" else "failed"
         await self._notify(on_state, "investigation.tool.completed", state)
 
@@ -285,7 +323,7 @@ class AdaptiveInvestigator:
     def _budget_exhausted(self, state: dict[str, Any]) -> bool:
         return (
             state["round"] >= self.settings.investigation_max_rounds
-            or len(state["executed_tools"]) >= self.settings.investigation_max_tool_calls
+            or len(state["executed_tool_targets"]) >= self.settings.investigation_max_tool_calls
         )
 
     @staticmethod
@@ -301,7 +339,9 @@ class AdaptiveInvestigator:
             "action_history": [InvestigationAction.model_validate(item) for item in data.get("action_history", [])],
             "tool_results": [ToolResult.model_validate(item) for item in data.get("tool_results", [])],
             "executed_tools": list(data.get("executed_tools", [])),
+            "executed_tool_targets": list(data.get("executed_tool_targets", [])),
             "invoked_experts": list(data.get("invoked_experts", [])),
+            "invoked_expert_targets": list(data.get("invoked_expert_targets", [])),
             "evidence": [Evidence.model_validate(item) for item in data.get("evidence", [])],
             "provisional_candidates": [RootCauseCandidate.model_validate(item) for item in data.get("provisional_candidates", [])],
             "gate_decisions": [
@@ -311,6 +351,10 @@ class AdaptiveInvestigator:
             "stop_reason": str(data.get("stop_reason", "")),
             "decision": DiagnosisDecision.model_validate(data["decision"]) if data.get("decision") else None,
             "decision_history": [DiagnosisDecision.model_validate(item) for item in data.get("decision_history", [])],
+            "requirements": [EvidenceRequirement.model_validate(item) for item in data.get(
+                "requirements", (data.get("decision") or {}).get("requirements", []))],
+            "requirements_version": int(data.get("requirements_version", (data.get("decision") or {}).get(
+                "requirements_version", 0))),
         }
 
     @staticmethod
@@ -320,7 +364,9 @@ class AdaptiveInvestigator:
             "action_history": [item.model_dump(mode="json") for item in state["action_history"]],
             "tool_results": [item.model_dump(mode="json") for item in state["tool_results"]],
             "executed_tools": list(state["executed_tools"]),
+            "executed_tool_targets": list(state["executed_tool_targets"]),
             "invoked_experts": list(state["invoked_experts"]),
+            "invoked_expert_targets": list(state["invoked_expert_targets"]),
             "evidence": [item.model_dump(mode="json") for item in state["evidence"]],
             "provisional_candidates": [item.model_dump(mode="json") for item in state["provisional_candidates"]],
             "gate_decisions": [item.model_dump(mode="json") for item in state["gate_decisions"]],
@@ -328,4 +374,6 @@ class AdaptiveInvestigator:
             "stop_reason": state["stop_reason"],
             "decision": state["decision"].model_dump(mode="json") if state["decision"] else None,
             "decision_history": [item.model_dump(mode="json") for item in state["decision_history"]],
+            "requirements": [item.model_dump(mode="json") for item in state["requirements"]],
+            "requirements_version": state["requirements_version"],
         }

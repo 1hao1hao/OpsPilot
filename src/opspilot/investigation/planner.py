@@ -13,6 +13,7 @@ from opspilot.models import (
     AlertEvent,
     Evidence,
     EvidenceGateDecision,
+    EvidenceRequirement,
     InvestigationAction,
     InvestigationActionType,
     RootCauseCandidate,
@@ -52,6 +53,7 @@ class PlannerDecision(BaseModel):
     action: Literal["inspect_tool", "invoke_expert"]
     target: str = Field(min_length=1)
     reason: str = Field(min_length=1, max_length=1000)
+    target_service: str | None = None
 
 
 class ActionValidator:
@@ -92,6 +94,8 @@ class EvidenceGate:
         evidence: list[Evidence],
         *,
         budget_exhausted: bool = False,
+        requirements: list[EvidenceRequirement] | None = None,
+        requirements_version: int = 0,
     ) -> EvidenceGateDecision:
         top1 = candidates[0]
         second = candidates[1].confidence if len(candidates) > 1 else 0.0
@@ -101,11 +105,14 @@ class EvidenceGate:
             for item in evidence
             if item.source_group and top1.root_cause_type in item.supports and item.evidence_id in top1.evidence_ids
         }
+        unmet = [item.requirement_id for item in requirements or [] if item.active and not item.satisfied]
+        blocking_unmet = [item for item in requirements or [] if item.active and item.blocking and not item.satisfied]
         sufficient = (
             top1.root_cause_type != RootCauseType.NO_FAULT
             and top1.confidence >= self.confidence
             and margin >= self.margin
             and len(sources) >= self.min_sources
+            and not blocking_unmet
         )
         if sufficient:
             reason = (
@@ -126,6 +133,8 @@ class EvidenceGate:
             score_margin=margin,
             independent_source_count=len(sources),
             budget_exhausted=budget_exhausted,
+            requirements_version=requirements_version,
+            unmet_requirement_ids=unmet,
         )
 
 
@@ -151,45 +160,66 @@ class DeterministicPlannerFallback:
         remaining_tool_budget: int,
         remaining_expert_budget: int,
         evidence_requirements=None,
+        executed_tool_targets=None,
+        invoked_expert_targets=None,
     ) -> InvestigationAction | None:
         del action_history, candidates
         if remaining_tool_budget <= 0 or remaining_round_budget <= 0:
             return None
+        executed = set(executed_tool_targets or [f"{name}|{alert.service_name}" for name in executed_tools])
+        invoked = set(invoked_expert_targets or [f"{name}|{alert.service_name}" for name in invoked_experts])
         domains = {cause.value.split("_", 1)[0] for item in evidence for cause in item.supports}
         choices = []
+
+        def add_requirements(items):
+            for requirement in items:
+                if not requirement.active or requirement.satisfied:
+                    continue
+                service = requirement.service
+                for tool in requirement.suggested_tools:
+                    if requirement.purpose == "existence" and tool not in self.registry.general_names():
+                        continue
+                    if f"{tool}|{service}" in executed:
+                        continue
+                    if tool in self.registry.general_names():
+                        choices.append((InvestigationActionType.INSPECT_TOOL, tool,
+                                        "Resolve evidence requirement: " + requirement.signal, service, None))
+                    elif remaining_expert_budget > 0:
+                        for domain, tools in DOMAIN_TOOLS.items():
+                            if (tool in tools and f"{domain}|{service}" not in invoked
+                                    and tool in self.registry.domain_names(domain)):
+                                choices.append((InvestigationActionType.INVOKE_EXPERT, domain,
+                                                "Resolve evidence requirement: " + requirement.signal, service, tool))
+
+        add_requirements([r for r in evidence_requirements or []
+                          if r.blocking and r.purpose not in {"root discrimination", "existence"}])
         if remaining_expert_budget > 0:
             choices.extend(
-                (InvestigationActionType.INVOKE_EXPERT, domain, "Evidence supports " + domain)
+                (InvestigationActionType.INVOKE_EXPERT, domain, "Evidence supports " + domain,
+                 alert.service_name, None)
                 for domain in DOMAIN_TOOLS
-                if domain in domains and domain not in invoked_experts and self.registry.domain_names(domain)
+                if domain in domains and f"{domain}|{alert.service_name}" not in invoked
+                and self.registry.domain_names(domain)
             )
-        for requirement in evidence_requirements or []:
-            for tool in requirement.suggested_tools:
-                if tool in executed_tools:
-                    continue
-                if tool in self.registry.general_names():
-                    choices.append((InvestigationActionType.INSPECT_TOOL, tool,
-                                    "Resolve evidence requirement: " + requirement.signal))
-                elif remaining_expert_budget > 0:
-                    for domain, tools in DOMAIN_TOOLS.items():
-                        if tool in tools and domain not in invoked_experts and tool in self.registry.domain_names(domain):
-                            choices.append((InvestigationActionType.INVOKE_EXPERT, domain,
-                                            "Resolve evidence requirement: " + requirement.signal))
+        add_requirements([r for r in evidence_requirements or []
+                          if not r.blocking or r.purpose in {"root discrimination", "existence"}])
         general = self.registry.general_names()
         choices.extend(
-            (InvestigationActionType.INSPECT_TOOL, name, "Next unexecuted general observation")
+            (InvestigationActionType.INSPECT_TOOL, name, "Next unexecuted general observation",
+             alert.service_name, None)
             for name in dict.fromkeys((*GENERAL_TOOL_PRIORITY, *general))
-            if name in general and name not in executed_tools
+            if name in general and f"{name}|{alert.service_name}" not in executed
         )
-        for action_type, target, reason in choices:
+        for action_type, target, reason, service, required_tool in choices:
+            arguments = {"service_name": service}
+            if required_tool:
+                arguments["required_tool"] = required_tool
             action = InvestigationAction(
                 action_type=action_type,
                 target=target,
                 reason=reason,
                 round=round_number,
-                arguments={"service_name": alert.service_name}
-                if action_type == InvestigationActionType.INSPECT_TOOL
-                else {},
+                arguments=arguments,
             )
             if action.identity not in action_identities:
                 return self.validator.validate_planner_action(action)
@@ -267,11 +297,23 @@ class LLMAdaptivePlanner:
                     target=decision.target,
                     reason=decision.reason,
                     round=kwargs["round_number"],
-                    arguments=(
-                        {"service_name": kwargs["alert"].service_name} if decision.action == "inspect_tool" else {}
-                    ),
+                    arguments={"service_name": decision.target_service or kwargs["alert"].service_name},
                 )
                 action = self.validator.validate_planner_action(action)
+                allowed_services = {kwargs["alert"].service_name} | {
+                    item.service for item in kwargs.get("evidence_requirements", [])
+                    if item.active and not item.satisfied and (
+                        decision.target in item.suggested_tools or
+                        decision.action == "invoke_expert" and any(
+                            tool in DOMAIN_TOOLS.get(decision.target, []) for tool in item.suggested_tools))
+                }
+                if action.arguments["service_name"] not in allowed_services:
+                    raise ValueError("LLM selected a service without an unmet observation requirement")
+                executed = set(kwargs.get("executed_tool_targets") or [
+                    f"{name}|{kwargs['alert'].service_name}" for name in kwargs["executed_tools"]])
+                if (decision.action == "inspect_tool"
+                        and f"{decision.target}|{action.arguments['service_name']}" in executed):
+                    raise ValueError("LLM repeated a tool for the same service")
                 if action.identity in kwargs["action_identities"]:
                     raise ValueError("LLM returned a duplicate action")
                 if action.target not in self._payload(**kwargs)["allowed_actions"][decision.action]:
@@ -284,6 +326,12 @@ class LLMAdaptivePlanner:
 
     def _payload(self, **kwargs) -> dict[str, Any]:
         alert: AlertEvent = kwargs["alert"]
+        executed = set(kwargs.get("executed_tool_targets") or [
+            f"{name}|{alert.service_name}" for name in kwargs["executed_tools"]])
+        invoked = set(kwargs.get("invoked_expert_targets") or [
+            f"{name}|{alert.service_name}" for name in kwargs["invoked_experts"]])
+        services = {alert.service_name} | {item.service for item in kwargs.get("evidence_requirements", [])
+                                           if item.active and not item.satisfied}
         # A large number of equivalent spans must not hide other measurements
         # or dependency hints from the planner's bounded context.
         diverse = {}
@@ -318,7 +366,8 @@ class LLMAdaptivePlanner:
             "invoked_experts": kwargs["invoked_experts"],
             "expert_capabilities": {
                 name: description for name, description in EXPERT_CAPABILITIES.items()
-                if name not in kwargs["invoked_experts"] and kwargs["remaining_expert_budget"] > 0
+                if any(f"{name}|{service}" not in invoked for service in services)
+                and kwargs["remaining_expert_budget"] > 0
                 and self.registry.domain_names(name)
             },
             "action_history": [
@@ -332,12 +381,13 @@ class LLMAdaptivePlanner:
             },
             "allowed_actions": {
                 "inspect_tool": [
-                    name for name in self.registry.general_names() if name not in kwargs["executed_tools"]
+                    name for name in self.registry.general_names()
+                    if any(f"{name}|{service}" not in executed for service in services)
                 ],
                 "invoke_expert": [
                     name
                     for name in DOMAIN_TOOLS
-                    if name not in kwargs["invoked_experts"]
+                    if any(f"{name}|{service}" not in invoked for service in services)
                     and kwargs["remaining_expert_budget"] > 0
                     and self.registry.domain_names(name)
                 ],
@@ -349,6 +399,7 @@ class LLMAdaptivePlanner:
         domain: str,
         alert: AlertEvent,
         evidence: list[Evidence],
+        required_tool: str | None = None,
     ) -> list[str]:
         del alert
         # Select only tools whose causes are supported; without a clue, inspect
@@ -365,5 +416,5 @@ class LLMAdaptivePlanner:
         }
         supported = {cause_tools[cause] for item in evidence for cause in item.supports if cause in cause_tools}
         tools = DOMAIN_TOOLS[domain]
-        selected = [name for name in tools if name in supported] or tools
+        selected = [required_tool] if required_tool in tools else [name for name in tools if name in supported] or tools
         return [name for name in selected if name in self.registry.domain_names(domain)]

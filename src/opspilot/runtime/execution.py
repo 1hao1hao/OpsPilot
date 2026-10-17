@@ -70,17 +70,21 @@ class RecoverableExecution:
                 "tool_results": [],
             }
 
-        async def execute_tool(tool_name: str, round_number: int, reason: str) -> ToolResult:
-            step_name = f"tool:{tool_name}"
+        async def execute_tool(tool_name: str, round_number: int, reason: str,
+                               target_service: str | None = None) -> ToolResult:
+            target = target_service or alert.service_name
+            suffix = f":{target}" if target != alert.service_name else ""
+            step_name = f"tool:{tool_name}{suffix}"
             await self.repository.begin_step(run_id, step_name, STEP_EXECUTION_VERSION)
             if self.before_step:
                 self.before_step(run_id, step_name)
             return await self._execute_tool(
                 run_id,
                 alert,
-                f"round-{round_number}:{tool_name}",
+                f"round-{round_number}:{tool_name}{suffix}",
                 step_name,
                 tool_name,
+                target_service=target_service,
             )
 
         async def on_investigation_state(event_type: str, snapshot: dict) -> None:
@@ -90,7 +94,9 @@ class RecoverableExecution:
             await self.repository.append_runtime_event(run_id, event_type, detail=detail)
             if event_type == "investigation.tool.completed":
                 latest = snapshot["tool_results"][-1]
-                await self._checkpoint(run_id, f"tool:{latest['tool_name']}", latest, state)
+                target = latest.get("target_service") or alert.service_name
+                suffix = f":{target}" if target != alert.service_name else ""
+                await self._checkpoint(run_id, f"tool:{latest['tool_name']}{suffix}", latest, state)
                 return
             sequence = int(state.get("investigation_event_sequence", 0)) + 1
             state["investigation_event_sequence"] = sequence
@@ -135,7 +141,9 @@ class RecoverableExecution:
         detail = {
             "round": snapshot.get("round", 0),
             "executed_tools": list(snapshot.get("executed_tools", [])),
+            "executed_tool_targets": list(snapshot.get("executed_tool_targets", [])),
             "invoked_experts": list(snapshot.get("invoked_experts", [])),
+            "requirements_version": snapshot.get("requirements_version", 0),
         }
         actions = snapshot.get("action_history", [])
         gates = snapshot.get("gate_decisions", [])
@@ -146,14 +154,17 @@ class RecoverableExecution:
         if event_type == "investigation.tool.completed" and snapshot.get("tool_results"):
             latest = snapshot["tool_results"][-1]
             detail["tool"] = {key: latest[key] for key in
-                              ("tool_call_id", "tool_name", "status", "latency_ms", "attempt", "error_code")}
+                              ("tool_call_id", "tool_name", "target_service", "status", "latency_ms", "attempt", "error_code")}
         return detail
 
     async def _execute_tool(
-        self, run_id: str, alert: AlertEvent, step_id: str, step_name: str, tool_name: str
+        self, run_id: str, alert: AlertEvent, step_id: str, step_name: str, tool_name: str,
+        *, target_service: str | None = None,
     ) -> ToolResult:
         definition = self.registry.get(tool_name)
         arguments = {"alert": alert.model_dump(mode="json")}
+        if target_service and target_service != alert.service_name:
+            arguments["target_service"] = target_service
         call = ToolCall(
             tool_call_id=build_tool_call_id(
                 trace_id=run_id,

@@ -2,7 +2,7 @@
 
 from datetime import UTC, datetime
 
-from opspilot.investigation.decision import decide_diagnosis
+from opspilot.investigation.decision import decide_diagnosis, prepare_decision
 from opspilot.investigation.engine import InvestigationOutcome
 from opspilot.models import (
     AlertEvent,
@@ -30,8 +30,15 @@ def build_report(
         sufficient=False, reason="no recorded root gate", top1_confidence=0,
         score_margin=0, independent_source_count=0)
     # Recompute from actual observations rather than trusting restored metadata.
-    decision = decide_diagnosis(alert, outcome.tool_results, outcome.evidence, candidates, gate)
-    trace = outcome.trace.model_copy(update={"decision": decision})
+    previous = outcome.trace.decision
+    prepared = prepare_decision(
+        alert, outcome.tool_results, outcome.evidence, candidates,
+        previous_requirements=previous.requirements if previous else None,
+        previous_version=previous.requirements_version if previous else 0,
+    )
+    decision = decide_diagnosis(alert, outcome.tool_results, outcome.evidence, candidates, gate, prepared=prepared)
+    trace = outcome.trace.model_copy(update={"decision": decision,
+                                           "requirements_version": prepared.requirements_version})
     return DiagnosisReport(
         trace_id=trace_id,
         alert_id=alert.alert_id,

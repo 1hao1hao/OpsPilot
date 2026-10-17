@@ -167,9 +167,9 @@ async def test_each_gate_sees_algorithm_evidence_and_final_report_does_not_rerun
     seen_types: list[set[str]] = []
     original_evaluate = workflow.investigator.gate.evaluate
 
-    def capture(candidates, evidence, *, budget_exhausted=False):
+    def capture(candidates, evidence, **kwargs):
         seen_types.append({entry.evidence_type for entry in evidence})
-        return original_evaluate(candidates, evidence, budget_exhausted=budget_exhausted)
+        return original_evaluate(candidates, evidence, **kwargs)
 
     workflow.investigator.gate.evaluate = capture
     report = await workflow.analyze(item)

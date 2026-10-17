@@ -19,6 +19,7 @@ ToolHandler = Callable[[BaseModel], Awaitable[BaseModel]]
 class AlertToolInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     alert: AlertEvent
+    target_service: str | None = None
 
 
 class ObservationOutput(BaseModel):
@@ -193,7 +194,11 @@ def build_default_registry(
 
     for tool_name, signal_key in TOOL_SIGNAL_KEYS.items():
         async def handler(payload: AlertToolInput, key: str = signal_key) -> ObservationOutput:
-            return ObservationOutput(observations=await provider.read(key, payload.alert))
+            target = payload.target_service or payload.alert.service_name
+            if target != payload.alert.service_name and payload.alert.signals:
+                return ObservationOutput()  # A snapshot of one service cannot answer for another.
+            scoped = payload.alert.model_copy(update={"service_name": target})
+            return ObservationOutput(observations=await provider.read(key, scoped))
 
         registry.register(
             ToolDefinition(
@@ -214,12 +219,16 @@ def build_default_registry(
             name: str = tool_name,
             key: str = signal_key,
         ) -> ObservationOutput:
+            target = payload.target_service or payload.alert.service_name
+            if target != payload.alert.service_name and payload.alert.signals:
+                return ObservationOutput()
+            scoped = payload.alert.model_copy(update={"service_name": target})
             tool_reader = getattr(provider, "read_tool", None)
             if tool_reader is not None:
-                observations = await tool_reader(name, payload.alert)
+                observations = await tool_reader(name, scoped)
             else:
                 # Existing injected/snapshot providers only need the original read contract.
-                source = await provider.read(key, payload.alert)
+                source = await provider.read(key, scoped)
                 observations = {field: source[field] for field in DOMAIN_TOOL_FIELDS[name] if field in source}
             return ObservationOutput(observations=observations)
 

@@ -53,6 +53,7 @@ class ToolExecutor:
                     data=output.model_dump(mode="json"),
                     latency_ms=latency_ms,
                     attempt=attempt,
+                    target_service=call.arguments.get("target_service"),
                 )
                 self._record(result)
                 self._successful[call.tool_call_id] = result
@@ -76,6 +77,7 @@ class ToolExecutor:
                 error_message=str(error),
                 latency_ms=latency_ms,
                 attempt=attempt,
+                target_service=call.arguments.get("target_service"),
             )
             self._record(result)
             if attempt == definition.max_attempts:

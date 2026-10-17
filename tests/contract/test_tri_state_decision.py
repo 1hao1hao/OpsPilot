@@ -134,8 +134,10 @@ def test_logs_require_service_and_incident_time_context():
 
 
 def test_conflicting_measurements_do_not_confirm():
-    normal = result(observations={"cpu_usage": metric(0.2), "qps": 10})
-    abnormal = result(observations={"cpu_usage": 0.99})
+    window = {"window_start": alert().timestamp.timestamp() - 10,
+              "window_end": alert().timestamp.timestamp() + 10}
+    normal = result(observations={"cpu_usage": {**metric(0.2), **window}, "qps": 10})
+    abnormal = result(observations={"cpu_usage": {"current": 0.99, **window}})
     abnormal.tool_call_id = "another"
     decision = decide(alert(), [normal, abnormal])
     assert decision.verdict == DiagnosisVerdict.INCONCLUSIVE

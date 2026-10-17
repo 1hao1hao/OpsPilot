@@ -59,6 +59,8 @@ class AnomalyDetector:
         for result in results:
             if result.tool_name != "metrics.query" or result.status != ToolStatus.SUCCESS or not result.data:
                 continue
+            scoped_alert = (alert.model_copy(update={"service_name": result.target_service})
+                            if result.target_service else alert)
             for metric, payload in metric_view(result.data.get("observations", {})).items():
                 current = payload.get("current")
                 reference = payload.get("reference_series")
@@ -73,10 +75,11 @@ class AnomalyDetector:
                     if not shift:
                         continue
 
-                def emit(method: str, fact: str, confidence: float, *, result=result, metric=metric) -> None:
+                def emit(method: str, fact: str, confidence: float, *, result=result, metric=metric,
+                         scoped_alert=scoped_alert) -> None:
                     evidence.append(
                         _evidence(
-                            alert=alert,
+                            alert=scoped_alert,
                             source_name=result.tool_name,
                             source_group=f"tool:{result.tool_name}:{result.tool_call_id}",
                             evidence_type=f"anomaly.{method}",

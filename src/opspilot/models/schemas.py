@@ -89,6 +89,8 @@ class EvidenceGateDecision(StrictModel):
     score_margin: float = Field(ge=0, le=1)
     independent_source_count: int = Field(ge=0)
     budget_exhausted: bool = False
+    requirements_version: int = Field(default=0, ge=0)
+    unmet_requirement_ids: list[str] = Field(default_factory=list)
 
 
 class DiagnosisVerdict(str, Enum):
@@ -122,6 +124,11 @@ class ObservationAssessment(StrictModel):
     reason: str
     healthy_reference: bool = False
     evidence_ids: list[str] = Field(default_factory=list)
+    metric_definition: str | None = None
+    unit: str | None = None
+    aggregation: str | None = None
+    window_start: float | None = None
+    window_end: float | None = None
 
 
 class EvidenceRequirement(StrictModel):
@@ -134,6 +141,12 @@ class EvidenceRequirement(StrictModel):
     observation_ids: list[str] = Field(default_factory=list)
     suggested_tools: list[str] = Field(default_factory=list)
     reason: str
+    dependency: str | None = None
+    trigger_observation_ids: list[str] = Field(default_factory=list)
+    blocking: bool = False
+    active: bool = True
+    version: int = Field(default=0, ge=0)
+    change_reason: str = ""
 
 
 class DiagnosisDecision(StrictModel):
@@ -144,6 +157,7 @@ class DiagnosisDecision(StrictModel):
     observations: list[ObservationAssessment] = Field(default_factory=list)
     contradictions: list[str] = Field(default_factory=list)
     root_cause_confirmed: bool = False
+    requirements_version: int = Field(default=0, ge=0)
 
     @model_validator(mode="after")
     def consistent_verdict(self) -> DiagnosisDecision:
@@ -169,6 +183,8 @@ class InvestigationTrace(StrictModel):
     duplicate_actions: int = Field(default=0, ge=0)
     decision: DiagnosisDecision | None = None
     decision_history: list[DiagnosisDecision] = Field(default_factory=list)
+    requirements_version: int = Field(default=0, ge=0)
+    executed_tool_targets: list[str] = Field(default_factory=list)
 
 
 class ToolStatus(str, Enum):
@@ -193,6 +209,7 @@ class ToolResult(StrictModel):
     error_message: str | None = None
     latency_ms: float = Field(ge=0)
     attempt: int = Field(default=1, ge=1)
+    target_service: str | None = None
 
     @model_validator(mode="after")
     def status_matches_payload(self) -> ToolResult:

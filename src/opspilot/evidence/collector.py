@@ -72,10 +72,12 @@ def collect_evidence(alert: AlertEvent, results: list[ToolResult]) -> list[Evide
         observations = result.data.get("observations", {})
         converter = _CONVERTERS.get(result.tool_name)
         if converter:
+            scoped_alert = (alert.model_copy(update={"service_name": result.target_service})
+                            if result.target_service else alert)
             source_group = f"tool:{result.tool_name}:{result.tool_call_id}"
             evidence.extend(
                 item.model_copy(update={"source_group": source_group, "raw_ref": item.raw_ref or result.tool_call_id})
-                for item in converter(alert, observations, result.tool_name)
+                for item in converter(scoped_alert, observations, result.tool_name)
             )
     unique = {item.evidence_id: item for item in evidence}
     return sorted(unique.values(), key=lambda item: (-item.confidence, item.evidence_id))

@@ -2,7 +2,7 @@
 
 OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查，确定性代码从工具观测生成 Evidence、排序候选，并判断 `CONFIRMED / NO_FAULT / INCONCLUSIVE`。独立 Worker 通过 PostgreSQL、Redis 和 Checkpoint 执行、恢复任务。
 
-当前代码说明更新于 **2026-10-12**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。
+当前代码说明更新于 **2026-10-17**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。
 
 ## 调查与决策
 
@@ -14,7 +14,8 @@ flowchart TD
     C --> T["执行工具并累计 ToolResult"]
     T --> E["Evidence Engine<br/>Collector / AnomalyDetector<br/>各自 ToolResult → Evidence，合并去重"]
     E --> R["确定性 Ranker<br/>按根因加权聚合 Evidence → 临时 Top-K"]
-    R --> G["Evidence Gate<br/>Top1 评分、分差、来源数量初筛<br/>输出：GateDecision"]
+    R --> U["观测评估与动态需求<br/>检查当前覆盖状态"]
+    U --> G["Evidence Gate<br/>评分、分差、来源与必要需求<br/>输出：当前版本 GateDecision"]
     G --> D["DiagnosisDecision<br/>输入：Alert、原始 ToolResult<br/>Evidence、Top-K、GateDecision<br/>观测质量、动态需求、存在性<br/>最终根因确认"]
     D -->|CONFIRMED| F["根因确认"]
     D -->|NO_FAULT| N["范围与窗口内无故障"]
@@ -29,7 +30,7 @@ flowchart TD
     V -->|是| T
 ```
 
-主流程对应 `engine.py`：每轮重新分析累计 ToolResult，先算 Gate，再调用 `decide_diagnosis`。`CONFIRMED / NO_FAULT` 直接结束；`INCONCLUSIVE` 只有预算与合法动作允许时才继续，否则保留临时 Top-K、需求与停止原因。Planner 只能 `inspect_tool` 调用通用工具，或 `invoke_expert` 由 Expert 选择领域工具；Expert 预算耗尽仅限制 Expert 动作。
+主流程对应 `engine.py`：每轮重新分析累计 ToolResult，先评估观测并更新需求覆盖，再计算 Gate，最后调用 `decide_diagnosis`。`CONFIRMED / NO_FAULT` 直接结束；`INCONCLUSIVE` 只有预算与合法动作允许时才继续，否则保留临时 Top-K、需求与停止原因。Planner 只能 `inspect_tool` 调用通用工具，或 `invoke_expert` 由 Expert 选择领域工具；Expert 预算耗尽仅限制 Expert 动作。
 
 **图 2：决策内部细节**
 
@@ -37,13 +38,13 @@ flowchart TD
 flowchart TD
     subgraph OBS["1 · 观测评估"]
         I0["Alert + 原始 ToolResult + Evidence"] --> Q["检查状态、数据、基线<br/>服务与时间范围"]
-        Q --> O["观测质量与矛盾<br/>含测量冲突、Top1 反证"]
+        Q --> O["观测质量与矛盾"]
     end
 
     subgraph REQ["2 · 动态证据需求"]
-        A["Alert → 存在性需求"] --> U["更新需求覆盖<br/>satisfied / quality / suggested_tools"]
+        A["Alert → 存在性需求"] --> U["检查需求覆盖的状态<br/>满足 / 质量 / 建议工具"]
         R["Top1 / 近邻 Top2<br/>→ 根因区分需求"] --> U
-        U -->|输出：未满足需求| P["Planner"]
+        H["异常依赖 / 消息链路<br/>→ 机制验证需求"] --> U
     end
 
     subgraph DEC["3 · 诊断决策"]
@@ -62,20 +63,22 @@ flowchart TD
     end
 
     O --> U
+    O --> H
     O --> FP
     U --> FP
+    U --> G
     O --> C
 ```
 
-图 2 展开 `decision.py` 的单轮判定。`engine.py` 先计算 GateDecision，再传入决策；动态需求不会改变 Gate。观测质量区分正常、异常、失败、无数据、缺基线及范围外观测；同一工具、信号和服务的正常与异常测量冲突时，Fault Presence 为 `UNKNOWN`。否则相关异常为 `PRESENT`，存在性需求全部得到健康覆盖才为 `ABSENT`，其余仍为 `UNKNOWN`。根因校验还读取区分需求的满足状态：Top1 须有范围内有效异常支持，已验证来源数量须覆盖 Gate 计入的数量；可映射机制须有异常观测，且不能有未解决矛盾。不满足确认条件时，只有 `ABSENT` 才得到 `NO_FAULT`。每轮重建需求，未满足项及建议工具反馈 Planner。
+图 2 展开 `decision.py` 的单轮判定。`engine.py` 先评估观测、更新需求覆盖，再计算绑定当前需求版本的 GateDecision 并传入决策。观测质量区分正常、异常、失败、无数据、缺基线及范围外观测；同目标、同指标定义 / 单位 / 统计口径且时间窗口可比较的正常与异常测量冲突时，Fault Presence 为 `UNKNOWN`。否则相关异常为 `PRESENT`，存在性需求全部得到健康覆盖才为 `ABSENT`，其余仍为 `UNKNOWN`。根因校验还读取区分需求的满足状态：Top1 须有范围内有效异常支持，已验证来源数量须覆盖 Gate 计入的数量；可映射机制须有异常观测，且不能有未解决矛盾。不满足确认条件时，只有 `ABSENT` 才得到 `NO_FAULT`。每轮重建需求，未满足项及建议工具反馈 Planner。
 
-Collector 与 AnomalyDetector 生成支持 / 反驳根因的结构化 Evidence，Ranker 据此给出最多 3 个临时候选。**ToolResult 还必须直接进入观测质量判断**：Evidence 主要承载因果线索，无法单独说明工具失败、成功但无数据、健康参考不足或服务 / 时间范围是否有效；没有 Evidence 也不能推导无故障。质量判断结合原始观测与 Evidence，重新统计具有有效异常支持的来源，要求其数量覆盖 Gate 计入的来源数。
+Collector 与 AnomalyDetector 生成支持根因或提供上下文的结构化 Evidence，Ranker 据此给出最多 3 个临时候选。**ToolResult 还必须直接进入观测质量判断**：Evidence 主要承载因果线索，无法单独说明工具失败、成功但无数据、健康参考不足或服务 / 时间范围是否有效；没有 Evidence 也不能推导无故障。质量判断结合原始观测与 Evidence，重新统计具有有效异常支持的来源，要求其数量覆盖 Gate 计入的来源数。
 
-动态需求先由 Alert 建立存在性信号（含活动量），再为非 `no_fault` Top1 及与它分差小于 0.15 的 Top2 增加可映射的机制区分信号；同一信号已是存在性需求时不重复添加。实际观测更新需求的满足状态、质量与建议工具。异常可满足需求；存在性需求的正常观测还必须有有效健康参考，测量冲突使相应需求不满足。未满足需求传给 Planner，建议工具仍受动作授权和预算约束。
+动态需求先由 Alert 建立存在性信号（含活动量），再为非 `no_fault` Top1 及与它分差小于 0.15 的 Top2 增加可映射的机制区分信号；告警范围内失败或异常缓慢的下游调用、异步消息链路还可触发目标明确的机制验证，即使机制尚未进入 Top-K。需求按服务、依赖、信号和用途去重。实际观测更新满足状态、质量与建议工具。异常可满足需求；存在性需求的正常观测还必须有有效健康参考，测量冲突使相应需求不满足。只有 `INCONCLUSIVE` 且预算允许时，未满足需求才交给 Planner；建议工具仍受动作授权和预算约束。
 
 Coordinator 只选择低成本首轮工具；之后复用 ToolRegistry 与现有 DB、Redis、Kafka、RPC Expert。领域工具不能由 Planner 直接 `inspect_tool`，必须通过相应 Expert。`INCONCLUSIVE` 是本轮判定；只有轮数与工具预算都剩余，且 Planner 返回合法、不重复、预算允许的动作时才继续。Expert 预算耗尽仅禁用 Expert 动作；否则保留未确认候选与停止原因结束。
 
-Fault Presence 独立于排名：同一工具 / 信号 / 服务的正常与异常测量冲突时优先为 `UNKNOWN`；否则有与告警相关的有效异常为 `PRESENT`；再否则存在性需求全部健康覆盖为 `ABSENT`；其余为 `UNKNOWN`。缺失或失败不会抹去其他有效观测证明的异常。反驳 Top1 的证据会阻止根因确认，但不会单独抹去故障存在性。服务关联、时间窗、数据库调用群组和日志上下文限制证据范围。
+Fault Presence 独立于排名：同目标、同口径且可比较时间窗内的正常与异常测量冲突时优先为 `UNKNOWN`；否则有与告警相关的有效异常为 `PRESENT`；再否则存在性需求全部健康覆盖为 `ABSENT`；其余为 `UNKNOWN`。缺失或失败不会抹去其他有效观测证明的异常。反驳 Top1 的证据会阻止根因确认，但不会单独抹去故障存在性。服务关联、时间窗、数据库调用群组和日志上下文限制证据范围。
 
 | Verdict | 判定 |
 | --- | --- |
@@ -85,7 +88,7 @@ Fault Presence 独立于排名：同一工具 / 信号 / 服务的正常与异�
 
 **Top1 排名、Gate 通过、工具成功和预算耗尽，都不能单独替代最终确认。** 空 Evidence 或空查询结果不代表正常。异步业务完成度也不能由请求延迟正常代替。
 
-LLM 只能返回 `inspect_tool` 或 `invoke_expert`，不决定 Verdict、不改变排名，也不读取工具后端快照 `alert.signals`。LLM 关闭或失败时，Fallback 优先测量已由 Evidence 支持的领域，再处理未满足的证据需求，最后补查未使用的通用工具。所有动作受白名单、去重和预算约束。
+LLM 只能返回 `inspect_tool` 或 `invoke_expert`，不决定 Verdict、不改变排名，也不读取工具后端快照 `alert.signals`。LLM 关闭或失败时，Fallback 优先处理观测触发的必要机制需求，再测量已由 Evidence 支持的领域、处理其他未满足需求，最后补查未使用的通用工具。所有动作受白名单、去重和预算约束。
 
 默认上限为 **4 轮 / 8 次工具 / 2 次 Expert**。Gate 默认检查 confidence ≥ 0.8、Top1/Top2 margin ≥ 0.15、独立来源 ≥ 2，且 Top1 不是 `no_fault`；同一 ToolResult 的多个证据只算一个独立来源。这些是可配置的根因可信度条件。
 
