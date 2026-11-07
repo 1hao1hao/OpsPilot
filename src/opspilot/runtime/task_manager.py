@@ -2,10 +2,16 @@
 
 from __future__ import annotations
 
+import logging
+
+from redis.exceptions import RedisError
+
 from opspilot.config import RuntimeSettings
 from opspilot.models import AlertEvent, RunAccepted, RunResult, RunStatus, RuntimeEventView, RunView
 from opspilot.persistence.repositories import RuntimeRepository
 from opspilot.runtime.queue import RunQueue
+
+logger = logging.getLogger(__name__)
 
 
 class TaskManager:
@@ -25,7 +31,10 @@ class TaskManager:
         # requests must not amplify queue messages; stale QUEUED repair handles
         # the rare DB-commit / Redis-write gap.
         if created:
-            await self.queue.enqueue(run.run_id)
+            try:
+                await self.queue.enqueue(run.run_id)
+            except (RedisError, OSError):
+                logger.exception("run %s queued in PostgreSQL; Redis enqueue awaits repair", run.run_id)
         return RunAccepted(run_id=run.run_id, request_id=run.request_id, status=RunStatus(run.status))
 
     async def get_run(self, run_id: str) -> RunView | None:

@@ -11,7 +11,7 @@ class RuntimeSettings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://opspilot:opspilot@localhost:5432/opspilot"
     redis_url: str = "redis://localhost:6379/0"
-    queue_name: str = "opspilot:runs"
+    queue_name: str = "opspilot:runs:stream"
     graph_version: str = "opspilot-runtime-v6-compact-report"
     config_version: str = "adaptive-v2"
     checkpoint_schema_version: str = "3.0"
@@ -20,6 +20,10 @@ class RuntimeSettings(BaseSettings):
     retry_backoff_seconds: float = Field(default=0.05, ge=0)
     recovery_scan_seconds: float = Field(default=5.0, gt=0)
     queue_repair_seconds: float = Field(default=30.0, ge=0)
+    worker_heartbeat_seconds: float = Field(default=5.0, gt=0)
+    worker_lease_seconds: float | None = Field(default=None, gt=0)
+    queue_pending_seconds: float = Field(default=30.0, gt=0)
+    run_max_attempts: int = Field(default=3, ge=1, le=100)
     tool_timeout_seconds: float = Field(default=0.2, gt=0)
     tool_max_attempts: int = Field(default=2, ge=1, le=10)
     investigation_max_rounds: int = Field(default=4, ge=1, le=20)
@@ -48,6 +52,8 @@ class RuntimeSettings(BaseSettings):
 
     @model_validator(mode="after")
     def live_backends_required(self):
+        if self.worker_lease_seconds is not None and self.worker_heartbeat_seconds >= self.worker_lease_seconds:
+            raise ValueError("worker_heartbeat_seconds must be less than worker_lease_seconds")
         if self.observation_backend == "otel_demo":
             for name in ("prometheus_url", "jaeger_url", "opensearch_url"):
                 if not getattr(self, name).startswith(("http://", "https://")):

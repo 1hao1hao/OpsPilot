@@ -10,5 +10,10 @@ class CheckpointVersionMismatch(RuntimeExecutionError):
     code = "checkpoint_version_mismatch"
 
 
+class RetryableRunError(RuntimeExecutionError):
+    code = "retryable_run_error"
+    retryable = True
+
+
 class WorkerCrash(BaseException):
     """Test fault that models process death and bypasses normal failure handling."""

@@ -23,7 +23,8 @@ def create_app(*, task_manager: TaskManager | None = None) -> FastAPI:
             return
         settings = RuntimeSettings()
         database = Database(settings.database_url)
-        queue = RedisRunQueue.from_url(settings.redis_url, settings.queue_name)
+        queue = RedisRunQueue.from_url(settings.redis_url, settings.queue_name,
+                                       pending_seconds=settings.queue_pending_seconds)
         app.state.task_manager = TaskManager(RuntimeRepository(database.sessions), queue, settings)
         app.state.database = database
         try:

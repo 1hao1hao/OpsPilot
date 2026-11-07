@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import uuid
+from contextlib import contextmanager
+from contextvars import ContextVar
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import func, select, update
@@ -24,6 +26,9 @@ class InvalidStateTransition(RuntimeError):
     """Raised when a stale or illegal actor attempts to change a run."""
 
 
+_owner: ContextVar[tuple[str, int] | None] = ContextVar("runtime_owner", default=None)
+
+
 ALLOWED_TRANSITIONS = {
     RunStatus.QUEUED: {RunStatus.RUNNING},
     RunStatus.RUNNING: {RunStatus.SUCCEEDED, RunStatus.FAILED, RunStatus.RETRYING, RunStatus.CANCELLED},
@@ -37,6 +42,32 @@ ALLOWED_TRANSITIONS = {
 class RuntimeRepository:
     def __init__(self, sessions: async_sessionmaker) -> None:
         self.sessions = sessions
+
+    @contextmanager
+    def ownership(self, run_id: str, attempt: int):
+        token = _owner.set((run_id, attempt))
+        try:
+            yield
+        finally:
+            _owner.reset(token)
+
+    async def _assert_owner(self, session, run_id: str, *, required: bool = True) -> None:
+        owner = _owner.get()
+        if owner is None:
+            if required:
+                raise InvalidStateTransition(f"run {run_id} has no active worker ownership")
+            return
+        run = await session.scalar(select(RunRecord).where(RunRecord.run_id == run_id).with_for_update())
+        if run is None or owner != (run_id, run.attempt) or run.status != RunStatus.RUNNING.value:
+            raise InvalidStateTransition(f"run {run_id} ownership changed")
+
+    async def heartbeat(self, run_id: str, attempt: int) -> bool:
+        async with self.sessions.begin() as session:
+            result = await session.execute(update(RunRecord).where(
+                RunRecord.run_id == run_id, RunRecord.status == RunStatus.RUNNING.value,
+                RunRecord.attempt == attempt,
+            ).values(updated_at=datetime.now(UTC)))
+            return result.rowcount == 1
 
     async def create_or_get_run(
         self,
@@ -99,6 +130,7 @@ class RuntimeRepository:
     ) -> None:
         """Expose structured investigation decisions without bypassing the repository writer."""
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id)
             await self._append_event(
                 session,
                 run_id,
@@ -119,6 +151,7 @@ class RuntimeRepository:
         if target in {RunStatus.SUCCEEDED, RunStatus.FAILED, RunStatus.CANCELLED}:
             values.setdefault("finished_at", now)
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id, required=expected == RunStatus.RUNNING)
             result = await session.execute(
                 update(RunRecord)
                 .where(RunRecord.run_id == run_id, RunRecord.status == expected.value)
@@ -138,6 +171,7 @@ class RuntimeRepository:
     async def begin_step(self, run_id: str, step_name: str, execution_version: str) -> StepRecord:
         now = datetime.now(UTC)
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id)
             existing = await session.scalar(
                 select(StepRecord).where(
                     StepRecord.run_id == run_id,
@@ -184,6 +218,7 @@ class RuntimeRepository:
         """Atomically commit successful step output and its recovery checkpoint."""
         now = datetime.now(UTC)
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id)
             step = await session.scalar(
                 select(StepRecord).where(
                     StepRecord.run_id == run_id,
@@ -225,6 +260,7 @@ class RuntimeRepository:
     async def save_report_and_succeed(self, run_id: str, report: DiagnosisReport) -> None:
         now = datetime.now(UTC)
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id)
             result = await session.execute(
                 update(RunRecord)
                 .where(RunRecord.run_id == run_id, RunRecord.status == RunStatus.RUNNING.value)
@@ -248,7 +284,7 @@ class RuntimeRepository:
             last_error_message=message,
         )
 
-    async def recover_stale_runs(self, stale_seconds: float) -> list[str]:
+    async def recover_stale_runs(self, stale_seconds: float, max_attempts: int = 3) -> list[str]:
         cutoff = datetime.now(UTC) - timedelta(seconds=stale_seconds)
         recovered: list[str] = []
         async with self.sessions.begin() as session:
@@ -257,10 +293,18 @@ class RuntimeRepository:
                     select(RunRecord).where(
                         RunRecord.status == RunStatus.RUNNING.value,
                         RunRecord.updated_at <= cutoff,
-                    )
+                    ).with_for_update(skip_locked=True)
                 )
             )
             for run in rows:
+                if run.attempt >= max_attempts:
+                    run.status = RunStatus.FAILED.value
+                    run.finished_at = datetime.now(UTC)
+                    run.updated_at = run.finished_at
+                    run.last_error_code = "run_retry_exhausted"
+                    run.last_error_message = "worker lease expired and run attempt budget exhausted"
+                    await self._append_event(session, run.run_id, "run.failed", status=RunStatus.FAILED.value)
+                    continue
                 run.status = RunStatus.RETRYING.value
                 run.recovered_count += 1
                 run.updated_at = datetime.now(UTC)
@@ -287,6 +331,14 @@ class RuntimeRepository:
                 )
             )
 
+    async def list_stale_retrying_runs(self, stale_seconds: float) -> list[str]:
+        """Repair crashes between RETRYING and QUEUED/enqueue."""
+        cutoff = datetime.now(UTC) - timedelta(seconds=stale_seconds)
+        async with self.sessions() as session:
+            return list(await session.scalars(select(RunRecord.run_id).where(
+                RunRecord.status == RunStatus.RETRYING.value, RunRecord.updated_at <= cutoff,
+            )))
+
     async def requeue_recovered(self, run_id: str) -> None:
         await self.transition(run_id, RunStatus.RETRYING, RunStatus.QUEUED)
 
@@ -299,6 +351,7 @@ class RuntimeRepository:
     ) -> ToolExecutionRecord:
         now = datetime.now(UTC)
         async with self.sessions.begin() as session:
+            await self._assert_owner(session, run_id)
             row = await session.get(ToolExecutionRecord, tool_call_id)
             if row is None:
                 row = ToolExecutionRecord(
@@ -334,6 +387,7 @@ class RuntimeRepository:
             row = await session.get(ToolExecutionRecord, tool_call_id)
             if row is None:
                 raise RuntimeError(f"tool execution not started: {tool_call_id}")
+            await self._assert_owner(session, row.run_id)
             row.status = status
             row.result_json = result
             row.error_code = result.get("error_code")

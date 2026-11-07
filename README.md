@@ -1,5 +1,7 @@
 # OpsPilot
 
+Runtime 使用 Redis Streams Consumer Group 分发 `run_id`，由 PostgreSQL 原子领取 Run 并记录运行轮次；Worker 定期刷新租约，终态入库后 ACK。Pending 消息和入队失败由恢复扫描补偿，可恢复故障受 `OPSPILOT_RUN_MAX_ATTEMPTS` 限制。默认流名为 `opspilot:runs:stream`，避免与旧版 List 键冲突；升级时需停止旧 Worker 并保留 PG 队列修复扫描。幂等保障状态与已持久化 ToolCall 的结果复用，不保证计算过程绝对只执行一次。
+
 OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查，确定性代码从工具观测生成 Evidence、排序候选，并判断 `CONFIRMED / NO_FAULT / INCONCLUSIVE`。独立 Worker 通过 PostgreSQL、Redis 和 Checkpoint 执行、恢复任务。
 
 当前代码说明更新于 **2026-10-17**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。
