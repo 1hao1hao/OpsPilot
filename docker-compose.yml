@@ -45,6 +45,18 @@ services:
       OPSPILOT_DATABASE_URL: postgresql+asyncpg://opspilot:opspilot@postgres:5432/opspilot
       OPSPILOT_REDIS_URL: redis://redis:6379/0
       OPSPILOT_MOCK_BASE_URL: http://mock-env:8001
+      OPSPILOT_INVESTIGATION_MODE: ${OPSPILOT_INVESTIGATION_MODE:-v1}
+      OPSPILOT_GRAPH_VERSION: ${OPSPILOT_GRAPH_VERSION:-opspilot-runtime-v6-compact-report}
+      OPSPILOT_CHECKPOINT_SCHEMA_VERSION: ${OPSPILOT_CHECKPOINT_SCHEMA_VERSION:-3.0}
+      OPSPILOT_SKILLS_ENABLED: ${OPSPILOT_SKILLS_ENABLED:-true}
+      OPSPILOT_TOOL_TRANSPORT: ${OPSPILOT_TOOL_TRANSPORT:-native}
+      OPSPILOT_INVESTIGATION_MAX_PARALLEL_TASKS: ${OPSPILOT_INVESTIGATION_MAX_PARALLEL_TASKS:-4}
+      OPSPILOT_INVESTIGATION_MAX_SECONDS: ${OPSPILOT_INVESTIGATION_MAX_SECONDS:-120}
+      OPSPILOT_INVESTIGATION_MAX_LLM_TOKENS: ${OPSPILOT_INVESTIGATION_MAX_LLM_TOKENS:-4000}
+      OPSPILOT_LLM_ENABLED: ${OPSPILOT_LLM_ENABLED:-false}
+      OPSPILOT_LLM_MODEL: ${OPSPILOT_LLM_MODEL:-deepseek-v4-flash}
+      OPSPILOT_LLM_BASE_URL: ${OPSPILOT_LLM_BASE_URL:-https://api.deepseek.com}
+      OPSPILOT_LLM_TIMEOUT_SECONDS: ${OPSPILOT_LLM_TIMEOUT_SECONDS:-30}
     networks: [deeprca-net]
     depends_on:
       postgres:
@@ -81,7 +93,9 @@ services:
     # intentionally exposes no HTTP server and is verified by the E2E smoke run.
     healthcheck:
       disable: true
-    environment: *opspilot-runtime-env
+    environment:
+      <<: *opspilot-runtime-env
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
     networks: [deeprca-net]
     depends_on:
       migrate:

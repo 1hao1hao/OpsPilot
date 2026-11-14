@@ -4,10 +4,12 @@ import os
 import uuid
 from datetime import UTC, datetime
 
+import httpx
 import pytest
 from sqlalchemy import select
 
 from opspilot.config import RuntimeSettings
+from opspilot.api.app import create_app
 from opspilot.models import AlertEvent, RunStatus, ToolExecutionStatus
 from opspilot.persistence import Database
 from opspilot.persistence.models import ToolExecutionRecord
@@ -95,4 +97,47 @@ async def test_v2_partial_specialist_crash_recovers_without_repeating_committed_
         await first_queue.client.delete(settings.queue_name)
         await first_queue.close()
         await second_queue.close()
+        await database.dispose()
+
+
+@pytest.mark.asyncio
+async def test_v2_real_api_queue_worker_result_chain():
+    settings = RuntimeSettings(
+        database_url=DATABASE_URL, redis_url=REDIS_URL,
+        queue_name=f"opspilot:v2:api:{uuid.uuid4().hex}", investigation_mode="v2",
+    )
+    database = Database(settings.database_url)
+    repository = RuntimeRepository(database.sessions)
+    queue = RedisRunQueue.from_url(settings.redis_url, settings.queue_name)
+    manager = TaskManager(repository, queue, settings)
+    worker = RuntimeWorker(repository, queue, RecoverableExecution(
+        repository, build_default_registry(), settings), settings)
+    request_id = f"v2-api-{uuid.uuid4().hex}"
+    alert = AlertEvent(
+        alert_id=request_id, service_name="checkout", alert_type="timeout",
+        severity="P1", timestamp=datetime(2026, 11, 14, tzinfo=UTC),
+        signals={"metric": {"tp95": {"current": 1200, "baseline": 100}}},
+    )
+    try:
+        app = create_app(task_manager=manager)
+        async with app.router.lifespan_context(app), httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://test",
+        ) as client:
+            accepted = await client.post("/api/v1/runs", json={
+                "request_id": request_id, "alert": alert.model_dump(mode="json"),
+            })
+            assert accepted.status_code == 202
+            run_id = accepted.json()["run_id"]
+            assert await worker.process_once(timeout_seconds=0.01)
+            response = await client.get(f"/api/v1/runs/{run_id}/result")
+            assert response.status_code == 200
+            assert response.json()["status"] == "SUCCEEDED"
+            assert response.json()["report"]["verdict"] in {
+                "CONFIRMED", "NO_FAULT", "INCONCLUSIVE",
+            }
+            checkpoint = await repository.latest_checkpoint(run_id)
+            assert checkpoint.state_json["investigation"]["task_graph"]["version"] >= 1
+    finally:
+        await queue.client.delete(settings.queue_name)
+        await queue.close()
         await database.dispose()

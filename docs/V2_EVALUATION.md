@@ -26,4 +26,4 @@ foreach ($split in @('dev','test')) {
 
 另外，`scripts/v2_demo.py` 的三例是确定性合成情景，验证任务分派、DB 正常反证、证据板和计划变化，不参与准确率表。实际 OpenTelemetry Astronomy Shop 启动后，`tests/integration/test_otel_demo_live.py` 为 **1 passed**；`scripts/v2_live_probe.py` 在真实只读遥测上得到 metrics/traces/changes/logs/rpc 结果、两条 Evidence 和 `INCONCLUSIVE`，未注入故障，没有可评分 Ground Truth。可选 DeepSeek 演示真实执行过两次 Specialist 决策，服务端记录 681 tokens；该单次合成调用不是模型准确率实验。
 
-最终全量自动化测试在真实 PG/Redis 测试容器可用时为 **382 passed、1 skipped**。其中 `tests/integration/test_v2_runtime_real.py` 验证 V2 崩溃恢复；通过次数不等于生产高可用保证。当前仍需改善有充分证据时的确认覆盖，并进一步验证远程 MCP、真实故障注入、多 Worker 长时间负载与模型成本。
+最终全量自动化测试在真实 PG/Redis 测试容器可用时为 **383 passed、1 skipped**，其中 V2 真实 API→Redis→Worker→PG 结果链路与崩溃恢复测试为 **2 passed**。通过次数不等于生产高可用保证。`docker compose --profile full config --quiet` 在 V2 配置下通过；本机完整 Compose 构建因 Docker Hub 授权地址连接超时，无法拉取 `python:3.11-slim`，因此未声称 Compose 启动验收通过。当前仍需改善有充分证据时的确认覆盖，并进一步验证完整 Compose、远程 MCP、真实故障注入、多 Worker 长时间负载与模型成本。
