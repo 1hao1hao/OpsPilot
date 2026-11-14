@@ -37,6 +37,7 @@ class RedisRunQueue:
         self.consumer = consumer or f"worker-{uuid.uuid4().hex}"
         self.pending_ms = max(1, int(pending_seconds * 1000))
         self._group_ready = False
+        self._fresh_since_pending = 0
 
     @classmethod
     def from_url(cls, url: str, name: str, *, pending_seconds: float = 30.0) -> RedisRunQueue:
@@ -62,13 +63,24 @@ class RedisRunQueue:
 
     async def dequeue(self, timeout_seconds: float = 1.0) -> RunDelivery | None:
         await self._ensure_group()
-        claimed = await self.client.xautoclaim(
-            self.name, self.group, self.consumer, min_idle_time=self.pending_ms,
-            start_id="0-0", count=1,
+        # Alternate when both categories are available: a long running task
+        # remains Pending until commit, while a busy producer can keep adding
+        # fresh entries. Neither category should starve the other.
+        if self._fresh_since_pending:
+            pending = await self._claim_pending()
+            if pending is not None:
+                return pending
+        batches = await self.client.xreadgroup(
+            self.group, self.consumer, {self.name: ">"}, count=1, block=1,
         )
-        if claimed[1]:
-            message_id, fields = claimed[1][0]
+        if batches:
+            message_id, fields = batches[0][1][0]
+            self._fresh_since_pending += 1
             return RunDelivery(fields["run_id"], message_id)
+        if not self._fresh_since_pending:
+            pending = await self._claim_pending()
+            if pending is not None:
+                return pending
         batches = await self.client.xreadgroup(
             self.group, self.consumer, {self.name: ">"}, count=1,
             block=max(1, int(timeout_seconds * 1000)),
@@ -76,7 +88,19 @@ class RedisRunQueue:
         if not batches:
             return None
         message_id, fields = batches[0][1][0]
+        self._fresh_since_pending += 1
         return RunDelivery(fields["run_id"], message_id)
+
+    async def _claim_pending(self) -> RunDelivery | None:
+        claimed = await self.client.xautoclaim(
+            self.name, self.group, self.consumer, min_idle_time=self.pending_ms,
+            start_id="0-0", count=1,
+        )
+        if claimed[1]:
+            message_id, fields = claimed[1][0]
+            self._fresh_since_pending = 0
+            return RunDelivery(fields["run_id"], message_id)
+        return None
 
     async def ack(self, delivery: RunDelivery) -> None:
         await self.client.xack(self.name, self.group, delivery.message_id)

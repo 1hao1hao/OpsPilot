@@ -96,6 +96,38 @@ async def test_atomic_claim_duplicate_delivery_and_terminal_ack(stack):
 
 
 @pytest.mark.asyncio
+async def test_pending_long_run_does_not_starve_fresh_run(stack):
+    _database, _repo, queue, _manager, settings = stack
+    other_queue = RedisRunQueue.from_url(settings.redis_url, settings.queue_name, pending_seconds=0.02)
+    try:
+        await queue.enqueue("long-run")
+        first = await queue.dequeue(timeout_seconds=0.01)
+        assert first is not None and first.run_id == "long-run"
+        await asyncio.sleep(0.03)
+        await queue.enqueue("fresh-run")
+        second = await other_queue.dequeue(timeout_seconds=0.01)
+        assert second is not None and second.run_id == "fresh-run"
+    finally:
+        await other_queue.close()
+
+
+@pytest.mark.asyncio
+async def test_pending_recovery_does_not_starve_behind_fresh_runs(stack):
+    _database, _repo, queue, _manager, settings = stack
+    await queue.enqueue("crashed-run")
+    first = await queue.dequeue(timeout_seconds=0.01)
+    assert first is not None and first.run_id == "crashed-run"
+    await asyncio.sleep(settings.queue_pending_seconds + 0.01)
+    await queue.enqueue("fresh-run")
+    # The same consumer gives an eligible Pending run a turn even when fresh
+    # entries keep arriving.
+    second = await queue.dequeue(timeout_seconds=0.01)
+    assert second is not None and second.run_id == "crashed-run"
+    third = await queue.dequeue(timeout_seconds=0.01)
+    assert third is not None and third.run_id == "fresh-run"
+
+
+@pytest.mark.asyncio
 async def test_long_task_heartbeat_prevents_stale_takeover(stack):
     _database, repo, queue, manager, settings = stack
     accepted = await manager.create_run(request_id=uuid.uuid4().hex, alert=alert(uuid.uuid4().hex))
