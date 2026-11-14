@@ -11,6 +11,7 @@ from opspilot.agents import build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
 from opspilot.investigation import AdaptiveInvestigator
 from opspilot.investigation.report import build_report
+from opspilot.investigation.v2_graph import GraphInvestigator
 from opspilot.models import (
     AlertEvent,
     DiagnosisReport,
@@ -21,6 +22,7 @@ from opspilot.models import (
 )
 from opspilot.persistence.repositories import RuntimeRepository
 from opspilot.runtime.errors import CheckpointVersionMismatch
+from opspilot.skills import SkillCatalog
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
 STEP_EXECUTION_VERSION = "1"
@@ -40,7 +42,17 @@ class RecoverableExecution:
         self.registry = registry
         self.settings = settings
         self.root_cause_agent = build_runtime_root_cause_agent(settings)
-        self.investigator = AdaptiveInvestigator(registry, settings=settings)
+        if settings.investigation_mode == "v2":
+            self.investigator = GraphInvestigator(registry, settings=settings, skills=SkillCatalog())
+        else:
+            self.investigator = AdaptiveInvestigator(registry, settings=settings)
+        self.mcp_gateway = None
+        self.mcp_tools: frozenset[str] = frozenset()
+        if settings.tool_transport == "mcp":
+            from opspilot.tools.mcp_bridge import MCP_GENERAL_TOOLS, MCPToolGateway, build_observability_mcp
+
+            self.mcp_gateway = MCPToolGateway(build_observability_mcp(registry))
+            self.mcp_tools = MCP_GENERAL_TOOLS
         self.before_step = before_step
         self.after_checkpoint = after_checkpoint
 
@@ -188,7 +200,11 @@ class RecoverableExecution:
         )
         executor = ToolExecutor(self.registry, retry_backoff_seconds=self.settings.retry_backoff_seconds)
         try:
-            result = await executor.execute(call)
+            if (self.mcp_gateway is not None and tool_name in self.mcp_tools
+                    and (target_service is None or target_service == alert.service_name)):
+                result = await self.mcp_gateway.execute(tool_name, alert, call.tool_call_id)
+            else:
+                result = await executor.execute(call)
         except ValidationError as exc:
             result = ToolResult(
                 tool_call_id=call.tool_call_id,

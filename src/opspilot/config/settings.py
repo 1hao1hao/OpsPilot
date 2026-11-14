@@ -29,6 +29,7 @@ class RuntimeSettings(BaseSettings):
     investigation_max_rounds: int = Field(default=4, ge=1, le=20)
     investigation_max_tool_calls: int = Field(default=8, ge=1, le=100)
     investigation_max_expert_calls: int = Field(default=2, ge=0, le=20)
+    investigation_max_parallel_tasks: int = Field(default=4, ge=1, le=32)
     evidence_gate_confidence: float = Field(default=0.8, ge=0, le=1)
     evidence_gate_margin: float = Field(default=0.15, ge=0, le=1)
     evidence_gate_min_sources: int = Field(default=2, ge=1, le=10)
@@ -37,6 +38,8 @@ class RuntimeSettings(BaseSettings):
     llm_model: str = "deepseek-v4-flash"
     llm_base_url: str = "https://api.deepseek.com"
     llm_timeout_seconds: float = Field(default=30.0, gt=0)
+    tool_transport: Literal["native", "mcp"] = "native"
+    investigation_mode: Literal["v1", "v2"] = "v1"
 
     observation_backend: Literal["mock", "otel_demo"] = "mock"
     prometheus_url: str = ""
@@ -52,6 +55,11 @@ class RuntimeSettings(BaseSettings):
 
     @model_validator(mode="after")
     def live_backends_required(self):
+        if self.investigation_mode == "v2":
+            if self.graph_version == "opspilot-runtime-v6-compact-report":
+                self.graph_version = "opspilot-runtime-v7-v2-graph"
+            if self.checkpoint_schema_version == "3.0":
+                self.checkpoint_schema_version = "4.0"
         if self.worker_lease_seconds is not None and self.worker_heartbeat_seconds >= self.worker_lease_seconds:
             raise ValueError("worker_heartbeat_seconds must be less than worker_lease_seconds")
         if self.observation_backend == "otel_demo":

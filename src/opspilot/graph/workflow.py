@@ -9,7 +9,9 @@ from opspilot.agents import RootCauseAgent, build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
 from opspilot.investigation import AdaptiveInvestigator, InvestigationOutcome
 from opspilot.investigation.report import build_report
+from opspilot.investigation.v2_graph import GraphInvestigator
 from opspilot.models import AlertEvent, DiagnosisReport, ToolCall
+from opspilot.skills import SkillCatalog
 from opspilot.tools import ToolExecutor, ToolRegistry, build_tool_call_id
 
 
@@ -27,10 +29,10 @@ class OpsPilotWorkflow:
         self.registry = registry
         self.settings = settings or RuntimeSettings()
         self.root_cause_agent = root_cause_agent or build_runtime_root_cause_agent(self.settings)
-        self.investigator = AdaptiveInvestigator(
-            registry,
-            settings=self.settings,
-        )
+        if self.settings.investigation_mode == "v2":
+            self.investigator = GraphInvestigator(registry, settings=self.settings, skills=SkillCatalog())
+        else:
+            self.investigator = AdaptiveInvestigator(registry, settings=self.settings)
         self.execution_mode = execution_mode
 
     async def analyze(self, alert: AlertEvent, *, trace_id: str | None = None) -> DiagnosisReport:
@@ -53,6 +55,13 @@ class OpsPilotWorkflow:
 
     async def observe(self, alert: AlertEvent, *, trace_id: str) -> InvestigationOutcome:
         executor = ToolExecutor(self.registry)
+        mcp_gateway = None
+        mcp_tools: frozenset[str] = frozenset()
+        if self.settings.tool_transport == "mcp":
+            from opspilot.tools.mcp_bridge import MCP_GENERAL_TOOLS, MCPToolGateway, build_observability_mcp
+
+            mcp_gateway = MCPToolGateway(build_observability_mcp(self.registry))
+            mcp_tools = MCP_GENERAL_TOOLS
 
         async def execute_tool(tool_name: str, round_number: int, reason: str,
                                target_service: str | None = None):
@@ -72,6 +81,11 @@ class OpsPilotWorkflow:
                 tool_name=tool_name,
                 arguments=arguments,
             )
+            if (mcp_gateway is not None and tool_name in mcp_tools
+                    and (target_service is None or target_service == alert.service_name)):
+                return await mcp_gateway.execute(tool_name, alert, call.tool_call_id)
             return await executor.execute(call)
 
+        if isinstance(self.investigator, GraphInvestigator):
+            return await self.investigator.run(alert, execute_tool)
         return await self.investigator.run(alert, execute_tool, parallel_seed=self.execution_mode == "parallel")
