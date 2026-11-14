@@ -107,6 +107,8 @@ DOMAIN_TOOL_SOURCES = {
 class ObservationProvider:
     """Returns observed data; benchmark snapshots take precedence over HTTP."""
 
+    supports_scoped_queries = False
+
     def __init__(self, mock_base_url: str = "http://localhost:8001") -> None:
         self.mock_base_url = mock_base_url.rstrip("/")
 
@@ -195,7 +197,8 @@ def build_default_registry(
     for tool_name, signal_key in TOOL_SIGNAL_KEYS.items():
         async def handler(payload: AlertToolInput, key: str = signal_key) -> ObservationOutput:
             target = payload.target_service or payload.alert.service_name
-            if target != payload.alert.service_name and payload.alert.signals:
+            if (target != payload.alert.service_name and payload.alert.signals and
+                    not getattr(provider, "supports_scoped_queries", False)):
                 return ObservationOutput()  # A snapshot of one service cannot answer for another.
             scoped = payload.alert.model_copy(update={"service_name": target})
             return ObservationOutput(observations=await provider.read(key, scoped))
@@ -220,7 +223,8 @@ def build_default_registry(
             key: str = signal_key,
         ) -> ObservationOutput:
             target = payload.target_service or payload.alert.service_name
-            if target != payload.alert.service_name and payload.alert.signals:
+            if (target != payload.alert.service_name and payload.alert.signals and
+                    not getattr(provider, "supports_scoped_queries", False)):
                 return ObservationOutput()
             scoped = payload.alert.model_copy(update={"service_name": target})
             tool_reader = getattr(provider, "read_tool", None)

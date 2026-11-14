@@ -68,3 +68,12 @@ def test_missing_skill_body_falls_back_to_authorized_tool_order(tmp_path):
     plan = reconcile_plan([req], [], skills=catalog)
     assert plan.tasks[0].selected_skill is None
     assert plan.tasks[0].allowed_tools == ["db.replication", "db.slowlog"]
+
+
+def test_skill_changes_authorized_fallback_measurement_after_direct_tool_fails():
+    req = requirement("db:slow-fallback", "mysql", "db_slow_query", ["db.slowlog"])
+    capabilities = {"db": ["db.replication", "db.slowlog", "db.connections"]}
+    plain = reconcile_plan([req], [], capabilities=capabilities)
+    skilled = reconcile_plan([req], [], skills=SkillCatalog(), capabilities=capabilities)
+    assert plain.tasks[0].allowed_tools[:2] == ["db.slowlog", "db.replication"]
+    assert skilled.tasks[0].allowed_tools[:2] == ["db.slowlog", "db.connections"]

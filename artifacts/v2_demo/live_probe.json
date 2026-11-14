@@ -1,0 +1,68 @@
+{
+  "source": "live OpenTelemetry Demo endpoints",
+  "timestamp": "2026-11-14T06:38:38.522673+00:00",
+  "service": "frontend",
+  "graph_version": "opspilot-runtime-v7-v2-graph",
+  "tools": [
+    {
+      "name": "metrics.query",
+      "target": "frontend",
+      "status": "success",
+      "error_code": null,
+      "observation_fields": [
+        "cpu_usage",
+        "error_rate",
+        "memory_usage",
+        "qps",
+        "tp95",
+        "tp99"
+      ]
+    },
+    {
+      "name": "traces.query",
+      "target": "frontend",
+      "status": "success",
+      "error_code": null,
+      "observation_fields": [
+        "traces"
+      ]
+    },
+    {
+      "name": "changes.query",
+      "target": "frontend",
+      "status": "success",
+      "error_code": null,
+      "observation_fields": []
+    },
+    {
+      "name": "logs.query",
+      "target": "frontend",
+      "status": "success",
+      "error_code": null,
+      "observation_fields": [
+        "logs"
+      ]
+    },
+    {
+      "name": "rpc.metrics",
+      "target": "frontend",
+      "status": "success",
+      "error_code": null,
+      "observation_fields": [
+        "baseline_latency_ms",
+        "call_volume",
+        "error_rate",
+        "latency_ms",
+        "timeout_rate"
+      ]
+    }
+  ],
+  "evidence_types": [
+    "metric.resource_growth",
+    "rpc.observed_outcomes"
+  ],
+  "top1": "resource_saturation",
+  "verdict": "INCONCLUSIVE",
+  "task_graph_version": 2,
+  "evidence_board_size": 2
+}

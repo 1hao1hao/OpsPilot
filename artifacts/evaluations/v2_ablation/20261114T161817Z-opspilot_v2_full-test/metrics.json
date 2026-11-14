@@ -1,0 +1,96 @@
+{
+  "case_count": 12,
+  "root_cause_hit_at_1": {
+    "value": 0.3,
+    "numerator": 3,
+    "denominator": 10
+  },
+  "root_cause_hit_at_3": {
+    "value": 0.3,
+    "numerator": 3,
+    "denominator": 10
+  },
+  "evidence_recall_macro": {
+    "value": 0.3,
+    "scored_cases": 10
+  },
+  "tool_success_rate": {
+    "value": 1.0,
+    "numerator": 72,
+    "denominator": 72
+  },
+  "e2e_success_rate": {
+    "value": 1.0,
+    "numerator": 12,
+    "denominator": 12
+  },
+  "false_positive_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 2
+  },
+  "p95_latency_ms": 460.967,
+  "p50_latency_ms": 13.753,
+  "confirmed_coverage": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 10
+  },
+  "false_confirmation_rate": {
+    "value": null,
+    "numerator": 0,
+    "denominator": 0
+  },
+  "abstention_rate": {
+    "value": 1.0,
+    "numerator": 12,
+    "denominator": 12
+  },
+  "requirement_coverage": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 38
+  },
+  "task_completion_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 38
+  },
+  "tool_selection_recall": {
+    "value": 0.153846,
+    "numerator": 2,
+    "denominator": 13
+  },
+  "tool_selection_precision": {
+    "value": 0.027778,
+    "numerator": 2,
+    "denominator": 72
+  },
+  "repeated_tool_targets": 0,
+  "average_tool_calls_per_case": 6.0,
+  "average_expert_calls_per_case": 1.0,
+  "average_investigation_rounds": 3.333333,
+  "planner_action_valid_rate": {
+    "value": 1.0,
+    "numerator": 72,
+    "denominator": 72
+  },
+  "duplicate_action_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 72
+  },
+  "budget_exhaustion_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 12
+  },
+  "latency_scope": "in-process end-to-end; Stage 1 has no queue time",
+  "model_usage": {
+    "api_call_count": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "average_total_tokens_per_call": null
+  }
+}

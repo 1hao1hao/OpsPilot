@@ -30,6 +30,8 @@ class RuntimeSettings(BaseSettings):
     investigation_max_tool_calls: int = Field(default=8, ge=1, le=100)
     investigation_max_expert_calls: int = Field(default=2, ge=0, le=20)
     investigation_max_parallel_tasks: int = Field(default=4, ge=1, le=32)
+    investigation_max_seconds: float = Field(default=120.0, gt=0)
+    investigation_max_llm_tokens: int = Field(default=4000, ge=0)
     evidence_gate_confidence: float = Field(default=0.8, ge=0, le=1)
     evidence_gate_margin: float = Field(default=0.15, ge=0, le=1)
     evidence_gate_min_sources: int = Field(default=2, ge=1, le=10)
@@ -40,6 +42,7 @@ class RuntimeSettings(BaseSettings):
     llm_timeout_seconds: float = Field(default=30.0, gt=0)
     tool_transport: Literal["native", "mcp"] = "native"
     investigation_mode: Literal["v1", "v2"] = "v1"
+    skills_enabled: bool = True
 
     observation_backend: Literal["mock", "otel_demo"] = "mock"
     prometheus_url: str = ""

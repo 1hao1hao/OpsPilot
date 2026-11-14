@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Awaitable, Callable
 from datetime import UTC, datetime
+from typing import Any
 
 from opspilot.agents import RootCauseAgent, build_runtime_root_cause_agent
 from opspilot.config import RuntimeSettings
@@ -30,15 +32,20 @@ class OpsPilotWorkflow:
         self.settings = settings or RuntimeSettings()
         self.root_cause_agent = root_cause_agent or build_runtime_root_cause_agent(self.settings)
         if self.settings.investigation_mode == "v2":
-            self.investigator = GraphInvestigator(registry, settings=self.settings, skills=SkillCatalog())
+            self.investigator = GraphInvestigator(
+                registry, settings=self.settings,
+                skills=SkillCatalog() if self.settings.skills_enabled else None)
         else:
             self.investigator = AdaptiveInvestigator(registry, settings=self.settings)
         self.execution_mode = execution_mode
 
-    async def analyze(self, alert: AlertEvent, *, trace_id: str | None = None) -> DiagnosisReport:
+    async def analyze(
+        self, alert: AlertEvent, *, trace_id: str | None = None,
+        on_state: Callable[[str, dict[str, Any]], Awaitable[None]] | None = None,
+    ) -> DiagnosisReport:
         trace_id = trace_id or f"trace-{uuid.uuid4().hex[:12]}"
         started_at = datetime.now(UTC)
-        outcome = await self.observe(alert, trace_id=trace_id)
+        outcome = await self.observe(alert, trace_id=trace_id, on_state=on_state)
         rationale, llm_used = await self.root_cause_agent.explain_existing(
             alert,
             outcome.provisional_candidates,
@@ -53,7 +60,10 @@ class OpsPilotWorkflow:
             llm_used=llm_used,
         )
 
-    async def observe(self, alert: AlertEvent, *, trace_id: str) -> InvestigationOutcome:
+    async def observe(
+        self, alert: AlertEvent, *, trace_id: str,
+        on_state: Callable[[str, dict[str, Any]], Awaitable[None]] | None = None,
+    ) -> InvestigationOutcome:
         executor = ToolExecutor(self.registry)
         mcp_gateway = None
         mcp_tools: frozenset[str] = frozenset()
@@ -87,5 +97,6 @@ class OpsPilotWorkflow:
             return await executor.execute(call)
 
         if isinstance(self.investigator, GraphInvestigator):
-            return await self.investigator.run(alert, execute_tool)
-        return await self.investigator.run(alert, execute_tool, parallel_seed=self.execution_mode == "parallel")
+            return await self.investigator.run(alert, execute_tool, on_state=on_state)
+        return await self.investigator.run(
+            alert, execute_tool, on_state=on_state, parallel_seed=self.execution_mode == "parallel")

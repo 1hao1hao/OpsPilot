@@ -152,6 +152,18 @@ class DeepSeekRCAClient:
 
     async def complete_json(self, *, system_prompt: str, payload: dict[str, Any]) -> dict[str, Any]:
         """Return one schema-validated-by-caller JSON object for constrained control tasks."""
+        parsed, _ = await self._complete_json_response(system_prompt=system_prompt, payload=payload)
+        return parsed
+
+    async def complete_json_with_usage(self, *, system_prompt: str,
+                                       payload: dict[str, Any]) -> dict[str, Any]:
+        """Return the decision and provider-reported token usage for budgeted agents."""
+        parsed, response = await self._complete_json_response(system_prompt=system_prompt, payload=payload)
+        usage = TokenUsage.model_validate(response["usage"])
+        return {"decision": parsed, "token_usage": usage.total_tokens}
+
+    async def _complete_json_response(self, *, system_prompt: str,
+                                      payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
         body = {
             "model": self.model,
             "messages": [
@@ -168,7 +180,7 @@ class DeepSeekRCAClient:
         parsed = json.loads(content)
         if not isinstance(parsed, dict):
             raise TypeError("DeepSeek JSON response must be an object")
-        return parsed
+        return parsed, response_data
 
     async def _post(self, body: dict[str, Any]) -> dict[str, Any]:
         headers = {

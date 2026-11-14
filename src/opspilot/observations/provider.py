@@ -14,6 +14,8 @@ from opspilot.observations.clients import JaegerClient, OpenSearchClient, Promet
 
 
 class OpenTelemetryDemoProvider:
+    supports_scoped_queries = True
+
     def __init__(self, settings: RuntimeSettings, *, transport=None):
         self.settings = settings
         kw = {"timeout": settings.telemetry_timeout_seconds, "transport": transport}

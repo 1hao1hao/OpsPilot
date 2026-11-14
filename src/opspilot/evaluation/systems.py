@@ -52,7 +52,8 @@ class OpsPilotHybridSystem:
     name = "opspilot_hybrid"
 
     def __init__(self) -> None:
-        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2))
+        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2),
+                                         settings=RuntimeSettings(investigation_mode="v1"))
 
     async def predict(self, alert: AlertEvent, case_id: str) -> dict:
         started = perf_counter()
@@ -77,6 +78,7 @@ class AdaptivePlannerSystem(OpsPilotHybridSystem):
     def __init__(self) -> None:
         self.workflow = OpsPilotWorkflow(
             build_default_registry(timeout_seconds=0.2),
+            settings=RuntimeSettings(investigation_mode="v1"),
         )
 
 
@@ -84,12 +86,50 @@ class AdaptiveWithoutDynamicL2System(OpsPilotHybridSystem):
     name = "opspilot_adaptive_without_dynamic_l2"
 
     def __init__(self) -> None:
-        settings = RuntimeSettings(investigation_max_expert_calls=0)
+        settings = RuntimeSettings(investigation_mode="v1", investigation_max_expert_calls=0)
         self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2), settings=settings)
 
 
 class FullAdaptiveRCASystem(OpsPilotHybridSystem):
     name = "opspilot_full_adaptive"
+
+
+class OpsPilotV2System:
+    """Comparable V2 ablations over the same dataset and tool budgets."""
+
+    def __init__(self, name: str, *, parallel_tasks: int, skills: bool, mcp: bool) -> None:
+        self.name = name
+        self.settings = RuntimeSettings(
+            investigation_mode="v2", investigation_max_parallel_tasks=parallel_tasks,
+            skills_enabled=skills, tool_transport="mcp" if mcp else "native",
+        )
+        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2), settings=self.settings)
+
+    async def predict(self, alert: AlertEvent, case_id: str) -> dict:
+        started = perf_counter()
+        outcome = await self.workflow.observe(alert, trace_id=f"v2-eval-{case_id}")
+        task_graph = outcome.state["task_graph"]
+        return {
+            "case_id": case_id, "status": "completed",
+            "candidate_types": [item.root_cause_type.value for item in outcome.provisional_candidates],
+            "evidence_types": [item.evidence_type for item in outcome.evidence],
+            "tool_executions": [item.model_dump(mode="json", exclude={"data"}) for item in outcome.tool_results],
+            "latency_ms": (perf_counter() - started) * 1000,
+            "degraded": any(item.status == ToolStatus.ERROR for item in outcome.tool_results),
+            "investigation": outcome.trace.model_dump(mode="json"),
+            "task_graph": task_graph,
+            "evidence_board": outcome.state["evidence_board"],
+            "skill_activations": [{"task_id": item["task_id"], "name": item["selected_skill"],
+                                   "version": item["skill_version"], "loaded_bytes": item["skill_loaded_bytes"],
+                                   "tool_order": item["skill_tool_order"]}
+                                  for item in task_graph["tasks"] if item["selected_skill"]],
+            "transport": self.settings.tool_transport,
+            "model_usage": {
+                "api_call_count": sum(sum(decision["llm_used"] for decision in result["local_decisions"])
+                                      for result in outcome.state["specialist_results"]),
+                "total_tokens": outcome.state["llm_tokens_used"],
+            },
+        }
 
 
 class FixedPlannerSystem:
@@ -201,7 +241,8 @@ class DeepSeekLLMOnlySystem(_DeepSeekSystem):
 class _DeepSeekToolSystem(_DeepSeekSystem):
     def __init__(self, client: DeepSeekRCAClient) -> None:
         super().__init__(client)
-        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2))
+        self.workflow = OpsPilotWorkflow(build_default_registry(timeout_seconds=0.2),
+                                         settings=RuntimeSettings(investigation_mode="v1"))
 
     async def _observe(self, alert: AlertEvent, case_id: str):
         outcome = await self.workflow.observe(alert, trace_id=f"eval-{case_id}")
@@ -268,6 +309,16 @@ class DeepSeekHybridSystem(_DeepSeekToolSystem):
 
 
 def build_system(name: str, *, config: dict[str, Any] | None = None):
+    v2_variants = {
+        "opspilot_v2_dynamic": (1, False, False),
+        "opspilot_v2_multi_agent": (4, False, False),
+        "opspilot_v2_skills": (4, True, False),
+        "opspilot_v2_mcp": (4, False, True),
+        "opspilot_v2_full": (4, True, True),
+    }
+    if name in v2_variants:
+        parallel, skills, mcp = v2_variants[name]
+        return OpsPilotV2System(name, parallel_tasks=parallel, skills=skills, mcp=mcp)
     if name == DeepRCABaselineSystem.name:
         return DeepRCABaselineSystem()
     if name == OpsPilotHybridSystem.name:

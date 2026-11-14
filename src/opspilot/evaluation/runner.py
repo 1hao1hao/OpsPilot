@@ -136,11 +136,16 @@ def _render_report(manifest: dict, metrics: dict, failures: list[dict]) -> str:
 
 - Root Cause Hit@1: {value('root_cause_hit_at_1')}
 - Root Cause Hit@3: {value('root_cause_hit_at_3')}
+- Confirmed coverage / false confirmation / abstention: {value('confirmed_coverage')} / {value('false_confirmation_rate')} / {value('abstention_rate')}
+- Requirement coverage / task completion: {value('requirement_coverage')} / {value('task_completion_rate')}
+- Tool selection recall / precision: {value('tool_selection_recall')} / {value('tool_selection_precision')}
+- Repeated tool-target calls: {metrics['repeated_tool_targets']}
 - Evidence Recall (macro): {metrics['evidence_recall_macro']['value']}
 - Tool Success Rate: {value('tool_success_rate')}
 - E2E Success Rate: {value('e2e_success_rate')}
 - False Positive Rate: {value('false_positive_rate')}
 - P95 latency: {metrics['p95_latency_ms']} ms
+- P50 latency: {metrics['p50_latency_ms']} ms
 - Average Tool / Expert calls: {metrics['average_tool_calls_per_case']} / {metrics['average_expert_calls_per_case']}
 - Average Investigation rounds: {metrics['average_investigation_rounds']}
 - Planner Action Valid Rate: {value('planner_action_valid_rate')}

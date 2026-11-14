@@ -68,6 +68,7 @@ def reconcile_plan(
     requirements: list[EvidenceRequirement], candidates: list[RootCauseCandidate],
     previous: InvestigationPlan | None = None,
     *, skills: SkillCatalog | None = None,
+    capabilities: dict[str, list[str]] | None = None,
 ) -> InvestigationPlan:
     """Keep task identity stable while new observations alter readiness and priority."""
     version = (previous.version if previous else 0) + 1
@@ -77,9 +78,16 @@ def reconcile_plan(
     for requirement in requirements:
         if not requirement.active:
             continue
-        tools = list(dict.fromkeys(requirement.suggested_tools))
+        required_tools = list(dict.fromkeys(requirement.suggested_tools))
         domain = next((label for prefix, label in TOOL_DOMAINS.items()
-                       if any(tool.startswith(prefix) for tool in tools)), "general")
+                       if any(tool.startswith(prefix) for tool in required_tools)), "general")
+        if domain != "general":
+            required_tools = [tool for tool in required_tools if tool.startswith(domain + ".")]
+        # The requirement's direct measurement comes first. Domain alternatives
+        # are authorized fallback reads when that measurement fails or has no data.
+        tools = list(dict.fromkeys([
+            *required_tools, *(capabilities or {}).get(domain, []),
+        ])) if required_tools else []
         selected_skill = None
         skill_version = None
         skill_loaded_bytes = 0
@@ -98,7 +106,12 @@ def reconcile_plan(
                     skill_loaded_bytes = activated.loaded_bytes
                     skill_reason = activated.reason
                     skill_tool_order = list(activated.tool_order)
-                    tools = [*activated.tool_order, *(tool for tool in tools if tool not in activated.tool_order)]
+                    if len(required_tools) == 1:
+                        primary = required_tools
+                        secondary = [tool for tool in activated.tool_order if tool not in primary]
+                        tools = [*primary, *secondary, *(tool for tool in tools if tool not in primary + secondary)]
+                    else:
+                        tools = [*activated.tool_order, *(tool for tool in tools if tool not in activated.tool_order)]
         candidate = next((name for name in ranked if name.startswith(domain + "_")), None)
         identity = requirement.requirement_id
         prior = old.get(identity)

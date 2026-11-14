@@ -5,7 +5,7 @@ from __future__ import annotations
 import operator
 from collections.abc import Awaitable, Callable
 from contextvars import ContextVar
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from typing import Annotated, Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
@@ -34,6 +34,7 @@ from opspilot.models import (
     RootCauseCandidate,
     RootCauseType,
     ToolResult,
+    ToolStatus,
 )
 from opspilot.skills import SkillCatalog
 from opspilot.tools import ToolRegistry
@@ -58,9 +59,13 @@ class EvidenceLineage(BaseModel):
 
 class GraphState(TypedDict, total=False):
     alert: AlertEvent
+    started_at: datetime
+    llm_tokens_used: int
     tool_results: list[ToolResult]
     evidence: list[Evidence]
     evidence_board: list[EvidenceLineage]
+    board_conflicts: list[str]
+    board_unmet_requirement_ids: list[str]
     candidates: list[RootCauseCandidate]
     requirements: list[EvidenceRequirement]
     requirements_version: int
@@ -76,6 +81,8 @@ class GraphState(TypedDict, total=False):
     # Send payload is task-local; the coordinator never shares a mutable board.
     task: InvestigationTask
     task_budget: int
+    task_token_budget: int
+    prior_evidence: list[Evidence]
 
 
 class GraphInvestigator:
@@ -86,9 +93,10 @@ class GraphInvestigator:
         self.registry = registry
         self.settings = settings
         self.skills = skills
+        self.capabilities = {domain: registry.domain_names(domain) for domain in ("db", "redis", "kafka", "rpc")}
         self.coordinator = CoordinatorAgent(registry)
         self.analysis = DeterministicEvidenceEngine()
-        self.specialist = SpecialistAgent(registry)
+        self.specialist = SpecialistAgent.from_settings(registry, settings)
         self.gate = EvidenceGate(confidence=settings.evidence_gate_confidence,
                                  margin=settings.evidence_gate_margin,
                                  min_sources=settings.evidence_gate_min_sources)
@@ -115,7 +123,9 @@ class GraphInvestigator:
         token = self._runner.set(execute_tool)
         callback_token = self._callback.set(on_state)
         initial: GraphState = {
-            "alert": alert, "tool_results": [], "evidence": [], "evidence_board": [], "candidates": [],
+            "alert": alert, "started_at": datetime.now(UTC), "llm_tokens_used": 0,
+            "tool_results": [], "evidence": [], "evidence_board": [],
+            "board_conflicts": [], "board_unmet_requirement_ids": [], "candidates": [],
             "requirements": [], "requirements_version": 0, "plan": InvestigationPlan(version=0),
             "decision_history": [], "gates": [], "round": 1, "executed_targets": [],
             "actions": [], "specialist_results": [], "merged_results": 0,
@@ -129,7 +139,12 @@ class GraphInvestigator:
             self._runner.reset(token)
             self._callback.reset(callback_token)
         decision = state["decision"]
-        stop_reason = decision.reason if decision.verdict != DiagnosisVerdict.INCONCLUSIVE else "budget or legal actions exhausted"
+        if decision.verdict != DiagnosisVerdict.INCONCLUSIVE:
+            stop_reason = decision.reason
+        elif datetime.now(UTC) >= state["started_at"] + timedelta(seconds=self.settings.investigation_max_seconds):
+            stop_reason = "time budget exhausted; unconfirmed requirements retained"
+        else:
+            stop_reason = "budget or legal actions exhausted; unconfirmed requirements retained"
         trace = InvestigationTrace(
             rounds=state["round"], action_history=state["actions"], gate_decisions=state["gates"],
             executed_tools=[item.tool_name for item in state["tool_results"]],
@@ -146,9 +161,13 @@ class GraphInvestigator:
     @staticmethod
     def _restore(data: dict[str, Any]) -> GraphState:
         return {
+            "started_at": datetime.fromisoformat(data["started_at"]) if data.get("started_at") else datetime.now(UTC),
+            "llm_tokens_used": int(data.get("llm_tokens_used", 0)),
             "tool_results": [ToolResult.model_validate(item) for item in data.get("tool_results", [])],
             "evidence": [Evidence.model_validate(item) for item in data.get("evidence", [])],
             "evidence_board": [EvidenceLineage.model_validate(item) for item in data.get("evidence_board", [])],
+            "board_conflicts": list(data.get("board_conflicts", [])),
+            "board_unmet_requirement_ids": list(data.get("board_unmet_requirement_ids", [])),
             "candidates": [RootCauseCandidate.model_validate(item) for item in data.get("provisional_candidates", [])],
             "requirements": [EvidenceRequirement.model_validate(item) for item in data.get("requirements", [])],
             "requirements_version": int(data.get("requirements_version", 0)),
@@ -165,6 +184,8 @@ class GraphInvestigator:
     @staticmethod
     def _snapshot(state: GraphState) -> dict[str, Any]:
         return {
+            "started_at": state["started_at"].isoformat(),
+            "llm_tokens_used": state["llm_tokens_used"],
             "round": state["round"], "tool_results": [item.model_dump(mode="json") for item in state["tool_results"]],
             "executed_tools": [item.tool_name for item in state["tool_results"]],
             "executed_tool_targets": state["executed_targets"],
@@ -172,6 +193,8 @@ class GraphInvestigator:
             "invoked_experts": [item.domain for item in state["plan"].tasks if item.attempts > 0 and item.domain != "general"],
             "evidence": [item.model_dump(mode="json") for item in state["evidence"]],
             "evidence_board": [item.model_dump(mode="json") for item in state["evidence_board"]],
+            "board_conflicts": state["board_conflicts"],
+            "board_unmet_requirement_ids": state["board_unmet_requirement_ids"],
             "provisional_candidates": [item.model_dump(mode="json") for item in state["candidates"]],
             "requirements": [item.model_dump(mode="json") for item in state["requirements"]],
             "requirements_version": state["requirements_version"],
@@ -195,6 +218,9 @@ class GraphInvestigator:
         actions = list(state["actions"])
         executed = list(state["executed_targets"])
         for step in self.coordinator.plan(state["alert"]).steps[:self.settings.investigation_max_tool_calls]:
+            if (datetime.now(UTC) >= state["started_at"] + timedelta(seconds=self.settings.investigation_max_seconds)
+                    or len(results) >= self.settings.investigation_max_tool_calls):
+                break
             identity = f"{step.tool_name}|{state['alert'].service_name}"
             if identity in executed:
                 continue
@@ -222,15 +248,67 @@ class GraphInvestigator:
                                   requirements_version=prepared.requirements_version)
         decision = decide_diagnosis(state["alert"], state["tool_results"], analysis.evidence,
                                     analysis.candidates, gate, prepared=prepared)
-        plan = reconcile_plan(prepared.requirements, analysis.candidates, state["plan"], skills=self.skills)
+        planning_requirements = [*prepared.requirements, *self._dependency_requirements(
+            state, analysis.evidence, prepared.observations)]
+        plan = reconcile_plan(planning_requirements, analysis.candidates, state["plan"],
+                              skills=self.skills, capabilities=self.capabilities)
+        for task in plan.tasks:
+            if task.task_id.startswith("dependency:") and task.status == TaskStatus.READY:
+                task.priority = 120
+        plan.tasks.sort(key=lambda task: (task.status != TaskStatus.READY, -task.priority, task.task_id))
+        if decision.verdict == DiagnosisVerdict.INCONCLUSIVE:
+            # Generic symptoms without an observed dependency warrant another
+            # read-only discovery step before a domain specialist is assigned.
+            for tool in ("logs.query", "topology.query", "alerts.query"):
+                if (tool in self.registry.general_names() and
+                        f"{tool}|{state['alert'].service_name}" not in state["executed_targets"]):
+                    plan.tasks.append(InvestigationTask(
+                        task_id=f"explore:{tool}", objective="discover a scoped fault or dependency",
+                        target_service=state["alert"].service_name, domain="general",
+                        required_signal="dependency", priority=40, assigned_agent="general",
+                        allowed_tools=[tool], status=TaskStatus.READY,
+                    ))
+                    break
         board = self._lineage(state, analysis.evidence, prepared.observations)
         update = {"evidence": analysis.evidence, "candidates": analysis.candidates,
                 "evidence_board": board,
+                "board_conflicts": prepared.conflicts,
+                "board_unmet_requirement_ids": [item.requirement_id for item in prepared.requirements
+                                                 if item.active and not item.satisfied],
                 "requirements": prepared.requirements, "requirements_version": prepared.requirements_version,
                 "gates": [*state["gates"], gate], "decision": decision,
                 "decision_history": [*state["decision_history"], decision], "plan": plan}
         await self._emit("investigation.gate", {**state, **update})
         return update
+
+    def _dependency_requirements(self, state: GraphState, evidence: list[Evidence], observations) -> list[EvidenceRequirement]:
+        """Create bounded tasks for distinct dependencies actually observed in traces."""
+        observed: dict[tuple[str, str], Evidence] = {}
+        for item in evidence:
+            if item.source_type.value != "trace" or item.service == state["alert"].service_name:
+                continue
+            for cause in item.supports:
+                domain = next((name for name in self.capabilities if cause.value.startswith(name + "_")), None)
+                if domain and self.capabilities[domain]:
+                    observed.setdefault((domain, item.service), item)
+        requirements = []
+        for (domain, service), clue in sorted(observed.items()):
+            direct = [row for row in observations if row.service == service and
+                      row.tool_name in self.capabilities[domain] and
+                      row.quality in {ObservationQuality.NORMAL, ObservationQuality.ABNORMAL}]
+            successful = [result for result in state["tool_results"] if result.target_service == service and
+                          result.tool_name in self.capabilities[domain] and result.status == ToolStatus.SUCCESS and
+                          (result.data or {}).get("observations")]
+            satisfied = bool(direct and successful)
+            requirements.append(EvidenceRequirement(
+                requirement_id=f"dependency:{domain}:{service}", signal=clue.supports[0].value,
+                service=service, dependency=service, purpose="dependency mechanism",
+                satisfied=satisfied, quality=direct[0].quality if direct else ObservationQuality.NO_DATA,
+                observation_ids=[row.observation_id for row in direct],
+                suggested_tools=self.capabilities[domain], reason="incident trace shows this dependency",
+                trigger_observation_ids=[clue.evidence_id], blocking=False,
+            ))
+        return requirements
 
     @staticmethod
     def _lineage(state: GraphState, evidence: list[Evidence], observations) -> list[EvidenceLineage]:
@@ -260,7 +338,8 @@ class GraphInvestigator:
 
     def _dispatch(self, state: GraphState):
         if (state["decision"].verdict != DiagnosisVerdict.INCONCLUSIVE or
-                state["round"] >= self.settings.investigation_max_rounds):
+                state["round"] >= self.settings.investigation_max_rounds or
+                datetime.now(UTC) >= state["started_at"] + timedelta(seconds=self.settings.investigation_max_seconds)):
             return END
         remaining = self.settings.investigation_max_tool_calls - len(state["tool_results"])
         if remaining <= 0:
@@ -269,12 +348,16 @@ class GraphInvestigator:
         used = set(state["executed_targets"])
         expert_remaining = self.settings.investigation_max_expert_calls - sum(
             task.attempts for task in state["plan"].tasks if task.domain != "general")
+        token_remaining = max(0, self.settings.investigation_max_llm_tokens - state["llm_tokens_used"])
         for task in state["plan"].tasks:
             if (task.status != TaskStatus.READY or remaining <= 0 or
                     len(sends) >= self.settings.investigation_max_parallel_tasks):
                 continue
             if task.domain != "general" and expert_remaining <= 0:
                 continue
+            if (task.domain not in {"general", "rpc"} and task.candidate_cause is None and
+                    task.target_service == state["alert"].service_name):
+                continue  # no observed dependency or cause supports this domain yet
             if any(dep not in {item.task_id for item in state["plan"].tasks if item.status == TaskStatus.SATISFIED}
                    for dep in task.dependencies):
                 continue
@@ -282,11 +365,16 @@ class GraphInvestigator:
             if not allowed:
                 continue
             budget = min(2, len(allowed), remaining)
+            token_budget = min(1500, token_remaining)
             sends.append(Send("specialist", {"alert": state["alert"],
                                              "task": task.model_copy(update={"allowed_tools": allowed}),
-                                             "round": state["round"] + 1, "task_budget": budget}))
+                                             "round": state["round"] + 1, "task_budget": budget,
+                                             "task_token_budget": token_budget,
+                                             "started_at": state["started_at"],
+                                             "prior_evidence": state["evidence"]}))
             used.update(f"{name}|{task.target_service}" for name in allowed[:budget])
             remaining -= budget
+            token_remaining -= token_budget
             if task.domain != "general":
                 expert_remaining -= 1
         return sends or END
@@ -295,7 +383,10 @@ class GraphInvestigator:
         runner = self._runner.get()
         assert runner is not None
         context = SpecialistContext(alert=state["alert"], task=state["task"],
-                                    round_number=state["round"])
+                                    prior_evidence=state["prior_evidence"],
+                                    round_number=state["round"],
+                                    deadline=state["started_at"] + timedelta(seconds=self.settings.investigation_max_seconds),
+                                    token_budget=state["task_token_budget"])
         result = await self.specialist.investigate(context, runner,
                                                     max_tool_calls=state["task_budget"])
         return {"specialist_results": [result]}
@@ -311,7 +402,9 @@ class GraphInvestigator:
         plan = state["plan"].model_copy(deep=True)
         by_id = {task.task_id: task for task in plan.tasks}
         merged_count = state["merged_results"]
+        tokens_used = state["llm_tokens_used"]
         for task_result in new:
+            tokens_used += task_result.token_usage
             task = by_id[task_result.task_id]
             task.attempts += 1
             task.status = (TaskStatus.BLOCKED if task_result.unresolved_questions and
@@ -329,8 +422,9 @@ class GraphInvestigator:
                 await self._emit("investigation.tool.completed", {
                     **state, "tool_results": results, "executed_targets": executed, "actions": actions,
                     "plan": plan, "specialist_results": state["specialist_results"][:merged_count],
-                    "merged_results": merged_count})
+                    "merged_results": merged_count, "llm_tokens_used": tokens_used})
             merged_count += 1
         return {"tool_results": results, "executed_targets": executed,
                 "actions": actions, "plan": plan,
+                "llm_tokens_used": tokens_used,
                 "merged_results": len(state["specialist_results"]), "round": state["round"] + 1}

@@ -30,6 +30,13 @@ services:
   payment:
     ports: !override []
   product-catalog:
+    deploy:
+      resources:
+        limits:
+          memory: ${OTEL_DEMO_PRODUCT_CATALOG_MEMORY:-20M}
+    environment:
+      GOMEMLIMIT: ${OTEL_DEMO_PRODUCT_CATALOG_GOMEMLIMIT:-16MiB}
+      GOMAXPROCS: ${OTEL_DEMO_PRODUCT_CATALOG_GOMAXPROCS:-2}
     ports: !override []
   quote:
     ports: !override []

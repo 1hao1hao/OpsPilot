@@ -1,0 +1,7 @@
+system: opspilot_v2_skills
+dataset_path: benchmarks/datasets/rca/v1
+split: dev
+artifact_root: artifacts/evaluations/v2_ablation
+model:
+  type: deterministic_fallback
+  external_api: false

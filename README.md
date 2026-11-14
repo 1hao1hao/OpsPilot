@@ -4,7 +4,7 @@ Runtime 使用 Redis Streams Consumer Group 分发 `run_id`，由 PostgreSQL 原
 
 OpsPilot 是面向微服务的可恢复 RCA 系统。LLM 规划下一步调查，确定性代码从工具观测生成 Evidence、排序候选，并判断 `CONFIRMED / NO_FAULT / INCONCLUSIVE`。独立 Worker 通过 PostgreSQL、Redis 和 Checkpoint 执行、恢复任务。
 
-当前代码说明更新于 **2026-10-17**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。
+当前代码说明更新于 **2026-11-15**。项目使用 Mock 或 OpenTelemetry Astronomy Shop 数据源，尚未验证企业生产环境；工具只读，处置建议不自动执行。V1 仍为默认调查模式；V2 LangGraph 动态调查可显式启用，以保持既有 Run 和 Checkpoint 兼容。
 
 ## 调查与决策
 
@@ -110,6 +110,31 @@ DiagnosisReport schema 为 **3.0**。`status=completed` 表示诊断执行完成
 
 `primary_root_cause` 为兼容保留的 Top1；只有 `primary_root_cause_confirmed=true` 和非空 `confirmed_root_cause` 表示已确认。`INCONCLUSIVE` 可以保留 Top-K。缺少新字段的历史报告按未确认读取。Checkpoint schema 也是 **3.0**，graph version 为 `opspilot-runtime-v6-compact-report`；兼容缺少新决策字段的调查状态，schema/graph 版本不匹配仍明确失败。
 
+## V2 动态调查（显式启用）
+
+V2 使用真实 LangGraph `seed → analyze → 并行 Specialist → merge → analyze` 循环。观测会改变版本化 Task Graph：trace 中不同依赖可派发给 DB/Redis 等领域 Specialist，正常或矛盾观测会更新任务覆盖状态。Specialist 可使用按需加载的 Skill 与受限结构化 LLM 选择工具；MCP 模式使用官方 SDK 的进程内 Server/Client 完成实际发现和调用。Evidence Board 保存证据与 Task、Agent、ToolCall、服务及时间的关联，最终三终态仍由确定性 Gate/Decision 控制。
+
+```mermaid
+flowchart LR
+  A[Alert] --> S[Seed 工具]
+  S --> E[Evidence 与 Top-K]
+  E --> D{三终态决策}
+  D -->|确认或无故障| R[报告]
+  D -->|未确认且有预算| T[动态 Task Graph]
+  T -->|并行 Send| P[领域 Specialist]
+  P --> B[合并 ToolResult 与 Evidence Board]
+  B --> E
+  D -->|预算或合法动作耗尽| R
+```
+
+启用新 Run 时，在 API 和 Worker 同时配置 `OPSPILOT_INVESTIGATION_MODE=v2`、`OPSPILOT_GRAPH_VERSION=opspilot-runtime-v7-v2-graph`、`OPSPILOT_CHECKPOINT_SCHEMA_VERSION=4.0`。先排空正在运行的 V1 Run；回滚时三项一起改回 V1 值。并发、时限、token 与工具预算见 `.env.example`。进程内 MCP 不提供远程身份认证；Checkpoint 与 ToolCall 幂等不保证计算过程绝对只执行一次。
+
+```powershell
+.\.venv\Scripts\python.exe scripts\v2_demo.py --output artifacts\v2_demo\demo.json
+```
+
+该演示是**合成**多依赖场景。新旧六组同数据集消融的冻结 test Top1：V1 **2/10**，V2 各组 **3/10**；所有配置确认覆盖 **0/10**、拒判 **12/12**，V2 工具和协议开销更高。详见 [V2 架构](docs/V2_ARCHITECTURE.md)、[开发与演示](docs/V2_DEVELOPER_GUIDE.md)、[评测和限制](docs/V2_EVALUATION.md)。
+
 ## 本地开发
 
 要求 Python **3.11+**。从其他系统复制来的虚拟环境应备份，并在本机重新创建。
@@ -158,11 +183,12 @@ LLM 默认关闭。启用时配置 `OPSPILOT_LLM_ENABLED=true`、`DEEPSEEK_API_K
 
 三终态合入后的针对性回归 **68 passed**、Ruff 通过，这是 2026-10-10 的记录，不是当前全量测试数。回放中 Normal 工件缺少充分健康参考，未宣称 `NO_FAULT`；有效健康参考下的路径由针对性测试验证。零错误确认伴随较高拒判率，不能宣传为 100% 准确率。
 
-旧 v1 Mock 数据集与 6/21 调查覆盖率记录保留供追溯，未修复或包装为当前验证；旧三路 LLM 消融与 snapshot latency 也不能代表新调查循环或生产效果。未接入 EvalRAG/Knowledge Tool，未实现生产自动修复或生产准确率保证。本次文档更新没有启动新实验。
+旧 v1 Mock 数据集与 6/21 调查覆盖率记录保留供追溯；旧三路 LLM 消融与 snapshot latency 不能代表生产效果。V2 本轮离线结果见上节，仍未达到充分确认覆盖。未接入 EvalRAG/Knowledge Tool，未实现生产自动修复或生产准确率保证。
 
 ## 文档与代码导航
 
 - [架构与恢复边界](docs/architecture.md) · [工具说明](docs/tools_intro.md) · [数据流](docs/RCA_DATAFLOW_REFERENCE.md)
+- [V2 架构](docs/V2_ARCHITECTURE.md) · [V2 开发指南](docs/V2_DEVELOPER_GUIDE.md) · [V2 评测](docs/V2_EVALUATION.md) · [面试指南](docs/V2_INTERVIEW_GUIDE.md) · [简历描述](docs/V2_RESUME.md)
 - [项目定位](docs/project_brief.md) · [项目材料](docs/project_materials.md) · [当前任务状态](docs/task_board.md)
 - [验证与维护计划](docs/plan.md) · [历史规划索引](docs/history/20261012/README.md)
 

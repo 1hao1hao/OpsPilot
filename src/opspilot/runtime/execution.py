@@ -43,7 +43,8 @@ class RecoverableExecution:
         self.settings = settings
         self.root_cause_agent = build_runtime_root_cause_agent(settings)
         if settings.investigation_mode == "v2":
-            self.investigator = GraphInvestigator(registry, settings=settings, skills=SkillCatalog())
+            self.investigator = GraphInvestigator(
+                registry, settings=settings, skills=SkillCatalog() if settings.skills_enabled else None)
         else:
             self.investigator = AdaptiveInvestigator(registry, settings=settings)
         self.mcp_gateway = None

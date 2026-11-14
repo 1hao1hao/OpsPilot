@@ -24,6 +24,15 @@ def _p95(values: list[float]) -> float | None:
     return round(ordered[index], 3)
 
 
+def _p50(values: list[float]) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(values)
+    middle = len(ordered) // 2
+    return round(ordered[middle] if len(ordered) % 2 else
+                 (ordered[middle - 1] + ordered[middle]) / 2, 3)
+
+
 def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dict[str, Any]:
     by_id = {prediction["case_id"]: prediction for prediction in predictions}
     fault_cases = [case for case in cases if case.is_fault]
@@ -48,6 +57,19 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
     valid_actions = 0
     duplicate_actions = 0
     budget_exhaustions = 0
+    confirmed = 0
+    confirmed_fault_cases = 0
+    false_confirmations = 0
+    inconclusive = 0
+    requirements_satisfied = 0
+    requirements_active = 0
+    tasks_satisfied = 0
+    tasks_active = 0
+    expected_tools_selected = 0
+    expected_tools_total = 0
+    selected_tools_total = 0
+    selected_tools_relevant = 0
+    repeated_tool_targets = 0
 
     for case in cases:
         prediction = by_id.get(case.case_id, {"status": "missing", "candidate_types": []})
@@ -69,6 +91,15 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
             tool_attempted += 1
             tool_calls += 1
             tool_success += execution.get("status") == "success"
+        selected = {(item.get("tool_name"), item.get("target_service") or case.alert.service_name)
+                    for item in prediction.get("tool_executions", [])}
+        expected = set(case.expected_tools)
+        selected_names = {name for name, _service in selected}
+        expected_tools_selected += len(expected & selected_names)
+        expected_tools_total += len(expected)
+        selected_tools_relevant += len(expected & selected_names)
+        selected_tools_total += len(selected_names)
+        repeated_tool_targets += max(0, len(prediction.get("tool_executions", [])) - len(selected))
         investigation = prediction.get("investigation")
         if isinstance(investigation, dict):
             investigation_cases += 1
@@ -83,10 +114,34 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
                 for action in actions
             )
             budget_exhaustions += "budget exhausted" in str(investigation.get("stop_reason", ""))
+            decision = investigation.get("decision") or {}
+            verdict = decision.get("verdict")
+            if verdict == "CONFIRMED":
+                confirmed += 1
+                confirmed_fault_cases += bool(case.is_fault)
+                false_confirmations += not case.is_fault or not candidates or (
+                    candidates[0] != case.expected_root_cause_type.value)
+            inconclusive += verdict == "INCONCLUSIVE"
+            for requirement in decision.get("requirements", []):
+                if requirement.get("active", True):
+                    requirements_active += 1
+                    requirements_satisfied += bool(requirement.get("satisfied"))
+        task_graph = prediction.get("task_graph")
+        if isinstance(task_graph, dict):
+            for task in task_graph.get("tasks", []):
+                if task.get("status") != "CANCELLED":
+                    tasks_active += 1
+                    tasks_satisfied += task.get("status") == "SATISFIED"
         if isinstance(prediction.get("latency_ms"), (int, float)):
             latencies.append(float(prediction["latency_ms"]))
+        model_usage = prediction.get("model_usage")
         usage = prediction.get("token_usage")
-        if isinstance(usage, dict):
+        if isinstance(model_usage, dict):
+            api_call_count += int(model_usage.get("api_call_count", 0))
+            prompt_tokens += int(model_usage.get("prompt_tokens", 0))
+            completion_tokens += int(model_usage.get("completion_tokens", 0))
+            total_tokens += int(model_usage.get("total_tokens", 0))
+        elif isinstance(usage, dict):
             api_call_count += 1
             prompt_tokens += int(usage.get("prompt_tokens", 0))
             completion_tokens += int(usage.get("completion_tokens", 0))
@@ -104,6 +159,15 @@ def compute_metrics(cases: list[EvaluationCase], predictions: list[dict]) -> dic
         "e2e_success_rate": _ratio(e2e, len(cases)),
         "false_positive_rate": _ratio(false_positives, normal_count),
         "p95_latency_ms": _p95(latencies),
+        "p50_latency_ms": _p50(latencies),
+        "confirmed_coverage": _ratio(confirmed_fault_cases, len(fault_cases)),
+        "false_confirmation_rate": _ratio(false_confirmations, confirmed),
+        "abstention_rate": _ratio(inconclusive, len(cases)),
+        "requirement_coverage": _ratio(requirements_satisfied, requirements_active),
+        "task_completion_rate": _ratio(tasks_satisfied, tasks_active),
+        "tool_selection_recall": _ratio(expected_tools_selected, expected_tools_total),
+        "tool_selection_precision": _ratio(selected_tools_relevant, selected_tools_total),
+        "repeated_tool_targets": repeated_tool_targets,
         "average_tool_calls_per_case": round(tool_calls / len(cases), 6) if cases else None,
         "average_expert_calls_per_case": round(expert_calls / investigation_cases, 6) if investigation_cases else None,
         "average_investigation_rounds": round(investigation_rounds / investigation_cases, 6) if investigation_cases else None,
