@@ -8,8 +8,8 @@ import httpx
 import pytest
 from sqlalchemy import select
 
-from opspilot.config import RuntimeSettings
 from opspilot.api.app import create_app
+from opspilot.config import RuntimeSettings
 from opspilot.models import AlertEvent, RunStatus, ToolExecutionStatus
 from opspilot.persistence import Database
 from opspilot.persistence.models import ToolExecutionRecord
