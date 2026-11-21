@@ -3,10 +3,6 @@
 
 FROM python:3.11-slim AS base
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl && \
-    rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # 依赖层
@@ -32,6 +28,6 @@ USER appuser
 EXPOSE 8001
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=10s \
-    CMD curl -f http://localhost:8001/api/v1/mock/health || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8001/api/v1/mock/health', timeout=3)"
 
 CMD ["uvicorn", "mock_main:app", "--host", "0.0.0.0", "--port", "8001"]

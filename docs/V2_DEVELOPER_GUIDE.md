@@ -21,7 +21,7 @@ OPSPILOT_SKILLS_ENABLED=true
 OPSPILOT_TOOL_TRANSPORT=native
 ```
 
-需要 MCP 时将 `OPSPILOT_TOOL_TRANSPORT=mcp`。`OPSPILOT_LLM_ENABLED=false` 可复现确定性调查；启用 LLM 时在本地 `.env` 设置密钥，不能提交。并发和预算参见 `.env.example`。V1 回滚时将模式、graph version、checkpoint schema 一起改回 V1 的值；先排空正在运行的 V2 Run，避免新旧 Worker 读取不同版本状态。运行 `docker compose --profile full up --build -d` 启动 PG、Redis、Mock、API 和 Worker；Compose 使用同一 `.env` 配置。
+需要 MCP 时将 `OPSPILOT_TOOL_TRANSPORT=mcp`。`OPSPILOT_LLM_ENABLED=false` 可复现确定性调查；启用 LLM 时在本地 `.env` 设置密钥，不能提交。并发和预算参见 `.env.example`。V1 回滚时将模式、graph version、checkpoint schema 一起改回 V1 的值；先排空正在运行的 V2 Run，避免新旧 Worker 读取不同版本状态。运行 `docker compose --profile full up --build -d --wait` 启动 PG、Redis、Mock、API 和 Worker；Compose 使用同一 `.env` 配置。若宿主机 5432 不可绑定，设置 `OPSPILOT_POSTGRES_HOST_PORT=15433` 等空闲端口；容器内仍用 5432。
 
 ## 可复现演示
 

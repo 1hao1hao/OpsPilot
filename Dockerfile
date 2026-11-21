@@ -4,10 +4,6 @@
 FROM python:3.11-slim AS base
 
 # 系统依赖
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl && \
-    rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # 依赖层（利用 Docker 缓存）
@@ -28,6 +24,6 @@ USER appuser
 EXPOSE 8000
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=15s \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"
 
 CMD ["uvicorn", "opspilot.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
